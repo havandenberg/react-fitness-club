@@ -1,0 +1,22 @@
+{
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": ["config/**/*.js", "node_modules/**/*.ts"]
+  },
+  "rules": {
+    "jsx-boolean-value": false,
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false,
+    "interface-name": false,
+    "no-var-requires": false,
+    "max-classes-per-file": false,
+    "no-console": [false],
+    "no-unused-variable": true,
+    "member-access": [true, "no-public"],
+    "trailing-comma": [true, { "multiline": "always", "singleline": "never" }],
+    "quotemark": [true, "single", "jsx-double"]
+  },
+  "jsRules": {
+    "no-console": false
+  }
+}
