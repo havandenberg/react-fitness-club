@@ -5,11 +5,11 @@
 }
 
 body {
-  background: #f2f3f4;
+  background: #4a4a4a;
   margin: 0;
   padding: 0;
   overflow-y: scroll;
-  font-family: 'Federo', sans-serif;
+  font-family: 'Poppins-Medium', sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

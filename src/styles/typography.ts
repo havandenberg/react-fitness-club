@@ -6,6 +6,7 @@ import {
   height,
   maxWidth,
   space,
+  textAlign,
   width,
 } from 'styled-system';
 import {
@@ -35,6 +36,7 @@ const textOptions = [
     whiteSpace: nowrap ? 'nowrap' : undefined,
   }),
   maxWidth,
+  textAlign,
   ({ shadow }: { shadow?: boolean }) => ({
     textShadow: shadow ? shadows.text : undefined,
   }),
@@ -96,7 +98,7 @@ export const H1 = styled('h1')(
 export const H2 = styled('h2')(
   {
     color: colors.black,
-    fontFamily: fonts.poppinsMedium,
+    fontFamily: fonts.poppinsSemiBold,
     fontSize: fontSizes.h2,
     margin: 0,
     padding: 0,
@@ -131,7 +133,7 @@ export const Text = styled('div')(
   {
     color: colors.black,
     fontFamily: fonts.poppinsMedium,
-    letterSpacing: 0.8,
+    letterSpacing: 1,
     lineHeight: 1.4,
   },
   ({ large, fontSize }: { large?: boolean; fontSize: any }) =>
@@ -153,6 +155,17 @@ const Anchor = styled('a')(
     borderBottom: borders.transparent,
     cursor: 'pointer',
     display: 'inline-flex',
+    fontFamily: fonts.poppinsMedium,
+    fontSize: fontSizes.text,
+    [breakpoints.tablet]: {
+      fontSize: tabletSizes.text,
+    },
+    [breakpoints.mobile]: {
+      fontSize: tabletSizes.text,
+    },
+    [breakpoints.small]: {
+      fontSize: mobileSizes.text,
+    },
     transition: transitions.default,
   },
   ({ border, color }: { border: string; color: string }) => ({

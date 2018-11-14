@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="18px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Divider</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="3.061617e-15%" id="linearGradient-1">
+            <stop stop-color="#4A4A4A" offset="0%"></stop>
+            <stop stop-color="#242424" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#4A4A4A" offset="0%"></stop>
+            <stop stop-color="#242424" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(0.000000, -3729.000000)">
+            <g id="Divider" transform="translate(0.000000, 3729.000000)">
+                <rect id="Rectangle" fill="#4A4A4A" x="77" y="4" width="1287" height="11"></rect>
+                <g id="Group-10" transform="translate(318.000000, 4.000000)" fill="#D8D8D8">
+                    <g id="Inner-light">
+                        <rect id="Rectangle" x="0" y="0" width="125" height="11"></rect>
+                    </g>
+                    <g id="Inner-light" transform="translate(340.000000, 0.000000)">
+                        <rect id="Rectangle" x="0" y="0" width="125" height="11"></rect>
+                    </g>
+                    <g id="Inner-light" transform="translate(680.000000, 0.000000)">
+                        <rect id="Rectangle" x="0" y="0" width="125" height="11"></rect>
+                    </g>
+                </g>
+                <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="1441" height="6"></rect>
+                <rect id="Rectangle" fill="url(#linearGradient-2)" x="0" y="12" width="1441" height="6"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

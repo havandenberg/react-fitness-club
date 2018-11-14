@@ -12,11 +12,14 @@ import {
 import { Breakpoint } from '../types/styles';
 import { borders, breakpoints, colors, gradients, spacing } from './theme';
 
-interface RowProps {
+// Flex is the basis for other layout components
+
+interface FlexProps {
   alignBottom?: boolean;
   alignTop?: boolean;
   columnOnMobile?: boolean;
   columnRevOnMobile?: boolean;
+  grow?: number;
   inline?: boolean;
   itemClassName?: string;
   margins?: string;
@@ -24,8 +27,8 @@ interface RowProps {
   isWrap?: boolean;
 }
 
-const Row = styled('div')<
-  HeightProps & PositionProps & RowProps & SpaceProps & WidthProps
+const Flex = styled('div')<
+  HeightProps & PositionProps & FlexProps & SpaceProps & WidthProps
 >(
   {
     alignItems: 'center',
@@ -39,6 +42,7 @@ const Row = styled('div')<
     alignTop,
     columnOnMobile,
     columnRevOnMobile,
+    grow,
     inline,
     itemClassName = '',
     margins = '0',
@@ -49,6 +53,7 @@ const Row = styled('div')<
     alignTop?: boolean;
     columnOnMobile?: boolean;
     columnRevOnMobile?: boolean;
+    grow?: number;
     inline?: boolean;
     itemClassName?: string;
     margins?: string;
@@ -59,6 +64,7 @@ const Row = styled('div')<
     return {
       alignItems: alignTop ? 'flex-start' : alignBottom ? 'flex-end' : 'center',
       display: inline ? 'inline-flex' : 'flex',
+      flexGrow: grow,
       flexWrap: isWrap ? 'wrap' : undefined,
       justifyContent: spaceBetween ? 'space-between' : undefined,
       [marginKey]: {
@@ -71,6 +77,8 @@ const Row = styled('div')<
     };
   },
 );
+
+// Boilerplate layout components
 
 const Break = styled('br')(
   {
@@ -92,6 +100,11 @@ const Break = styled('br')(
         },
 );
 
+const Caption = styled('div')({
+  color: colors.black,
+  fontSize: '1rem',
+});
+
 const Center = styled('div')(
   {
     margin: '0 auto',
@@ -99,38 +112,12 @@ const Center = styled('div')(
   space,
 );
 
-const CenteredRow = styled(Row)({
+const FlexCentered = styled(Flex)({
   justifyContent: 'center',
 });
 
-const Space = styled('div')(height, space, width);
-
-const Section = styled('div')(
-  {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '0 auto',
-    width: '90%',
-  },
-  space,
-);
-
-const BorderLine = styled('div')({
-  background: gradients.black,
-  height: spacing.s,
-  width: '100%',
-});
-
-const Line = styled('div')({
-  borderBottom: borders.black,
-  color: colors.black,
-  margin: '0 auto',
-  width: spacing.xxxl,
-});
-
-const Caption = styled('div')({
-  color: colors.black,
-  fontSize: '1rem',
+const FlexColumn = styled(Flex)({
+  flexDirection: 'column',
 });
 
 const scrollStyles = {
@@ -157,19 +144,47 @@ const scrollStyles = {
   overflow: 'scroll',
 };
 
+const Space = styled('div')(height, position, space, width);
+
 const Scroll = styled(Space)({ ...scrollStyles });
-const ScrollRow = styled(Row)({ ...scrollStyles });
+const ScrollFlex = styled(Flex)({ ...scrollStyles });
+
+const Section = styled('div')(
+  {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '0 auto',
+    width: '90%',
+  },
+  space,
+);
+
+// Project specific layout components
+
+const BorderLine = styled('div')({
+  background: gradients.black,
+  height: spacing.s,
+  width: '100%',
+});
+
+const Line = styled('div')({
+  borderBottom: borders.black,
+  color: colors.black,
+  margin: '0 auto',
+  width: spacing.xxxl,
+});
 
 export default {
   BorderLine,
   Break,
   Caption,
   Center,
-  CenteredRow,
+  Flex,
+  FlexCentered,
+  FlexColumn,
   Line,
-  Row,
   Scroll,
-  ScrollRow,
+  ScrollFlex,
   Section,
   Space,
 };

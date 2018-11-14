@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="170px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Divider</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="3.061617e-15%" id="linearGradient-1">
+            <stop stop-color="#4A4A4A" offset="0%"></stop>
+            <stop stop-color="#242424" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#4A4A4A" offset="0%"></stop>
+            <stop stop-color="#242424" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="81.2764583%" y1="100%" x2="12.3097582%" y2="2.05144064%" id="linearGradient-3">
+            <stop stop-color="#4A4A4A" offset="0%"></stop>
+            <stop stop-color="#8A8A8A" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="12.3097582%" y1="2.05144064%" x2="81.2764583%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#4A4A4A" offset="0%"></stop>
+            <stop stop-color="#8A8A8A" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(0.000000, -3729.000000)">
+            <g id="Divider" transform="translate(0.000000, 3729.000000)">
+                <rect id="Rectangle" fill="#4A4A4A" x="77" y="4" width="1287" height="11"></rect>
+                <g id="Group-10" transform="translate(318.000000, 4.000000)" fill="#D8D8D8">
+                    <g id="Inner-light">
+                        <rect id="Rectangle" x="0" y="0" width="125" height="11"></rect>
+                    </g>
+                    <g id="Inner-light" transform="translate(340.000000, 0.000000)">
+                        <rect id="Rectangle" x="0" y="0" width="125" height="11"></rect>
+                    </g>
+                    <g id="Inner-light" transform="translate(680.000000, 0.000000)">
+                        <rect id="Rectangle" x="0" y="0" width="125" height="11"></rect>
+                    </g>
+                </g>
+                <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="1441" height="6"></rect>
+                <rect id="Rectangle" fill="url(#linearGradient-2)" x="0" y="12" width="1441" height="6"></rect>
+                <g id="Heavy-bag" transform="translate(23.000000, 7.000000)">
+                    <rect id="Rectangle" fill="#9B9B9B" x="27" y="15" width="4" height="20"></rect>
+                    <g id="Group-4" transform="translate(0.000000, 38.000000)">
+                        <path d="M8.02053064,6.40392227 C5.79565765,7.54563725 4.28618633,9.72114649 3.99552955,12.2049119 C2.03284342,28.9767318 1.05150942,45.7440317 1.05150942,62.5069088 C1.05150942,79.3358808 2.04059709,95.773951 4.01870285,111.821215 C4.29842288,114.090426 5.59796507,116.108113 7.54830414,117.301322 C15.4149535,122.114093 22.5662645,124.513818 28.9999983,124.513818 C35.1577644,124.513818 41.9728833,122.315588 49.4437946,117.907054 C51.9160291,116.448205 53.3387074,113.706208 53.107961,110.844925 C51.3492972,89.0371147 50.4698355,72.9263743 50.4698355,62.5069088 C50.4698355,52.1202253 51.3437965,35.681163 53.0914877,13.1835858 C53.3288882,10.1275907 51.6827676,7.23468192 48.9343003,5.87770267 C41.6676199,2.28998269 35.0225983,0.5 28.9999974,0.5 C22.6897292,0.5 15.6961843,2.46508672 8.02053064,6.40392227 Z" id="Rectangle" stroke="url(#linearGradient-4)" fill="url(#linearGradient-3)"></path>
+                        <path d="M20.5444693,41.475325 C19.6308198,47.4590854 19.173995,51.9590854 19.173995,54.975325 C19.173995,57.9915646 19.6308198,62.4915646 20.5444693,68.475325" id="Line-3" stroke="#DEDEDE" stroke-linecap="square" transform="translate(19.859232, 54.975325) rotate(5.000000) translate(-19.859232, -54.975325) "></path>
+                        <path d="M14.7359934,33.5 C13.1735144,42.4190921 12.3922749,49.1128897 12.3922749,53.5813928 C12.3922749,58.049896 13.1735144,64.6894317 14.7359934,73.5" id="Line-3" stroke="#DEDEDE" stroke-linecap="square" transform="translate(13.564134, 53.500000) rotate(4.000000) translate(-13.564134, -53.500000) "></path>
+                    </g>
+                    <circle id="Oval" stroke="#4A4A4A" cx="29" cy="8" r="8"></circle>
+                    <circle id="Oval" stroke="#4A4A4A" cx="29" cy="38" r="4"></circle>
+                    <circle id="Oval" fill="#D8D8D8" cx="29" cy="8" r="1"></circle>
+                </g>
+                <g id="Heavy-bag" transform="translate(1364.000000, 7.000000)">
+                    <rect id="Rectangle" fill="#9B9B9B" x="27" y="15" width="4" height="20"></rect>
+                    <g id="Group-4" transform="translate(0.000000, 38.000000)">
+                        <path d="M8.02053064,6.40392227 C5.79565765,7.54563725 4.28618633,9.72114649 3.99552955,12.2049119 C2.03284342,28.9767318 1.05150942,45.7440317 1.05150942,62.5069088 C1.05150942,79.3358808 2.04059709,95.773951 4.01870285,111.821215 C4.29842288,114.090426 5.59796507,116.108113 7.54830414,117.301322 C15.4149535,122.114093 22.5662645,124.513818 28.9999983,124.513818 C35.1577644,124.513818 41.9728833,122.315588 49.4437946,117.907054 C51.9160291,116.448205 53.3387074,113.706208 53.107961,110.844925 C51.3492972,89.0371147 50.4698355,72.9263743 50.4698355,62.5069088 C50.4698355,52.1202253 51.3437965,35.681163 53.0914877,13.1835858 C53.3288882,10.1275907 51.6827676,7.23468192 48.9343003,5.87770267 C41.6676199,2.28998269 35.0225983,0.5 28.9999974,0.5 C22.6897292,0.5 15.6961843,2.46508672 8.02053064,6.40392227 Z" id="Rectangle" stroke="url(#linearGradient-4)" fill="url(#linearGradient-3)"></path>
+                        <path d="M20.5444693,41.475325 C19.6308198,47.4590854 19.173995,51.9590854 19.173995,54.975325 C19.173995,57.9915646 19.6308198,62.4915646 20.5444693,68.475325" id="Line-3" stroke="#DEDEDE" stroke-linecap="square" transform="translate(19.859232, 54.975325) rotate(5.000000) translate(-19.859232, -54.975325) "></path>
+                        <path d="M14.7359934,33.5 C13.1735144,42.4190921 12.3922749,49.1128897 12.3922749,53.5813928 C12.3922749,58.049896 13.1735144,64.6894317 14.7359934,73.5" id="Line-3" stroke="#DEDEDE" stroke-linecap="square" transform="translate(13.564134, 53.500000) rotate(4.000000) translate(-13.564134, -53.500000) "></path>
+                    </g>
+                    <circle id="Oval" stroke="#4A4A4A" cx="29" cy="8" r="8"></circle>
+                    <circle id="Oval" stroke="#4A4A4A" cx="29" cy="38" r="4"></circle>
+                    <circle id="Oval" fill="#D8D8D8" cx="29" cy="8" r="1"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

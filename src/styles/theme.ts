@@ -5,24 +5,37 @@ import {
   TABLET,
   TABLET_DOWN,
   TABLET_UP,
-} from '../utils/constants';
+} from '../utils/screensize';
 import { isMobile } from '../utils/screensize';
+
+// Boilerplate theme constants
 
 export const colors = {
   background: '#F2F3F4',
   background90: '#F2F3F4E6',
   black: '#242424',
+  gray: '#4A4A4A',
+  lightGray: '#DEDEDE',
+  lightRed: '#F46767',
   red: '#F14042',
   white: '#FFFFFF',
 };
 
 export const gradients = {
-  black: `linear-gradient(to bottom, #4A4A4A, ${colors.black});`,
+  black: `linear-gradient(to bottom, ${colors.gray}, ${colors.black});`,
+  blackReverse: `linear-gradient(to top, ${colors.gray} 0, ${
+    colors.gray
+  } 85%, ${colors.black} 100%);`,
+  divider: `linear-gradient(to bottom, ${colors.black} 0, ${
+    colors.black
+  } 20%, ${colors.gray} 50%, ${colors.black} 80%, ${colors.black} 100%);`,
+  red: `linear-gradient(to bottom, ${colors.lightRed}, ${colors.red});`,
 };
 
 export const borders = {
   black: `solid 1px ${colors.black}`,
   borderRadius: 6,
+  gray: `solid 1px ${colors.gray}`,
   red: `solid 1px ${colors.red}`,
   transparent: `solid 1px transparent`,
   white: `solid 1px ${colors.white}`,
@@ -44,11 +57,12 @@ export const fonts = {
 };
 
 export const fontSizes = {
-  h1: '40px',
+  h1: '28px',
   h2: '24px',
   h3: '24px',
   largeText: '20px',
-  subtitle: '48px',
+  small: '12px',
+  subtitle: '28px',
   text: '16px',
   title: '52px',
 };
@@ -64,10 +78,10 @@ export const mobileSizes = {
   h1: '28px',
   h2: '20px',
   h3: '20px',
-  largeText: '16px',
+  largeText: '20px',
   subtitle: '20px',
-  text: '12px',
-  title: '36px',
+  text: '16px',
+  title: '32px',
 };
 
 export const shadows = {
@@ -94,8 +108,20 @@ export const transitions = {
   default: 'all 0.3s ease',
 };
 
+export const z = {
+  high: 3,
+  low: 1,
+  mid: 2,
+};
+
+// Single variables
+
 export const headerHeight = '650px';
-export const maxContentWidth = '750px';
+export const navHeight = '32px';
+export const navHeightMobile = '56px';
+
+export const inputWidth = '350px';
+export const maxContentWidth = '1024px';
 export const maxWidth = '1400px';
 
 export const waypointOffset = 400;
