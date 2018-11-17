@@ -1,10 +1,18 @@
+import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { bottom, left, opacity, right, top } from 'styled-system';
 import l from '../styles/layout';
-import { breakpoints, colors, fonts, spacing, z } from '../styles/theme';
+import {
+  breakpoints,
+  colors,
+  fonts,
+  fontSizes,
+  spacing,
+  z,
+} from '../styles/theme';
 import t from '../styles/typography';
-import { ASSETS_PATH } from '../utils/constants';
+import { ASSETS_PATH, CAPOEIRA_PATH, REACT_PATH } from '../utils/constants';
 
 type ENTER = 'enter';
 type LEAVE = 'leave';
@@ -24,6 +32,9 @@ const Label = styled(t.H1)(
       top: '50%',
       transform: 'translateX(-50%) translateY(-50%)',
       width: '100%',
+    },
+    [breakpoints.small]: {
+      fontSize: fontSizes.h2,
     },
   },
   bottom,
@@ -47,10 +58,14 @@ const Overlay = styled('div')(
   }),
 );
 
-const QuadrantWrapper = styled(l.Space)({
+const QuadrantWrapper = styled(t.Anchor)({
   cursor: 'pointer',
   position: 'relative',
+  width: '50%',
   zIndex: z.mid,
+  [breakpoints.mobile]: {
+    width: '100%',
+  },
 });
 
 const VideoWrapper = styled('div')(
@@ -66,6 +81,7 @@ const VideoWrapper = styled('div')(
 );
 
 interface FeaturedVideoProps {
+  href: string;
   imageSource: string;
   label: string;
   labelProps: {
@@ -110,10 +126,12 @@ class Quadrant extends React.Component<FeaturedVideoProps, FeaturedVideoState> {
   };
 
   render() {
-    const { imageSource, label, labelProps, videoSource } = this.props;
+    const { href, imageSource, label, labelProps, videoSource } = this.props;
     const { isPlaying } = this.state;
     return (
       <QuadrantWrapper
+        href={!R.isEmpty(href) && href}
+        target={!R.isEmpty(href) && '_blank'}
         onMouseEnter={() => this.onHover('enter')}
         onMouseLeave={() => this.onHover('leave')}
       >
@@ -141,30 +159,34 @@ const FeaturedLinks = () => (
   <l.Space mx={[spacing.sm, spacing.ml]}>
     <l.Flex columnOnMobile>
       <Quadrant
-        imageSource={`${ASSETS_PATH}/quad-1.png`}
-        label="Martial Arts Styles"
+        href={REACT_PATH}
+        imageSource={`${ASSETS_PATH}/quad-1.jpg`}
+        label="REaCT Mixed Martial Arts"
         labelProps={{ top: spacing.xl, left: spacing.xl }}
-        videoSource={`${ASSETS_PATH}/featured-vid-1.mp4`}
+        videoSource={`${ASSETS_PATH}/featured-videos/featured-vid-1.mp4`}
       />
       <Quadrant
-        imageSource={`${ASSETS_PATH}/quad-2.png`}
-        label="Gi & No Gi Grappling"
+        href={CAPOEIRA_PATH}
+        imageSource={`${ASSETS_PATH}/quad-2.jpg`}
+        label="Capoeira Luanda"
         labelProps={{ top: spacing.xl, right: spacing.xl }}
-        videoSource={`${ASSETS_PATH}/featured-vid-1.mp4`}
+        videoSource={`${ASSETS_PATH}/featured-videos/featured-vid-2.mp4`}
       />
     </l.Flex>
     <l.Flex columnOnMobile>
       <Quadrant
-        imageSource={`${ASSETS_PATH}/quad-4.png`}
-        label="Outdoor Programs"
+        href=""
+        imageSource={`${ASSETS_PATH}/quad-3.png`}
+        label="Aikido"
         labelProps={{ bottom: spacing.xl, left: spacing.xl }}
-        videoSource={`${ASSETS_PATH}/featured-vid-1.mp4`}
+        videoSource={`${ASSETS_PATH}/featured-videos/featured-vid-3.mp4`}
       />
       <Quadrant
-        imageSource={`${ASSETS_PATH}/quad-3.png`}
+        href=""
+        imageSource={`${ASSETS_PATH}/quad-4.jpg`}
         label="Obstacle Course Racing"
         labelProps={{ bottom: spacing.xl, right: spacing.xl }}
-        videoSource={`${ASSETS_PATH}/featured-vid-1.mp4`}
+        videoSource={`${ASSETS_PATH}/featured-videos/featured-vid-4.mp4`}
       />
     </l.Flex>
   </l.Space>

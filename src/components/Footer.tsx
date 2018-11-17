@@ -44,6 +44,12 @@ const FooterLinkText = styled(t.Text)({
   transition: transitions.default,
 });
 
+const FooterAnchor = ({ text, href }: { text: string; href: string }) => (
+  <t.Anchor href={href} target="_blank">
+    <FooterLinkText>{text}</FooterLinkText>
+  </t.Anchor>
+);
+
 const FooterLink = ({ text, to }: { text: string; to: string }) => (
   <Link to={to}>
     <FooterLinkText>{text}</FooterLinkText>
@@ -56,6 +62,13 @@ const FooterTop = styled(l.Flex)({
   [breakpoints.mobile]: {
     width: '100%',
   },
+});
+
+const PhoneAnchor = styled(t.Text)({
+  ':hover': {
+    color: colors.red,
+  },
+  transition: transitions.default,
 });
 
 const Footer = () => (
@@ -81,13 +94,16 @@ const Footer = () => (
           <FooterLink text="Contact" to="/contact" />
         </l.Space>
         <l.Space mr={[spacing.xl, spacing.xxxl]}>
-          <FooterLink text="Schedule" to="/schedule" />
+          <FooterLink text="Schedule" to="#" />
           <l.Space height={spacing.l} />
-          <FooterLink text="Events" to="/events" />
+          <FooterLink text="Events" to="#" />
           <l.Space height={spacing.l} />
-          <FooterLink text="Newsletter" to="/newsletter" />
+          <FooterAnchor
+            href="https://www.gofundme.com/react-fitness-club-alumni-floor"
+            text="Donate"
+          />
           <l.Space height={spacing.l} />
-          <FooterLink text="Login" to="/login" />
+          <FooterLink text="Login" to="#" />
         </l.Space>
       </l.Flex>
       <l.FlexColumn
@@ -95,14 +111,18 @@ const Footer = () => (
         mb={[spacing.xxl, 0]}
         width={['100%', 'auto']}
       >
-        <t.Text color={colors.white} mb={spacing.l} large textAlign="right">
-          173 Grove St 2nd Floor
-          <l.Break />
-          Worcester, MA 01605
-        </t.Text>
-        <t.Text color={colors.white} large mb={spacing.l} textAlign="right">
-          774-317-1267
-        </t.Text>
+        <t.Link to="/contact?id=studio-location" mb={spacing.l}>
+          <PhoneAnchor color={colors.white} large textAlign="right">
+            173 Grove St, 2nd Floor
+            <l.Break />
+            Worcester, MA 01605
+          </PhoneAnchor>
+        </t.Link>
+        <t.Anchor href="tel:17743171269" mb={spacing.l}>
+          <PhoneAnchor color={colors.white} large textAlign="right">
+            774-317-1267
+          </PhoneAnchor>
+        </t.Anchor>
         <SocialIcons />
       </l.FlexColumn>
     </FooterTop>

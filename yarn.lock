@@ -151,6 +151,12 @@
     "@types/node" "*"
     "@types/react" "*"
 
+"@types/react-mailchimp-subscribe@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-mailchimp-subscribe/-/react-mailchimp-subscribe-2.0.2.tgz#38b5dfabdef0effa8ab390b8c85eb81a3e3078f3"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@^4.3.1":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.3.1.tgz#71fe2918f8f60474a891520def40a63997dafe04"

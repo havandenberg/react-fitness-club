@@ -98,6 +98,8 @@ const Break = styled('br')(
             display: 'block',
           },
         },
+  height,
+  width,
 );
 
 const Caption = styled('div')({
@@ -174,6 +176,10 @@ const Line = styled('div')({
   width: spacing.xxxl,
 });
 
+const Red = styled('span')({
+  color: colors.red,
+});
+
 export default {
   BorderLine,
   Break,
@@ -183,6 +189,7 @@ export default {
   FlexCentered,
   FlexColumn,
   Line,
+  Red,
   Scroll,
   ScrollFlex,
   Section,

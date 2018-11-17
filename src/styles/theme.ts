@@ -15,6 +15,7 @@ export const colors = {
   background90: '#F2F3F4E6',
   black: '#242424',
   gray: '#4A4A4A',
+  green: '#4BB543',
   lightGray: '#DEDEDE',
   lightRed: '#F46767',
   red: '#F14042',
@@ -34,10 +35,13 @@ export const gradients = {
 
 export const borders = {
   black: `solid 1px ${colors.black}`,
+  blackThick: `solid 2px ${colors.black}`,
   borderRadius: 6,
   gray: `solid 1px ${colors.gray}`,
   red: `solid 1px ${colors.red}`,
+  redThick: `solid 2px ${colors.red}`,
   transparent: `solid 1px transparent`,
+  transparentThick: `solid 2px transparent`,
   white: `solid 1px ${colors.white}`,
 };
 
@@ -78,7 +82,7 @@ export const mobileSizes = {
   h1: '28px',
   h2: '20px',
   h3: '20px',
-  largeText: '20px',
+  largeText: '16px',
   subtitle: '20px',
   text: '16px',
   title: '32px',
@@ -117,6 +121,7 @@ export const z = {
 // Single variables
 
 export const headerHeight = '650px';
+export const inputHeight = '51px';
 export const navHeight = '32px';
 export const navHeightMobile = '56px';
 

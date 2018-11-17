@@ -1,4 +1,5 @@
 import styled from 'react-emotion';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   color as colorFunc,
   display,
@@ -32,6 +33,9 @@ const textOptions = [
   display,
   fontSizeFunc,
   height,
+  ({ italic }: { italic?: boolean }) => ({
+    fontStyle: italic ? 'italic' : undefined,
+  }),
   ({ nowrap }: { nowrap?: boolean }) => ({
     whiteSpace: nowrap ? 'nowrap' : undefined,
   }),
@@ -182,14 +186,27 @@ const Anchor = styled('a')(
   ...textOptions,
 );
 
-export const ItalicsText = styled(Text)({ fontStyle: 'italic' });
+const Link = styled(RouterLink)(
+  ({ border, color }: { border: string; color: string }) => ({
+    ':hover': {
+      borderBottom: border,
+    },
+    ':link': {
+      color,
+    },
+    ':visited': {
+      color,
+    },
+  }),
+  ...textOptions,
+);
 
 export default {
   Anchor,
   H1,
   H2,
   H3,
-  ItalicsText,
+  Link,
   Subtitle,
   Text,
   Title,

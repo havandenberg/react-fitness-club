@@ -3,8 +3,10 @@ import styled from 'react-emotion';
 import fbIcon from '../assets/images/facebook.svg';
 import igIcon from '../assets/images/instagram.svg';
 import l from '../styles/layout';
-import { breakpoints, colors, spacing } from '../styles/theme';
+import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
+import { FACEBOOK_PATH, INSTAGRAM_PATH } from '../utils/constants';
+import { isMobile } from '../utils/screensize';
 
 const SocialIcon = styled('img')(
   {
@@ -22,16 +24,53 @@ const SocialIcon = styled('img')(
   }),
 );
 
-const SocialIcons = ({ small }: { small?: boolean }) => (
-  <l.Flex>
-    <t.Anchor href="https://www.facebook.com/REaCT.Nat/" target="_blank">
+const SocialIconsWrapper = styled(l.Flex)(
+  ({ showLabels }: { showLabels?: boolean }) => ({
+    [breakpoints.tablet]: {
+      alignItems: 'flex-start',
+      flexDirection: showLabels ? 'column' : 'row',
+    },
+  }),
+);
+
+const SocialLabel = styled(t.Text)({
+  marginLeft: spacing.ml,
+  [breakpoints.mobile]: {
+    marginLeft: spacing.sm,
+  },
+});
+
+const SocialIcons = ({
+  showLabels,
+  small,
+}: {
+  showLabels?: boolean;
+  small?: boolean;
+}) => (
+  <SocialIconsWrapper
+    showLabels={showLabels}
+    spaceBetween={isMobile() && showLabels}
+  >
+    <t.Anchor
+      border={showLabels && borders.black}
+      href={FACEBOOK_PATH}
+      mb={[0, spacing.ml, 0]}
+      target="_blank"
+    >
       <SocialIcon small={small} src={fbIcon} />
+      {showLabels && <SocialLabel>REaCT.Nat</SocialLabel>}
     </t.Anchor>
     <l.Space ml={[spacing.s, spacing.m]} />
-    <t.Anchor href="https://www.instagram.com/react.nation/" target="_blank">
+    {showLabels && <l.Space ml={[0, spacing.ml]} />}
+    <t.Anchor
+      border={showLabels && borders.black}
+      href={INSTAGRAM_PATH}
+      target="_blank"
+    >
       <SocialIcon small={small} src={igIcon} />
+      {showLabels && <SocialLabel>react.nation</SocialLabel>}
     </t.Anchor>
-  </l.Flex>
+  </SocialIconsWrapper>
 );
 
 export default SocialIcons;

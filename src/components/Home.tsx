@@ -3,22 +3,34 @@ import styled from 'react-emotion';
 import BulletImg from '../assets/images/bullet.svg';
 import StarImg from '../assets/images/star.svg';
 import l from '../styles/layout';
-import { fontSizes, mobileSizes, spacing } from '../styles/theme';
+import {
+  borders,
+  colors,
+  fontSizes,
+  mobileSizes,
+  spacing,
+} from '../styles/theme';
 import t from '../styles/typography';
+import { CAPOEIRA_PATH, REACT_PATH } from '../utils/constants';
 import { isMobile } from '../utils/screensize';
 import { Page } from './App';
 import FeaturedLinks from './FeaturedLinks';
-import { ButtonPrimary } from './Form/Button';
+import { LinkPrimary } from './Form/Button';
 import Hero from './Hero';
+import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
 
-const Bullet = styled('img')({
-  height: spacing.xxl,
-  marginRight: spacing.xl,
-  width: spacing.xxl,
+const Bold = styled('span')({
+  fontWeight: 'bold',
 });
 
-const Star = styled('img')({
+const Bullet = styled('img')(({ secondary }: { secondary?: boolean }) => ({
+  height: secondary ? spacing.xl : spacing.xxl,
+  marginRight: secondary ? spacing.ml : spacing.xl,
+  width: secondary ? spacing.xl : spacing.xxl,
+}));
+
+export const Star = styled('img')({
   height: spacing.xxxl,
   width: spacing.xxxl,
 });
@@ -27,7 +39,7 @@ const Home = () => (
   <div>
     <Hero />
     <FeaturedLinks />
-    <Page>
+    <Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
       <l.Flex columnOnMobile spaceBetween>
         {!isMobile() && <Star src={StarImg} />}
         <t.Text
@@ -35,34 +47,86 @@ const Home = () => (
           large
           mb={[spacing.xl, 0]}
           mx="auto"
+          textAlign="justify"
           width={['100%', '80%']}
         >
-          React Fitness Club is a multi style martial arts and fitness club.
-          Each of our programs aims to provide one possible component of the
-          path to your individual physical and mental success as a human being.
-          Through team-based training and activities, we provide resources and
-          coach our students to improve their strength, endurance, and mobility,
-          as well as cultivate positive mental and nutritional habits.{' '}
+          React Fitness Club is a multi-style <Bold>martial arts</Bold> and{' '}
+          <Bold>fitness</Bold> club. Each of our programs aims to support the
+          path to individual <Bold>physical and mental success</Bold> as a human
+          being. Through martial arts and <Bold>team-based</Bold> fitness
+          training and activities, we provide resources and coach our students
+          to improve their <Bold>strength, endurance, and mobility</Bold>, as
+          well as cultivate <Bold>positive mental habits</Bold> in all areas of
+          life.{' '}
         </t.Text>
         <Star src={StarImg} />
       </l.Flex>
       <l.Space height={[spacing.xxxl, spacing.xxxxxl]} />
-      <t.H2 mb={[spacing.ml, spacing.ml]}>
-        Sexual Assault Awareness & Prevention with Self Defense (SAAPSD)
-      </t.H2>
-      <t.Text large mb={[spacing.xxxl, spacing.xxxl]}>
-        Specialized self defense program with a focus on.
-      </t.Text>
-      <t.H2 mb={[spacing.ml, spacing.ml]}>Martial Arts Programs:</t.H2>
-      <t.Text large mb={[spacing.xxxl, spacing.xxxl]}>
-        We offer a variety of martial arts styles for ages 8 and up, Click here
-        to view our programs.
-      </t.Text>
-      <t.H2 mb={[spacing.ml, spacing.ml]}>General Fitness Classes:</t.H2>
-      <t.Text large mb={[spacing.xxxl, spacing.xxxxxl]}>
-        Our fitness programs focus on varying combinations of strength,
-        endurance, and mobility training.
-      </t.Text>
+      <l.Space mx="auto" width={['100%', '90%', '70%']}>
+        <t.H2 color={colors.red} mb={[spacing.ml, spacing.ml]}>
+          Martial Arts:
+        </t.H2>
+        <t.Text large mb={[spacing.xxxl, spacing.xxxl]}>
+          Some of our styles participate in competitions. Learn more on each
+          style page. We currently offer classes for three styles of martial
+          arts:
+          <l.Break />
+          <l.Space height={spacing.xl} />
+          <t.Anchor
+            border={borders.red}
+            color={colors.red}
+            fontSize={[mobileSizes.largeText, fontSizes.largeText]}
+            href={REACT_PATH}
+            target="_blank"
+          >
+            REaCT:
+          </t.Anchor>{' '}
+          A mixed martial arts system with 3 phases of training, stand up, take
+          downs, and grappling. Taught by Coach Ryan. Ages 8+.
+          <l.Break />
+          <l.Space height={spacing.ml} />
+          <t.Anchor
+            border={borders.red}
+            color={colors.red}
+            fontSize={[mobileSizes.largeText, fontSizes.largeText]}
+            href={CAPOEIRA_PATH}
+            target="_blank"
+          >
+            Capoeira:
+          </t.Anchor>{' '}
+          African-Brazilian martial art that incorporates acrobatics, dance,
+          music, and songs in a rhythmic dialogue of body, mind, and spirit.
+          Taught by Professor Morcego. Ages 8+.
+          <l.Break />
+          <l.Space height={spacing.ml} />
+          <t.Anchor
+            border={borders.red}
+            color={colors.red}
+            fontSize={[mobileSizes.largeText, fontSizes.largeText]}
+            target="_blank"
+          >
+            Aikido:
+          </t.Anchor>{' '}
+          Modern Japanese martial art that focuses on defending yourself while
+          also protecting your attacker from injury. Training consists of rolls,
+          strikes, grabs, throws and pins. Taught by Sensei Koksul.
+        </t.Text>
+        <t.H2 color={colors.red} mb={[spacing.ml, spacing.ml]}>
+          Fitness Programs:
+        </t.H2>
+        <t.Text large mb={[spacing.xxxl, spacing.xxxl]}>
+          We also offer general fitness programs for a range of goals. We hope
+          to add more unique fitness programs in the future!
+        </t.Text>
+        <t.H2 color={colors.red} mb={[spacing.ml, spacing.ml]}>
+          Team-Based Approach:
+        </t.H2>
+        <t.Text large mb={[spacing.xxxl, spacing.xxxxxl]}>
+          No one gets there alone. RFC is a community of like-minded, fitness
+          oriented humans who are there to support you with your physical and
+          mental training. We encourage friendly competition!
+        </t.Text>
+      </l.Space>
       <l.FlexCentered
         mb={[spacing.ml, spacing.xxxl]}
         mx="auto"
@@ -70,8 +134,7 @@ const Home = () => (
       >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
-          Free 30 min introductory classes for any program - view available
-          timeslots!
+          Free 30 minute intro classes for any program
         </t.Text>
       </l.FlexCentered>
       <l.FlexCentered
@@ -95,16 +158,16 @@ const Home = () => (
         </t.Text>
       </l.FlexCentered>
       <l.FlexCentered columnOnMobile mx="auto" spaceBetween width="100%">
-        <ButtonPrimary to="/about" width={['100%', 'auto']}>
+        <LinkPrimary to="/about" width={['100%', 'auto']}>
           More about our philosophy
-        </ButtonPrimary>
+        </LinkPrimary>
         <l.Space
           height={[spacing.xl, 0]}
           width={[0, spacing.xxl, spacing.xxxxxl]}
         />
-        <ButtonPrimary to="/programs" width={['100%', 'auto']}>
+        <LinkPrimary to="/programs" width={['100%', 'auto']}>
           Check out our programs
-        </ButtonPrimary>
+        </LinkPrimary>
       </l.FlexCentered>
     </Page>
     <Newsletter />
@@ -112,4 +175,4 @@ const Home = () => (
   </div>
 );
 
-export default Home;
+export default withScroll(Home);
