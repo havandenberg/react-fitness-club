@@ -12,8 +12,9 @@ export const TABLET_DOWN = 'tabletDown';
 export const isDesktop = () =>
   typeof window !== 'undefined' && window.innerWidth > TABLET_WIDTH;
 
-export const isMobile = () =>
-  typeof window !== 'undefined' && window.innerWidth < TABLET_WIDTH;
+export const isMobile = () => {
+  return typeof window !== 'undefined' && window.innerWidth <= TABLET_WIDTH;
+};
 
 export const isTabletUp = () =>
   typeof window !== 'undefined' && window.innerWidth >= MOBILE_WIDTH;

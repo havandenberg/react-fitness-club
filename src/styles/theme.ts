@@ -115,6 +115,7 @@ export const transitions = {
 export const z = {
   high: 3,
   low: 1,
+  max: 100,
   mid: 2,
 };
 

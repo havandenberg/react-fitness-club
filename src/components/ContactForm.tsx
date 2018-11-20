@@ -317,7 +317,7 @@ class ContactForm extends React.Component<{}, State> {
                     onChange={this.handleChange('program')}
                     value={program}
                   >
-                    <option value="-">-</option>
+                    <option value="general">General interest</option>
                     {programsList.map((prog: string, index: number) => (
                       <option key={index} value={prog}>
                         {prog}

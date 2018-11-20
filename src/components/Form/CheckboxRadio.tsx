@@ -26,8 +26,8 @@ const getColor = (
 const CheckboxRadioInputContainer = styled('div')(
   {
     alignItems: 'center',
-    background: 'linear-gradient(to top, #eef6f8, #ffffff)',
-    border: `solid 2px ${colors.lightGray}`,
+    background: colors.lightGray,
+    border: `solid 2px ${colors.gray}`,
     borderRadius: borders.borderRadius,
     display: 'inline-flex',
     position: 'relative',
@@ -235,7 +235,7 @@ const CheckboxRadioInputWithLabelContainer = styled('div')(
 const CheckboxRadioInputWithLabelInnerContainer = styled('div')(
   {
     alignItems: 'center',
-    background: 'linear-gradient(to top, #eef6f8, #ffffff)',
+    background: colors.lightGray,
     borderRadius: borders.borderRadius,
     borderStyle: 'solid',
     borderWidth: 2,

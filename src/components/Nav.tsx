@@ -149,7 +149,7 @@ class Nav extends React.Component<RouteComponentProps, State> {
     const { location } = this.props;
     const { hoverItem } = this.state;
     return (
-      <Sticky innerZ={z.high}>
+      <Sticky innerZ={z.max}>
         <NavWrapper columnOnMobile spaceBetween>
           <NavLink exact to="/">
             <l.Flex height={['auto', navHeight]}>
