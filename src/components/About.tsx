@@ -19,7 +19,7 @@ const About = () => (
       <l.FlexCentered>Under Construction</l.FlexCentered>
     </Page>
     <Newsletter />
-    <l.Space height={[100, 200, 300]} />
+    <l.Space height={100} />
   </div>
 );
 

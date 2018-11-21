@@ -4,11 +4,13 @@ import StarImg from '../assets/images/star.svg';
 import l from '../styles/layout';
 import { borders, colors, fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
+import { ASSETS_PATH } from '../utils/constants';
 import { DESKTOP, isMobile } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import { Page } from './App';
 import ContactForm from './ContactForm';
 import Divider from './Divider';
+// import GalleryImage from './GalleryImage';
 import Hero from './Hero';
 import withScroll from './hoc/withScroll';
 import { Star } from './Home';
@@ -16,6 +18,10 @@ import SocialIcons from './SocialIcons';
 
 const ContactText = styled(t.Text)({
   fontSize: fontSizes.h3,
+});
+
+const MapImage = styled('img')({
+  width: '100%',
 });
 
 const Contact = () => (
@@ -64,7 +70,7 @@ const Contact = () => (
           <l.Space height={spacing.sm} />
           <t.Anchor
             border={borders.red}
-            onClick={() => scrollToId('studio-location')}
+            onClick={() => scrollToId('studio-location', { offset: -200 })}
             width={['100%', 'auto']}
           >
             <t.Text
@@ -99,9 +105,56 @@ const Contact = () => (
         full signup process.
       </t.Text> */}
       <ContactForm />
-      <div id="studio-location" />
+      <l.Space id="studio-location" height={[spacing.xxxl, spacing.xxxxxl]} />
+      <t.Subtitle center mb={[spacing.l, spacing.l]}>
+        The React Fitness Club Studio is located at:
+      </t.Subtitle>
+      <t.H2 center color={colors.red} mb={[spacing.xl, spacing.xl]}>
+        173 Grove St, 2nd Floor
+        <l.Break />
+        Worcester, MA 10605
+      </t.H2>
+      {/* <l.Flex mb={[0, spacing.xxxl]}>
+        <GalleryImage
+          image={{
+            caption: 'The Front Room: Only room open for training right now!',
+            src: `${ASSETS_PATH}/studio-1.png`,
+            thumbnail: `${ASSETS_PATH}/studio-1.png`,
+            thumbnailHeight: 150,
+            thumbnailWidth: 120,
+          }}
+        />
+        <l.Space height={spacing.xxl} width={spacing.xxl} />
+        <GalleryImage
+          image={{
+            caption:
+              'The Multipurpose Room: Preview of second training room once renovations are complete. Click the donate link at the top of the page to support the studio!',
+            src: `${ASSETS_PATH}/studio-2.png`,
+            thumbnail: `${ASSETS_PATH}/studio-2.png`,
+            thumbnailHeight: 150,
+            thumbnailWidth: 120,
+          }}
+        />
+        <l.Space height={spacing.xxl} width={spacing.xxl} />
+        <GalleryImage
+          image={{
+            caption:
+              'The Multipurpose Room: Preview of second training room once renovations are complete. Click the donate link at the top of the page to support the studio!',
+            src: `${ASSETS_PATH}/studio-2.png`,
+            thumbnail: `${ASSETS_PATH}/studio-2.png`,
+            thumbnailHeight: 150,
+            thumbnailWidth: 120,
+          }}
+        />
+      </l.Flex> */}
+      <t.Anchor
+        href="https://www.google.com/maps/place/173+Grove+St,+Worcester,+MA+01605/@42.2793643,-71.8071024,17z/data=!3m1!4b1!4m5!3m4!1s0x89e4065723f449ed:0x4688d73e2eebe0aa!8m2!3d42.2793643!4d-71.8049137"
+        target="_blank"
+      >
+        <MapImage src={`${ASSETS_PATH}/map.png`} />
+      </t.Anchor>
     </Page>
-    <l.Space height={[100, 200, 300]} />
+    <l.Space height={100} />
   </div>
 );
 

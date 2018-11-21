@@ -11,6 +11,12 @@ import Divider from './Divider';
 import { ButtonSecondary } from './Form/Button';
 import { TextInput } from './Form/Input';
 
+const Form = styled('form')({
+  [breakpoints.mobile]: {
+    width: '100%',
+  },
+});
+
 const NewsletterInner = styled(l.FlexColumn)({
   marginTop: spacing.xxxxxl,
   padding: `0 ${spacing.sm}`,
@@ -72,7 +78,7 @@ class Newsletter extends React.Component<{}, State> {
             </t.Text>
             <MailchimpSubscribe
               render={({ subscribe, status }) => (
-                <form onSubmit={this.signup(subscribe)}>
+                <Form onSubmit={this.signup(subscribe)}>
                   <l.FlexColumn width={['100%', 'auto']}>
                     {status === 'success' && (
                       <t.Text center color={colors.green} mb={spacing.ml}>
@@ -114,7 +120,7 @@ class Newsletter extends React.Component<{}, State> {
                       <ButtonSecondary type="submit">Sign Up</ButtonSecondary>
                     )}
                   </l.FlexColumn>
-                </form>
+                </Form>
               )}
               url={process.env.REACT_APP_MAILCHIMP_URI}
             />

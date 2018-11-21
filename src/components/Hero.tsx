@@ -5,7 +5,7 @@ import LogoImg from '../assets/images/logo.png';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
-import { isMobile } from '../utils/screensize';
+import { isMobile, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import SocialIcons from './SocialIcons';
 
@@ -31,13 +31,13 @@ const LogoWrapper = styled(l.Flex)(
 
 const QuickLinks = styled(l.Flex)({
   color: colors.red,
-  flexDirection: isMobile() ? 'row' : 'column',
+  flexDirection: isTabletUp() ? 'column' : 'row',
   position: 'absolute',
   right: spacing.ml,
   top: spacing.xl,
   [breakpoints.mobile]: {
     justifyContent: 'space-between',
-    margin: `0 auto ${spacing.sm}`,
+    margin: `0 auto ${spacing.ml}`,
     position: 'static',
     width: '50%',
   },
@@ -74,14 +74,14 @@ const Hero = ({ secondary }: { secondary?: boolean }) => (
       </Link>
     </LogoWrapper>
     {!secondary && (
-      <l.FlexCentered mb={[spacing.ml, spacing.xxxl]}>
+      <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
         <t.Subtitle center>
           Multi-Style Martial Arts Training & Fitness Club
         </t.Subtitle>
       </l.FlexCentered>
     )}
     <QuickLinks alignBottom>
-      {!isMobile() && (
+      {isTabletUp() && (
         <t.Text color={colors.black} mb={[0, spacing.sm]}>
           Quick Links:
         </t.Text>

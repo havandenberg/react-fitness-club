@@ -16,7 +16,7 @@ import {
   z,
 } from '../styles/theme';
 import t from '../styles/typography';
-import { isMobile } from '../utils/screensize';
+import { isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 
 interface Item {
@@ -178,7 +178,7 @@ class Nav extends React.Component<RouteComponentProps, State> {
                 />
               );
             })}
-            {!isMobile() && (
+            {isTabletUp() && (
               <l.FlexCentered width={[spacing.xl, spacing.xxxxxl]}>
                 {/* <UserIcon src={UserImg} /> */}
               </l.FlexCentered>

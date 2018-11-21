@@ -83,7 +83,7 @@ const Footer = () => (
       py={[spacing.xl, spacing.xxxl, spacing.xxxxxl]}
       spaceBetween
     >
-      <l.Flex grow={1} spaceBetween={isMobile()} width={['100%', 'auto']}>
+      <l.Flex grow={1} spaceBetween={!isTabletUp()} width={['100%', 'auto']}>
         <l.Space mr={[spacing.xl, spacing.huge]}>
           <FooterLink text="About" to="/about" />
           <l.Space height={spacing.l} />
@@ -112,7 +112,11 @@ const Footer = () => (
         width={['100%', 'auto']}
       >
         <t.Link to="/contact?id=studio-location" mb={spacing.l}>
-          <PhoneAnchor color={colors.white} large textAlign="right">
+          <PhoneAnchor
+            color={colors.white}
+            large
+            textAlign={isMobile() ? 'center' : 'right'}
+          >
             173 Grove St, 2nd Floor
             <l.Break />
             Worcester, MA 01605
