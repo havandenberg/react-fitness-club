@@ -86,10 +86,10 @@ const Hero = ({ secondary }: { secondary?: boolean }) => (
           Quick Links:
         </t.Text>
       )}
-      {/* <QuickAnchor border={borders.red} to="/schedule">
+      <QuickLink border={borders.red} color={colors.red} to="/schedule">
         Schedule
-      </QuickAnchor>
-      <QuickAnchor border={borders.red} to="/events">
+      </QuickLink>
+      {/* <QuickAnchor border={borders.red} to="/events">
         Events
       </QuickAnchor> */}
       <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">

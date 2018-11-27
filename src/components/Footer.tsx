@@ -94,7 +94,7 @@ const Footer = () => (
           <FooterLink text="Contact" to="/contact" />
         </l.Space>
         <l.Space mr={[spacing.xl, spacing.xxxl]}>
-          <FooterLink text="Schedule" to="#" />
+          <FooterLink text="Schedule" to="/schedule" />
           <l.Space height={spacing.l} />
           <FooterLink text="Events" to="#" />
           <l.Space height={spacing.l} />

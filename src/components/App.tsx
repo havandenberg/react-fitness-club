@@ -20,6 +20,7 @@ import Gallery from './Gallery';
 import Home from './Home';
 import Nav from './Nav';
 import Programs from './Programs';
+import Schedule from './Schedule';
 
 const Main = styled('div')({
   background: colors.background,
@@ -48,6 +49,7 @@ const App = () => (
         <Route path="/programs" component={Programs} />
         <Route path="/gallery" component={Gallery} />
         <Route path="/contact" component={Contact} />
+        <Route path="/schedule" component={Schedule} />
         <Redirect to="/" />
       </Switch>
       <Footer />
