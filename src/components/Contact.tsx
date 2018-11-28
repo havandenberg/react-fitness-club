@@ -10,7 +10,7 @@ import { scrollToId } from '../utils/scroll';
 import { Page } from './App';
 import ContactForm from './ContactForm';
 import Divider from './Divider';
-// import GalleryImage from './GalleryImage';
+import GalleryImage from './GalleryImage';
 import Hero from './Hero';
 import withScroll from './hoc/withScroll';
 import { Star } from './Home';
@@ -70,7 +70,7 @@ const Contact = () => (
           <l.Space height={spacing.sm} />
           <t.Anchor
             border={borders.red}
-            onClick={() => scrollToId('studio-location', { offset: -200 })}
+            onClick={() => scrollToId('studio-location', { offset: -40 })}
             width={['100%', 'auto']}
           >
             <t.Text
@@ -101,8 +101,7 @@ const Contact = () => (
         &nbsp;directly or use the form below.
       </t.Text>
       {/* <t.Text center large mb={spacing.xl}>
-        To sign up for any RFC program directly, please click here to start the
-        full signup process.
+        To sign up for any RFC program directly, please click here to begin program signup.
       </t.Text> */}
       <ContactForm />
       <l.Space id="studio-location" height={[spacing.xxxl, spacing.xxxxxl]} />
@@ -114,44 +113,42 @@ const Contact = () => (
         <l.Break />
         Worcester, MA 10605
       </t.H2>
-      {/* <l.Flex mb={[0, spacing.xxxl]}>
+      <l.Flex columnOnMobile mb={[0, spacing.xxxl]}>
         <GalleryImage
           image={{
-            caption: 'The Front Room: Only room open for training right now!',
-            src: `${ASSETS_PATH}/studio-1.png`,
-            thumbnail: `${ASSETS_PATH}/studio-1.png`,
+            caption: '',
+            src: `${ASSETS_PATH}/studio/front-sign.png`,
+            thumbnail: `${ASSETS_PATH}/studio/front-sign.png`,
             thumbnailHeight: 150,
             thumbnailWidth: 120,
           }}
         />
-        <l.Space height={spacing.xxl} width={spacing.xxl} />
+        <l.Space height={spacing.ml} width={spacing.xxl} />
         <GalleryImage
           image={{
-            caption:
-              'The Multipurpose Room: Preview of second training room once renovations are complete. Click the donate link at the top of the page to support the studio!',
-            src: `${ASSETS_PATH}/studio-2.png`,
-            thumbnail: `${ASSETS_PATH}/studio-2.png`,
+            caption: '',
+            src: `${ASSETS_PATH}/studio/front-building.png`,
+            thumbnail: `${ASSETS_PATH}/studio/front-building.png`,
             thumbnailHeight: 150,
             thumbnailWidth: 120,
           }}
         />
-        <l.Space height={spacing.xxl} width={spacing.xxl} />
+        <l.Space height={spacing.ml} width={spacing.xxl} />
         <GalleryImage
           image={{
-            caption:
-              'The Multipurpose Room: Preview of second training room once renovations are complete. Click the donate link at the top of the page to support the studio!',
-            src: `${ASSETS_PATH}/studio-2.png`,
-            thumbnail: `${ASSETS_PATH}/studio-2.png`,
+            caption: '',
+            src: `${ASSETS_PATH}/studio/front-room.png`,
+            thumbnail: `${ASSETS_PATH}/studio/front-room.png`,
             thumbnailHeight: 150,
             thumbnailWidth: 120,
           }}
         />
-      </l.Flex> */}
+      </l.Flex>
       <t.Anchor
-        href="https://www.google.com/maps/place/173+Grove+St,+Worcester,+MA+01605/@42.2793643,-71.8071024,17z/data=!3m1!4b1!4m5!3m4!1s0x89e4065723f449ed:0x4688d73e2eebe0aa!8m2!3d42.2793643!4d-71.8049137"
+        href="https://www.google.com/maps/place/React+Fitness+Club/@42.2793643,-71.8049137,15z/data=!4m2!3m1!1s0x0:0x9046b19a3d697bcc?ved=2ahUKEwjSvtKd5PfeAhXEx4MKHc9mAekQ_BIwEHoECAYQCA"
         target="_blank"
       >
-        <MapImage src={`${ASSETS_PATH}/map.png`} />
+        <MapImage src={`${ASSETS_PATH}/studio/map.png`} />
       </t.Anchor>
     </Page>
     <l.Space height={100} />

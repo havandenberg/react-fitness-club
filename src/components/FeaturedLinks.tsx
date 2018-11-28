@@ -219,33 +219,33 @@ const FeaturedLinks = () => (
     <l.Flex columnOnMobile>
       <Quadrant
         href={REACT_PATH}
-        imageSource={`${ASSETS_PATH}/quad-1.jpg`}
+        imageSource={`${ASSETS_PATH}/featured/photos/react-featured.png`}
         label="REaCT Mixed Martial Arts"
         labelProps={{ top: spacing.xl, left: spacing.xl }}
-        videoSource={`${ASSETS_PATH}/featured-videos/featured-vid-1.mp4`}
+        videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-1.mp4`}
       />
       <Quadrant
         href={CAPOEIRA_PATH}
-        imageSource={`${ASSETS_PATH}/quad-2.jpg`}
+        imageSource={`${ASSETS_PATH}/featured/photos/capoeira-featured.png`}
         label="Capoeira Luanda"
         labelProps={{ top: spacing.xl, right: spacing.xl }}
-        videoSource={`${ASSETS_PATH}/featured-videos/featured-vid-2.mp4`}
+        videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-2.mp4`}
       />
     </l.Flex>
     <l.Flex columnOnMobile>
       <Quadrant
         href="/"
-        imageSource={`${ASSETS_PATH}/quad-3.png`}
+        imageSource={`${ASSETS_PATH}/featured/photos/aikido-featured.png`}
         label="Aikido"
         labelProps={{ bottom: spacing.xl, left: spacing.xl }}
-        videoSource={`${ASSETS_PATH}/featured-videos/featured-vid-3.mp4`}
+        videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-3.mp4`}
       />
       <Quadrant
         href="/"
-        imageSource={`${ASSETS_PATH}/quad-4.jpg`}
+        imageSource={`${ASSETS_PATH}/featured/photos/ocr-featured.png`}
         label="Obstacle Course Racing"
         labelProps={{ bottom: spacing.xl, right: spacing.xxxxl }}
-        videoSource={`${ASSETS_PATH}/featured-videos/featured-vid-4.mp4`}
+        videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-4.mp4`}
       />
     </l.Flex>
   </l.Space>

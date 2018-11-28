@@ -148,8 +148,8 @@ const Footer = () => (
         >
           Copyright © {new Date().getFullYear()}
           <l.Break breakpoint={SMALL} />
-          <l.Break breakpoint={TABLET} /> React Fitness Club.
-          <l.Break /> All Rights Reserved.
+          <l.Break breakpoint={TABLET} /> React Fitness Club
+          <l.Break /> All Rights Reserved
         </t.Text>
         <t.Text
           color={colors.white}

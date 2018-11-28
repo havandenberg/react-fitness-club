@@ -30,26 +30,8 @@ interface CalendarEventShape {
   summary: string;
 }
 
-export interface GCalEvent {
-  end: {
-    date: Date;
-    dateTime: Date;
-  };
-  start: {
-    date: Date;
-    dateTime: Date;
-  };
-  summary: string;
-}
-
-export interface ClientEvent {
-  end: string;
-  start: string;
-  title: string;
-}
-
 interface State {
-  events: ClientEvent[];
+  events: CalendarEventShape[];
   loading: boolean;
 }
 
@@ -94,7 +76,7 @@ class Schedule extends React.Component<{}, State> {
       <div>
         <Hero secondary />
         <t.Title center mb={spacing.ml}>
-          Schedule
+          Program Schedule
         </t.Title>
         <Divider white />
         <Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
@@ -105,6 +87,7 @@ class Schedule extends React.Component<{}, State> {
           ) : (
             <l.Space height={500}>
               <BigCalendar
+                defaultView={BigCalendar.Views.WEEK}
                 localizer={localizer}
                 max={new Date(2013, 1, 1, 22)}
                 min={new Date(2013, 1, 1, 10)}

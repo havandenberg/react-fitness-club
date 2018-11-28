@@ -162,7 +162,7 @@ const Home = () => (
       >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
-          Free 30 minute intro classes for any program
+          Free 45 minute intro classes for any program
         </t.Text>
       </l.FlexCentered>
       <l.FlexCentered

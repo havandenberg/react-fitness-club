@@ -39,7 +39,7 @@ const QuickLinks = styled(l.Flex)({
     justifyContent: 'space-between',
     margin: `0 auto ${spacing.ml}`,
     position: 'static',
-    width: '50%',
+    width: '90%',
   },
 });
 
