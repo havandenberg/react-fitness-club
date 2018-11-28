@@ -104,7 +104,7 @@ const VideoWrapper = styled('div')(
 );
 
 interface FeaturedVideoProps {
-  href: string;
+  href?: string;
   imageSource: string;
   label: string;
   labelProps: {
@@ -241,7 +241,6 @@ const FeaturedLinks = () => (
         videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-3.mp4`}
       />
       <Quadrant
-        href="/"
         imageSource={`${ASSETS_PATH}/featured/photos/ocr-featured.png`}
         label="Obstacle Course Racing"
         labelProps={{ bottom: spacing.xl, right: spacing.xxxxl }}

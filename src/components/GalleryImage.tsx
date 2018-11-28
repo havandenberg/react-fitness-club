@@ -28,7 +28,7 @@ export const ImageWrapper = styled('div')(
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    width: '35%',
+    width: '100%',
     [breakpoints.mobile]: {
       width: '100%',
     },
