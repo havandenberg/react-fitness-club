@@ -10,7 +10,7 @@ import { scrollToId } from '../utils/scroll';
 import { Page } from './App';
 import ContactForm from './ContactForm';
 import Divider from './Divider';
-import GalleryImage from './GalleryImage';
+// import GalleryImage from './GalleryImage';
 import Hero from './Hero';
 import withScroll from './hoc/withScroll';
 import { Star } from './Home';
@@ -113,7 +113,7 @@ const Contact = () => (
         <l.Break />
         Worcester, MA 10605
       </t.H2>
-      <l.Flex columnOnMobile mb={[0, spacing.xxxl]}>
+      {/* <l.Flex columnOnMobile mb={[0, spacing.xxxl]}>
         <GalleryImage
           image={{
             caption: '',
@@ -143,7 +143,7 @@ const Contact = () => (
             thumbnailWidth: 120,
           }}
         />
-      </l.Flex>
+      </l.Flex> */}
       <t.Anchor
         href="https://www.google.com/maps/place/React+Fitness+Club/@42.2793643,-71.8049137,15z/data=!4m2!3m1!1s0x0:0x9046b19a3d697bcc?ved=2ahUKEwjSvtKd5PfeAhXEx4MKHc9mAekQ_BIwEHoECAYQCA"
         target="_blank"
