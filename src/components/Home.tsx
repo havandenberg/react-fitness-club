@@ -97,13 +97,12 @@ const Home = () => (
       <t.Text
         center
         fontSize={[fontSizes.largeText, fontSizes.h2]}
-        mt={[spacing.xxxl, spacing.xxxxxl]}
+        my={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
       >
         Join the club that gets you further!
       </t.Text>
-      <l.Space height={[spacing.xxxl, spacing.xxxxxl]} />
       <l.Flex alignTop>
-        <l.Space ml="auto" mr={spacing.xl} width={['100%', '90%', '70%']}>
+        <l.Space ml="auto" mr={[0, spacing.xl]} width={['100%', '90%', '70%']}>
           <t.H2 mb={[spacing.ml, spacing.ml]}>Martial Arts Styles:</t.H2>
           <t.Text large>
             Some of our styles participate in competitions. Learn more on each
@@ -134,7 +133,21 @@ const Home = () => (
               take downs, and grappling. Taught by Coach Ryan. Ages 8+.
             </t.Text>
           </l.Flex>
-          <l.Space height={spacing.ml} />
+          <l.Space height={spacing.xl} />
+          {isMobile() && (
+            <l.FlexCentered mx="auto" width={['85%', '65%']}>
+              <GalleryImage
+                image={{
+                  caption: 'REaCT circle to close out class.',
+                  src: `${ASSETS_PATH}/programs/REaCT/react-class-circle.png`,
+                  thumbnail: `${ASSETS_PATH}/programs/REaCT/react-class-circle.png`,
+                  thumbnailHeight: 150,
+                  thumbnailWidth: 120,
+                }}
+              />
+            </l.FlexCentered>
+          )}
+          {isMobile() && <l.Space height={spacing.xl} />}
           <l.Flex alignTop>
             <t.Anchor
               color={colors.red}
@@ -160,10 +173,10 @@ const Home = () => (
               music, and songs in a rhythmic dialogue of body, mind, and spirit.
               Taught by Professor Morcego. Ages 8+.
             </t.Text>
+            <l.Space height={spacing.xl} />
           </l.Flex>
-          <l.Space height={spacing.ml} />
+          <l.Space height={spacing.xl} />
           <l.Flex alignTop>
-            {/* <l.Space mr={spacing.xxxxxl} /> */}
             <t.Text large mb={spacing.xxxl}>
               <t.Anchor
                 border={borders.red}
@@ -196,40 +209,60 @@ const Home = () => (
             to prepare for each event.
           </t.Text>
           <t.H2 mb={[spacing.ml, spacing.ml]}>Team-Based Approach:</t.H2>
-          <t.Text large mb={[spacing.xxxl, spacing.xxxxxl]}>
+          <t.Text large mb={[spacing.xxxl, spacing.xxxl]}>
             No one gets there alone. RFC is a community of like-minded, fitness
             oriented humans who are there to support you with your physical and
             mental training. We encourage friendly competition!
           </t.Text>
+          {isMobile() && (
+            <l.FlexCentered
+              mb={[spacing.xxxl, spacing.xxxxxl]}
+              mx="auto"
+              width={['85%', '65%']}
+            >
+              <GalleryImage
+                image={{
+                  caption:
+                    'Great hike in the White Mountains during summer training.',
+                  src: `${ASSETS_PATH}/programs/Outdoor/white-mtns-group.png`,
+                  thumbnail: `${ASSETS_PATH}/programs/Outdoor/white-mtns-group.png`,
+                  thumbnailHeight: 150,
+                  thumbnailWidth: 120,
+                }}
+              />
+            </l.FlexCentered>
+          )}
         </l.Space>
-        <l.FlexColumn width="35%">
-          <GalleryImage
-            image={{
-              caption: 'REaCT circle to close out class.',
-              src: `${ASSETS_PATH}/programs/REaCT/react-class-circle.png`,
-              thumbnail: `${ASSETS_PATH}/programs/REaCT/react-class-circle.png`,
-              thumbnailHeight: 150,
-              thumbnailWidth: 120,
-            }}
-          />
-          <l.Space height={spacing.xl} />
-          <GalleryImage
-            image={{
-              caption:
-                'Great hike in the White Mountains during summer training.',
-              src: `${ASSETS_PATH}/programs/Outdoor/white-mtns-group.png`,
-              thumbnail: `${ASSETS_PATH}/programs/Outdoor/white-mtns-group.png`,
-              thumbnailHeight: 150,
-              thumbnailWidth: 120,
-            }}
-          />
-          <l.Space height={spacing.ml} />
-        </l.FlexColumn>
+        {!isMobile() && (
+          <l.FlexColumn width="35%">
+            <GalleryImage
+              image={{
+                caption: 'REaCT circle to close out class.',
+                src: `${ASSETS_PATH}/programs/REaCT/react-class-circle.png`,
+                thumbnail: `${ASSETS_PATH}/programs/REaCT/react-class-circle.png`,
+                thumbnailHeight: 150,
+                thumbnailWidth: 120,
+              }}
+            />
+            <l.Space height={spacing.xl} />
+            <GalleryImage
+              image={{
+                caption:
+                  'Great hike in the White Mountains during summer training.',
+                src: `${ASSETS_PATH}/programs/Outdoor/white-mtns-group.png`,
+                thumbnail: `${ASSETS_PATH}/programs/Outdoor/white-mtns-group.png`,
+                thumbnailHeight: 150,
+                thumbnailWidth: 120,
+              }}
+            />
+            <l.Space height={spacing.ml} />
+          </l.FlexColumn>
+        )}
       </l.Flex>
       <l.FlexCentered
         mb={[spacing.ml, spacing.xxxl]}
         mx="auto"
-        width={['100%', '70%']}
+        width={['100%', '100%', '80%']}
       >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
@@ -239,7 +272,7 @@ const Home = () => (
       <l.FlexCentered
         mb={[spacing.ml, spacing.xxxl]}
         mx="auto"
-        width={['100%', '70%']}
+        width={['100%', '100%', '80%']}
       >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
@@ -249,7 +282,7 @@ const Home = () => (
       <l.FlexCentered
         mb={[spacing.xxxl, spacing.xxxxxl]}
         mx="auto"
-        width={['100%', '70%']}
+        width={['100%', '100%', '80%']}
       >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">

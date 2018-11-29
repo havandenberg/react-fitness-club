@@ -21,6 +21,7 @@ import {
   SMALL,
   TABLET,
 } from '../utils/screensize';
+import { scrollToId } from '../utils/scroll';
 import Divider from './Divider';
 import SocialIcons from './SocialIcons';
 
@@ -107,11 +108,15 @@ const Footer = () => (
         </l.Space>
       </l.Flex>
       <l.FlexColumn
-        alignBottom={!isMobile()}
+        alignBottom={!isDesktop()}
         mb={[spacing.xxl, 0]}
         width={['100%', 'auto']}
       >
-        <t.Link to="/contact?id=studio-location" mb={spacing.l}>
+        <t.Link
+          to="/contact?id=studio-location"
+          mb={spacing.l}
+          onClick={() => scrollToId('studio-location')}
+        >
           <PhoneAnchor
             color={colors.white}
             large
