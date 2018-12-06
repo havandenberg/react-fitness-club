@@ -8,6 +8,8 @@ import {
   SpaceProps,
   width,
   WidthProps,
+  zIndex,
+  ZIndexProps,
 } from 'styled-system';
 import { Breakpoint } from '../types/styles';
 import { borders, breakpoints, colors, gradients, spacing } from './theme';
@@ -23,12 +25,18 @@ interface FlexProps {
   inline?: boolean;
   itemClassName?: string;
   margins?: string;
+  pointer?: boolean;
   spaceBetween?: boolean;
   isWrap?: boolean;
 }
 
 const Flex = styled('div')<
-  HeightProps & PositionProps & FlexProps & SpaceProps & WidthProps
+  HeightProps &
+    PositionProps &
+    FlexProps &
+    SpaceProps &
+    WidthProps &
+    ZIndexProps
 >(
   {
     alignItems: 'center',
@@ -37,6 +45,7 @@ const Flex = styled('div')<
   position,
   space,
   width,
+  zIndex,
   ({
     alignBottom,
     alignTop,
@@ -46,23 +55,14 @@ const Flex = styled('div')<
     inline,
     itemClassName = '',
     margins = '0',
+    pointer,
     spaceBetween,
     isWrap,
-  }: {
-    alignBottom?: boolean;
-    alignTop?: boolean;
-    columnOnMobile?: boolean;
-    columnRevOnMobile?: boolean;
-    grow?: number;
-    inline?: boolean;
-    itemClassName?: string;
-    margins?: string;
-    spaceBetween?: boolean;
-    isWrap?: boolean;
-  }) => {
+  }: FlexProps) => {
     const marginKey = `& .${itemClassName} + .${itemClassName}`;
     return {
       alignItems: alignTop ? 'flex-start' : alignBottom ? 'flex-end' : 'center',
+      cursor: pointer ? 'pointer' : undefined,
       display: inline ? 'inline-flex' : 'flex',
       flexGrow: grow,
       flexWrap: isWrap ? 'wrap' : undefined,

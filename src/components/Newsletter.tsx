@@ -8,8 +8,8 @@ import t from '../styles/typography';
 import { scrollToId } from '../utils/scroll';
 import { isValidEmail } from '../utils/validation';
 import Divider from './Divider';
-import { ButtonSecondary } from './Form/Button';
-import { TextInput } from './Form/Input';
+import { ButtonSecondary } from './form/Button';
+import { TextInput } from './form/Input';
 
 const Form = styled('form')({
   [breakpoints.mobile]: {

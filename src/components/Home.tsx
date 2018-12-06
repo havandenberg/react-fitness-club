@@ -16,7 +16,7 @@ import { isMobile, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import { Page } from './App';
 import FeaturedLinks from './FeaturedLinks';
-import { LinkPrimary } from './Form/Button';
+import { LinkPrimary } from './form/Button';
 import GalleryImage from './GalleryImage';
 import Hero from './Hero';
 import withScroll from './hoc/withScroll';

@@ -18,9 +18,9 @@ import t from '../styles/typography';
 import { programsList } from '../utils/constants';
 import { scrollToId } from '../utils/scroll';
 import { isValidEmail } from '../utils/validation';
-import { ButtonPrimary, ButtonSecondary } from './Form/Button';
-import { CheckboxRadioInputWithLabel } from './Form/CheckboxRadio';
-import { SelectInput, TextArea, TextInput } from './Form/Input';
+import { ButtonPrimary, ButtonSecondary } from './form/Button';
+import { CheckboxRadioInputWithLabel } from './form/CheckboxRadio';
+import { SelectInput, TextArea, TextInput } from './form/Input';
 
 const ContactFormWrapper = styled('div')({
   padding: spacing.xl,
@@ -360,7 +360,7 @@ class ContactForm extends React.Component<{}, State> {
                       mr={[0, spacing.xl]}
                       onClick={this.resetForm}
                     >
-                      Reset Form
+                      Form
                     </ButtonSecondary>
                   )}
                   <ButtonPrimary mb={[spacing.ml, 0]} type="submit">

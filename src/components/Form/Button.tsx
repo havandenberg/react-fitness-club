@@ -199,3 +199,13 @@ export const LinkSecondary = styled(Link)(
   space,
   width,
 );
+
+export const ButtonTertiary = styled('div')({
+  ':hover': {
+    borderBottom: borders.red,
+  },
+  color: colors.red,
+  cursor: 'pointer',
+  fontSize: fontSizes.largeText,
+  transition: transitions.default,
+});

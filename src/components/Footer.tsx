@@ -104,11 +104,11 @@ const Footer = () => (
             text="Donate"
           />
           <l.Space height={spacing.l} />
-          <FooterLink text="Login" to="#" />
+          <FooterLink text="Login" to="/login" />
         </l.Space>
       </l.Flex>
       <l.FlexColumn
-        alignBottom={!isDesktop()}
+        alignBottom={isTabletUp()}
         mb={[spacing.xxl, 0]}
         width={['100%', 'auto']}
       >
