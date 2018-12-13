@@ -18,7 +18,7 @@ const UserMenuWrapper = styled(l.FlexColumn)({
   zIndex: z.max,
 });
 
-const LogoutButton = styled('div')({
+const Item = styled('div')({
   '& .logout': { color: colors.white, transition: transitions.default },
   ':hover': {
     '& .logout': { color: colors.red },
@@ -35,12 +35,16 @@ const UserMenu = (props: Props) => {
   const { logout, user } = props;
   return (
     <UserMenuWrapper alignBottom>
-      <t.Text color={colors.white} mb={spacing.s} nowrap>
-        {user.nickname || `${user.firstName} ${user.lastName}`}
-      </t.Text>
-      <LogoutButton onClick={logout}>
+      <t.Link to="/dashboard" color={colors.white} mb={spacing.s}>
+        <Item>
+          <t.Text className="logout" nowrap>
+            {user.nickname || `${user.firstName} ${user.lastName}`}
+          </t.Text>
+        </Item>
+      </t.Link>
+      <Item onClick={logout}>
         <t.Text className="logout">Logout</t.Text>
-      </LogoutButton>
+      </Item>
     </UserMenuWrapper>
   );
 };

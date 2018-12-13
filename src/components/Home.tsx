@@ -16,7 +16,7 @@ import { isMobile, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import { Page } from './App';
 import FeaturedLinks from './FeaturedLinks';
-import { LinkPrimary } from './form/Button';
+import { LinkPrimary } from './Form/Button';
 import GalleryImage from './GalleryImage';
 import Hero from './Hero';
 import withScroll from './hoc/withScroll';
@@ -61,6 +61,8 @@ const Home = () => (
         Our brand new studio
       </t.Link>{' '}
       is still undergoing renovations, but we will be opening for classes soon.{' '}
+      <l.Break />
+      <l.Space height={spacing.m} />
       <t.Anchor
         border={borders.red}
         color={colors.red}

@@ -1,11 +1,17 @@
 import styled from 'react-emotion';
 import {
+  bottom,
+  flex,
+  FlexProps,
   height,
   HeightProps,
+  left,
   position,
   PositionProps,
+  right,
   space,
   SpaceProps,
+  top,
   width,
   WidthProps,
   zIndex,
@@ -16,7 +22,7 @@ import { borders, breakpoints, colors, gradients, spacing } from './theme';
 
 // Flex is the basis for other layout components
 
-interface FlexProps {
+interface FlexDivProps {
   alignBottom?: boolean;
   alignTop?: boolean;
   columnOnMobile?: boolean;
@@ -34,6 +40,7 @@ const Flex = styled('div')<
   HeightProps &
     PositionProps &
     FlexProps &
+    FlexDivProps &
     SpaceProps &
     WidthProps &
     ZIndexProps
@@ -41,6 +48,7 @@ const Flex = styled('div')<
   {
     alignItems: 'center',
   },
+  flex,
   height,
   position,
   space,
@@ -58,7 +66,7 @@ const Flex = styled('div')<
     pointer,
     spaceBetween,
     isWrap,
-  }: FlexProps) => {
+  }: FlexDivProps) => {
     const marginKey = `& .${itemClassName} + .${itemClassName}`;
     return {
       alignItems: alignTop ? 'flex-start' : alignBottom ? 'flex-end' : 'center',
@@ -146,7 +154,16 @@ const scrollStyles = {
   overflow: 'scroll',
 };
 
-const Space = styled('div')(height, position, space, width);
+const Space = styled('div')(
+  bottom,
+  height,
+  left,
+  position,
+  right,
+  space,
+  top,
+  width,
+);
 
 const Scroll = styled(Space)({ ...scrollStyles });
 const ScrollFlex = styled(Flex)({ ...scrollStyles });

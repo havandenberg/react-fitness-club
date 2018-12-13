@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import {
   color as colorFunc,
   display,
+  flex,
   fontSize as fontSizeFunc,
   height,
   maxWidth,
@@ -22,6 +23,8 @@ import {
   transitions,
 } from './theme';
 
+// Basic typography components
+
 const textOptions = [
   ({ bold }: { bold?: boolean }) => ({
     fontWeight: bold ? 'bold' : undefined,
@@ -31,6 +34,7 @@ const textOptions = [
   }),
   colorFunc,
   display,
+  flex,
   fontSizeFunc,
   height,
   ({ italic }: { italic?: boolean }) => ({
@@ -182,6 +186,7 @@ const Anchor = styled('a')(
     ':visited': {
       color,
     },
+    borderBottom: borders.transparent,
   }),
   ...textOptions,
 );
@@ -197,15 +202,40 @@ const Link = styled(RouterLink)(
     ':visited': {
       color,
     },
+    borderBottom: borders.transparent,
   }),
   ...textOptions,
 );
+
+// Project-specific typography components
+
+const helpColor = ({ valid }: { valid?: boolean }) => ({
+  color: valid ? colors.green : colors.gray,
+  transition: transitions.default,
+});
+
+const HelpText = styled(Text)(
+  {
+    fontSize: fontSizes.helpText,
+    [breakpoints.tablet]: {
+      fontSize: tabletSizes.helpText,
+    },
+    [breakpoints.mobile]: {
+      fontSize: mobileSizes.helpText,
+    },
+  },
+  helpColor,
+);
+
+const HelpSpan = styled('span')(helpColor);
 
 export default {
   Anchor,
   H1,
   H2,
   H3,
+  HelpSpan,
+  HelpText,
   Link,
   Subtitle,
   Text,

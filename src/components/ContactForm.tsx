@@ -16,11 +16,12 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { programsList } from '../utils/constants';
+import { isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import { isValidEmail } from '../utils/validation';
-import { ButtonPrimary, ButtonSecondary } from './form/Button';
-import { CheckboxRadioInputWithLabel } from './form/CheckboxRadio';
-import { SelectInput, TextArea, TextInput } from './form/Input';
+import { ButtonPrimary, ButtonSecondary } from './Form/Button';
+import { CheckboxRadioInputWithLabel } from './Form/CheckboxRadio';
+import { SelectInput, TextArea, TextInput } from './Form/Input';
 
 const ContactFormWrapper = styled('div')({
   padding: spacing.xl,
@@ -55,7 +56,7 @@ const InputLabel = styled(t.Text)(
 );
 
 const InputWrapper = styled(l.Flex)({
-  margin: `0 auto ${spacing.xl}`,
+  margin: `0 auto`,
   width: '90%',
   [breakpoints.mobile]: {
     alignItems: 'flex-start',
@@ -287,19 +288,41 @@ class ContactForm extends React.Component<{}, State> {
                   </InputLabel>
                   <TextInput
                     error={errors.firstName}
-                    mb={[spacing.ml, 0]}
                     onChange={this.handleChange('firstName')}
-                    placeholder="first"
                     value={firstName}
                   />
+                  {!isTabletUp() && <l.Space height={spacing.s} />}
+                  {!isTabletUp() && (
+                    <t.HelpText flex={1} width={350}>
+                      first name
+                    </t.HelpText>
+                  )}
+                  {!isTabletUp() && <l.Space height={spacing.ml} />}
                   <l.Space width={[0, spacing.xxxl]} />
                   <TextInput
                     error={errors.lastName}
                     onChange={this.handleChange('lastName')}
-                    placeholder="last"
                     value={lastName}
                   />
                 </InputWrapper>
+                <l.Space height={spacing.s} />
+                <InputWrapper>
+                  {isTabletUp() && <InputLabel />}
+                  {isTabletUp() && (
+                    <t.HelpText
+                      flex={1}
+                      valid={!R.isEmpty(firstName)}
+                      width={350}
+                    >
+                      first name
+                    </t.HelpText>
+                  )}
+                  <l.Space width={[0, spacing.xxxl]} />
+                  <t.HelpText flex={1} valid={!R.isEmpty(lastName)}>
+                    last name
+                  </t.HelpText>
+                </InputWrapper>
+                <l.Space height={spacing.xl} />
                 <InputWrapper>
                   <InputLabel error={errors.email}>
                     Email<l.Red>*</l.Red>:
@@ -307,10 +330,17 @@ class ContactForm extends React.Component<{}, State> {
                   <TextInput
                     error={errors.email}
                     onChange={this.handleChange('email')}
-                    placeholder="me@awesome.com"
                     value={email}
                   />
                 </InputWrapper>
+                <l.Space height={spacing.s} />
+                <InputWrapper>
+                  {isTabletUp() && <InputLabel />}
+                  <t.HelpText valid={isValidEmail(email)}>
+                    me@awesome.com
+                  </t.HelpText>
+                </InputWrapper>
+                <l.Space height={spacing.xl} />
                 <InputWrapper>
                   <InputLabel>Program interest:</InputLabel>
                   <SelectInput
@@ -325,6 +355,7 @@ class ContactForm extends React.Component<{}, State> {
                     ))}
                   </SelectInput>
                 </InputWrapper>
+                <l.Space height={spacing.xl} />
                 <InputWrapper alignTop>
                   <InputLabel error={errors.message} mt={[0, spacing.s]}>
                     Message<l.Red>*</l.Red>:

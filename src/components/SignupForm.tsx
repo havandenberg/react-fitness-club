@@ -2,6 +2,7 @@ import * as firebase from 'firebase';
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
+import MailchimpSubscribe from 'react-mailchimp-subscribe';
 import { PulseLoader } from 'react-spinners';
 import SendImg from '../assets/images/send.svg';
 import { auth } from '../firebase';
@@ -16,10 +17,18 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { newUserDefaults } from '../types/user';
+import { isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
-import { isValidEmail, isValidPassword } from '../utils/validation';
-import { ButtonPrimary, ButtonSecondary } from './form/Button';
-import { TextInput } from './form/Input';
+import {
+  containsLowercase,
+  containsNumber,
+  containsUppercase,
+  enoughCharacters,
+  isValidEmail,
+  isValidPassword,
+} from '../utils/validation';
+import { ButtonPrimary, ButtonSecondary } from './Form/Button';
+import { TextInput } from './Form/Input';
 
 const SelectFormWrapper = styled('div')({
   padding: spacing.xl,
@@ -54,7 +63,7 @@ const InputLabel = styled(t.Text)(
 );
 
 const InputWrapper = styled(l.Flex)({
-  margin: `0 auto ${spacing.xl}`,
+  margin: `0 auto`,
   width: '90%',
   [breakpoints.mobile]: {
     alignItems: 'flex-start',
@@ -123,7 +132,9 @@ class ContactForm extends React.Component<{}, State> {
     };
   };
 
-  handleSubmit = (e: React.FormEvent) => {
+  handleSubmit = (subscribe: (data: object) => void) => (
+    e: React.FormEvent,
+  ) => {
     e.preventDefault();
     const { email, firstName, lastName, loading, password } = this.state;
     this.setState({ failed: false });
@@ -137,6 +148,12 @@ class ContactForm extends React.Component<{}, State> {
 
     if (!loading && isValid) {
       this.setState({ loading: true }, () => {
+        subscribe({
+          EMAIL: email,
+          FNAME: firstName,
+          LNAME: lastName,
+          SOURCE: 'web-portal-form',
+        });
         auth
           .createUserWithEmailAndPassword(email, password)
           .then((data: firebase.auth.UserCredential) => {
@@ -230,108 +247,176 @@ class ContactForm extends React.Component<{}, State> {
       loading,
       password,
     } = this.state;
-    console.log(errors, this.state);
     return (
-      <form id="contact-form" onSubmit={this.handleSubmit}>
-        <SelectFormWrapper>
-          {failed && (
-            <t.Text center color={colors.red} large mb={spacing.xl}>
-              An error has occurred. Please try again later or email us directly
-              at
-              <t.Anchor
-                border={borders.red}
-                color={colors.red}
-                href="mailto:reactfitnessclub@gmail.com"
-              >
-                reactfitnessclub@gmail.com
-              </t.Anchor>
-            </t.Text>
-          )}
-          <div>
-            {this.hasErrors() && (
-              <ErrorMessage mb={spacing.xl}>
-                Please correct the fields highlighted below and try again.
-              </ErrorMessage>
-            )}
-            <InputWrapper>
-              <InputLabel error={errors.firstName} nowrap>
-                Name<l.Red>*</l.Red>:
-              </InputLabel>
-              <TextInput
-                error={errors.firstName}
-                mb={[spacing.ml, 0]}
-                onChange={this.handleChange('firstName')}
-                placeholder="first"
-                value={firstName}
-              />
-              <l.Space width={[0, spacing.xxxl]} />
-              <TextInput
-                error={errors.lastName}
-                onChange={this.handleChange('lastName')}
-                placeholder="last"
-                value={lastName}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <InputLabel error={errors.email}>
-                Email<l.Red>*</l.Red>:
-              </InputLabel>
-              <TextInput
-                error={errors.email}
-                onChange={this.handleChange('email')}
-                placeholder="me@awesome.com"
-                value={email}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <InputLabel error={errors.password || errors.passwordMatch}>
-                Password<l.Red>*</l.Red>:
-              </InputLabel>
-              <TextInput
-                error={errors.password || errors.passwordMatch}
-                onChange={this.handleChange('password')}
-                placeholder="1 lower, 1 upper, 1 number, 8+ characters"
-                type="password"
-                value={password}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <InputLabel
-                error={errors.confirmPassword || errors.passwordMatch}
-              >
-                Confirm Password<l.Red>*</l.Red>:
-              </InputLabel>
-              <TextInput
-                error={errors.confirmPassword || errors.passwordMatch}
-                onChange={this.handleChange('confirmPassword')}
-                type="password"
-                value={confirmPassword}
-              />
-            </InputWrapper>
-          </div>
-        </SelectFormWrapper>
-        <l.FlexCentered mt={spacing.ml}>
-          {loading ? (
-            <PulseLoader sizeUnit="px" size={30} color={colors.red} />
-          ) : (
-            <l.FlexCentered columnRevOnMobile>
-              {(failed || this.hasErrors()) && (
-                <ButtonSecondary
-                  py={spacing.l}
-                  mr={[0, spacing.xl]}
-                  onClick={this.resetForm}
-                >
-                  Reset
-                </ButtonSecondary>
+      <MailchimpSubscribe
+        render={({ subscribe }) => (
+          <form id="signup-form" onSubmit={this.handleSubmit(subscribe)}>
+            <SelectFormWrapper>
+              {failed && (
+                <t.Text center color={colors.red} large mb={spacing.xl}>
+                  An error has occurred. Please try again later or email us
+                  directly at
+                  <t.Anchor
+                    border={borders.red}
+                    color={colors.red}
+                    href="mailto:reactfitnessclub@gmail.com"
+                  >
+                    reactfitnessclub@gmail.com
+                  </t.Anchor>
+                </t.Text>
               )}
-              <ButtonPrimary mb={[spacing.ml, 0]} type="submit">
-                <SendIcon src={SendImg} />
-                Sign Up
-              </ButtonPrimary>
+              <div>
+                {this.hasErrors() && (
+                  <ErrorMessage mb={spacing.xl}>
+                    Please correct the fields highlighted below and try again.
+                  </ErrorMessage>
+                )}
+                <InputWrapper>
+                  <InputLabel error={errors.firstName} nowrap>
+                    Name<l.Red>*</l.Red>:
+                  </InputLabel>
+                  <TextInput
+                    error={errors.firstName}
+                    onChange={this.handleChange('firstName')}
+                    value={firstName}
+                  />
+                  {!isTabletUp() && <l.Space height={spacing.s} />}
+                  {!isTabletUp() && (
+                    <t.HelpText flex={1} width={350}>
+                      first name
+                    </t.HelpText>
+                  )}
+                  {!isTabletUp() && <l.Space height={spacing.ml} />}
+                  <l.Space width={[0, spacing.xxxl]} />
+                  <TextInput
+                    error={errors.lastName}
+                    onChange={this.handleChange('lastName')}
+                    value={lastName}
+                  />
+                </InputWrapper>
+                <l.Space height={spacing.s} />
+                <InputWrapper>
+                  {isTabletUp() && <InputLabel />}
+                  {isTabletUp() && (
+                    <t.HelpText
+                      flex={1}
+                      valid={!R.isEmpty(firstName)}
+                      width={350}
+                    >
+                      first name
+                    </t.HelpText>
+                  )}
+                  <l.Space width={[0, spacing.xxxl]} />
+                  <t.HelpText flex={1} valid={!R.isEmpty(lastName)}>
+                    last name
+                  </t.HelpText>
+                </InputWrapper>
+                <l.Space height={spacing.xl} />
+                <InputWrapper>
+                  <InputLabel error={errors.email}>
+                    Email<l.Red>*</l.Red>:
+                  </InputLabel>
+                  <TextInput
+                    error={errors.email}
+                    onChange={this.handleChange('email')}
+                    value={email}
+                  />
+                </InputWrapper>
+                <l.Space height={spacing.s} />
+                <InputWrapper>
+                  {isTabletUp() && <InputLabel />}
+                  <t.HelpText valid={isValidEmail(email)}>
+                    me@awesome.com
+                  </t.HelpText>
+                </InputWrapper>
+                <l.Space height={spacing.xl} />
+                <InputWrapper>
+                  <InputLabel error={errors.password || errors.passwordMatch}>
+                    Password<l.Red>*</l.Red>:
+                  </InputLabel>
+                  <TextInput
+                    error={errors.password || errors.passwordMatch}
+                    onChange={this.handleChange('password')}
+                    type="password"
+                    value={password}
+                  />
+                </InputWrapper>
+                <l.Space height={spacing.s} />
+                <InputWrapper>
+                  {isTabletUp() && <InputLabel />}
+                  <t.HelpText>
+                    <t.HelpSpan valid={!!containsLowercase(password)}>
+                      1 lowercase
+                    </t.HelpSpan>
+                    ,{' '}
+                    <t.HelpSpan valid={!!containsUppercase(password)}>
+                      1 uppercase
+                    </t.HelpSpan>
+                    ,{' '}
+                    <t.HelpSpan valid={!!containsNumber(password)}>
+                      1 number
+                    </t.HelpSpan>
+                    ,{' '}
+                    <t.HelpSpan valid={!!enoughCharacters(password)}>
+                      8+ characters
+                    </t.HelpSpan>
+                  </t.HelpText>
+                </InputWrapper>
+                <l.Space height={spacing.xl} />
+                <InputWrapper>
+                  <InputLabel
+                    error={errors.confirmPassword || errors.passwordMatch}
+                  >
+                    Confirm Password<l.Red>*</l.Red>:
+                  </InputLabel>
+                  <TextInput
+                    error={errors.confirmPassword || errors.passwordMatch}
+                    onChange={this.handleChange('confirmPassword')}
+                    type="password"
+                    value={confirmPassword}
+                  />
+                </InputWrapper>
+                <l.Space height={spacing.s} />
+                <InputWrapper>
+                  {isTabletUp() && <InputLabel />}
+                  <t.HelpText>
+                    <t.HelpSpan
+                      valid={
+                        !R.isEmpty(password) &&
+                        R.equals(password, confirmPassword)
+                      }
+                    >
+                      must match password
+                    </t.HelpSpan>
+                  </t.HelpText>
+                </InputWrapper>
+              </div>
+            </SelectFormWrapper>
+            <l.FlexCentered mt={spacing.ml}>
+              {loading ? (
+                <PulseLoader sizeUnit="px" size={30} color={colors.red} />
+              ) : (
+                <l.FlexCentered columnRevOnMobile>
+                  {(failed || this.hasErrors()) && (
+                    <ButtonSecondary
+                      py={spacing.l}
+                      mr={[0, spacing.xl]}
+                      onClick={this.resetForm}
+                    >
+                      Reset
+                    </ButtonSecondary>
+                  )}
+                  <ButtonPrimary mb={[spacing.ml, 0]} type="submit">
+                    <SendIcon src={SendImg} />
+                    Sign Up
+                  </ButtonPrimary>
+                </l.FlexCentered>
+              )}
             </l.FlexCentered>
-          )}
-        </l.FlexCentered>
-      </form>
+          </form>
+        )}
+        url={process.env.REACT_APP_MAILCHIMP_URI || ''}
+      />
     );
   }
 }

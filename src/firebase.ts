@@ -3,11 +3,13 @@ import { newUserDefaults } from './types/user';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
-  authDomain: 'react-fitness-club.firebaseapp.com',
-  databaseURL: 'https://react-fitness-club.firebaseio.com',
-  messagingSenderId: '163928764532',
-  projectId: 'react-fitness-club',
-  storageBucket: 'react-fitness-club.appspot.com',
+  authDomain: `${process.env.REACT_APP_FIREBASE_DOMAIN}.firebaseapp.com`,
+  databaseURL: `https://${
+    process.env.REACT_APP_FIREBASE_DOMAIN
+  }.firebaseio.com`,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
+  projectId: process.env.REACT_APP_FIREBASE_DOMAIN,
+  storageBucket: `${process.env.REACT_APP_FIREBASE_DOMAIN}.appspot.com`,
 };
 firebase.initializeApp(config);
 

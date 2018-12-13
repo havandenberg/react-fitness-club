@@ -3,10 +3,9 @@ import * as React from 'react';
 import styled from 'react-emotion';
 import { PulseLoader } from 'react-spinners';
 import SendImg from '../assets/images/send.svg';
-import firebase from '../firebase';
+import { auth } from '../firebase';
 import l from '../styles/layout';
 import {
-  borders,
   breakpoints,
   colors,
   fontSizes,
@@ -15,9 +14,8 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { scrollToId } from '../utils/scroll';
-import { isValidEmail } from '../utils/validation';
-import { ButtonPrimary, ButtonSecondary } from './form/Button';
-import { TextInput } from './form/Input';
+import { ButtonPrimary, ButtonSecondary } from './Form/Button';
+import { TextInput } from './Form/Input';
 
 const SelectFormWrapper = styled('div')({
   padding: spacing.xl,
@@ -104,7 +102,7 @@ class LoginForm extends React.Component<{}, State> {
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { loading } = this.state;
+    const { email, loading, password } = this.state;
     this.setState({ failed: false });
 
     const isValid = this.validate();
@@ -116,13 +114,15 @@ class LoginForm extends React.Component<{}, State> {
 
     if (!loading && isValid) {
       this.setState({ loading: true }, () => {
-        const membersRef = firebase.database().ref('members');
-        membersRef
-          .push()
-          .set({})
-          .then(() => ({}))
+        auth
+          .signInWithEmailAndPassword(email, password)
           .catch((error: Error) => {
-            this.setState({ failed: true, loading: false });
+            this.setState({
+              email: '',
+              failed: true,
+              loading: false,
+              password: '',
+            });
             console.log(error);
           });
       });
@@ -143,7 +143,7 @@ class LoginForm extends React.Component<{}, State> {
 
     const errors = { ...initialState.errors };
 
-    if (!isValidEmail(email)) {
+    if (R.isEmpty(email)) {
       errors.email = true;
     }
 
@@ -163,15 +163,7 @@ class LoginForm extends React.Component<{}, State> {
         <SelectFormWrapper>
           {failed && (
             <t.Text center color={colors.red} large mb={spacing.xl}>
-              An error has occurred. Please try again later or email us directly
-              at
-              <t.Anchor
-                border={borders.red}
-                color={colors.red}
-                href="mailto:reactfitnessclub@gmail.com"
-              >
-                reactfitnessclub@gmail.com
-              </t.Anchor>
+              Invalid credentials, please try again.
             </t.Text>
           )}
           <div>

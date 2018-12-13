@@ -1,5 +1,5 @@
 import styled from 'react-emotion';
-import { space, textAlign } from 'styled-system';
+import { flex, space, textAlign, width } from 'styled-system';
 import {
   borders,
   breakpoints,
@@ -31,11 +31,11 @@ const inputStyles = {
   font: fonts.poppinsSemiBold,
   fontSize: fontSizes.largeText,
   opacity: 0.8,
-  padding: spacing.sm,
+  padding: spacing.s,
   transition: transitions.default,
   width: inputWidth,
   [breakpoints.mobile]: {
-    padding: spacing.s,
+    padding: spacing.t,
     width: '100%',
   },
 };
@@ -49,18 +49,22 @@ export const SelectInput = styled('select')(
     ...inputStyles,
     height: inputHeight,
   },
+  flex,
   space,
   textAlign,
   withError,
+  width,
 );
 
 export const TextInput = styled('input')(
   {
     ...inputStyles,
   },
+  flex,
   space,
   textAlign,
   withError,
+  width,
 );
 
 export const TextArea = styled('textarea')(
@@ -68,7 +72,9 @@ export const TextArea = styled('textarea')(
     ...inputStyles,
     height: 200,
   },
+  flex,
   space,
   textAlign,
   withError,
+  width,
 );

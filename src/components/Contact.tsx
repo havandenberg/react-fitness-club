@@ -102,7 +102,7 @@ const Contact = () => (
       </t.Text>
       <t.Text center large mb={spacing.xl}>
         To sign up for any RFC program directly, please{' '}
-        <t.Link border={borders.red} color={colors.red} to="/signup">
+        <t.Link border={borders.red} color={colors.red} to="/login?type=signup">
           click here
         </t.Link>{' '}
         to begin program signup.

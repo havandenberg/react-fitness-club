@@ -17,7 +17,7 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/user';
-import { isTabletUp } from '../utils/screensize';
+import { isMobile, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 import UserMenu from './UserMenu';
 
@@ -53,6 +53,7 @@ const ActiveIndicator = styled('div')(
 const NavWrapper = styled(l.Flex)({
   background: gradients.black,
   height: navHeight,
+  position: 'relative',
   [breakpoints.mobile]: {
     height: navHeightMobile,
   },
@@ -128,7 +129,7 @@ const UserIcon = styled('div')({
 
 interface Props {
   logout: () => void;
-  user: Member | null;
+  user?: Member;
 }
 
 interface State {
@@ -163,9 +164,36 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
   render() {
     const { location, logout, user } = this.props;
     const { hoverItem, userHover } = this.state;
+
+    const userMenuComponent = (
+      <l.FlexCentered
+        height={[spacing.xl, spacing.xl, parseInt(navHeight, 10) + 34]}
+        onMouseEnter={this.toggleUserHover(true)}
+        onMouseLeave={this.toggleUserHover(false)}
+        pointer
+        position="relative"
+        width={[spacing.xl, spacing.xxxxxl]}
+        zIndex={z.high}
+      >
+        <t.Link to="/login">
+          <UserIcon>
+            <UserImg color={userHover ? colors.red : colors.white} />
+          </UserIcon>
+        </t.Link>
+        {!isMobile() && user && userHover && (
+          <UserMenu
+            logout={() => {
+              this.setState({ userHover: false }, logout);
+            }}
+            user={user}
+          />
+        )}
+      </l.FlexCentered>
+    );
+
     return (
       <Sticky innerZ={z.max}>
-        <NavWrapper columnOnMobile spaceBetween>
+        <NavWrapper columnOnMobile spaceBetween position="relative">
           <NavLink exact to="/">
             <l.Flex height={['auto', navHeight]}>
               <t.Text
@@ -173,7 +201,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
                 color={colors.white}
                 ml={[0, spacing.sm]}
                 my={[spacing.s, 0]}
-                nowrcolumnOnMobile
+                nowrap
               >
                 REACT FITNESS CLUB
               </t.Text>
@@ -193,36 +221,13 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
                 />
               );
             })}
-            {isTabletUp() && (
-              <t.Link to="/login">
-                <l.FlexCentered
-                  height={[
-                    spacing.xl,
-                    spacing.xl,
-                    parseInt(navHeight, 10) + 34,
-                  ]}
-                  onMouseEnter={this.toggleUserHover(true)}
-                  onMouseLeave={this.toggleUserHover(false)}
-                  pointer
-                  position="relative"
-                  width={[spacing.xl, spacing.xxxxxl]}
-                  zIndex={z.high}
-                >
-                  <UserIcon>
-                    <UserImg color={userHover ? colors.red : colors.white} />
-                  </UserIcon>
-                  {user && userHover && (
-                    <UserMenu
-                      logout={() => {
-                        this.setState({ userHover: false }, logout);
-                      }}
-                      user={user}
-                    />
-                  )}
-                </l.FlexCentered>
-              </t.Link>
-            )}
+            {isTabletUp() && userMenuComponent}
           </l.Flex>
+          {!isTabletUp() && (
+            <l.Space position="absolute" top={spacing.t} right={spacing.t}>
+              {userMenuComponent}
+            </l.Space>
+          )}
         </NavWrapper>
         <Divider />
       </Sticky>
