@@ -17,6 +17,7 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/user';
+import { logout } from '../utils/auth';
 import { isMobile, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 import UserMenu from './UserMenu';
@@ -128,7 +129,6 @@ const UserIcon = styled('div')({
 });
 
 interface Props {
-  logout: () => void;
   user?: Member;
 }
 
@@ -162,7 +162,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
   };
 
   render() {
-    const { location, logout, user } = this.props;
+    const { location, user } = this.props;
     const { hoverItem, userHover } = this.state;
 
     const userMenuComponent = (

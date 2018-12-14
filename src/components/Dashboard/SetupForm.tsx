@@ -5,10 +5,10 @@ import l from '../../styles/layout';
 import { fontSizes, mobileSizes, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import { Member } from '../../types/user';
+import { daysCountInMonths, states } from '../../utils/constants';
 import { isMobile } from '../../utils/screensize';
 import { scrollToId } from '../../utils/scroll';
 import {
-  isNumberOrHyphen,
   isValidDOBField,
   isValidEmail,
   isValidPhone,
@@ -18,7 +18,7 @@ import {
 import Form, { FormFieldValidations } from '../Form';
 import FormRow, { FormRowData } from '../Form/Row';
 
-export interface SetupFields {
+interface SetupFields {
   city: string;
   email: string;
   dobMonth: string;
@@ -33,25 +33,29 @@ export interface SetupFields {
   zip: string;
 }
 
-const setupFieldValidations: FormFieldValidations = {
+const setupFieldValidations: FormFieldValidations<SetupFields> = {
   city: (value: string) => !R.isEmpty(value),
-  dobDay: (value: string) => !R.isEmpty(value),
-  dobMonth: (value: string) => !R.isEmpty(value),
-  dobYear: (value: string) => !R.isEmpty(value),
+  dobDay: (value: string, fields: SetupFields) =>
+    parseInt(value, 10) > 0 &&
+    parseInt(value, 10) <= daysCountInMonths[parseInt(fields.dobMonth, 10) - 1],
+  dobMonth: (value: string) =>
+    parseInt(value, 10) > 0 && parseInt(value, 10) <= 12,
+  dobYear: (value: string) =>
+    parseInt(value, 10) > 1900 &&
+    parseInt(value, 10) <= new Date().getFullYear() - 8,
   email: (value: string) => isValidEmail(value),
   firstName: (value: string) => !R.isEmpty(value),
   lastName: (value: string) => !R.isEmpty(value),
   phone: (value: string) => isValidPhone(value),
-  state: (value: string) => !R.isEmpty(value),
+  state: (value: string) => value !== '-',
   streetAddress1: (value: string) => !R.isEmpty(value),
   zip: (value: string) => isValidZipCode(value),
 };
 
-const setupFieldChangeValidations: FormFieldValidations = {
+const setupFieldChangeValidations: FormFieldValidations<SetupFields> = {
   dobDay: (value: string) => isValidDOBField(value, 'day'),
   dobMonth: (value: string) => isValidDOBField(value, 'month'),
   dobYear: (value: string) => isValidDOBField(value, 'year'),
-  phone: (value: string) => isNumberOrHyphen(value),
   zip: (value: string) => isValidZipCodeField(value),
 };
 
@@ -62,11 +66,13 @@ const formRowData: Array<FormRowData<SetupFields>> = [
       {
         flex: '50%',
         helpText: 'first',
+        inputType: 'text',
         valueName: 'firstName',
       },
       {
         flex: '50%',
         helpText: 'last',
+        inputType: 'text',
         valueName: 'lastName',
       },
     ],
@@ -78,16 +84,19 @@ const formRowData: Array<FormRowData<SetupFields>> = [
       {
         flex: '25%',
         helpText: 'MM',
+        inputType: 'text',
         valueName: 'dobMonth',
       },
       {
         flex: '25%',
         helpText: 'DD',
+        inputType: 'text',
         valueName: 'dobDay',
       },
       {
         flex: '50%',
         helpText: 'YYYY',
+        inputType: 'text',
         valueName: 'dobYear',
       },
     ],
@@ -99,6 +108,7 @@ const formRowData: Array<FormRowData<SetupFields>> = [
       {
         flex: '100%',
         helpText: 'me@awesome.com',
+        inputType: 'text',
         valueName: 'email',
       },
     ],
@@ -109,7 +119,8 @@ const formRowData: Array<FormRowData<SetupFields>> = [
     items: [
       {
         flex: '100%',
-        helpText: 'XXX-XXX-XXXX',
+        helpText: 'valid phone number',
+        inputType: 'text',
         valueName: 'phone',
       },
     ],
@@ -121,6 +132,7 @@ const formRowData: Array<FormRowData<SetupFields>> = [
       {
         flex: '100%',
         helpText: 'address line 1',
+        inputType: 'text',
         isRequired: true,
         valueName: 'streetAddress1',
       },
@@ -133,7 +145,7 @@ const formRowData: Array<FormRowData<SetupFields>> = [
       {
         flex: '100%',
         helpText: 'address line 2',
-        isRequired: true,
+        inputType: 'text',
         valueName: 'streetAddress2',
       },
     ],
@@ -145,18 +157,22 @@ const formRowData: Array<FormRowData<SetupFields>> = [
       {
         flex: '50%',
         helpText: 'city',
+        inputType: 'text',
         isRequired: true,
         valueName: 'city',
       },
       {
         flex: '20%',
         helpText: 'state',
+        inputType: 'select',
         isRequired: true,
+        selectOptions: ['-', ...states],
         valueName: 'state',
       },
       {
         flex: '30%',
         helpText: 'zip',
+        inputType: 'text',
         isRequired: true,
         valueName: 'zip',
       },
@@ -171,10 +187,17 @@ interface Props {
   user: Member;
 }
 
-class UserSetup extends React.Component<Props> {
+class SetupFormComponent extends React.Component<Props> {
   getInitialFormValues: () => SetupFields = () => {
     const { user } = this.props;
+    const { dateOfBirth } = user;
+    const dob = {
+      dobDay: dateOfBirth ? dateOfBirth.day : '',
+      dobMonth: dateOfBirth ? dateOfBirth.month : '',
+      dobYear: dateOfBirth ? dateOfBirth.year : '',
+    };
     return {
+      state: R.isEmpty(user.state) ? '-' : user.state,
       streetAddress2: '',
       ...R.pick(
         [
@@ -185,14 +208,11 @@ class UserSetup extends React.Component<Props> {
           'email',
           'streetAddress2',
           'phone',
-          'state',
           'zip',
         ],
         user,
       ),
-      dobDay: user.dateOfBirth.day,
-      dobMonth: user.dateOfBirth.month,
-      dobYear: user.dateOfBirth.year,
+      ...dob,
     };
   };
 
@@ -204,9 +224,9 @@ class UserSetup extends React.Component<Props> {
         'city',
         'streetAddress1',
         'email',
+        'state',
         'streetAddress2',
         'phone',
-        'state',
         'zip',
       ],
       user,
@@ -222,6 +242,7 @@ class UserSetup extends React.Component<Props> {
   handleSubmit = (
     onSuccess: () => void,
     onFail: (error: Error) => void,
+    resetForm: () => void,
     data: any,
   ) => {
     const { user } = this.props;
@@ -250,7 +271,7 @@ class UserSetup extends React.Component<Props> {
             Welcome to React Fitness Club, {user.firstName}!
           </t.Text>
         </l.FlexCentered>
-        <l.FlexCentered mb={[spacing.xxxl, spacing.xxxxxl]}>
+        <l.FlexCentered mb={[spacing.xl, spacing.xxxl]}>
           <t.Text center={isMobile()}>
             Please complete the account setup form below before proceeding to
             your personal dashboard.
@@ -277,7 +298,7 @@ class UserSetup extends React.Component<Props> {
                         onChange={onChange}
                       />
                       {index + 1 < formRowData.length && (
-                        <l.Space height={[spacing.sm, spacing.ml]} />
+                        <l.Space height={[spacing.ml, spacing.xl]} />
                       )}
                     </React.Fragment>
                   ),
@@ -293,4 +314,4 @@ class UserSetup extends React.Component<Props> {
   }
 }
 
-export default UserSetup;
+export default SetupFormComponent;

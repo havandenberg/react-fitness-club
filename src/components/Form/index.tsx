@@ -24,29 +24,34 @@ interface Handlers<FormFields> {
 export type FormSubmit<FormFields> = (
   onSuccess: () => void,
   onFail: (error: Error) => void,
+  resetForm: () => void,
   fields: FormFields,
 ) => void;
 
-export interface FormFieldValidations {
-  [index: string]: (value: string) => boolean;
+export interface FormFieldValidations<FormFields> {
+  [index: string]: (value: string, fields: FormFields) => boolean;
 }
 
 type FormComponentProps<FormFields> = {
+  completed: boolean;
   errors: string[];
+  failed: boolean;
+  loading: boolean;
   fields: FormFields;
 } & Handlers<FormFields>;
 
 interface Props<FormFields> {
-  errorMessage: string;
-  fieldValidations: FormFieldValidations;
-  fieldChangeValidations: FormFieldValidations;
+  errorMessage: string | React.ReactNode;
+  fieldValidations: FormFieldValidations<FormFields>;
+  fieldChangeValidations: FormFieldValidations<FormFields>;
   FormComponent: React.ComponentType<FormComponentProps<FormFields>>;
   handleSubmit: FormSubmit<FormFields>;
   initialValues: FormFields;
   id: string;
   resetText?: string;
   submitText?: string;
-  successMessage: string;
+  successMessage: string | React.ReactNode;
+  validationErrorMessage: string | React.ReactNode;
 }
 
 interface State<FormFields> {
@@ -68,6 +73,15 @@ class Form<FormFields> extends React.Component<
   Props<FormFields>,
   State<FormFields>
 > {
+  static defaultProps = {
+    errorMessage: 'Please try again.',
+    fieldChangeValidations: [],
+    fieldValidations: [],
+    successMessage: 'Success!',
+    validationErrorMessage:
+      'Please correct the fields highlighted below and try again.',
+  };
+
   constructor(props: Props<FormFields>) {
     super(props);
     this.state = {
@@ -86,17 +100,20 @@ class Form<FormFields> extends React.Component<
   }
 
   handleFail = (error: Error) => {
-    this.setState({ failed: true, loading: false });
+    this.setState({
+      ...initialState,
+      failed: true,
+      fields: this.props.initialValues,
+    });
     console.log(error);
   };
 
   handleSuccess = () =>
-    this.setState(
-      R.merge(this.props.initialValues, {
-        completed: true,
-        loading: false,
-      }),
-    );
+    this.setState({
+      ...initialState,
+      completed: true,
+      fields: this.props.initialValues,
+    });
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,7 +130,12 @@ class Form<FormFields> extends React.Component<
 
     if (!loading && isValid) {
       this.setState({ loading: true }, () =>
-        handleSubmit(this.handleSuccess, this.handleFail, fields),
+        handleSubmit(
+          this.handleSuccess,
+          this.handleFail,
+          this.resetForm,
+          fields,
+        ),
       );
     }
   };
@@ -131,7 +153,7 @@ class Form<FormFields> extends React.Component<
     const errors: string[] = [];
     Object.keys(fields).map(fieldKey => {
       const validateField = this.props.fieldValidations[fieldKey];
-      if (validateField && !validateField(fields[fieldKey])) {
+      if (validateField && !validateField(fields[fieldKey], fields)) {
         errors.push(fieldKey);
       }
     });
@@ -144,12 +166,10 @@ class Form<FormFields> extends React.Component<
     value,
     callback = () => ({}),
   ) => {
+    const { fields } = this.state;
     const validateChange = this.props.fieldChangeValidations[`${field}`];
-    if (!validateChange || validateChange(value)) {
-      this.setState(
-        { fields: R.merge(this.state.fields, { [field]: value }) },
-        callback,
-      );
+    if (!validateChange || validateChange(value, fields)) {
+      this.setState({ fields: R.merge(fields, { [field]: value }) }, callback);
     }
   };
 
@@ -161,6 +181,7 @@ class Form<FormFields> extends React.Component<
       resetText,
       submitText,
       successMessage,
+      validationErrorMessage,
     } = this.props;
     const { completed, errors, failed, fields, loading } = this.state;
 
@@ -184,11 +205,14 @@ class Form<FormFields> extends React.Component<
         <div>
           {this.hasErrors() && (
             <t.Text center color={colors.red} mb={[spacing.ml, spacing.xl]}>
-              Please correct the fields highlighted below and try again.
+              {validationErrorMessage}
             </t.Text>
           )}
           <FormComponent
+            completed={completed}
             errors={errors}
+            failed={failed}
+            loading={loading}
             onChange={this.onChange}
             fields={fields}
           />
@@ -197,13 +221,13 @@ class Form<FormFields> extends React.Component<
           {loading ? (
             <PulseLoader sizeUnit="px" size={30} color={colors.red} />
           ) : (
-            <l.FlexCentered columnRevOnMobile>
+            <l.FlexCentered>
               {(failed || this.hasErrors()) && (
-                <ButtonSecondary mr={[0, spacing.xl]} onClick={this.resetForm}>
+                <ButtonSecondary mr={spacing.xl} onClick={this.resetForm}>
                   {resetText || 'Reset'}
                 </ButtonSecondary>
               )}
-              <ButtonPrimary mb={[spacing.ml, 0]} type="submit">
+              <ButtonPrimary type="submit">
                 {submitText || 'Submit'}
               </ButtonPrimary>
             </l.FlexCentered>
@@ -213,4 +237,5 @@ class Form<FormFields> extends React.Component<
     );
   }
 }
+
 export default Form;

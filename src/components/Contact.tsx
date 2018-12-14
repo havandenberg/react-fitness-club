@@ -100,7 +100,7 @@ const Contact = () => (
         </t.Anchor>
         &nbsp;directly or use the form below.
       </t.Text>
-      <t.Text center large mb={spacing.xl}>
+      <t.Text center large mb={spacing.xxxl}>
         To sign up for any RFC program directly, please{' '}
         <t.Link border={borders.red} color={colors.red} to="/login?type=signup">
           click here

@@ -6,7 +6,7 @@ export const isValidEmail = (email: string) =>
   );
 
 export const isValidPhone = (phone: string) =>
-  /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/.test(phone);
+  /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(phone);
 
 export const isValidPassword = (password: string) =>
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(password);
@@ -16,8 +16,6 @@ export const isValidZipCode = (zip: string) => /^(\d{5})/.test(zip);
 export const isValidZipCodeField = (zip: string) => /^\d{0,5}$/.test(zip);
 
 export const isNumber = (value: string) => /^\d+$/.test(value);
-
-export const isNumberOrHyphen = (value: string) => /^(\d*-?)+\d*$/.test(value);
 
 export const containsLowercase = (password: string) =>
   /^(?=.*[a-z])/.test(password);

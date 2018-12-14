@@ -124,7 +124,7 @@ export const z = {
 // Single variables
 
 export const headerHeight = '650px';
-export const inputHeight = '51px';
+export const inputHeight = '45px';
 export const navHeight = '32px';
 export const navHeightMobile = '56px';
 

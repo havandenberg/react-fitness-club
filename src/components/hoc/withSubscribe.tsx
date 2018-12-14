@@ -10,6 +10,10 @@ const withSubscribe = <P extends object>(
   Component: React.ComponentType<P & SubscribeProps>,
 ) =>
   class WithSubscribe extends React.Component<P & object> {
+    static defaultProps = {
+      status: null,
+      subscribe: () => ({}),
+    };
     render() {
       return (
         <MailchimpSubscribe

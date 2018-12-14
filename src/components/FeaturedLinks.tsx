@@ -215,7 +215,7 @@ class Quadrant extends React.Component<FeaturedVideoProps, FeaturedVideoState> {
 }
 
 const FeaturedLinks = () => (
-  <l.Space mx={[spacing.sm, spacing.ml]}>
+  <l.Space mx={[0, spacing.ml]}>
     <l.Flex columnOnMobile>
       <Quadrant
         href={REACT_PATH}

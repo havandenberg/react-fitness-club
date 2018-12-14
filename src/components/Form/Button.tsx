@@ -47,6 +47,7 @@ const getButtonProps: (background: string, gradient: string) => any = (
   display: 'flex',
   fontSize: fontSizes.largeText,
   fontWeight: 500,
+  justifyContent: 'center',
   padding: spacing.m,
   position: 'relative',
   textAlign: 'center',

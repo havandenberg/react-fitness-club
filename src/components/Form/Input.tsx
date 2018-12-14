@@ -13,6 +13,8 @@ import {
   transitions,
 } from '../../styles/theme';
 
+export type InputType = 'text' | 'password' | 'select' | 'textarea';
+
 const inputStyles = {
   ':hover': {
     opacity: 1,
@@ -30,6 +32,7 @@ const inputStyles = {
   flex: 1,
   font: fonts.poppinsSemiBold,
   fontSize: fontSizes.largeText,
+  height: inputHeight,
   opacity: 0.8,
   padding: spacing.s,
   transition: transitions.default,
@@ -44,14 +47,20 @@ const withError = ({ error }: { error?: boolean }) => ({
   border: error ? borders.redThick : borders.blackThick,
 });
 
+const withCustomStyles = ({
+  customStyles,
+}: {
+  customStyles?: React.CSSProperties;
+}) => ({ ...customStyles });
+
 export const SelectInput = styled('select')(
   {
     ...inputStyles,
-    height: inputHeight,
   },
   flex,
   space,
   textAlign,
+  withCustomStyles,
   withError,
   width,
 );
@@ -63,6 +72,7 @@ export const TextInput = styled('input')(
   flex,
   space,
   textAlign,
+  withCustomStyles,
   withError,
   width,
 );
@@ -75,6 +85,7 @@ export const TextArea = styled('textarea')(
   flex,
   space,
   textAlign,
+  withCustomStyles,
   withError,
   width,
 );

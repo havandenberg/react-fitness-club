@@ -1,16 +1,16 @@
 import { parse } from 'query-string';
 import * as R from 'ramda';
 import * as React from 'react';
-import { Redirect } from 'react-router';
+import { Redirect, RouteComponentProps } from 'react-router';
 import {
   FacebookLoginButton,
   GoogleLoginButton,
 } from 'react-social-login-buttons';
-import { AuthProvider } from '../firebase';
 import l from '../styles/layout';
 import { fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/user';
+import { login } from '../utils/auth';
 import { Page } from './App';
 import Divider from './Divider';
 import { ButtonTertiary } from './Form/Button';
@@ -20,11 +20,6 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 
 interface Props {
-  location: {
-    search: string;
-  };
-  login: (provider: AuthProvider) => void;
-  logout: () => void;
   user?: Member;
 }
 
@@ -32,8 +27,8 @@ interface State {
   isNew: boolean;
 }
 
-class Login extends React.Component<Props, State> {
-  constructor(props: Props) {
+class Login extends React.Component<RouteComponentProps & Props, State> {
+  constructor(props: RouteComponentProps & Props) {
     super(props);
 
     const values = parse(props.location.search);
@@ -48,7 +43,7 @@ class Login extends React.Component<Props, State> {
   };
 
   render() {
-    const { login, user } = this.props;
+    const { user } = this.props;
     const { isNew } = this.state;
     return user ? (
       <Redirect to="/dashboard" />
@@ -87,9 +82,9 @@ class Login extends React.Component<Props, State> {
               isNew ? 'Sign up' : 'Log in'
             } with your email address and password.`}</t.Text>
           </l.FlexCentered>
-          <l.Space height={spacing.xl} />
+          <l.Space height={spacing.xxxl} />
           {isNew ? <SignupForm /> : <LoginForm />}
-          <l.Space height={[spacing.ml, spacing.xxxl]} />
+          <l.Space height={spacing.xxxl} />
           <l.FlexCentered>
             <ButtonTertiary onClick={this.toggleIsNew}>
               {isNew ? 'Login' : 'Sign Up'}

@@ -1,134 +1,91 @@
 import * as React from 'react';
-import styled from 'react-emotion';
-import MailchimpSubscribe from 'react-mailchimp-subscribe';
-import { PulseLoader } from 'react-spinners';
 import l from '../styles/layout';
-import { borders, breakpoints, colors, spacing } from '../styles/theme';
+import { colors, inputWidth, spacing } from '../styles/theme';
 import t from '../styles/typography';
-import { scrollToId } from '../utils/scroll';
-import { isValidEmail } from '../utils/validation';
 import Divider from './Divider';
-import { ButtonSecondary } from './Form/Button';
-import { TextInput } from './Form/Input';
+import Form from './Form';
+import FormRow from './Form/Row';
+import withSubscribe, { SubscribeProps } from './hoc/withSubscribe';
 
-const Form = styled('form')({
-  [breakpoints.mobile]: {
-    width: '100%',
-  },
-});
-
-const NewsletterInner = styled(l.FlexColumn)({
-  marginTop: spacing.xxxxxl,
-  padding: `0 ${spacing.sm}`,
-  [breakpoints.mobile]: {
-    marginTop: spacing.xxxl,
-  },
-});
-
-interface State {
+interface NewsletterFields {
   email: string;
-  showError?: boolean;
 }
 
-class Newsletter extends React.Component<{}, State> {
-  state = {
-    email: '',
-    showError: false,
-  };
+const initialValues = {
+  email: '',
+};
 
-  handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ email: e.target.value });
-  };
+class NewsletterForm extends Form<NewsletterFields> {}
 
-  signup = (subscribe: (data: object) => void) => {
-    return (e: React.FormEvent) => {
-      e.preventDefault();
-      scrollToId('newsletter');
-      this.setState({ showError: false }, () => {
-        if (isValidEmail(this.state.email)) {
-          subscribe({
-            EMAIL: this.state.email,
-            SOURCE: 'web-newsletter-signup',
-          });
-          this.setState({ email: '' });
-        } else {
-          this.setState({ showError: true });
-        }
-      });
-    };
+class Newsletter extends React.Component<SubscribeProps> {
+  handleSubmit = (
+    onSuccess: () => void,
+    onFail: (error: Error) => void,
+    resetForm: () => void,
+    data: any,
+  ) => {
+    this.props.subscribe({
+      EMAIL: data.email,
+      SOURCE: 'web-newsletter-signup',
+    });
+    resetForm();
   };
 
   render() {
-    const { email, showError } = this.state;
+    const { status } = this.props;
     return (
       <l.Space id="newsletter" position="relative">
         <Divider white showHeavyBags />
-        {process.env.REACT_APP_MAILCHIMP_URI && (
-          <NewsletterInner>
-            <t.Text
-              bold
-              center
-              italic
-              large
-              mb={[spacing.ml, spacing.xl]}
-              mx="auto"
-              width={['100%', '60%']}
-            >
-              Enter your email here to sign up for our monthly newsletter!
-            </t.Text>
-            <MailchimpSubscribe
-              render={({ subscribe, status }) => (
-                <Form onSubmit={this.signup(subscribe)}>
-                  <l.FlexColumn width={['100%', 'auto']}>
-                    {status === 'success' && (
-                      <t.Text center color={colors.green} mb={spacing.ml}>
-                        Success!
-                      </t.Text>
-                    )}
-                    {status === 'error' && !showError && (
-                      <t.Text center color={colors.red} mb={spacing.ml}>
-                        An error has occurred. Please try again later or&nbsp;
-                        <t.Link
-                          border={borders.black}
-                          color={colors.black}
-                          to="/contact"
-                        >
-                          contact us directly.
-                        </t.Link>
-                      </t.Text>
-                    )}
-                    {showError && (
-                      <t.Text center color={colors.red} mb={spacing.ml}>
-                        Please enter a valid email.
-                      </t.Text>
-                    )}
-                    <TextInput
-                      error={showError}
-                      onChange={this.handleEmailChange}
-                      placeholder="me@awesome.com"
-                      textAlign="center"
-                      value={email}
-                    />
-                    <l.Space height={spacing.xl} />
-                    {status === 'sending' ? (
-                      <PulseLoader
-                        sizeUnit="px"
-                        size={30}
-                        color={colors.black}
-                      />
-                    ) : (
-                      <ButtonSecondary type="submit">Sign Up</ButtonSecondary>
-                    )}
-                  </l.FlexColumn>
-                </Form>
-              )}
-              url={process.env.REACT_APP_MAILCHIMP_URI}
-            />
-          </NewsletterInner>
+        <t.Text
+          bold
+          center
+          italic
+          large
+          mb={spacing.xl}
+          mt={[spacing.xxl, spacing.xxxxl]}
+          mx="auto"
+          width={['100%', '60%']}
+        >
+          Enter your email here to sign up for our monthly newsletter!
+        </t.Text>
+        {status === 'success' && (
+          <t.Text center color={colors.green} large mb={spacing.ml}>
+            Success!
+          </t.Text>
         )}
+        {status === 'error' && (
+          <t.Text center color={colors.red} mb={spacing.ml}>
+            Invalid email or already subscribed, please try again.
+          </t.Text>
+        )}
+        <l.Flex mx="auto" width={['100%', '75%', inputWidth]}>
+          <NewsletterForm
+            id="newsletter-form"
+            initialValues={initialValues}
+            handleSubmit={this.handleSubmit}
+            FormComponent={({ errors, fields, onChange }) => (
+              <FormRow<NewsletterFields>
+                errors={errors}
+                fields={fields}
+                items={[
+                  {
+                    flex: 1,
+                    inputStyles: { textAlign: 'center' },
+                    inputType: 'text',
+                    placeholder: 'me@awesome.com',
+                    valueName: 'email',
+                  },
+                ]}
+                onChange={onChange}
+              />
+            )}
+            submitText="Submit"
+            validationErrorMessage="Please enter a valid email."
+          />
+        </l.Flex>
       </l.Space>
     );
   }
 }
 
-export default Newsletter;
+export default withSubscribe(Newsletter);
