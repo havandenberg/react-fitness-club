@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { dobField } from '../types/user';
 
 export const isValidEmail = (email: string) =>
@@ -46,3 +47,6 @@ export const isValidDOBLength = (value: string, field: dobField) => {
       return false;
   }
 };
+
+export const isUnderEighteen = (age: string) =>
+  moment().diff(moment(age, 'YYYYMMDD'), 'years') < 18;

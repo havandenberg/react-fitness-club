@@ -10,7 +10,7 @@ import { Page } from '../App';
 import Divider from '../Divider';
 import Hero from '../Hero';
 import withScroll from '../hoc/withScroll';
-import SetupForm from './SetupForm';
+import SetupForm from '../SetupForm';
 
 const NavItem = styled(t.Text)(
   ({ active, disabled }: { active?: boolean; disabled?: boolean }) => ({

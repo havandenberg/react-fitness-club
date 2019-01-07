@@ -13,7 +13,7 @@ import {
   transitions,
 } from '../../styles/theme';
 
-export type InputType = 'text' | 'password' | 'select' | 'textarea';
+export type InputType = 'text' | 'password' | 'select' | 'textarea' | 'file';
 
 const inputStyles = {
   ':hover': {
@@ -30,7 +30,7 @@ const inputStyles = {
   boxShadow: shadows.box,
   color: colors.black,
   flex: 1,
-  font: fonts.poppinsSemiBold,
+  fontFamily: fonts.poppinsRegular,
   fontSize: fontSizes.largeText,
   height: inputHeight,
   opacity: 0.8,

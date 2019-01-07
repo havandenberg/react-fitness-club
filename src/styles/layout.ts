@@ -180,11 +180,17 @@ const Section = styled('div')(
 
 // Project specific layout components
 
-const BorderLine = styled('div')({
-  background: gradients.black,
-  height: spacing.s,
-  width: '100%',
-});
+const BorderLine = styled('div')(
+  {
+    background: gradients.black,
+    height: spacing.s,
+    margin: '0 auto',
+    width: '100%',
+  },
+  height,
+  space,
+  width,
+);
 
 const Line = styled('div')({
   borderBottom: borders.black,

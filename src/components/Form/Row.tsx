@@ -5,10 +5,11 @@ import { width } from 'styled-system';
 import l from '../../styles/layout';
 import { breakpoints, colors, fontSizes, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
+import FileInput from './FileInput';
 import { FormFieldValidations, OnChangeHandler } from './index';
 import { InputType, SelectInput, TextArea, TextInput } from './Input';
 
-const InputLabel = styled(t.Text)(
+export const InputLabel = styled(t.Text)(
   {
     fontSize: fontSizes.largeText,
     fontWeight: 'bold',
@@ -29,16 +30,18 @@ const InputLabel = styled(t.Text)(
   width,
 );
 
-interface FormItemProps<FormFields, K extends keyof FormFields> {
+export interface FormItemProps<FormFields, K extends keyof FormFields> {
   flex: string | number;
   helpText?: string | string[];
   helpTextValidations?: Array<(value: string, fields: FormFields) => boolean>;
   inputStyles?: React.CSSProperties;
   inputType: InputType;
+  isViewOnly?: boolean;
   isRequired?: boolean;
   placeholder?: string;
   selectOptions?: string[];
   valueName: K;
+  viewOnlyText?: string;
 }
 
 export interface FormRowData<FormFields> {
@@ -49,11 +52,12 @@ export interface FormRowData<FormFields> {
 
 interface FormRowProps<FormFields> extends FormRowData<FormFields> {
   customStyles: {
-    labelsWidth?: string;
+    labelWidth?: string;
   };
   errors: string[];
   fields: FormFields;
   fieldValidations: FormFieldValidations<FormFields>;
+  isEditing: boolean;
   onChange: OnChangeHandler<FormFields>;
 }
 
@@ -71,6 +75,15 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
     const { fields } = this.props;
     const { inputType } = item;
     switch (inputType) {
+      case 'file':
+        return (
+          <FileInput
+            fileUrl={`${fields[item.valueName]}`}
+            onChange={(fileUrl: string) => {
+              onChange(item.valueName, fileUrl);
+            }}
+          />
+        );
       case 'password':
       case 'text':
         return (
@@ -141,6 +154,7 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
       errors,
       fields,
       fieldValidations,
+      isEditing,
       isRequired,
       items,
       label,
@@ -148,15 +162,16 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
       onChange,
     } = this.props;
     return (
-      <l.Flex alignTop columnOnMobile>
+      <l.Flex
+        alignTop
+        columnOnMobile
+        mt={R.isEmpty(items) ? spacing.ml : undefined}
+      >
         {label !== undefined && (
-          <InputLabel
-            nowrap
-            width={['auto', customStyles.labelsWidth || '20%']}
-          >
+          <InputLabel nowrap width={['auto', customStyles.labelWidth || '20%']}>
             {label}
             {isRequired && <l.Red>*</l.Red>}
-            {label && ':'}
+            {label && !R.isEmpty(items) && ':'}
           </InputLabel>
         )}
         <l.Flex flex={1} width="100%">
@@ -172,10 +187,17 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
               const hasError =
                 R.contains(`${item.valueName}`, errors) &&
                 (!validateField || !isValid);
+              const editing = isEditing && !item.isViewOnly;
               return (
                 <React.Fragment key={`${item.valueName}`}>
-                  <l.FlexColumn alignTop flex={item.flex}>
-                    {this.getInputComponent(item, hasError, onChange)}
+                  <l.FlexColumn alignTop width={item.flex}>
+                    {editing ? (
+                      this.getInputComponent(item, hasError, onChange)
+                    ) : (
+                      <t.Text large mt={spacing.s}>{`${
+                        fields[item.valueName]
+                      }`}</t.Text>
+                    )}
                     <l.Space height={spacing.s} />
                     {item.helpText && Array.isArray(item.helpText) ? (
                       <l.Flex>
@@ -195,11 +217,16 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
                           ),
                         )}
                       </l.Flex>
-                    ) : (
+                    ) : editing ? (
                       <t.HelpText valid={isValid}>
                         {item.helpText}
                         {item.isRequired && <l.Red>*</l.Red>}
                       </t.HelpText>
+                    ) : (
+                      <>
+                        <t.HelpText>{item.viewOnlyText}</t.HelpText>
+                        <l.Space height={spacing.s} />
+                      </>
                     )}
                   </l.FlexColumn>
                   {index + 1 < items.length && (

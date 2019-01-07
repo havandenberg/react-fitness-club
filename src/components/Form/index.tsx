@@ -1,15 +1,31 @@
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
-import { PulseLoader } from 'react-spinners';
 import { width } from 'styled-system';
 import l from '../../styles/layout';
-import { colors, spacing } from '../../styles/theme';
+import { breakpoints, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
+import { isMobile } from '../../utils/screensize';
 import { scrollToId } from '../../utils/scroll';
-import { ButtonPrimary, ButtonSecondary } from './Button';
+import { FormRowData } from './Row';
 
 const FormWrapper = styled('form')(width);
+
+const NavItem = styled(t.Text)(({ active }: { active?: boolean }) => ({
+  color: active ? colors.red : `${colors.red}80`,
+  transition: transitions.default,
+}));
+
+const NavSeparator = styled('div')({
+  background: colors.red,
+  borderRadius: '50%',
+  height: spacing.s,
+  margin: `0 ${spacing.xl}`,
+  width: spacing.s,
+  [breakpoints.mobile]: {
+    margin: `0 ${spacing.s}`,
+  },
+});
 
 export type OnChangeHandler<FormFields> = <K extends keyof FormFields>(
   s: K,
@@ -32,24 +48,36 @@ export interface FormFieldValidations<FormFields> {
   [index: string]: (value: string, fields: FormFields) => boolean;
 }
 
-type FormComponentProps<FormFields> = {
+export type FormComponentProps<FormFields> = {
   completed: boolean;
   errors: string[];
   failed: boolean;
   loading: boolean;
   fields: FormFields;
+  onBack: (e: React.FormEvent) => void;
+  onForward: (e: React.FormEvent) => void;
+  onSubmit: (submit: FormSubmit<FormFields>) => void;
+  validate: () => boolean;
 } & Handlers<FormFields>;
+
+export interface FormStep<FormFields> {
+  customStyles?: {
+    labelWidth?: string;
+  };
+  label: string;
+  FormComponent: React.ComponentType<FormComponentProps<FormFields>>;
+  rowItems: Array<FormRowData<FormFields>>;
+}
 
 interface Props<FormFields> {
   errorMessage: string | React.ReactNode;
   fieldValidations: FormFieldValidations<FormFields>;
   fieldChangeValidations: FormFieldValidations<FormFields>;
-  FormComponent: React.ComponentType<FormComponentProps<FormFields>>;
-  handleSubmit: FormSubmit<FormFields>;
   initialValues: FormFields;
+  isEditing: boolean;
   id: string;
-  resetText?: string;
-  submitText?: string;
+  steps: Array<FormStep<FormFields>>;
+  stepProps?: object;
   successMessage: string | React.ReactNode;
   validationErrorMessage: string | React.ReactNode;
 }
@@ -60,6 +88,7 @@ interface State<FormFields> {
   failed: boolean;
   fields: FormFields;
   loading: boolean;
+  currentStep: string;
 }
 
 const initialState = {
@@ -81,12 +110,19 @@ class Form<FormFields> extends React.Component<
     validationErrorMessage:
       'Please correct the fields highlighted below and try again.',
   };
+  stepComponent = React.createRef<
+    React.ComponentType<FormComponentProps<FormFields>>
+  >();
 
   constructor(props: Props<FormFields>) {
     super(props);
+
+    const { initialValues, steps } = props;
+
     this.state = {
       ...initialState,
-      fields: props.initialValues,
+      currentStep: steps && !R.isEmpty(steps) ? steps[0].label : '',
+      fields: initialValues,
     };
   }
 
@@ -98,6 +134,36 @@ class Form<FormFields> extends React.Component<
       this.setState({ fields: nextProps.initialValues });
     }
   }
+
+  getStepData = (step: string) => {
+    return R.find(R.propEq('label', step), this.props.steps);
+  };
+
+  handleBack = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { steps } = this.props;
+    const { currentStep } = this.state;
+    const lastStep =
+      steps[R.findIndex(R.propEq('label', currentStep), steps) - 1];
+    this.setState({
+      ...initialState,
+      currentStep: lastStep ? lastStep.label : currentStep,
+    });
+    this.resetScroll();
+  };
+
+  handleForward = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { steps } = this.props;
+    const { currentStep } = this.state;
+    if (this.validate()) {
+      this.setState({
+        currentStep:
+          steps[R.findIndex(R.propEq('label', currentStep), steps) + 1].label,
+      });
+    }
+    this.resetScroll();
+  };
 
   handleFail = (error: Error) => {
     this.setState({
@@ -115,50 +181,34 @@ class Form<FormFields> extends React.Component<
       fields: this.props.initialValues,
     });
 
-  handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const { handleSubmit } = this.props;
+  handleSubmit = (
+    submit: (
+      onSuccess: () => void,
+      onFail: (error: Error) => void,
+      resetForm: () => void,
+      fields: FormFields,
+    ) => void,
+  ) => {
     const { fields, loading } = this.state;
     this.setState({ completed: false, failed: false });
 
     const isValid = this.validate();
 
     if (!isValid) {
-      scrollToId(this.props.id);
+      this.resetScroll();
       return;
     }
 
     if (!loading && isValid) {
-      this.setState({ loading: true }, () =>
-        handleSubmit(
-          this.handleSuccess,
-          this.handleFail,
-          this.resetForm,
-          fields,
-        ),
-      );
+      this.setState({ loading: true }, () => {
+        console.log('loading');
+        submit(this.handleSuccess, this.handleFail, this.resetForm, fields);
+      });
     }
   };
 
   hasErrors = () => {
     return !R.isEmpty(this.state.errors);
-  };
-
-  resetForm = () => {
-    this.setState({ ...initialState, fields: this.props.initialValues });
-  };
-
-  validate = () => {
-    const { fields } = this.state;
-    const errors: string[] = [];
-    Object.keys(fields).map(fieldKey => {
-      const validateField = this.props.fieldValidations[fieldKey];
-      if (validateField && !validateField(fields[fieldKey], fields)) {
-        errors.push(fieldKey);
-      }
-    });
-    this.setState({ errors });
-    return R.isEmpty(errors);
   };
 
   onChange: OnChangeHandler<FormFields> = (
@@ -173,20 +223,76 @@ class Form<FormFields> extends React.Component<
     }
   };
 
+  resetForm = () => {
+    this.setState({ ...initialState, fields: this.props.initialValues });
+  };
+
+  resetScroll = () => scrollToId(this.props.id, { offset: -200 });
+
+  validate = () => {
+    const { fields, currentStep } = this.state;
+    const errors: string[] = [];
+    const items: any = R.flatten(
+      R.pluck('items', this.getStepData(currentStep).rowItems),
+    );
+    const fieldsToValidate: string[] = R.isEmpty(currentStep)
+      ? Object.keys(fields)
+      : R.pluck('valueName', items);
+    fieldsToValidate.map(fieldKey => {
+      const validateField = this.props.fieldValidations[fieldKey];
+      if (validateField && !validateField(fields[fieldKey], fields)) {
+        errors.push(fieldKey);
+      }
+    });
+    this.setState({ errors });
+    const isValid = R.isEmpty(errors);
+    if (!isValid) {
+      this.resetScroll();
+    }
+    return isValid;
+  };
+
   render() {
     const {
       errorMessage,
       id,
-      FormComponent,
-      resetText,
-      submitText,
+      steps,
+      stepProps,
       successMessage,
       validationErrorMessage,
     } = this.props;
-    const { completed, errors, failed, fields, loading } = this.state;
+    const {
+      completed,
+      currentStep,
+      errors,
+      failed,
+      fields,
+      loading,
+    } = this.state;
+
+    const currentStepData = this.getStepData(currentStep);
 
     return (
-      <FormWrapper id={id} onSubmit={this.handleSubmit} width="100%">
+      <FormWrapper width="100%">
+        {steps.length > 1 && (
+          <l.FlexCentered mb={spacing.xxxl}>
+            {steps.map((s, index: number) => (
+              <React.Fragment key={s.label}>
+                <NavItem
+                  active={s.label === currentStep}
+                  center={isMobile()}
+                  large
+                  width={
+                    isMobile() ? `${Math.floor(100 / steps.length)}%` : 'auto'
+                  }
+                >
+                  {s.label}
+                </NavItem>
+                {index + 1 < steps.length && !isMobile() && <NavSeparator />}
+              </React.Fragment>
+            ))}
+          </l.FlexCentered>
+        )}
         {completed && !failed && (
           <t.Text
             center
@@ -202,37 +308,33 @@ class Form<FormFields> extends React.Component<
             {errorMessage}
           </t.Text>
         )}
-        <div>
+        <div id={id}>
           {this.hasErrors() && (
             <t.Text center color={colors.red} mb={[spacing.ml, spacing.xl]}>
               {validationErrorMessage}
             </t.Text>
           )}
-          <FormComponent
-            completed={completed}
-            errors={errors}
-            failed={failed}
-            loading={loading}
-            onChange={this.onChange}
-            fields={fields}
-          />
-        </div>
-        <l.FlexCentered mt={spacing.xl}>
-          {loading ? (
-            <PulseLoader sizeUnit="px" size={30} color={colors.red} />
-          ) : (
-            <l.FlexCentered>
-              {(failed || this.hasErrors()) && (
-                <ButtonSecondary mr={spacing.xl} onClick={this.resetForm}>
-                  {resetText || 'Reset'}
-                </ButtonSecondary>
-              )}
-              <ButtonPrimary type="submit">
-                {submitText || 'Submit'}
-              </ButtonPrimary>
-            </l.FlexCentered>
+          {currentStepData.FormComponent && (
+            <currentStepData.FormComponent
+              completed={completed}
+              errors={errors}
+              failed={failed}
+              fields={fields}
+              loading={loading}
+              onChange={this.onChange}
+              onBack={this.handleBack}
+              onForward={this.handleForward}
+              onSubmit={this.handleSubmit}
+              validate={this.validate}
+              ref={(
+                ref: React.RefObject<
+                  React.ComponentType<FormComponentProps<FormFields>>
+                >,
+              ) => (this.stepComponent = ref)}
+              {...stepProps}
+            />
           )}
-        </l.FlexCentered>
+        </div>
       </FormWrapper>
     );
   }

@@ -4,7 +4,12 @@ import { auth } from '../firebase';
 import l from '../styles/layout';
 import { spacing } from '../styles/theme';
 import { isValidEmail } from '../utils/validation';
-import Form, { FormFieldValidations } from './Form';
+import Form, {
+  FormComponentProps,
+  FormFieldValidations,
+  FormStep,
+} from './Form';
+import FormActions from './Form/Actions';
 import FormRow, { FormRowData } from './Form/Row';
 
 interface LoginFields {
@@ -25,7 +30,7 @@ const formRowData: Array<FormRowData<LoginFields>> = [
   {
     items: [
       {
-        flex: '50%',
+        flex: '100%',
         inputType: 'text',
         valueName: 'email',
       },
@@ -35,7 +40,7 @@ const formRowData: Array<FormRowData<LoginFields>> = [
   {
     items: [
       {
-        flex: '50%',
+        flex: '100%',
         inputType: 'password',
         valueName: 'password',
       },
@@ -44,9 +49,7 @@ const formRowData: Array<FormRowData<LoginFields>> = [
   },
 ];
 
-class LoginForm extends Form<LoginFields> {}
-
-class LoginFormComponent extends React.Component {
+class Step extends React.Component<FormComponentProps<LoginFields>> {
   handleSubmit = (
     onSuccess: () => void,
     onFail: (error: Error) => void,
@@ -62,35 +65,54 @@ class LoginFormComponent extends React.Component {
   };
 
   render() {
+    const { errors, failed, fields, onBack, onChange, onSubmit } = this.props;
+    return (
+      <div>
+        {formRowData.map((rowItem: FormRowData<LoginFields>, index: number) => (
+          <React.Fragment key={`row-${index}`}>
+            <FormRow<LoginFields>
+              {...rowItem}
+              errors={failed ? ['email', 'password'] : errors}
+              fields={fields}
+              fieldValidations={loginFieldValidations}
+              isEditing
+              onChange={onChange}
+            />
+            {index + 1 < formRowData.length && (
+              <l.Space height={[spacing.ml, spacing.xl]} />
+            )}
+          </React.Fragment>
+        ))}
+        <FormActions
+          handleBack={onBack}
+          handleForward={(e: React.FormEvent) => {
+            e.preventDefault();
+            onSubmit(this.handleSubmit);
+          }}
+          forwardText="Login"
+        />
+      </div>
+    );
+  }
+}
+
+const formData: Array<FormStep<LoginFields>> = [
+  { label: '', FormComponent: Step, rowItems: formRowData },
+];
+
+class LoginForm extends Form<LoginFields> {}
+
+class LoginFormComponent extends React.Component {
+  render() {
     return (
       <l.Flex mx="auto" width={['100%', '85%', '60%']}>
         <LoginForm
           errorMessage="Invalid credentials, please try again."
           id="login-form"
           initialValues={initialValues}
-          handleSubmit={this.handleSubmit}
+          isEditing
           fieldValidations={loginFieldValidations}
-          FormComponent={({ errors, failed, fields, onChange }) => (
-            <div>
-              {formRowData.map(
-                (rowItem: FormRowData<LoginFields>, index: number) => (
-                  <React.Fragment key={`row-${index}`}>
-                    <FormRow<LoginFields>
-                      {...rowItem}
-                      errors={failed ? ['email', 'password'] : errors}
-                      fields={fields}
-                      fieldValidations={loginFieldValidations}
-                      onChange={onChange}
-                    />
-                    {index + 1 < formRowData.length && (
-                      <l.Space height={[spacing.ml, spacing.xl]} />
-                    )}
-                  </React.Fragment>
-                ),
-              )}
-            </div>
-          )}
-          submitText="Login"
+          steps={formData}
         />
       </l.Flex>
     );

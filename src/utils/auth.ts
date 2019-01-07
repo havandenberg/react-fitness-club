@@ -19,6 +19,7 @@ export const checkAuthed = (
             email: user.email || '',
             firstName: user.displayName ? user.displayName.split(' ')[0] : '',
             lastName: user.displayName ? user.displayName.split(' ')[1] : '',
+            profilePhotoUrl: user.photoURL || '',
             uid: user.uid,
           };
           firebase

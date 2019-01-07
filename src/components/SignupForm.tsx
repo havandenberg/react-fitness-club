@@ -11,7 +11,12 @@ import {
   isValidEmail,
   isValidPassword,
 } from '../utils/validation';
-import Form, { FormFieldValidations } from './Form';
+import Form, {
+  FormComponentProps,
+  FormFieldValidations,
+  FormStep,
+} from './Form';
+import FormActions from './Form/Actions';
 import FormRow, { FormRowData } from './Form/Row';
 import withSubscribe, { SubscribeProps } from './hoc/withSubscribe';
 
@@ -63,7 +68,7 @@ const formRowData: Array<FormRowData<SignupFields>> = [
     items: [
       {
         flex: '100%',
-        helpText: 'me@awesome.com',
+        helpText: 'username@example.com',
         inputType: 'text',
         valueName: 'email',
       },
@@ -102,9 +107,9 @@ const formRowData: Array<FormRowData<SignupFields>> = [
   },
 ];
 
-class SignupForm extends Form<SignupFields> {}
-
-class SignupFormComponent extends React.Component<SubscribeProps> {
+class Step extends React.Component<
+  FormComponentProps<SignupFields> & SubscribeProps
+> {
   handleSubmit = (
     onSuccess: () => void,
     onFail: (error: Error) => void,
@@ -117,36 +122,57 @@ class SignupFormComponent extends React.Component<SubscribeProps> {
   };
 
   render() {
+    const { errors, fields, onBack, onChange, onSubmit } = this.props;
+    return (
+      <div>
+        {formRowData.map(
+          (rowItem: FormRowData<SignupFields>, index: number) => (
+            <React.Fragment key={`row-${index}`}>
+              <FormRow<SignupFields>
+                {...rowItem}
+                customStyles={{ labelWidth: '225px' }}
+                errors={errors}
+                fields={fields}
+                fieldValidations={signupFieldValidations}
+                isEditing
+                onChange={onChange}
+              />
+              {index + 1 < formRowData.length && (
+                <l.Space height={[spacing.ml, spacing.xl]} />
+              )}
+            </React.Fragment>
+          ),
+        )}
+        <FormActions
+          handleBack={onBack}
+          handleForward={(e: React.FormEvent) => {
+            e.preventDefault();
+            onSubmit(this.handleSubmit);
+          }}
+          forwardText="Sign up"
+        />
+      </div>
+    );
+  }
+}
+
+const formData: Array<FormStep<SignupFields>> = [
+  { label: '', FormComponent: Step, rowItems: formRowData },
+];
+
+class SignupForm extends Form<SignupFields> {}
+
+class SignupFormComponent extends React.Component<SubscribeProps> {
+  render() {
     return (
       <l.Flex mx="auto" width={['100%', '85%', '80%']}>
         <SignupForm
           errorMessage="Please try again."
           id="signup-form"
           initialValues={initialValues}
-          handleSubmit={this.handleSubmit}
+          isEditing
           fieldValidations={signupFieldValidations}
-          FormComponent={({ errors, fields, onChange }) => (
-            <div>
-              {formRowData.map(
-                (rowItem: FormRowData<SignupFields>, index: number) => (
-                  <React.Fragment key={`row-${index}`}>
-                    <FormRow<SignupFields>
-                      {...rowItem}
-                      customStyles={{ labelsWidth: '225px' }}
-                      errors={errors}
-                      fields={fields}
-                      fieldValidations={signupFieldValidations}
-                      onChange={onChange}
-                    />
-                    {index + 1 < formRowData.length && (
-                      <l.Space height={[spacing.ml, spacing.xl]} />
-                    )}
-                  </React.Fragment>
-                ),
-              )}
-            </div>
-          )}
-          submitText="Signup"
+          steps={formData}
           successMessage="Success!"
         />
       </l.Flex>

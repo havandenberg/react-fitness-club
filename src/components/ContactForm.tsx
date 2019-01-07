@@ -6,7 +6,12 @@ import { borders, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { programsList } from '../utils/constants';
 import { isValidEmail } from '../utils/validation';
-import Form, { FormFieldValidations } from './Form';
+import Form, {
+  FormComponentProps,
+  FormFieldValidations,
+  FormStep,
+} from './Form';
+import FormActions from './Form/Actions';
 import { CheckboxRadioInputWithLabel } from './Form/CheckboxRadio';
 import FormRow, { FormRowData } from './Form/Row';
 import withSubscribe, { SubscribeProps } from './hoc/withSubscribe';
@@ -19,6 +24,7 @@ interface ContactFields {
   message: string;
   program: string;
 }
+
 const contactFieldValidations: FormFieldValidations<ContactFields> = {
   email: (value: string) => isValidEmail(value),
   firstName: (value: string) => !R.isEmpty(value),
@@ -36,7 +42,7 @@ const initialValues = {
   program: 'General interest',
 };
 
-const formRowData: Array<FormRowData<ContactFields>> = [
+const personalInfoData: Array<FormRowData<ContactFields>> = [
   {
     isRequired: true,
     items: [
@@ -71,7 +77,7 @@ const formRowData: Array<FormRowData<ContactFields>> = [
     items: [
       {
         flex: '100%',
-        helpText: 'me@awesome.com',
+        helpText: 'username@example.com',
         inputType: 'text',
         valueName: 'email',
       },
@@ -91,9 +97,9 @@ const formRowData: Array<FormRowData<ContactFields>> = [
   },
 ];
 
-class ContactForm extends Form<ContactFields> {}
-
-class ContactFormComponent extends React.Component<SubscribeProps> {
+class Step extends React.Component<
+  FormComponentProps<ContactFields> & SubscribeProps
+> {
   handleSubmit = (
     onSuccess: () => void,
     onFail: (error: Error) => void,
@@ -142,6 +148,67 @@ class ContactFormComponent extends React.Component<SubscribeProps> {
   };
 
   render() {
+    const { errors, fields, loading, onBack, onChange, onSubmit } = this.props;
+    return (
+      <div>
+        {personalInfoData.map(
+          (rowItem: FormRowData<ContactFields>, index: number) => (
+            <React.Fragment key={`row-${index}`}>
+              <FormRow<ContactFields>
+                {...rowItem}
+                customStyles={{ labelWidth: '225px' }}
+                errors={errors}
+                fields={fields}
+                fieldValidations={contactFieldValidations}
+                isEditing
+                onChange={onChange}
+              />
+              {index + 1 < personalInfoData.length && (
+                <l.Space height={[spacing.ml, spacing.xl]} />
+              )}
+            </React.Fragment>
+          ),
+        )}
+        <t.Text bold center large my={spacing.xxxl}>
+          Would you like to sign up for the monthly newsletter for updates on
+          events, competitions, and similar?
+        </t.Text>
+        <l.FlexCentered mb={spacing.xxxl}>
+          <CheckboxRadioInputWithLabel
+            checked={fields.addToNewsletter}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              onChange('addToNewsletter', e.currentTarget.checked);
+            }}
+            text={fields.addToNewsletter ? 'Yes, please' : 'Not right now'}
+            type="checkbox"
+          />
+        </l.FlexCentered>
+        <FormActions
+          handleBack={onBack}
+          handleForward={(e: React.FormEvent) => {
+            e.preventDefault();
+            onSubmit(this.handleSubmit);
+          }}
+          loading={loading}
+        />
+      </div>
+    );
+  }
+}
+
+const formData: Array<FormStep<ContactFields>> = [
+  {
+    FormComponent: Step,
+    label: 'Contact Form',
+    rowItems: personalInfoData,
+  },
+];
+
+class ContactForm extends Form<ContactFields> {}
+
+class ContactFormComponent extends React.Component<SubscribeProps> {
+  render() {
+    const { status, subscribe } = this.props;
     return (
       <l.Flex mx="auto" width={['100%', '85%', '80%']}>
         <ContactForm
@@ -160,46 +227,10 @@ class ContactFormComponent extends React.Component<SubscribeProps> {
           }
           id="contact-form"
           initialValues={initialValues}
-          handleSubmit={this.handleSubmit}
+          isEditing
           fieldValidations={contactFieldValidations}
-          FormComponent={({ errors, fields, onChange }) => (
-            <div>
-              {formRowData.map(
-                (rowItem: FormRowData<ContactFields>, index: number) => (
-                  <React.Fragment key={`row-${index}`}>
-                    <FormRow<ContactFields>
-                      {...rowItem}
-                      customStyles={{ labelsWidth: '225px' }}
-                      errors={errors}
-                      fields={fields}
-                      fieldValidations={contactFieldValidations}
-                      onChange={onChange}
-                    />
-                    {index + 1 < formRowData.length && (
-                      <l.Space height={[spacing.ml, spacing.xl]} />
-                    )}
-                  </React.Fragment>
-                ),
-              )}
-              <t.Text bold center large my={spacing.xl}>
-                Would you like to sign up for the monthly newsletter for updates
-                on events, competitions, and similar?
-              </t.Text>
-              <l.FlexCentered>
-                <CheckboxRadioInputWithLabel
-                  checked={fields.addToNewsletter}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    onChange('addToNewsletter', e.currentTarget.checked);
-                  }}
-                  text={
-                    fields.addToNewsletter ? 'Yes, please' : 'Not right now'
-                  }
-                  type="checkbox"
-                />
-              </l.FlexCentered>
-            </div>
-          )}
-          submitText="Submit"
+          steps={formData}
+          stepProps={{ status, subscribe }}
           successMessage="Success! One of our coaches will contact you as soon as possible with a response."
         />
       </l.Flex>

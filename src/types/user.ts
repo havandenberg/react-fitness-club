@@ -7,16 +7,26 @@ export interface DateOfBirth {
 }
 
 export interface Member {
+  allergies: string;
   city: string;
-  country: string;
   dateOfBirth: DateOfBirth;
   email: string;
-  enrolledPrograms: string[];
+  emergencyContact: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    relationship: string;
+  };
   firstName: string;
   isAccountSetupComplete: boolean;
+  isLiabilityWaiverSigned: boolean;
   lastName: string;
+  medicalConditions: string;
   nickname?: string;
   phone: string;
+  profilePhotoUrl: string;
+  programs: string[];
   state: string;
   streetAddress1: string;
   streetAddress2?: string;
@@ -25,16 +35,26 @@ export interface Member {
 }
 
 export const newUserDefaults: Member = {
+  allergies: '',
   city: '',
-  country: '',
   dateOfBirth: { month: '', day: '', year: '' },
   email: '',
-  enrolledPrograms: [],
+  emergencyContact: {
+    email: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    relationship: '',
+  },
   firstName: '',
   isAccountSetupComplete: false,
+  isLiabilityWaiverSigned: false,
   lastName: '',
+  medicalConditions: '',
   nickname: '',
   phone: '',
+  profilePhotoUrl: '',
+  programs: [],
   state: '',
   streetAddress1: '',
   streetAddress2: '',

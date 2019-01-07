@@ -56,7 +56,9 @@ export const breakpoints = {
 
 export const fonts = {
   poppinsBold: 'Poppins-Bold, sans-serif',
+  poppinsLight: 'Poppins-Light, sans-serif',
   poppinsMedium: 'Poppins-Medium, sans-serif',
+  poppinsRegular: 'Poppins-Regular, sans-serif',
   poppinsSemiBold: 'Poppins-SemiBold, sans-serif',
 };
 
@@ -135,7 +137,7 @@ export const maxWidth = '1400px';
 export const waypointOffset = 400;
 export const scrollOffset = isMobile() ? -100 : -60;
 export const scrollOptions = {
-  duration: 300,
+  duration: 500,
   offset: scrollOffset,
   smooth: true,
 };
