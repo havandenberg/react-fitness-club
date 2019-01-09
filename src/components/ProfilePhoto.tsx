@@ -11,7 +11,7 @@ const ProfileImage = styled('img')({
 interface Props {
   customStyles?: React.CSSProperties;
   imageSrc: string;
-  sideLength?: string | number;
+  sideLength?: string | number | Array<string | number>;
 }
 
 const ProfilePhoto = ({ customStyles, imageSrc, sideLength = 100 }: Props) => (

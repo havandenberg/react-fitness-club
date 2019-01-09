@@ -1,11 +1,23 @@
 import styled from 'react-emotion';
 import {
+  alignItems,
+  AlignItemsProps,
+  alignSelf,
+  AlignSelfProps,
   bottom,
   flex,
+  flexDirection,
+  FlexDirectionProps,
   FlexProps,
   height,
   HeightProps,
+  justifyContent,
+  JustifyContentProps,
+  justifySelf,
+  JustifySelfProps,
   left,
+  maxWidth,
+  MaxWidthProps,
   position,
   PositionProps,
   right,
@@ -37,19 +49,31 @@ interface FlexDivProps {
 }
 
 const Flex = styled('div')<
-  HeightProps &
+  AlignItemsProps &
+    AlignSelfProps &
+    HeightProps &
+    JustifyContentProps &
+    JustifySelfProps &
     PositionProps &
+    FlexDirectionProps &
     FlexProps &
     FlexDivProps &
+    MaxWidthProps &
     SpaceProps &
     WidthProps &
     ZIndexProps
 >(
+  alignItems,
   {
     alignItems: 'center',
   },
+  alignSelf,
   flex,
+  flexDirection,
   height,
+  justifyContent,
+  justifySelf,
+  maxWidth,
   position,
   space,
   width,
@@ -155,8 +179,12 @@ const scrollStyles = {
 };
 
 const Space = styled('div')(
+  alignItems,
+  alignSelf,
   bottom,
   height,
+  justifyContent,
+  justifySelf,
   left,
   position,
   right,

@@ -168,6 +168,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
     const userMenuComponent = (
       <l.FlexCentered
         height={[spacing.xl, spacing.xl, parseInt(navHeight, 10) + 34]}
+        onClick={this.toggleUserHover(!userHover)}
         onMouseEnter={this.toggleUserHover(true)}
         onMouseLeave={this.toggleUserHover(false)}
         pointer
@@ -177,7 +178,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
       >
         <t.Link to="/login">
           <UserIcon>
-            <UserImg color={userHover ? colors.red : colors.white} />
+            <UserImg color={user || userHover ? colors.red : colors.white} />
           </UserIcon>
         </t.Link>
         {!isMobile() && user && userHover && (

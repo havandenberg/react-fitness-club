@@ -75,6 +75,7 @@ export const signup = (
   firstName: string,
   lastName: string,
   password: string,
+  onFail: (error: Error, msg?: string) => void,
 ) => {
   auth
     .createUserWithEmailAndPassword(email, password)
@@ -97,6 +98,9 @@ export const signup = (
           SOURCE: 'web-portal-form',
         });
       }
+    })
+    .catch((error: Error) => {
+      onFail(error, error.message);
     });
 };
 

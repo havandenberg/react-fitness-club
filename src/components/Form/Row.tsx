@@ -5,6 +5,7 @@ import { width } from 'styled-system';
 import l from '../../styles/layout';
 import { breakpoints, colors, fontSizes, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
+import { isMobile, isMobileOnly } from '../../utils/screensize';
 import FileInput from './FileInput';
 import { FormFieldValidations, OnChangeHandler } from './index';
 import { InputType, SelectInput, TextArea, TextInput } from './Input';
@@ -15,7 +16,7 @@ export const InputLabel = styled(t.Text)(
     fontWeight: 'bold',
     marginRight: spacing.xxl,
     marginTop: spacing.s,
-    textAlign: 'right',
+    textAlign: isMobileOnly() ? 'left' : 'right',
     [breakpoints.tablet]: {
       fontSize: fontSizes.text,
     },
@@ -31,7 +32,7 @@ export const InputLabel = styled(t.Text)(
 );
 
 export interface FormItemProps<FormFields, K extends keyof FormFields> {
-  flex: string | number;
+  flex: string | number | Array<string | number>;
   helpText?: string | string[];
   helpTextValidations?: Array<(value: string, fields: FormFields) => boolean>;
   inputStyles?: React.CSSProperties;
@@ -48,11 +49,13 @@ export interface FormRowData<FormFields> {
   isRequired?: boolean;
   items: Array<FormItemProps<FormFields, keyof FormFields>>;
   label?: string;
+  rowWidth?: string | number | Array<string | number>;
 }
 
 interface FormRowProps<FormFields> extends FormRowData<FormFields> {
   customStyles: {
-    labelWidth?: string;
+    labelWidth?: string | number | Array<string | number>;
+    rowWidth?: string | number | Array<string | number>;
   };
   errors: string[];
   fields: FormFields;
@@ -63,7 +66,7 @@ interface FormRowProps<FormFields> extends FormRowData<FormFields> {
 
 class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
   static defaultProps = {
-    customStyles: {},
+    customStyles: { labelWidth: '20%', rowWidth: '100%' },
     fieldValidations: [],
   };
 
@@ -78,6 +81,7 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
       case 'file':
         return (
           <FileInput
+            error={hasError}
             fileUrl={`${fields[item.valueName]}`}
             onChange={(fileUrl: string) => {
               onChange(item.valueName, fileUrl);
@@ -168,13 +172,17 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
         mt={R.isEmpty(items) ? spacing.ml : undefined}
       >
         {label !== undefined && (
-          <InputLabel nowrap width={['auto', customStyles.labelWidth || '20%']}>
+          <InputLabel nowrap={!isMobile()} width={customStyles.labelWidth}>
             {label}
             {isRequired && <l.Red>*</l.Red>}
             {label && !R.isEmpty(items) && ':'}
           </InputLabel>
         )}
-        <l.Flex flex={1} width="100%">
+        <l.Flex
+          flex={1}
+          maxWidth={customStyles.rowWidth}
+          width={customStyles.rowWidth}
+        >
           {items.map(
             (
               item: FormItemProps<FormFields, keyof FormFields>,

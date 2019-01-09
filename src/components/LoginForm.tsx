@@ -52,7 +52,7 @@ const formRowData: Array<FormRowData<LoginFields>> = [
 class Step extends React.Component<FormComponentProps<LoginFields>> {
   handleSubmit = (
     onSuccess: () => void,
-    onFail: (error: Error) => void,
+    onFail: (error: Error, msg?: string) => void,
     resetForm: () => void,
     data: any,
   ) => {
@@ -60,12 +60,12 @@ class Step extends React.Component<FormComponentProps<LoginFields>> {
       .signInWithEmailAndPassword(data.email, data.password)
       .then(onSuccess)
       .catch((error: Error) => {
-        onFail(error);
+        onFail(error, error.message);
       });
   };
 
   render() {
-    const { errors, failed, fields, onBack, onChange, onSubmit } = this.props;
+    const { errors, failed, fields, onChange, onSubmit } = this.props;
     return (
       <div>
         {formRowData.map((rowItem: FormRowData<LoginFields>, index: number) => (
@@ -84,7 +84,6 @@ class Step extends React.Component<FormComponentProps<LoginFields>> {
           </React.Fragment>
         ))}
         <FormActions
-          handleBack={onBack}
           handleForward={(e: React.FormEvent) => {
             e.preventDefault();
             onSubmit(this.handleSubmit);

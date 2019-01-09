@@ -60,6 +60,7 @@ const personalInfoData: Array<FormRowData<ContactFields>> = [
       },
     ],
     label: 'Name',
+    rowWidth: ['100%', '65%'],
   },
   {
     items: [
@@ -71,6 +72,7 @@ const personalInfoData: Array<FormRowData<ContactFields>> = [
       },
     ],
     label: 'Program interest',
+    rowWidth: ['100%', '55%'],
   },
   {
     isRequired: true,
@@ -83,6 +85,7 @@ const personalInfoData: Array<FormRowData<ContactFields>> = [
       },
     ],
     label: 'Email',
+    rowWidth: ['100%', '65%'],
   },
   {
     isRequired: true,
@@ -94,6 +97,7 @@ const personalInfoData: Array<FormRowData<ContactFields>> = [
       },
     ],
     label: 'Message',
+    rowWidth: ['100%', '65%'],
   },
 ];
 
@@ -148,7 +152,7 @@ class Step extends React.Component<
   };
 
   render() {
-    const { errors, fields, loading, onBack, onChange, onSubmit } = this.props;
+    const { errors, fields, loading, onChange, onSubmit } = this.props;
     return (
       <div>
         {personalInfoData.map(
@@ -156,7 +160,10 @@ class Step extends React.Component<
             <React.Fragment key={`row-${index}`}>
               <FormRow<ContactFields>
                 {...rowItem}
-                customStyles={{ labelWidth: '225px' }}
+                customStyles={{
+                  labelWidth: ['200px', '200px', '225px'],
+                  rowWidth: rowItem.rowWidth,
+                }}
                 errors={errors}
                 fields={fields}
                 fieldValidations={contactFieldValidations}
@@ -184,7 +191,6 @@ class Step extends React.Component<
           />
         </l.FlexCentered>
         <FormActions
-          handleBack={onBack}
           handleForward={(e: React.FormEvent) => {
             e.preventDefault();
             onSubmit(this.handleSubmit);
@@ -210,7 +216,7 @@ class ContactFormComponent extends React.Component<SubscribeProps> {
   render() {
     const { status, subscribe } = this.props;
     return (
-      <l.Flex mx="auto" width={['100%', '85%', '80%']}>
+      <l.Flex mx="auto" width={['100%', '90%', '80%']}>
         <ContactForm
           errorMessage={
             <t.Text center color={colors.red} large mb={spacing.xl}>

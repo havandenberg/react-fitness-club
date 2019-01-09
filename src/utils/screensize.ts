@@ -16,6 +16,10 @@ export const isMobile = () => {
   return typeof window !== 'undefined' && window.innerWidth <= TABLET_WIDTH;
 };
 
+export const isMobileOnly = () => {
+  return typeof window !== 'undefined' && window.innerWidth <= MOBILE_WIDTH;
+};
+
 export const isTabletUp = () =>
   typeof window !== 'undefined' && window.innerWidth >= MOBILE_WIDTH;
 

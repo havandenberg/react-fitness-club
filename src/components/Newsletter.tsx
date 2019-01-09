@@ -45,7 +45,7 @@ class Step extends React.Component<
   };
 
   render() {
-    const { errors, fields, loading, onBack, onChange, onSubmit } = this.props;
+    const { errors, fields, loading, onChange, onSubmit } = this.props;
     return (
       <>
         <FormRow<NewsletterFields>
@@ -56,7 +56,6 @@ class Step extends React.Component<
           onChange={onChange}
         />
         <FormActions
-          handleBack={onBack}
           handleForward={(e: React.FormEvent) => {
             e.preventDefault();
             onSubmit(this.handleSubmit);
@@ -103,7 +102,7 @@ class Newsletter extends React.Component<SubscribeProps> {
             Invalid email or already subscribed, please try again.
           </t.Text>
         )}
-        <l.Flex mx="auto" width={['100%', '75%', inputWidth]}>
+        <l.Flex mx="auto" width={['95%', '65%', inputWidth]}>
           <NewsletterForm
             id="newsletter-form"
             initialValues={initialValues}

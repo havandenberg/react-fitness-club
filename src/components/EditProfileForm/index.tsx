@@ -1,15 +1,11 @@
 import * as R from 'ramda';
 import * as React from 'react';
-import l from '../../styles/layout';
-import { fontSizes, mobileSizes, spacing } from '../../styles/theme';
-import t from '../../styles/typography';
 import { Member } from '../../types/user';
 import { daysCountInMonths } from '../../utils/constants';
-import { isMobile } from '../../utils/screensize';
 import {
-  isUnderEighteen,
   isValidDOBField,
   isValidEmail,
+  isValidPassword,
   isValidPhone,
   isValidZipCode,
   isValidZipCodeField,
@@ -19,15 +15,15 @@ import EmergencyInfoStep, {
   EMERGENCY_INFO,
   emergencyInfoStep,
 } from './EmergencyInfoStep';
-import LiabilityWaiverStep, { LIABILITY_WAIVER } from './LiabilityStep';
 import PersonalInfoStep, {
   PERSONAL_INFO,
   personalInfoStep,
 } from './PersonalInfoStep';
 
-export interface SetupFields {
+export interface EditProfileFields {
   allergies: string;
   city: string;
+  confirmPassword: string;
   email: string;
   eEmail: string;
   eFirstName: string;
@@ -38,28 +34,25 @@ export interface SetupFields {
   dobDay: string;
   dobYear: string;
   firstName: string;
-  initialFour: string;
-  initialOne: string;
-  initialThree: string;
-  initialTwo: string;
   lastName: string;
   medicalConditions: string;
-  memberParentSignature: string;
-  memberSignature: string;
   nickname: string;
+  password: string;
   profilePhotoUrl: string;
   phone: string;
-  sendLiabilityCopy: boolean;
   state: string;
   streetAddress1: string;
   streetAddress2: string;
   zip: string;
 }
 
-export const setupFieldValidations: FormFieldValidations<SetupFields> = {
+export const editProfileValidations: FormFieldValidations<EditProfileFields> = {
   allergies: (value: string) => !R.isEmpty(value),
   city: (value: string) => !R.isEmpty(value),
-  dobDay: (value: string, fields: SetupFields) =>
+  confirmPassword: (value: string, fields: EditProfileFields) =>
+    R.isEmpty(fields.password) ||
+    (!R.isEmpty(value) && R.equals(value, fields.password)),
+  dobDay: (value: string, fields: EditProfileFields) =>
     parseInt(value, 10) > 0 &&
     parseInt(value, 10) <= daysCountInMonths[parseInt(fields.dobMonth, 10) - 1],
   dobMonth: (value: string) =>
@@ -74,17 +67,9 @@ export const setupFieldValidations: FormFieldValidations<SetupFields> = {
   eRelationship: (value: string) => !R.isEmpty(value),
   email: (value: string) => isValidEmail(value),
   firstName: (value: string) => !R.isEmpty(value),
-  initialFour: (value: string) => value.length > 1,
-  initialOne: (value: string) => value.length > 1,
-  initialThree: (value: string) => value.length > 1,
-  initialTwo: (value: string) => value.length > 1,
   lastName: (value: string) => !R.isEmpty(value),
   medicalConditions: (value: string) => !R.isEmpty(value),
-  memberParentSignature: (value: string, fields: SetupFields) =>
-    isUnderEighteen(`${fields.dobYear}${fields.dobMonth}${fields.dobDay}`)
-      ? !R.isEmpty(value)
-      : true,
-  memberSignature: (value: string) => !R.isEmpty(value),
+  password: (value: string) => R.isEmpty(value) || isValidPassword(value),
   phone: (value: string) => isValidPhone(value),
   profilePhotoUrl: (value: string) => !R.isEmpty(value),
   state: (value: string) => !R.isEmpty(value) && value !== '-',
@@ -92,18 +77,16 @@ export const setupFieldValidations: FormFieldValidations<SetupFields> = {
   zip: (value: string) => isValidZipCode(value),
 };
 
-export const setupFieldChangeValidations: FormFieldValidations<SetupFields> = {
+export const editProfileChangeValidations: FormFieldValidations<
+  EditProfileFields
+> = {
   dobDay: (value: string) => isValidDOBField(value, 'day'),
   dobMonth: (value: string) => isValidDOBField(value, 'month'),
   dobYear: (value: string) => isValidDOBField(value, 'year'),
-  initialFour: (value: string) => value.length < 4,
-  initialOne: (value: string) => value.length < 4,
-  initialThree: (value: string) => value.length < 4,
-  initialTwo: (value: string) => value.length < 4,
   zip: (value: string) => isValidZipCodeField(value),
 };
 
-const formData: Array<FormStep<SetupFields>> = [
+const formData: Array<FormStep<EditProfileFields>> = [
   {
     FormComponent: PersonalInfoStep,
     label: PERSONAL_INFO,
@@ -115,27 +98,11 @@ const formData: Array<FormStep<SetupFields>> = [
     label: EMERGENCY_INFO,
     rowItems: emergencyInfoStep,
   },
-  {
-    FormComponent: LiabilityWaiverStep,
-    label: LIABILITY_WAIVER,
-    rowItems: [
-      {
-        items: [
-          { flex: 1, inputType: 'text', valueName: 'initialOne' },
-          { flex: 1, inputType: 'text', valueName: 'initialTwo' },
-          { flex: 1, inputType: 'text', valueName: 'initialThree' },
-          { flex: 1, inputType: 'text', valueName: 'initialFour' },
-          { flex: 1, inputType: 'text', valueName: 'memberParentSignature' },
-          { flex: 1, inputType: 'text', valueName: 'memberSignature' },
-        ],
-      },
-    ],
-  },
 ];
 
-class SetupForm extends Form<SetupFields> {}
+class EditProfileForm extends Form<EditProfileFields> {}
 
-export const processFormValues = (user: SetupFields) => ({
+export const processFormValues = (user: EditProfileFields) => ({
   ...R.pick(
     [
       'allergies',
@@ -166,27 +133,21 @@ export const processFormValues = (user: SetupFields) => ({
     phone: user.ePhone,
     relationship: user.eRelationship,
   },
-  isAccountSetupComplete: true,
-  isLiabilityWaiverSigned: true,
 });
 
 interface Props {
+  setView: () => void;
   user: Member;
 }
 
-class SetupFormComponent extends React.Component<Props> {
-  getInitialFormValues: () => SetupFields = () => {
+class EditProfileComponent extends React.Component<Props> {
+  getInitialFormValues: () => EditProfileFields = () => {
     const { user } = this.props;
     const { dateOfBirth, emergencyContact } = user;
     return {
-      initialFour: '',
-      initialOne: '',
-      initialThree: '',
-      initialTwo: '',
-      memberParentSignature: '',
-      memberSignature: '',
+      confirmPassword: '',
       nickname: '',
-      sendLiabilityCopy: true,
+      password: '',
       streetAddress2: '',
       ...R.omit(['dateOfBirth', 'emergencyContact', 'state'], user),
       dobDay: dateOfBirth.day,
@@ -202,37 +163,22 @@ class SetupFormComponent extends React.Component<Props> {
   };
 
   render() {
-    const { user } = this.props;
+    const { setView } = this.props;
     return (
-      <div>
-        <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
-          <t.Text
-            center={isMobile()}
-            fontSize={[mobileSizes.h2, fontSizes.h2]}
-            italic
-          >
-            Welcome to React Fitness Club, {user.firstName}!
-          </t.Text>
-        </l.FlexCentered>
-        <l.FlexCentered mb={[spacing.xl, spacing.xxxl]}>
-          <t.Text center={isMobile()}>
-            Complete the account setup form below to proceed to your personal
-            dashboard.
-          </t.Text>
-        </l.FlexCentered>
-        <SetupForm
-          errorMessage="Please try again."
-          id="setup-form"
-          initialValues={this.getInitialFormValues()}
-          isEditing
-          fieldChangeValidations={setupFieldChangeValidations}
-          fieldValidations={setupFieldValidations}
-          steps={formData}
-          successMessage="Success!"
-        />
-      </div>
+      <EditProfileForm
+        enableDirectStepNav
+        errorMessage="Please try again."
+        id="setup-form"
+        initialValues={this.getInitialFormValues()}
+        isEditing
+        fieldChangeValidations={editProfileChangeValidations}
+        fieldValidations={editProfileValidations}
+        steps={formData}
+        stepProps={{ setView }}
+        successMessage="Success!"
+      />
     );
   }
 }
 
-export default SetupFormComponent;
+export default EditProfileComponent;

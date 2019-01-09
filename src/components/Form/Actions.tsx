@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PulseLoader } from 'react-spinners';
 import l from '../../styles/layout';
 import { colors, spacing } from '../../styles/theme';
+import { isSmall } from '../../utils/screensize';
 import { ButtonPrimary, ButtonSecondary } from './Button';
 
 const FormActions = ({
@@ -10,12 +11,11 @@ const FormActions = ({
   forwardText = 'Continue',
   handleBack,
   handleForward,
-  showBackButton,
 }: {
   backText?: string;
   loading?: boolean;
   forwardText?: string;
-  handleBack: (e: React.FormEvent) => void;
+  handleBack?: (e: React.FormEvent) => void;
   handleForward:
     | ((e: React.FormEvent) => void)
     | ((
@@ -24,15 +24,18 @@ const FormActions = ({
         resetForm: () => void,
         data: any,
       ) => void);
-  showBackButton?: boolean;
 }) => (
   <l.FlexCentered mt={spacing.xl}>
     {loading ? (
       <PulseLoader sizeUnit="px" size={30} color={colors.red} />
     ) : (
       <l.FlexCentered>
-        {showBackButton && (
-          <ButtonSecondary mr={spacing.xl} onClick={handleBack} type="button">
+        {handleBack && (
+          <ButtonSecondary
+            mr={isSmall() ? spacing.ml : spacing.xl}
+            onClick={handleBack}
+            type="button"
+          >
             {backText || 'Back'}
           </ButtonSecondary>
         )}

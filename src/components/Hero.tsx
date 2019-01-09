@@ -5,7 +5,7 @@ import LogoImg from '../assets/images/logo.png';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
-import { isMobile, isTabletUp } from '../utils/screensize';
+import { isMobile, isMobileOnly, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import SocialIcons from './SocialIcons';
 
@@ -15,17 +15,23 @@ const HeroWrapper = styled('div')({
 });
 
 const Logo = styled('img')(({ secondary }: { secondary?: boolean }) => ({
-  height: isMobile() ? (secondary ? 100 : 150) : 200,
+  height: isMobile() ? (!isMobileOnly() ? 150 : secondary ? 100 : 150) : 200,
 }));
 
 const LogoWrapper = styled(l.Flex)(
   ({ secondary }: { secondary?: boolean }) => ({
     justifyContent: secondary
-      ? isMobile()
+      ? isMobileOnly()
         ? 'center'
         : 'flex-start'
       : 'center',
-    marginLeft: secondary ? (isMobile() ? 0 : spacing.xxxxxl) : 0,
+    marginLeft: secondary
+      ? isMobile()
+        ? isMobileOnly()
+          ? 0
+          : spacing.xxxl
+        : spacing.xxxxxl
+      : 0,
   }),
 );
 

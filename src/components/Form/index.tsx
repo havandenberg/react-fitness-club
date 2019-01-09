@@ -5,16 +5,28 @@ import { width } from 'styled-system';
 import l from '../../styles/layout';
 import { breakpoints, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
-import { isMobile } from '../../utils/screensize';
+import { isMobile, isMobileOnly } from '../../utils/screensize';
 import { scrollToId } from '../../utils/scroll';
 import { FormRowData } from './Row';
 
 const FormWrapper = styled('form')(width);
 
-const NavItem = styled(t.Text)(({ active }: { active?: boolean }) => ({
-  color: active ? colors.red : `${colors.red}80`,
-  transition: transitions.default,
-}));
+const NavItem = styled(t.Text)(
+  ({
+    active,
+    enableDirectStepNav,
+  }: {
+    active?: boolean;
+    enableDirectStepNav?: boolean;
+  }) => ({
+    ':hover': {
+      color: enableDirectStepNav ? colors.red : undefined,
+    },
+    color: active ? colors.red : `${colors.red}80`,
+    cursor: enableDirectStepNav ? 'pointer' : 'default',
+    transition: transitions.default,
+  }),
+);
 
 const NavSeparator = styled('div')({
   background: colors.red,
@@ -70,6 +82,7 @@ export interface FormStep<FormFields> {
 }
 
 interface Props<FormFields> {
+  enableDirectStepNav?: boolean;
   errorMessage: string | React.ReactNode;
   fieldValidations: FormFieldValidations<FormFields>;
   fieldChangeValidations: FormFieldValidations<FormFields>;
@@ -89,6 +102,7 @@ interface State<FormFields> {
   fields: FormFields;
   loading: boolean;
   currentStep: string;
+  onFailMessage?: string;
 }
 
 const initialState = {
@@ -145,10 +159,12 @@ class Form<FormFields> extends React.Component<
     const { currentStep } = this.state;
     const lastStep =
       steps[R.findIndex(R.propEq('label', currentStep), steps) - 1];
+
     this.setState({
       ...initialState,
       currentStep: lastStep ? lastStep.label : currentStep,
     });
+
     this.resetScroll();
   };
 
@@ -156,20 +172,23 @@ class Form<FormFields> extends React.Component<
     e.preventDefault();
     const { steps } = this.props;
     const { currentStep } = this.state;
+
     if (this.validate()) {
       this.setState({
         currentStep:
           steps[R.findIndex(R.propEq('label', currentStep), steps) + 1].label,
       });
     }
+
     this.resetScroll();
   };
 
-  handleFail = (error: Error) => {
+  handleFail = (error: Error, onFailMessage?: string) => {
     this.setState({
       ...initialState,
       failed: true,
       fields: this.props.initialValues,
+      onFailMessage,
     });
     console.log(error);
   };
@@ -190,9 +209,10 @@ class Form<FormFields> extends React.Component<
     ) => void,
   ) => {
     const { fields, loading } = this.state;
+
     this.setState({ completed: false, failed: false });
 
-    const isValid = this.validate();
+    const isValid = this.validateAll();
 
     if (!isValid) {
       this.resetScroll();
@@ -201,7 +221,6 @@ class Form<FormFields> extends React.Component<
 
     if (!loading && isValid) {
       this.setState({ loading: true }, () => {
-        console.log('loading');
         submit(this.handleSuccess, this.handleFail, this.resetForm, fields);
       });
     }
@@ -218,6 +237,7 @@ class Form<FormFields> extends React.Component<
   ) => {
     const { fields } = this.state;
     const validateChange = this.props.fieldChangeValidations[`${field}`];
+
     if (!validateChange || validateChange(value, fields)) {
       this.setState({ fields: R.merge(fields, { [field]: value }) }, callback);
     }
@@ -229,31 +249,62 @@ class Form<FormFields> extends React.Component<
 
   resetScroll = () => scrollToId(this.props.id, { offset: -200 });
 
+  setStep = (currentStep: string) => this.setState({ currentStep });
+
   validate = () => {
     const { fields, currentStep } = this.state;
     const errors: string[] = [];
+
     const items: any = R.flatten(
       R.pluck('items', this.getStepData(currentStep).rowItems),
     );
     const fieldsToValidate: string[] = R.isEmpty(currentStep)
       ? Object.keys(fields)
       : R.pluck('valueName', items);
+
     fieldsToValidate.map(fieldKey => {
       const validateField = this.props.fieldValidations[fieldKey];
       if (validateField && !validateField(fields[fieldKey], fields)) {
         errors.push(fieldKey);
       }
     });
+
     this.setState({ errors });
+
     const isValid = R.isEmpty(errors);
+
     if (!isValid) {
       this.resetScroll();
     }
+
+    return isValid;
+  };
+
+  validateAll = () => {
+    const { fields } = this.state;
+    const errors: string[] = [];
+
+    Object.keys(fields).map(fieldKey => {
+      const validateField = this.props.fieldValidations[fieldKey];
+      if (validateField && !validateField(fields[fieldKey], fields)) {
+        errors.push(fieldKey);
+      }
+    });
+
+    this.setState({ errors });
+
+    const isValid = R.isEmpty(errors);
+
+    if (!isValid) {
+      this.resetScroll();
+    }
+
     return isValid;
   };
 
   render() {
     const {
+      enableDirectStepNav,
       errorMessage,
       id,
       steps,
@@ -268,6 +319,7 @@ class Form<FormFields> extends React.Component<
       failed,
       fields,
       loading,
+      onFailMessage,
     } = this.state;
 
     const currentStepData = this.getStepData(currentStep);
@@ -275,20 +327,28 @@ class Form<FormFields> extends React.Component<
     return (
       <FormWrapper width="100%">
         {steps.length > 1 && (
-          <l.FlexCentered mb={spacing.xxxl}>
+          <l.FlexCentered
+            mb={spacing.xxxl}
+            width={['100%', '80%', '100%']}
+            mx="auto"
+          >
             {steps.map((s, index: number) => (
               <React.Fragment key={s.label}>
                 <NavItem
                   active={s.label === currentStep}
                   center={isMobile()}
+                  enableDirectStepNav={enableDirectStepNav}
                   large
+                  onClick={() => enableDirectStepNav && this.setStep(s.label)}
                   width={
                     isMobile() ? `${Math.floor(100 / steps.length)}%` : 'auto'
                   }
                 >
                   {s.label}
                 </NavItem>
-                {index + 1 < steps.length && !isMobile() && <NavSeparator />}
+                {index + 1 < steps.length && !isMobileOnly() && (
+                  <NavSeparator />
+                )}
               </React.Fragment>
             ))}
           </l.FlexCentered>
@@ -304,8 +364,15 @@ class Form<FormFields> extends React.Component<
           </t.Text>
         )}
         {!completed && failed && (
-          <t.Text center color={colors.red} large mb={[spacing.ml, spacing.xl]}>
-            {errorMessage}
+          <t.Text
+            center
+            color={colors.red}
+            large
+            mb={[spacing.ml, spacing.xl]}
+            mx="auto"
+            width="75%"
+          >
+            {onFailMessage || errorMessage}
           </t.Text>
         )}
         <div id={id}>

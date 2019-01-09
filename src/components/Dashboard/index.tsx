@@ -8,9 +8,11 @@ import t from '../../styles/typography';
 import { Member } from '../../types/user';
 import { Page } from '../App';
 import Divider from '../Divider';
+import EditProfile from '../EditProfileForm';
 import Hero from '../Hero';
 import withScroll from '../hoc/withScroll';
 import SetupForm from '../SetupForm';
+import Profile from './Profile';
 
 const NavItem = styled(t.Text)(
   ({ active, disabled }: { active?: boolean; disabled?: boolean }) => ({
@@ -24,7 +26,7 @@ const NavItem = styled(t.Text)(
   }),
 );
 
-type DashboardView = 'profile' | 'profile-editing' | 'programs';
+export type DashboardView = 'profile' | 'edit-profile' | 'programs';
 
 interface Props {
   user?: Member;
@@ -55,26 +57,47 @@ class Dashboard extends React.Component<Props, State> {
         <Divider white />
         <Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
           {user.isAccountSetupComplete && (
-            <l.FlexCentered mb={spacing.xxxl}>
+            <l.FlexCentered alignTop mb={spacing.xxxl}>
               <NavItem
-                active={view === 'programs'}
-                disabled
-                large
-                // onClick={this.setView('programs')}
-              >
-                My Programs
-              </NavItem>
-              <l.Space width={spacing.xxxxxl} />
-              <NavItem
-                active={R.contains(view, ['profile', 'profile-editing'])}
+                active={R.contains(view, ['profile', 'edit-profile'])}
                 large
                 onClick={this.setView('profile')}
               >
                 Profile
               </NavItem>
+              <l.Space width={spacing.xxxxxl} />
+              <div>
+                <NavItem
+                  active={view === 'programs'}
+                  disabled
+                  large
+                  // onClick={this.setView('programs')}
+                >
+                  My Programs
+                </NavItem>
+                <t.Text
+                  center
+                  color={`${colors.red}80`}
+                  fontSize={10}
+                  position="absolute"
+                >
+                  coming soon
+                </t.Text>
+              </div>
             </l.FlexCentered>
           )}
-          {!user.isAccountSetupComplete && <SetupForm user={user} />}
+          {user.isAccountSetupComplete ? (
+            <>
+              {view === 'profile' && (
+                <Profile setView={this.setView('edit-profile')} user={user} />
+              )}
+              {view === 'edit-profile' && (
+                <EditProfile setView={this.setView('profile')} user={user} />
+              )}
+            </>
+          ) : (
+            <SetupForm user={user} />
+          )}
         </Page>
         <l.Space height={100} />
       </div>

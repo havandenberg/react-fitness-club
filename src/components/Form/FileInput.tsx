@@ -5,8 +5,9 @@ import Dropzone, { DropFilesEventHandler } from 'react-dropzone';
 import styled from 'react-emotion';
 import { width } from 'styled-system';
 import l from '../../styles/layout';
-import { colors, spacing, transitions } from '../../styles/theme';
+import { borders, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
+import { isMobile } from '../../utils/screensize';
 import ProfilePhoto from '../ProfilePhoto';
 
 const DropzoneInner = styled('div')(
@@ -18,8 +19,10 @@ const DropzoneInner = styled('div')(
     padding: spacing.s,
     transition: transitions.default,
   },
-  ({ isDragActive }: { isDragActive: boolean }) => ({
-    border: isDragActive
+  ({ error, isDragActive }: { error?: boolean; isDragActive: boolean }) => ({
+    border: error
+      ? borders.redThick
+      : isDragActive
       ? `2px solid ${colors.red}`
       : `2px dashed ${colors.black}`,
   }),
@@ -34,6 +37,7 @@ const LoadingBar = styled('div')(
 );
 
 interface Props {
+  error: boolean;
   fileUrl: string;
   onChange: (fileUrl: string) => void;
 }
@@ -87,7 +91,7 @@ class FileInput extends React.Component<Props, State> {
   };
 
   render() {
-    const { fileUrl } = this.props;
+    const { error, fileUrl } = this.props;
     const { file, uploadProgress } = this.state;
     const previewSrc = R.isEmpty(file.preview) ? fileUrl : file.preview;
     return (
@@ -97,7 +101,11 @@ class FileInput extends React.Component<Props, State> {
         onDrop={this.handleDrop}
       >
         {({ getRootProps, getInputProps, isDragActive }) => (
-          <DropzoneInner {...getRootProps()} isDragActive={isDragActive}>
+          <DropzoneInner
+            {...getRootProps()}
+            error={error}
+            isDragActive={isDragActive}
+          >
             <l.Flex>
               <input {...getInputProps()} />
               {!R.isEmpty(previewSrc) && (
@@ -106,7 +114,7 @@ class FileInput extends React.Component<Props, State> {
                 </l.FlexCentered>
               )}
               <t.Text center mb={spacing.s} width={150}>
-                Click or drag here to upload
+                {`${isMobile() ? 'Touch' : 'Click or drag'} here to upload`}
               </t.Text>
             </l.Flex>
             <LoadingBar width={uploadProgress} />

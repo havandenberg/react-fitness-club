@@ -396,12 +396,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-tooltip":
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/@types/react-tooltip/-/react-tooltip-3.9.0.tgz#99246c208df53194db1fc96bb5345f0f66e63e52"
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-visibility-sensor@^3.11.0":
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/@types/react-visibility-sensor/-/react-visibility-sensor-3.11.0.tgz#c0d16892206705bb0cf8e989ac5326fb21fac4e7"
@@ -6799,13 +6793,6 @@ react-stickynode@^2.1.0:
     prop-types "^15.6.0"
     react-addons-shallow-compare "^0.14.2 || ^15.0.0"
     subscribe-ui-event "^2.0.0"
-
-react-tooltip:
-  version "3.9.2"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.9.2.tgz#df74e6f5fd454bb15132d5d2d506895cf505cb5e"
-  dependencies:
-    classnames "^2.2.5"
-    prop-types "^15.6.0"
 
 react-transition-group@^2.2.0, react-transition-group@2:
   version "2.5.0"

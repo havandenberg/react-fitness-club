@@ -242,7 +242,7 @@ class LiabilityWaiverStep extends React.Component<
     const { errors, fields, loading, onBack, onChange } = this.props;
     return (
       <div>
-        <l.Space mx="auto" width={['100%', '80%']}>
+        <l.Space mx="auto" width={['100%', '90%', '80%']}>
           <t.Text mb={spacing.ml}>
             In order to participate in any React Fitness Club programs or
             activites, you must read and sign our liability waiver below.
@@ -430,7 +430,6 @@ class LiabilityWaiverStep extends React.Component<
                   handleBack={onBack}
                   handleForward={this.handleSubmit(blob)}
                   loading={loading}
-                  showBackButton
                 />
               );
             }}

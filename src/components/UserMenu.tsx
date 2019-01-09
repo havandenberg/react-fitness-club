@@ -48,7 +48,7 @@ const UserMenu = (props: Props) => {
                   imageSrc={user.profilePhotoUrl}
                   sideLength={52}
                 />
-                <l.Space width={spacing.ml} />
+                <l.Space width={spacing.xxxl} />
               </>
             )}
             <t.Text className="logout" nowrap>

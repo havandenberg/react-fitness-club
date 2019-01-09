@@ -1,3 +1,5 @@
+import * as firebase from 'firebase';
+import * as R from 'ramda';
 import * as React from 'react';
 import l from '../../styles/layout';
 import { spacing } from '../../styles/theme';
@@ -9,176 +11,214 @@ import { SetupFields, setupFieldValidations } from './';
 
 export const PERSONAL_INFO = 'Personal Info';
 
-export const personalInfoStep: Array<FormRowData<SetupFields>> = [
-  {
-    isRequired: true,
-    items: [
-      {
-        flex: '40%',
-        helpText: 'first',
-        inputType: 'text',
-        valueName: 'firstName',
-      },
-      {
-        flex: '40%',
-        helpText: 'last',
-        inputType: 'text',
-        valueName: 'lastName',
-      },
-    ],
-    label: 'Name',
-  },
-  {
-    items: [
-      {
-        flex: '40%',
-        inputType: 'text',
-        valueName: 'nickname',
-      },
-    ],
-    label: 'Nickname',
-  },
-  {
-    items: [
-      {
-        flex: '100%',
-        helpText: 'png or jpg',
-        inputType: 'file',
-        valueName: 'profilePhotoUrl',
-      },
-    ],
-    label: 'Profile Photo',
-  },
-  {
-    isRequired: true,
-    items: [
-      {
-        flex: '10%',
-        helpText: 'MM',
-        inputType: 'text',
-        valueName: 'dobMonth',
-      },
-      {
-        flex: '10%',
-        helpText: 'DD',
-        inputType: 'text',
-        valueName: 'dobDay',
-      },
-      {
-        flex: '15%',
-        helpText: 'YYYY',
-        inputType: 'text',
-        valueName: 'dobYear',
-      },
-    ],
-    label: 'Date of Birth',
-  },
-  {
-    isRequired: true,
-    items: [
-      {
-        flex: '100%',
-        helpText: 'username@example.com',
-        inputType: 'text',
-        isViewOnly: true,
-        valueName: 'email',
-        viewOnlyText: 'you can change your email after profile setup',
-      },
-    ],
-    label: 'Email',
-  },
-  {
-    isRequired: true,
-    items: [
-      {
-        flex: '40%',
-        helpText: 'valid phone number',
-        inputType: 'text',
-        valueName: 'phone',
-      },
-    ],
-    label: 'Phone',
-  },
-  {
-    isRequired: true,
-    items: [
-      {
-        flex: '65%',
-        helpText: 'address line 1',
-        inputType: 'text',
-        isRequired: true,
-        valueName: 'streetAddress1',
-      },
-    ],
-    label: 'Address',
-  },
-  {
-    items: [
-      {
-        flex: '65%',
-        helpText: 'address line 2',
-        inputType: 'text',
-        valueName: 'streetAddress2',
-      },
-    ],
-    label: '',
-  },
-  {
-    items: [
-      {
-        flex: '40%',
-        helpText: 'city',
-        inputType: 'text',
-        isRequired: true,
-        valueName: 'city',
-      },
-      {
-        flex: '10%',
-        helpText: 'state',
-        inputType: 'select',
-        isRequired: true,
-        selectOptions: ['-', ...states],
-        valueName: 'state',
-      },
-      {
-        flex: '15%',
-        helpText: 'zip',
-        inputType: 'text',
-        isRequired: true,
-        valueName: 'zip',
-      },
-    ],
-    label: '',
-  },
-];
+export const personalInfoStep: (
+  authProvider: string,
+) => Array<FormRowData<SetupFields>> = authProvider => {
+  return [
+    {
+      isRequired: true,
+      items: [
+        {
+          flex: '100%',
+          helpText: 'username@example.com',
+          inputType: 'text',
+          isViewOnly: true,
+          valueName: 'email',
+          viewOnlyText: R.equals(authProvider, 'password')
+            ? 'you can change your email after profile setup'
+            : `email provided by ${authProvider.replace('.com', '')}`,
+        },
+      ],
+      label: 'Email',
+      rowWidth: ['100%', '65%'],
+    },
+    {
+      isRequired: true,
+      items: [
+        {
+          flex: '50%',
+          helpText: 'first',
+          inputType: 'text',
+          valueName: 'firstName',
+        },
+        {
+          flex: '50%',
+          helpText: 'last',
+          inputType: 'text',
+          valueName: 'lastName',
+        },
+      ],
+      label: 'Name',
+      rowWidth: ['100%', '65%'],
+    },
+    {
+      items: [
+        {
+          flex: '100%',
+          inputType: 'text',
+          valueName: 'nickname',
+        },
+      ],
+      label: 'Nickname',
+      rowWidth: ['100%', '35%'],
+    },
+    {
+      items: [
+        {
+          flex: '100%',
+          helpText: 'png or jpg',
+          inputType: 'file',
+          valueName: 'profilePhotoUrl',
+        },
+      ],
+      label: 'Profile Photo',
+    },
+    {
+      isRequired: true,
+      items: [
+        {
+          flex: '30%',
+          helpText: 'MM',
+          inputType: 'text',
+          valueName: 'dobMonth',
+        },
+        {
+          flex: '30%',
+          helpText: 'DD',
+          inputType: 'text',
+          valueName: 'dobDay',
+        },
+        {
+          flex: '40%',
+          helpText: 'YYYY',
+          inputType: 'text',
+          valueName: 'dobYear',
+        },
+      ],
+      label: 'Date of Birth',
+      rowWidth: ['100%', '35%'],
+    },
+    {
+      isRequired: true,
+      items: [
+        {
+          flex: '100%',
+          helpText: 'valid phone number',
+          inputType: 'text',
+          valueName: 'phone',
+        },
+      ],
+      label: 'Phone',
+      rowWidth: ['100%', '35%'],
+    },
+    {
+      isRequired: true,
+      items: [
+        {
+          flex: '100%',
+          helpText: 'address line 1',
+          inputType: 'text',
+          isRequired: true,
+          valueName: 'streetAddress1',
+        },
+      ],
+      label: 'Address',
+      rowWidth: ['100%', '55%'],
+    },
+    {
+      items: [
+        {
+          flex: '100%',
+          helpText: 'address line 2',
+          inputType: 'text',
+          valueName: 'streetAddress2',
+        },
+      ],
+      label: '',
+      rowWidth: ['100%', '55%'],
+    },
+    {
+      items: [
+        {
+          flex: '40%',
+          helpText: 'city',
+          inputType: 'text',
+          isRequired: true,
+          valueName: 'city',
+        },
+        {
+          flex: '20%',
+          helpText: 'state',
+          inputType: 'select',
+          isRequired: true,
+          selectOptions: ['-', ...states],
+          valueName: 'state',
+        },
+        {
+          flex: '25%',
+          helpText: 'zip',
+          inputType: 'text',
+          isRequired: true,
+          valueName: 'zip',
+        },
+      ],
+      label: '',
+      rowWidth: ['100%', '55%'],
+    },
+  ];
+};
+
+interface State {
+  currentUser: firebase.User | null;
+}
 
 class PersonalInfoStep extends React.Component<
-  FormComponentProps<SetupFields>
+  FormComponentProps<SetupFields>,
+  State
 > {
+  constructor(props: FormComponentProps<SetupFields>) {
+    super(props);
+
+    this.state = {
+      currentUser: firebase.auth().currentUser,
+    };
+  }
   render() {
-    const { errors, fields, onBack, onChange, onForward } = this.props;
+    const { errors, fields, onChange, onForward } = this.props;
+    const { currentUser } = this.state;
+    const providerData =
+      currentUser &&
+      currentUser.providerData.length > 0 &&
+      currentUser.providerData[0];
+    const personalInfoStepData =
+      providerData && personalInfoStep(providerData.providerId);
     return (
-      <div>
-        {personalInfoStep.map(
-          (rowItem: FormRowData<SetupFields>, index: number) => (
-            <React.Fragment key={`row-${index}`}>
-              <FormRow<SetupFields>
-                {...rowItem}
-                customStyles={{ labelWidth: '225px' }}
-                errors={errors}
-                fields={fields}
-                fieldValidations={setupFieldValidations}
-                isEditing
-                onChange={onChange}
-              />
-              {index + 1 < personalInfoStep.length && (
-                <l.Space height={[spacing.ml, spacing.ml]} />
-              )}
-            </React.Fragment>
-          ),
-        )}
-        <FormActions handleBack={onBack} handleForward={onForward} />
-      </div>
+      personalInfoStepData && (
+        <div>
+          {personalInfoStepData.map(
+            (rowItem: FormRowData<SetupFields>, index: number) => (
+              <React.Fragment key={`row-${index}`}>
+                <FormRow<SetupFields>
+                  {...rowItem}
+                  customStyles={{
+                    labelWidth: ['150px', '150px', '225px'],
+                    rowWidth: rowItem.rowWidth,
+                  }}
+                  errors={errors}
+                  fields={fields}
+                  fieldValidations={setupFieldValidations}
+                  isEditing
+                  onChange={onChange}
+                />
+                {index + 1 < personalInfoStepData.length && (
+                  <l.Space height={[spacing.ml, spacing.ml]} />
+                )}
+              </React.Fragment>
+            ),
+          )}
+          <FormActions handleForward={onForward} />
+        </div>
+      )
     );
   }
 }

@@ -27,6 +27,7 @@ interface SignupFields {
   lastName: string;
   password: string;
 }
+
 const signupFieldValidations: FormFieldValidations<SignupFields> = {
   confirmPassword: (value: string, fields: SignupFields) =>
     !R.isEmpty(value) && R.equals(value, fields.password),
@@ -112,17 +113,17 @@ class Step extends React.Component<
 > {
   handleSubmit = (
     onSuccess: () => void,
-    onFail: (error: Error) => void,
+    onFail: (error: Error, msg?: string) => void,
     resetForm: () => void,
     data: any,
   ) => {
     const { subscribe } = this.props;
     const { email, firstName, lastName, password } = data;
-    signup(subscribe, email, firstName, lastName, password);
+    signup(subscribe, email, firstName, lastName, password, onFail);
   };
 
   render() {
-    const { errors, fields, onBack, onChange, onSubmit } = this.props;
+    const { errors, fields, onChange, onSubmit } = this.props;
     return (
       <div>
         {formRowData.map(
@@ -130,7 +131,7 @@ class Step extends React.Component<
             <React.Fragment key={`row-${index}`}>
               <FormRow<SignupFields>
                 {...rowItem}
-                customStyles={{ labelWidth: '225px' }}
+                customStyles={{ labelWidth: ['200', '200', '225px'] }}
                 errors={errors}
                 fields={fields}
                 fieldValidations={signupFieldValidations}
@@ -144,7 +145,6 @@ class Step extends React.Component<
           ),
         )}
         <FormActions
-          handleBack={onBack}
           handleForward={(e: React.FormEvent) => {
             e.preventDefault();
             onSubmit(this.handleSubmit);
@@ -164,8 +164,9 @@ class SignupForm extends Form<SignupFields> {}
 
 class SignupFormComponent extends React.Component<SubscribeProps> {
   render() {
+    const { subscribe } = this.props;
     return (
-      <l.Flex mx="auto" width={['100%', '85%', '80%']}>
+      <l.Flex mx="auto" width={['100%', '95%', '80%']}>
         <SignupForm
           errorMessage="Please try again."
           id="signup-form"
@@ -173,6 +174,7 @@ class SignupFormComponent extends React.Component<SubscribeProps> {
           isEditing
           fieldValidations={signupFieldValidations}
           steps={formData}
+          stepProps={{ subscribe }}
           successMessage="Success!"
         />
       </l.Flex>
