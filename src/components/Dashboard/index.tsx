@@ -6,6 +6,8 @@ import l from '../../styles/layout';
 import { borders, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
 import { Member } from '../../types/user';
+import { logout } from '../../utils/auth';
+import { isMobile } from '../../utils/screensize';
 import { Page } from '../App';
 import Divider from '../Divider';
 import EditProfile from '../EditProfileForm';
@@ -57,7 +59,11 @@ class Dashboard extends React.Component<Props, State> {
         <Divider white />
         <Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
           {user.isAccountSetupComplete && (
-            <l.FlexCentered alignTop mb={spacing.xxxl}>
+            <l.Flex
+              alignTop
+              mb={spacing.xxxl}
+              justifyContent={isMobile() ? 'space-around' : 'center'}
+            >
               <NavItem
                 active={R.contains(view, ['profile', 'edit-profile'])}
                 large
@@ -65,7 +71,7 @@ class Dashboard extends React.Component<Props, State> {
               >
                 Profile
               </NavItem>
-              <l.Space width={spacing.xxxxxl} />
+              <l.Space width={[0, spacing.xxxxxl]} />
               <div>
                 <NavItem
                   active={view === 'programs'}
@@ -84,7 +90,16 @@ class Dashboard extends React.Component<Props, State> {
                   coming soon
                 </t.Text>
               </div>
-            </l.FlexCentered>
+              <l.Space width={[0, spacing.xxxxxl]} />
+              <t.TextButton
+                color={`${colors.red}80`}
+                hoverStyle="opacity"
+                large
+                onClick={logout}
+              >
+                Logout
+              </t.TextButton>
+            </l.Flex>
           )}
           {user.isAccountSetupComplete ? (
             <>

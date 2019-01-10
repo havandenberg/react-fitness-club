@@ -94,7 +94,7 @@ class App extends React.Component<SubscribeProps, State> {
             />
             <Redirect to="/" />
           </Switch>
-          <Footer />
+          <Footer user={user} />
         </Main>
       </Router>
     );

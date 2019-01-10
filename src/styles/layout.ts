@@ -154,7 +154,7 @@ const FlexColumn = styled(Flex)({
   flexDirection: 'column',
 });
 
-const scrollStyles = {
+export const scrollStyles = {
   '::-webkit-scrollbar': {
     width: 18,
   },

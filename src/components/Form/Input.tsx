@@ -1,5 +1,6 @@
 import styled from 'react-emotion';
 import { flex, space, textAlign, width } from 'styled-system';
+import { scrollStyles } from '../../styles/layout';
 import {
   borders,
   breakpoints,
@@ -56,6 +57,8 @@ const withCustomStyles = ({
 export const SelectInput = styled('select')(
   {
     ...inputStyles,
+    ...scrollStyles,
+    overflowX: 'visible',
   },
   flex,
   space,
@@ -68,6 +71,8 @@ export const SelectInput = styled('select')(
 export const TextInput = styled('input')(
   {
     ...inputStyles,
+    ...scrollStyles,
+    overflowX: 'visible',
   },
   flex,
   space,
@@ -80,7 +85,9 @@ export const TextInput = styled('input')(
 export const TextArea = styled('textarea')(
   {
     ...inputStyles,
+    ...scrollStyles,
     height: 200,
+    overflowX: 'visible',
   },
   flex,
   space,

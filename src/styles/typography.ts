@@ -11,12 +11,14 @@ import {
   textAlign,
   width,
 } from 'styled-system';
+import { scrollStyles } from './layout';
 import {
   borders,
   breakpoints,
   colors,
   fonts,
   fontSizes,
+  maxTextWidth,
   mobileSizes,
   shadows,
   tabletSizes,
@@ -42,6 +44,11 @@ const textOptions = [
   }),
   ({ nowrap }: { nowrap?: boolean }) => ({
     whiteSpace: nowrap ? 'nowrap' : undefined,
+  }),
+  { ...scrollStyles, overflow: 'visible' },
+  ({ overflowX }: { overflowX?: boolean }) => ({
+    maxWidth: overflowX ? maxTextWidth : undefined,
+    overflowX: overflowX ? 'auto' : 'visible',
   }),
   maxWidth,
   textAlign,
@@ -207,6 +214,29 @@ const Link = styled(RouterLink)(
   ...textOptions,
 );
 
+type HoverStyle = 'opacity' | 'underline';
+
+const TextButton = styled(Text)(
+  ({
+    color = colors.red,
+    hoverStyle = 'opacity',
+  }: {
+    border: string;
+    color: string;
+    hoverStyle: HoverStyle;
+  }) => ({
+    ':hover': {
+      borderBottom: hoverStyle === 'underline' ? borders.red : undefined,
+      color: hoverStyle === 'opacity' ? colors.red : undefined,
+    },
+    borderBottom: hoverStyle === 'underline' ? borders.transparent : undefined,
+    color,
+    cursor: 'pointer',
+    transition: transitions.default,
+  }),
+  ...textOptions,
+);
+
 // Project-specific typography components
 
 const helpColor = ({ valid }: { valid?: boolean }) => ({
@@ -239,5 +269,6 @@ export default {
   Link,
   Subtitle,
   Text,
+  TextButton,
   Title,
 };

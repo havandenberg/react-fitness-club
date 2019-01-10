@@ -7,6 +7,7 @@ import { breakpoints, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
 import { isMobile, isMobileOnly } from '../../utils/screensize';
 import { scrollToId } from '../../utils/scroll';
+import { removeInvalidCharacters } from '../../utils/validation';
 import { FormRowData } from './Row';
 
 const FormWrapper = styled('form')(width);
@@ -237,9 +238,13 @@ class Form<FormFields> extends React.Component<
   ) => {
     const { fields } = this.state;
     const validateChange = this.props.fieldChangeValidations[`${field}`];
+    const cleansedValue = removeInvalidCharacters(value);
 
-    if (!validateChange || validateChange(value, fields)) {
-      this.setState({ fields: R.merge(fields, { [field]: value }) }, callback);
+    if (!validateChange || validateChange(cleansedValue, fields)) {
+      this.setState(
+        { fields: R.merge(fields, { [field]: cleansedValue }) },
+        callback,
+      );
     }
   };
 

@@ -63,6 +63,7 @@ const formRowData: Array<FormRowData<SignupFields>> = [
       },
     ],
     label: 'Name',
+    rowWidth: ['100%', '65%'],
   },
   {
     isRequired: true,
@@ -75,6 +76,7 @@ const formRowData: Array<FormRowData<SignupFields>> = [
       },
     ],
     label: 'Email',
+    rowWidth: ['100%', '65%'],
   },
   {
     isRequired: true,
@@ -93,6 +95,7 @@ const formRowData: Array<FormRowData<SignupFields>> = [
       },
     ],
     label: 'Password',
+    rowWidth: ['100%', '65%'],
   },
   {
     isRequired: true,
@@ -105,6 +108,7 @@ const formRowData: Array<FormRowData<SignupFields>> = [
       },
     ],
     label: 'Confirm Password',
+    rowWidth: ['100%', '65%'],
   },
 ];
 
@@ -131,7 +135,10 @@ class Step extends React.Component<
             <React.Fragment key={`row-${index}`}>
               <FormRow<SignupFields>
                 {...rowItem}
-                customStyles={{ labelWidth: ['200', '200', '225px'] }}
+                customStyles={{
+                  labelWidth: ['200', '200', '225px'],
+                  rowWidth: rowItem.rowWidth,
+                }}
                 errors={errors}
                 fields={fields}
                 fieldValidations={signupFieldValidations}

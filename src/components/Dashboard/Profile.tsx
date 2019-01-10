@@ -4,7 +4,7 @@ import l from '../../styles/layout';
 import { spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import { Member } from '../../types/user';
-import { isMobile } from '../../utils/screensize';
+import { isMobile, isTabletUp } from '../../utils/screensize';
 import { ButtonPrimary } from '../Form/Button';
 import withScroll from '../hoc/withScroll';
 import ProfilePhoto from '../ProfilePhoto';
@@ -31,7 +31,7 @@ class Profile extends React.Component<Props> {
           alignItems={isMobile() ? 'center' : 'flex-start'}
         >
           <ProfilePhoto
-            sideLength={[150, 200]}
+            sideLength={[150, 175, 200]}
             imageSrc={user.profilePhotoUrl}
           />
           <l.Space height={spacing.xxxl} width={spacing.xxxxxl} />
@@ -49,7 +49,7 @@ class Profile extends React.Component<Props> {
               >
                 Name:
               </t.Text>
-              <t.Text large>{`${user.firstName} ${user.lastName}${
+              <t.Text large overflowX>{`${user.firstName} ${user.lastName}${
                 user.nickname ? ' (' + user.nickname + ')' : ''
               }`}</t.Text>
             </l.Flex>
@@ -66,7 +66,9 @@ class Profile extends React.Component<Props> {
               >
                 Email:
               </t.Text>
-              <t.Text large>{user.email}</t.Text>
+              <t.Text large overflowX>
+                {user.email}
+              </t.Text>
             </l.Flex>
             <l.Flex
               alignTop={isMobile()}
@@ -96,7 +98,7 @@ class Profile extends React.Component<Props> {
               >
                 DOB:
               </t.Text>
-              <t.Text large>
+              <t.Text large overflowX>
                 {user.dateOfBirth.month}/{user.dateOfBirth.day}/
                 {user.dateOfBirth.year}
               </t.Text>
@@ -104,7 +106,12 @@ class Profile extends React.Component<Props> {
             <t.Text bold large mb={[spacing.s, spacing.sm]}>
               Medical Info:
             </t.Text>
-            <t.Text large mb={spacing.xl}>
+            <t.Text
+              large
+              maxWidth={isTabletUp() ? 550 : undefined}
+              mb={spacing.xl}
+              overflowX
+            >
               {user.medicalConditions}
             </t.Text>
             <t.Text bold large mb={[spacing.ml, spacing.sm]}>
@@ -123,7 +130,7 @@ class Profile extends React.Component<Props> {
               >
                 Name:
               </t.Text>
-              <t.Text large>
+              <t.Text large overflowX>
                 {user.emergencyContact.firstName}{' '}
                 {user.emergencyContact.lastName}
               </t.Text>
@@ -141,7 +148,9 @@ class Profile extends React.Component<Props> {
               >
                 Email:
               </t.Text>
-              <t.Text large>{user.emergencyContact.email}</t.Text>
+              <t.Text large overflowX>
+                {user.emergencyContact.email}
+              </t.Text>
             </l.Flex>
             <l.Flex
               alignTop={isMobile()}
@@ -156,7 +165,9 @@ class Profile extends React.Component<Props> {
               >
                 Phone:
               </t.Text>
-              <t.Text large>{user.emergencyContact.phone}</t.Text>
+              <t.Text large overflowX>
+                {user.emergencyContact.phone}
+              </t.Text>
             </l.Flex>
             <l.Flex
               alignTop={isMobile()}
@@ -171,7 +182,9 @@ class Profile extends React.Component<Props> {
               >
                 Relationship:
               </t.Text>
-              <t.Text large>{user.emergencyContact.relationship}</t.Text>
+              <t.Text large overflowX>
+                {user.emergencyContact.relationship}
+              </t.Text>
             </l.Flex>
           </ProfileInfo>
           <l.Flex mt={[spacing.xl, spacing.xxxl, 0]}>

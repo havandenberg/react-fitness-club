@@ -21,6 +21,7 @@ import {
   lastSection,
   parentRelease,
   title,
+  typedSection,
 } from '../../content/liability';
 import l from '../../styles/layout';
 import { borders, spacing } from '../../styles/theme';
@@ -121,6 +122,9 @@ class LiabilityWaiverStep extends React.Component<
           </View>
           <View style={liabilityStyles.last}>
             <Text style={liabilityStyles.introText}>{lastSection}</Text>
+          </View>
+          <View style={liabilityStyles.last}>
+            <Text style={liabilityStyles.introText}>{typedSection}</Text>
           </View>
           <View style={liabilityStyles.signatureRow}>
             <Text style={liabilityStyles.signatureLabelLeft}>
@@ -345,6 +349,7 @@ class LiabilityWaiverStep extends React.Component<
             </div>
           </l.Flex>
           <t.Text mb={spacing.xxxl}>{lastSection}</t.Text>
+          <t.Text mb={spacing.xxxl}>{typedSection}</t.Text>
           <l.FlexColumn>
             <l.Flex mb={spacing.xxxl}>
               <div>

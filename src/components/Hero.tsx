@@ -5,6 +5,7 @@ import LogoImg from '../assets/images/logo.png';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
+import { Member } from '../types/user';
 import { isMobile, isMobileOnly, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import SocialIcons from './SocialIcons';
@@ -72,7 +73,7 @@ const SocialIconsWrapper = styled('div')({
   },
 });
 
-const Hero = ({ secondary }: { secondary?: boolean }) => (
+const Hero = ({ secondary, user }: { secondary?: boolean; user?: Member }) => (
   <HeroWrapper>
     <LogoWrapper py={[spacing.ml, spacing.xl]} secondary={secondary}>
       <Link to="/">

@@ -1,5 +1,7 @@
 import {
   DESKTOP,
+  isMobileOnly,
+  isSmall,
   MOBILE,
   SMALL,
   TABLET,
@@ -132,6 +134,13 @@ export const navHeightMobile = '56px';
 
 export const inputWidth = '350px';
 export const maxContentWidth = '1024px';
+export const maxTextWidth = isSmall()
+  ? '300px'
+  : isMobileOnly()
+  ? '320px'
+  : isMobile()
+  ? '400px'
+  : '480px';
 export const maxWidth = '1400px';
 
 export const waypointOffset = 400;

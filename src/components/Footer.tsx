@@ -13,6 +13,8 @@ import {
   z,
 } from '../styles/theme';
 import t from '../styles/typography';
+import { Member } from '../types/user';
+import { logout } from '../utils/auth';
 import {
   isDesktop,
   isMobile,
@@ -36,24 +38,50 @@ const FooterBottom = styled(l.Flex)({
   borderTop: borders.white,
 });
 
-const FooterLinkText = styled(t.Text)({
-  ':hover': {
-    color: colors.red,
-  },
-  color: colors.white,
-  fontSize: fontSizes.largeText,
-  transition: transitions.default,
-});
+const FooterLinkText = styled(t.Text)(
+  ({ color, disabled }: { color?: string; disabled?: boolean }) => ({
+    ':hover': {
+      color: disabled ? colors.white : colors.red,
+    },
+    color: color ? color : colors.white,
+    fontSize: fontSizes.largeText,
+    transition: transitions.default,
+  }),
+);
 
-const FooterAnchor = ({ text, href }: { text: string; href: string }) => (
-  <t.Anchor href={href} target="_blank">
-    <FooterLinkText>{text}</FooterLinkText>
+const FooterAnchor = ({
+  color,
+  disabled,
+  text,
+  href,
+}: {
+  color?: string;
+  disabled?: boolean;
+  text: string;
+  href: string;
+}) => (
+  <t.Anchor href={disabled ? '' : href} target="_blank">
+    <FooterLinkText color={color} disabled={disabled}>
+      {text}
+    </FooterLinkText>
   </t.Anchor>
 );
 
-const FooterLink = ({ text, to }: { text: string; to: string }) => (
-  <Link to={to}>
-    <FooterLinkText>{text}</FooterLinkText>
+const FooterLink = ({
+  disabled,
+  color,
+  text,
+  to,
+}: {
+  disabled?: boolean;
+  color?: string;
+  text: string;
+  to: string;
+}) => (
+  <Link to={disabled ? '' : to}>
+    <FooterLinkText disabled={disabled} color={color}>
+      {text}
+    </FooterLinkText>
   </Link>
 );
 
@@ -72,7 +100,7 @@ const PhoneAnchor = styled(t.Text)({
   transition: transitions.default,
 });
 
-const Footer = () => (
+const Footer = ({ user }: { user?: Member }) => (
   <div>
     <DividerWrapper>
       <Divider white />
@@ -86,25 +114,31 @@ const Footer = () => (
     >
       <l.Flex grow={1} spaceBetween={!isTabletUp()} width={['100%', 'auto']}>
         <l.Space mr={[spacing.xl, spacing.huge]}>
-          <FooterLink text="About" to="/about" />
+          <FooterLink disabled text="About" to="/about" />
           <l.Space height={spacing.l} />
-          <FooterLink text="Programs" to="/programs" />
+          <FooterLink disabled text="Programs" to="/programs" />
           <l.Space height={spacing.l} />
-          <FooterLink text="Gallery" to="/gallery" />
+          <FooterLink disabled text="Gallery" to="/gallery" />
           <l.Space height={spacing.l} />
           <FooterLink text="Contact" to="/contact" />
         </l.Space>
         <l.Space mr={[spacing.xl, spacing.xxxl]}>
           <FooterLink text="Schedule" to="/schedule" />
           <l.Space height={spacing.l} />
-          <FooterLink text="Events" to="#" />
+          <FooterLink disabled text="Events" to="#" />
           <l.Space height={spacing.l} />
           <FooterAnchor
             href="https://www.gofundme.com/react-fitness-club-alumni-floor"
             text="Donate"
           />
           <l.Space height={spacing.l} />
-          <FooterLink text="Login" to="/login" />
+          {user ? (
+            <t.TextButton color={colors.red} large onClick={logout}>
+              Logout
+            </t.TextButton>
+          ) : (
+            <FooterLink color={colors.red} text="Login" to="/login" />
+          )}
         </l.Space>
       </l.Flex>
       <l.FlexColumn
