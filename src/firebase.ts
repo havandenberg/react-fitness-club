@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import { newUserDefaults } from './types/user';
+import { newMemberDefaults } from './types/member';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -31,7 +31,7 @@ export const getAuthProvider = (provider: AuthProvider) => {
 export const auth = firebase.auth();
 
 export const createNewUser = (user: firebase.User) => ({
-  ...newUserDefaults,
+  ...newMemberDefaults,
   email: user.email || '',
   firstName: user.displayName || '',
   lastName: user.displayName || '',

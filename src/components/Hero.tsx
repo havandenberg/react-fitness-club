@@ -5,7 +5,7 @@ import LogoImg from '../assets/images/logo.png';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
-import { Member } from '../types/user';
+import { Member } from '../types/member';
 import { isMobile, isMobileOnly, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import SocialIcons from './SocialIcons';

@@ -1,6 +1,7 @@
 import * as firebase from 'firebase';
 import { auth, AuthProvider, getAuthProvider } from '../firebase';
-import { Member, newUserDefaults } from '../types/user';
+import { Member, newMemberDefaults } from '../types/member';
+import { Program } from '../types/program';
 
 export const checkAuthed = (
   subscribe: (data: object) => void,
@@ -15,7 +16,7 @@ export const checkAuthed = (
           authedCallback(snapshot.val());
         } else {
           const newUser = {
-            ...newUserDefaults,
+            ...newMemberDefaults,
             email: user.email || '',
             firstName: user.displayName ? user.displayName.split(' ')[0] : '',
             lastName: user.displayName ? user.displayName.split(' ')[1] : '',
@@ -35,6 +36,19 @@ export const checkAuthed = (
       unauthedCallback();
     }
   });
+};
+
+export const listenForProgramChanges = (
+  callback: (programs: Program[]) => void,
+) => {
+  firebase
+    .database()
+    .ref(`programs`)
+    .on('value', snapshot => {
+      if (snapshot) {
+        callback(snapshot.val());
+      }
+    });
 };
 
 export const listenForUserChanges = (
@@ -85,7 +99,7 @@ export const signup = (
           .database()
           .ref(`members/${userData.user.uid}`)
           .set({
-            ...newUserDefaults,
+            ...newMemberDefaults,
             email,
             firstName,
             lastName,

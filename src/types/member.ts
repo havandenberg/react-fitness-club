@@ -27,6 +27,7 @@ export interface Member {
   phone: string;
   profilePhotoUrl: string;
   programs: string[];
+  squareCustomerId: string;
   state: string;
   streetAddress1: string;
   streetAddress2?: string;
@@ -34,7 +35,7 @@ export interface Member {
   zip: string;
 }
 
-export const newUserDefaults: Member = {
+export const newMemberDefaults: Member = {
   allergies: '',
   city: '',
   dateOfBirth: { month: '', day: '', year: '' },
@@ -55,6 +56,7 @@ export const newUserDefaults: Member = {
   phone: '',
   profilePhotoUrl: '',
   programs: [],
+  squareCustomerId: '',
   state: '',
   streetAddress1: '',
   streetAddress2: '',

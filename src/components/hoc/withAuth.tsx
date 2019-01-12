@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect } from 'react-router';
-import { Member } from '../../types/user';
+import { Member } from '../../types/member';
 
 interface AuthProps {
   user: Member | null;

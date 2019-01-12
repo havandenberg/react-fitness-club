@@ -4,7 +4,7 @@ import styled from 'react-emotion';
 import l from '../styles/layout';
 import { colors, gradients, spacing, transitions, z } from '../styles/theme';
 import t from '../styles/typography';
-import { Member } from '../types/user';
+import { Member } from '../types/member';
 import ProfilePhoto from './ProfilePhoto';
 
 const UserMenuWrapper = styled(l.FlexColumn)({

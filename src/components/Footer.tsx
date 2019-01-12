@@ -13,7 +13,7 @@ import {
   z,
 } from '../styles/theme';
 import t from '../styles/typography';
-import { Member } from '../types/user';
+import { Member } from '../types/member';
 import { logout } from '../utils/auth';
 import {
   isDesktop,

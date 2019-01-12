@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import l from '../../styles/layout';
 import { borders, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
-import { Member } from '../../types/user';
+import { Member } from '../../types/member';
 import { logout } from '../../utils/auth';
 import { isMobile } from '../../utils/screensize';
 import { Page } from '../App';
@@ -15,6 +15,7 @@ import Hero from '../Hero';
 import withScroll from '../hoc/withScroll';
 import SetupForm from '../SetupForm';
 import Profile from './Profile';
+import Programs from './Programs';
 
 const NavItem = styled(t.Text)(
   ({ active, disabled }: { active?: boolean; disabled?: boolean }) => ({
@@ -72,24 +73,13 @@ class Dashboard extends React.Component<Props, State> {
                 Profile
               </NavItem>
               <l.Space width={[0, spacing.xxxxxl]} />
-              <div>
-                <NavItem
-                  active={view === 'programs'}
-                  disabled
-                  large
-                  // onClick={this.setView('programs')}
-                >
-                  My Programs
-                </NavItem>
-                <t.Text
-                  center
-                  color={`${colors.red}80`}
-                  fontSize={10}
-                  position="absolute"
-                >
-                  coming soon
-                </t.Text>
-              </div>
+              <NavItem
+                active={view === 'programs'}
+                large
+                onClick={this.setView('programs')}
+              >
+                Programs
+              </NavItem>
               <l.Space width={[0, spacing.xxxxxl]} />
               <t.TextButton
                 color={`${colors.red}80`}
@@ -109,6 +99,7 @@ class Dashboard extends React.Component<Props, State> {
               {view === 'edit-profile' && (
                 <EditProfile setView={this.setView('profile')} user={user} />
               )}
+              {view === 'programs' && <Programs user={user} />}
             </>
           ) : (
             <SetupForm user={user} />

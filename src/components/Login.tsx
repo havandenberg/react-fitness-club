@@ -9,7 +9,7 @@ import {
 import l from '../styles/layout';
 import { fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
-import { Member } from '../types/user';
+import { Member } from '../types/member';
 import { login } from '../utils/auth';
 import { Page } from './App';
 import Divider from './Divider';

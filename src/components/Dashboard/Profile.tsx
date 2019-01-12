@@ -3,7 +3,7 @@ import styled from 'react-emotion';
 import l from '../../styles/layout';
 import { spacing } from '../../styles/theme';
 import t from '../../styles/typography';
-import { Member } from '../../types/user';
+import { Member } from '../../types/member';
 import { isMobile, isTabletUp } from '../../utils/screensize';
 import { ButtonPrimary } from '../Form/Button';
 import withScroll from '../hoc/withScroll';

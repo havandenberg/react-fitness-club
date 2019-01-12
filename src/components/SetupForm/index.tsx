@@ -3,7 +3,7 @@ import * as React from 'react';
 import l from '../../styles/layout';
 import { fontSizes, mobileSizes, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
-import { Member } from '../../types/user';
+import { Member } from '../../types/member';
 import { daysCountInMonths } from '../../utils/constants';
 import { isMobile } from '../../utils/screensize';
 import {

@@ -1,6 +1,7 @@
 import emojiStrip from 'emoji-strip';
 import * as moment from 'moment';
-import { dobField } from '../types/user';
+import * as R from 'ramda';
+import { dobField } from '../types/member';
 
 export const isValidEmail = (email: string) =>
   /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(
@@ -52,4 +53,5 @@ export const isValidDOBLength = (value: string, field: dobField) => {
 export const isUnderEighteen = (age: string) =>
   moment().diff(moment(age, 'YYYYMMDD'), 'years') < 18;
 
-export const removeInvalidCharacters = (value: string) => emojiStrip(value);
+export const removeInvalidCharacters = (value: string) =>
+  R.isEmpty(value) ? value : emojiStrip(value);

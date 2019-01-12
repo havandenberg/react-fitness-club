@@ -238,7 +238,7 @@ class Form<FormFields> extends React.Component<
   ) => {
     const { fields } = this.state;
     const validateChange = this.props.fieldChangeValidations[`${field}`];
-    const cleansedValue = removeInvalidCharacters(value);
+    const cleansedValue = typeof value === 'string' ? removeInvalidCharacters(value) : value;
 
     if (!validateChange || validateChange(cleansedValue, fields)) {
       this.setState(

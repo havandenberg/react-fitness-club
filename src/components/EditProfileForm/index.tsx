@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 import * as React from 'react';
-import { Member } from '../../types/user';
+import { Member } from '../../types/member';
 import { daysCountInMonths } from '../../utils/constants';
 import {
   isValidDOBField,

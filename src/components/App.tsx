@@ -13,8 +13,18 @@ import {
   maxContentWidth,
   maxWidth,
 } from '../styles/theme';
-import { Member } from '../types/user';
-import { checkAuthed, listenForUserChanges } from '../utils/auth';
+import { Member } from '../types/member';
+import { parsePrograms, Program } from '../types/program';
+import {
+  checkAuthed,
+  listenForProgramChanges,
+  listenForUserChanges,
+} from '../utils/auth';
+import {
+  CalendarEvent,
+  expandRecurringEvents,
+  getEvents,
+} from '../utils/events';
 import About from './About';
 import Contact from './Contact';
 import Dashboard from './Dashboard';
@@ -45,11 +55,25 @@ export const Page = styled(l.Space)({
 });
 
 interface State {
+  events: CalendarEvent[];
+  loading: boolean;
+  loadingEvents: boolean;
+  loadingPrograms: boolean;
+  loadingUser: boolean;
+  programs: Program[];
   user?: Member;
 }
 
 class App extends React.Component<SubscribeProps, State> {
-  state = { user: undefined };
+  state = {
+    events: [],
+    loading: true,
+    loadingEvents: true,
+    loadingPrograms: true,
+    loadingUser: true,
+    programs: [],
+    user: undefined,
+  };
 
   componentDidMount() {
     checkAuthed(
@@ -60,11 +84,36 @@ class App extends React.Component<SubscribeProps, State> {
   }
 
   authedCallback = (user: Member) => {
-    this.setState({ user }, () =>
+    this.setState({ user }, () => {
+      listenForProgramChanges((programs: Program[]) =>
+        this.setState(
+          { programs: parsePrograms(programs), loadingPrograms: false },
+          this.checkFinishedLoading,
+        ),
+      );
       listenForUserChanges(user.uid, (userData: Member) =>
-        this.setState({ user: userData }),
-      ),
-    );
+        this.setState(
+          { user: userData, loadingUser: false },
+          this.checkFinishedLoading,
+        ),
+      );
+      getEvents().then(data => {
+        this.setState(
+          {
+            events: expandRecurringEvents(data.items),
+            loadingEvents: false,
+          },
+          this.checkFinishedLoading,
+        );
+      });
+    });
+  };
+
+  checkFinishedLoading = () => {
+    const { loadingPrograms, loadingEvents, loadingUser } = this.state;
+    if (!loadingPrograms && !loadingEvents && !loadingUser) {
+      this.setState({ loading: false });
+    }
   };
 
   unauthedCallback = () => {
@@ -72,7 +121,7 @@ class App extends React.Component<SubscribeProps, State> {
   };
 
   render() {
-    const { user } = this.state;
+    const { events, loading, programs, user } = this.state;
     return (
       <Router>
         <Main id="top">
@@ -83,7 +132,12 @@ class App extends React.Component<SubscribeProps, State> {
             <Route path="/programs" component={Programs} />
             <Route path="/gallery" component={Gallery} />
             <Route path="/contact" component={Contact} />
-            <Route path="/schedule" component={Schedule} />
+            <Route
+              path="/schedule"
+              render={props => (
+                <Schedule {...props} events={events} loading={loading} programs={programs} user={user} />
+              )}
+            />
             <Route
               path="/dashboard"
               render={props => <Dashboard {...props} user={user} />}
