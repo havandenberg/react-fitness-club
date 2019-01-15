@@ -26,6 +26,7 @@ import {
 import l from '../../styles/layout';
 import { borders, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
+import { getCurrentMemberRef } from '../../utils/member';
 import { scrollToId } from '../../utils/scroll';
 import { isUnderEighteen } from '../../utils/validation';
 import { FormComponentProps } from '../Form';
@@ -227,8 +228,7 @@ class LiabilityWaiverStep extends React.Component<
       ) => {
         const user = firebase.auth().currentUser;
         if (user) {
-          const userRef = firebase.database().ref(`members/${user.uid}`);
-          userRef
+          getCurrentMemberRef(user.uid)
             .update(processFormValues(data))
             .then(() => {
               onSuccess();

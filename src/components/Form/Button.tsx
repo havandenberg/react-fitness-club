@@ -12,7 +12,7 @@ import {
   transitions,
 } from '../../styles/theme';
 
-const getButtonProps: (background: string, gradient: string) => any = (
+export const getButtonProps: (background: string, gradient: string) => any = (
   background,
   gradient,
 ) => ({

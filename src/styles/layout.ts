@@ -18,6 +18,7 @@ import {
   left,
   maxWidth,
   MaxWidthProps,
+  overflow,
   position,
   PositionProps,
   right,
@@ -30,7 +31,14 @@ import {
   ZIndexProps,
 } from 'styled-system';
 import { Breakpoint } from '../types/styles';
-import { borders, breakpoints, colors, gradients, spacing } from './theme';
+import {
+  borders,
+  breakpoints,
+  colors,
+  gradients,
+  maxContentWidth,
+  spacing,
+} from './theme';
 
 // Flex is the basis for other layout components
 
@@ -154,6 +162,8 @@ const FlexColumn = styled(Flex)({
   flexDirection: 'column',
 });
 
+const Img = styled('img')(height, space, width);
+
 export const scrollStyles = {
   '::-webkit-scrollbar': {
     width: 18,
@@ -193,8 +203,8 @@ const Space = styled('div')(
   width,
 );
 
-const Scroll = styled(Space)({ ...scrollStyles });
-const ScrollFlex = styled(Flex)({ ...scrollStyles });
+const Scroll = styled(Space)({ ...scrollStyles }, overflow);
+const ScrollFlex = styled(Flex)({ ...scrollStyles }, overflow);
 
 const Section = styled('div')(
   {
@@ -227,6 +237,17 @@ const Line = styled('div')({
   width: spacing.xxxl,
 });
 
+const Page = styled(Space)({
+  background: colors.background,
+  margin: '0 auto',
+  maxWidth: maxContentWidth,
+  position: 'relative',
+  width: '90%',
+  [breakpoints.mobile]: {
+    width: '100%',
+  },
+});
+
 const Red = styled('span')({
   color: colors.red,
 });
@@ -239,7 +260,9 @@ export default {
   Flex,
   FlexCentered,
   FlexColumn,
+  Img,
   Line,
+  Page,
   Red,
   Scroll,
   ScrollFlex,

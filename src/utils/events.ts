@@ -25,6 +25,7 @@ export interface CalendarEvent extends Event {
   id: string;
   location?: string;
   recurrence?: string[];
+  programId: string;
   start: Date;
   title: string;
 }
@@ -57,6 +58,9 @@ export const expandRecurringEvents: (
             end: moment(date)
               .add(hourDiff, 'hours')
               .toDate(),
+            programId: event.description
+              ? event.description.substr(0, event.description.indexOf(':'))
+              : '',
             start: date,
             title: event.summary,
           });
@@ -65,6 +69,9 @@ export const expandRecurringEvents: (
       occurrences.push({
         ...event,
         end: endDate,
+        programId: event.description
+          ? event.description.substr(0, event.description.indexOf(':'))
+          : '',
         start: startDate,
         title: event.summary,
       });
@@ -85,3 +92,8 @@ export const getProgramIdFromEvent = (event: CalendarEvent) =>
   event.description
     ? event.description.substr(0, event.description.indexOf(':'))
     : '';
+
+export const formatDescriptiveDate = (date: CalendarEvent) => `${moment(
+  date.start,
+).format('ddd MMM Do, h:mm')}-
+${moment(date.end).format('h:mma')}`;

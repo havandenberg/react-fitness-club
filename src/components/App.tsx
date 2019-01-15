@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import {
@@ -6,19 +7,14 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import l from '../styles/layout';
-import {
-  breakpoints,
-  colors,
-  maxContentWidth,
-  maxWidth,
-} from '../styles/theme';
-import { Member } from '../types/member';
+import { colors, maxWidth } from '../styles/theme';
+import { Member, parseUserData } from '../types/member';
 import { parsePrograms, Program } from '../types/program';
 import {
   checkAuthed,
   listenForProgramChanges,
   listenForUserChanges,
+  listenForUsersChanges,
 } from '../utils/auth';
 import {
   CalendarEvent,
@@ -26,10 +22,12 @@ import {
   getEvents,
 } from '../utils/events';
 import About from './About';
+import ClassManager from './ClassManager';
 import Contact from './Contact';
 import Dashboard from './Dashboard';
 import Footer from './Footer';
 import Gallery from './Gallery';
+import Hero from './Hero';
 import withSubscribe, { SubscribeProps } from './hoc/withSubscribe';
 import Home from './Home';
 import Login from './Login';
@@ -43,25 +41,16 @@ const Main = styled('div')({
   maxWidth,
 });
 
-export const Page = styled(l.Space)({
-  background: colors.background,
-  margin: '0 auto',
-  maxWidth: maxContentWidth,
-  position: 'relative',
-  width: '90%',
-  [breakpoints.mobile]: {
-    width: '100%',
-  },
-});
-
 interface State {
   events: CalendarEvent[];
   loading: boolean;
   loadingEvents: boolean;
   loadingPrograms: boolean;
   loadingUser: boolean;
+  loadingUsers: boolean;
   programs: Program[];
   user?: Member;
+  users?: Member[];
 }
 
 class App extends React.Component<SubscribeProps, State> {
@@ -71,8 +60,10 @@ class App extends React.Component<SubscribeProps, State> {
     loadingEvents: true,
     loadingPrograms: true,
     loadingUser: true,
+    loadingUsers: true,
     programs: [],
     user: undefined,
+    users: undefined,
   };
 
   componentDidMount() {
@@ -91,12 +82,23 @@ class App extends React.Component<SubscribeProps, State> {
           this.checkFinishedLoading,
         ),
       );
-      listenForUserChanges(user.uid, (userData: Member) =>
+      listenForUserChanges(user.uid, (userData: Member) => {
         this.setState(
-          { user: userData, loadingUser: false },
+          { user: parseUserData(userData), loadingUser: false },
           this.checkFinishedLoading,
-        ),
-      );
+        );
+      });
+      listenForUsersChanges((usersData: { [key: string]: Member }) => {
+        this.setState(
+          {
+            loadingUsers: false,
+            users: R.values(usersData).map((member: Member) =>
+              parseUserData(member),
+            ),
+          },
+          this.checkFinishedLoading,
+        );
+      });
       getEvents().then(data => {
         this.setState(
           {
@@ -110,41 +112,77 @@ class App extends React.Component<SubscribeProps, State> {
   };
 
   checkFinishedLoading = () => {
-    const { loadingPrograms, loadingEvents, loadingUser } = this.state;
-    if (!loadingPrograms && !loadingEvents && !loadingUser) {
+    const {
+      loadingPrograms,
+      loadingEvents,
+      loadingUser,
+      loadingUsers,
+    } = this.state;
+    if (!loadingPrograms && !loadingEvents && !loadingUser && !loadingUsers) {
       this.setState({ loading: false });
     }
   };
 
   unauthedCallback = () => {
-    this.setState({ user: undefined });
+    this.setState({ loadingUser: false, user: undefined });
   };
 
   render() {
-    const { events, loading, programs, user } = this.state;
+    const { events, loading, loadingUser, programs, user, users } = this.state;
+
     return (
       <Router>
         <Main id="top">
           <Nav user={user} />
+          <Hero />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
-            <Route path="/programs" component={Programs} />
+            <Route exact path="/programs" component={Programs} />
             <Route path="/gallery" component={Gallery} />
             <Route path="/contact" component={Contact} />
             <Route
               path="/schedule"
               render={props => (
-                <Schedule {...props} events={events} loading={loading} programs={programs} user={user} />
+                <Schedule
+                  {...props}
+                  events={events}
+                  loading={loading}
+                  programs={programs}
+                  user={user}
+                />
               )}
             />
             <Route
               path="/dashboard"
-              render={props => <Dashboard {...props} user={user} />}
+              render={props => (
+                <Dashboard
+                  {...props}
+                  events={events}
+                  loading={loading}
+                  programs={programs}
+                  user={user}
+                />
+              )}
+            />
+            <Route
+              path="/programs/:programId/:classId"
+              render={props => (
+                <ClassManager
+                  {...props}
+                  events={events}
+                  loading={loading}
+                  programs={programs}
+                  user={user}
+                  users={users}
+                />
+              )}
             />
             <Route
               path="/login"
-              render={props => <Login {...props} user={user} />}
+              render={props => (
+                <Login {...props} loading={loadingUser} user={user} />
+              )}
             />
             <Redirect to="/" />
           </Switch>

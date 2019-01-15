@@ -15,7 +15,13 @@ interface Props {
 }
 
 const ProfilePhoto = ({ customStyles, imageSrc, sideLength = 100 }: Props) => (
-  <l.Space height={sideLength} style={customStyles} width={sideLength}>
+  <l.Space
+    height={sideLength}
+    minHeight={sideLength}
+    minWidth={sideLength}
+    style={customStyles}
+    width={sideLength}
+  >
     <ProfileImage src={imageSrc} />
   </l.Space>
 );

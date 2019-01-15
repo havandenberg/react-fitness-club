@@ -19,6 +19,7 @@ export const colors = {
   gray: '#4A4A4A',
   green: '#4BB543',
   lightGray: '#DEDEDE',
+  lightGreen: '#4BB543',
   lightRed: '#F46767',
   red: '#F14042',
   white: '#FFFFFF',
@@ -32,6 +33,7 @@ export const gradients = {
   divider: `linear-gradient(to bottom, ${colors.black} 0, ${
     colors.black
   } 20%, ${colors.gray} 50%, ${colors.black} 80%, ${colors.black} 100%);`,
+  green: `linear-gradient(to bottom, ${colors.lightGreen}, ${colors.green});`,
   red: `linear-gradient(to bottom, ${colors.lightRed}, ${colors.red});`,
 };
 

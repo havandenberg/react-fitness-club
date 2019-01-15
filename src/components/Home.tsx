@@ -14,11 +14,9 @@ import t from '../styles/typography';
 import { ASSETS_PATH, CAPOEIRA_PATH, REACT_PATH } from '../utils/constants';
 import { isMobile, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
-import { Page } from './App';
 import FeaturedLinks from './FeaturedLinks';
 import { LinkPrimary } from './Form/Button';
 import GalleryImage from './GalleryImage';
-import Hero from './Hero';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
 
@@ -44,7 +42,6 @@ export const Star = styled('img')({
 
 const Home = () => (
   <div>
-    <Hero />
     <t.Text
       center
       italic
@@ -74,7 +71,7 @@ const Home = () => (
       for updates about opening day!
     </t.Text>
     <FeaturedLinks />
-    <Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+    <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
       <l.Flex columnOnMobile spaceBetween>
         {isTabletUp() && <Star src={StarImg} />}
         <t.Text
@@ -303,7 +300,7 @@ const Home = () => (
           Check out our programs
         </LinkPrimary>
       </l.FlexCentered>
-    </Page>
+    </l.Page>
     <Newsletter />
     <l.Space height={100} />
   </div>

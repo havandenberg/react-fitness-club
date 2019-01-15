@@ -53,7 +53,7 @@ export const listenForProgramChanges = (
 
 export const listenForUserChanges = (
   uid: string,
-  callback: (user: Member) => void,
+  callback: (user?: Member) => void,
 ) => {
   firebase
     .database()
@@ -61,6 +61,23 @@ export const listenForUserChanges = (
     .on('value', snapshot => {
       if (snapshot) {
         callback(snapshot.val());
+      } else {
+        callback();
+      }
+    });
+};
+
+export const listenForUsersChanges = (
+  callback: (users?: { [key: string]: Member }) => void,
+) => {
+  firebase
+    .database()
+    .ref(`members`)
+    .on('value', snapshot => {
+      if (snapshot) {
+        callback(snapshot.val());
+      } else {
+        callback();
       }
     });
 };

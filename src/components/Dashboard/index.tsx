@@ -2,16 +2,17 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { Redirect } from 'react-router-dom';
+import { PulseLoader } from 'react-spinners';
 import l from '../../styles/layout';
 import { borders, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
 import { Member } from '../../types/member';
+import { Program } from '../../types/program';
 import { logout } from '../../utils/auth';
+import { CalendarEvent } from '../../utils/events';
 import { isMobile } from '../../utils/screensize';
-import { Page } from '../App';
 import Divider from '../Divider';
 import EditProfile from '../EditProfileForm';
-import Hero from '../Hero';
 import withScroll from '../hoc/withScroll';
 import SetupForm from '../SetupForm';
 import Profile from './Profile';
@@ -32,6 +33,9 @@ const NavItem = styled(t.Text)(
 export type DashboardView = 'profile' | 'edit-profile' | 'programs';
 
 interface Props {
+  events: CalendarEvent[];
+  loading: boolean;
+  programs: Program[];
   user?: Member;
 }
 
@@ -41,7 +45,7 @@ interface State {
 
 class Dashboard extends React.Component<Props, State> {
   state: State = {
-    view: 'profile',
+    view: 'programs',
   };
 
   setView = (view: DashboardView) => {
@@ -49,16 +53,19 @@ class Dashboard extends React.Component<Props, State> {
   };
 
   render() {
-    const { user } = this.props;
+    const { events, loading, programs, user } = this.props;
     const { view } = this.state;
-    return user ? (
+    return loading ? (
+      <l.FlexCentered my={spacing.xxxxxl}>
+        <PulseLoader sizeUnit="px" size={30} color={colors.black} />
+      </l.FlexCentered>
+    ) : user ? (
       <div>
-        <Hero secondary />
         <t.Title center mb={spacing.ml}>
           Dashboard
         </t.Title>
         <Divider white />
-        <Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+        <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
           {user.isAccountSetupComplete && (
             <l.Flex
               alignTop
@@ -66,19 +73,19 @@ class Dashboard extends React.Component<Props, State> {
               justifyContent={isMobile() ? 'space-around' : 'center'}
             >
               <NavItem
-                active={R.contains(view, ['profile', 'edit-profile'])}
-                large
-                onClick={this.setView('profile')}
-              >
-                Profile
-              </NavItem>
-              <l.Space width={[0, spacing.xxxxxl]} />
-              <NavItem
                 active={view === 'programs'}
                 large
                 onClick={this.setView('programs')}
               >
                 Programs
+              </NavItem>
+              <l.Space width={[0, spacing.xxxxxl]} />
+              <NavItem
+                active={R.contains(view, ['profile', 'edit-profile'])}
+                large
+                onClick={this.setView('profile')}
+              >
+                Profile
               </NavItem>
               <l.Space width={[0, spacing.xxxxxl]} />
               <t.TextButton
@@ -99,12 +106,14 @@ class Dashboard extends React.Component<Props, State> {
               {view === 'edit-profile' && (
                 <EditProfile setView={this.setView('profile')} user={user} />
               )}
-              {view === 'programs' && <Programs user={user} />}
+              {view === 'programs' && (
+                <Programs events={events} programs={programs} user={user} />
+              )}
             </>
           ) : (
             <SetupForm user={user} />
           )}
-        </Page>
+        </l.Page>
         <l.Space height={100} />
       </div>
     ) : (

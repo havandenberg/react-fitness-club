@@ -6,20 +6,20 @@ import {
   FacebookLoginButton,
   GoogleLoginButton,
 } from 'react-social-login-buttons';
+import { PulseLoader } from 'react-spinners';
 import l from '../styles/layout';
-import { fontSizes, spacing } from '../styles/theme';
+import { colors, fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
 import { login } from '../utils/auth';
-import { Page } from './App';
 import Divider from './Divider';
 import { ButtonTertiary } from './Form/Button';
-import Hero from './Hero';
 import withScroll from './hoc/withScroll';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 
 interface Props {
+  loading: boolean;
   user?: Member;
 }
 
@@ -43,54 +43,61 @@ class Login extends React.Component<RouteComponentProps & Props, State> {
   };
 
   render() {
-    const { user } = this.props;
+    const { loading, user } = this.props;
     const { isNew } = this.state;
     return user ? (
       <Redirect to="/dashboard" />
     ) : (
       <div>
-        <Hero secondary />
-        <t.Title center mb={spacing.ml}>
-          RFC Portal Login
-        </t.Title>
-        <Divider white />
-        <Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
-          <l.FlexCentered>
-            <t.Text large>
-              Sign up or log in to RFC with your social media account.
-            </t.Text>
+        {loading ? (
+          <l.FlexCentered my={spacing.xxxxxl}>
+            <PulseLoader sizeUnit="px" size={30} color={colors.black} />
           </l.FlexCentered>
-          <l.Space height={spacing.xxxl} />
-          <l.FlexCentered columnOnMobile>
-            <GoogleLoginButton
-              onClick={() => login('google')}
-              style={{ width: 252 }}
-            />
-            <l.Space height={spacing.xl} width={spacing.xxxl} />
-            <FacebookLoginButton
-              onClick={() => login('facebook')}
-              style={{ width: 252 }}
-            />
-          </l.FlexCentered>
-          <l.Space height={spacing.xxxl} />
-          <l.FlexCentered>
-            <t.Text fontSize={fontSizes.h2}>- or -</t.Text>
-          </l.FlexCentered>
-          <l.Space height={spacing.xxxl} />
-          <l.FlexCentered>
-            <t.Text large>{`${
-              isNew ? 'Sign up' : 'Log in'
-            } with your email address and password.`}</t.Text>
-          </l.FlexCentered>
-          <l.Space height={spacing.xxxl} />
-          {isNew ? <SignupForm /> : <LoginForm />}
-          <l.Space height={spacing.xxxl} />
-          <l.FlexCentered>
-            <ButtonTertiary onClick={this.toggleIsNew}>
-              {isNew ? 'Login' : 'Sign Up'}
-            </ButtonTertiary>
-          </l.FlexCentered>
-        </Page>
+        ) : (
+          <div>
+            <t.Title center mb={spacing.ml}>
+              RFC Portal Login
+            </t.Title>
+            <Divider white />
+            <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+              <l.FlexCentered>
+                <t.Text large>
+                  Sign up or log in to RFC with your social media account.
+                </t.Text>
+              </l.FlexCentered>
+              <l.Space height={spacing.xxxl} />
+              <l.FlexCentered columnOnMobile>
+                <GoogleLoginButton
+                  onClick={() => login('google')}
+                  style={{ width: 252 }}
+                />
+                <l.Space height={spacing.xl} width={spacing.xxxl} />
+                <FacebookLoginButton
+                  onClick={() => login('facebook')}
+                  style={{ width: 252 }}
+                />
+              </l.FlexCentered>
+              <l.Space height={spacing.xxxl} />
+              <l.FlexCentered>
+                <t.Text fontSize={fontSizes.h2}>- or -</t.Text>
+              </l.FlexCentered>
+              <l.Space height={spacing.xxxl} />
+              <l.FlexCentered>
+                <t.Text large>{`${
+                  isNew ? 'Sign up' : 'Log in'
+                } with your email address and password.`}</t.Text>
+              </l.FlexCentered>
+              <l.Space height={spacing.xxxl} />
+              {isNew ? <SignupForm /> : <LoginForm />}
+              <l.Space height={spacing.xxxl} />
+              <l.FlexCentered>
+                <ButtonTertiary onClick={this.toggleIsNew}>
+                  {isNew ? 'Login' : 'Sign Up'}
+                </ButtonTertiary>
+              </l.FlexCentered>
+            </l.Page>
+          </div>
+        )}
       </div>
     );
   }

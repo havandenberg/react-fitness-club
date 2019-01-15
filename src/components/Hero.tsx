@@ -1,6 +1,7 @@
+import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import LogoImg from '../assets/images/logo.png';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
@@ -73,48 +74,55 @@ const SocialIconsWrapper = styled('div')({
   },
 });
 
-const Hero = ({ secondary, user }: { secondary?: boolean; user?: Member }) => (
-  <HeroWrapper>
-    <LogoWrapper py={[spacing.ml, spacing.xl]} secondary={secondary}>
-      <Link to="/">
-        <Logo secondary={secondary} src={LogoImg} />
-      </Link>
-    </LogoWrapper>
-    {!secondary && (
-      <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
-        <t.Subtitle center>
-          Multi-Style Martial Arts Training & Fitness Club
-        </t.Subtitle>
-      </l.FlexCentered>
-    )}
-    <QuickLinks alignBottom>
-      {isTabletUp() && (
-        <t.Text color={colors.black} mb={[0, spacing.sm]}>
-          Quick Links:
-        </t.Text>
+const Hero = ({ location, user }: { user?: Member } & RouteComponentProps) => {
+  const secondary = !R.equals(location.pathname, '/');
+  return (
+    <HeroWrapper>
+      <LogoWrapper
+        pb={secondary ? [spacing.ml, 0, 0] : [spacing.ml, spacing.xl]}
+        pt={[spacing.ml, spacing.xl]}
+        secondary={secondary}
+      >
+        <Link to="/">
+          <Logo secondary={secondary} src={LogoImg} />
+        </Link>
+      </LogoWrapper>
+      {!secondary && (
+        <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
+          <t.Subtitle center>
+            Multi-Style Martial Arts Training & Fitness Club
+          </t.Subtitle>
+        </l.FlexCentered>
       )}
-      <QuickLink border={borders.red} color={colors.red} to="/schedule">
-        Schedule
-      </QuickLink>
-      {/* <QuickAnchor border={borders.red} to="/events">
+      <QuickLinks alignBottom>
+        {isTabletUp() && (
+          <t.Text color={colors.black} mb={[0, spacing.sm]}>
+            Quick Links:
+          </t.Text>
+        )}
+        <QuickLink border={borders.red} color={colors.red} to="/schedule">
+          Schedule
+        </QuickLink>
+        {/* <QuickAnchor border={borders.red} to="/events">
         Events
       </QuickAnchor> */}
-      <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">
-        <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
-      </QuickLink>
-      <QuickAnchor
-        border={borders.red}
-        color={colors.red}
-        href="https://www.gofundme.com/react-fitness-club-alumni-floor"
-        target="_blank"
-      >
-        Donate
-      </QuickAnchor>
-      <SocialIconsWrapper>
-        <SocialIcons small />
-      </SocialIconsWrapper>
-    </QuickLinks>
-  </HeroWrapper>
-);
+        <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">
+          <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
+        </QuickLink>
+        <QuickAnchor
+          border={borders.red}
+          color={colors.red}
+          href="https://www.gofundme.com/react-fitness-club-alumni-floor"
+          target="_blank"
+        >
+          Donate
+        </QuickAnchor>
+        <SocialIconsWrapper>
+          <SocialIcons small />
+        </SocialIconsWrapper>
+      </QuickLinks>
+    </HeroWrapper>
+  );
+};
 
-export default Hero;
+export default withRouter(Hero);

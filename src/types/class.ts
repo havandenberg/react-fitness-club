@@ -1,6 +1,7 @@
 import { CalendarEvent } from '../utils/events';
 
-export interface Class {
-  programId: string;
+export interface ClassInst {
   date: CalendarEvent;
+  membersAttended: string[];
+  id: string;
 }

@@ -7,11 +7,9 @@ import t from '../styles/typography';
 import { ASSETS_PATH } from '../utils/constants';
 import { DESKTOP, isMobile } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
-import { Page } from './App';
 import ContactForm from './ContactForm';
 import Divider from './Divider';
 import GalleryImage from './GalleryImage';
-import Hero from './Hero';
 import withScroll from './hoc/withScroll';
 import { Star } from './Home';
 import SocialIcons from './SocialIcons';
@@ -26,12 +24,11 @@ const MapImage = styled('img')({
 
 const Contact = () => (
   <div>
-    <Hero secondary />
     <t.Title center mb={spacing.ml}>
       Contact
     </t.Title>
     <Divider white />
-    <Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+    <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
       <l.Flex
         alignTop
         columnOnMobile
@@ -154,7 +151,7 @@ const Contact = () => (
       >
         <MapImage src={`${ASSETS_PATH}/studio/map.png`} />
       </t.Anchor>
-    </Page>
+    </l.Page>
     <l.Space height={100} />
   </div>
 );

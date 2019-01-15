@@ -26,7 +26,6 @@ export interface Member {
   nickname?: string;
   phone: string;
   profilePhotoUrl: string;
-  programs: string[];
   squareCustomerId: string;
   state: string;
   streetAddress1: string;
@@ -55,7 +54,6 @@ export const newMemberDefaults: Member = {
   nickname: '',
   phone: '',
   profilePhotoUrl: '',
-  programs: [],
   squareCustomerId: '',
   state: '',
   streetAddress1: '',
@@ -63,3 +61,7 @@ export const newMemberDefaults: Member = {
   uid: '',
   zip: '',
 };
+
+export const parseUserData = (user: Member) => ({
+  ...user,
+});
