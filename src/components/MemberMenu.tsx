@@ -7,7 +7,7 @@ import t from '../styles/typography';
 import { Member } from '../types/member';
 import ProfilePhoto from './ProfilePhoto';
 
-const UserMenuWrapper = styled(l.FlexColumn)({
+const MemberMenuWrapper = styled(l.FlexColumn)({
   ':hover': {
     background: gradients.blackReverse,
   },
@@ -30,14 +30,14 @@ const Item = styled('div')({
 
 interface Props {
   logout: () => void;
-  user: Member;
+  member: Member;
 }
 
-const UserMenu = (props: Props) => {
-  const { logout, user } = props;
-  const hasProfilePhoto = !R.isEmpty(user.profilePhotoUrl);
+const MemberMenu = (props: Props) => {
+  const { logout, member } = props;
+  const hasProfilePhoto = !R.isEmpty(member.profilePhotoUrl);
   return (
-    <UserMenuWrapper alignBottom>
+    <MemberMenuWrapper alignBottom>
       <t.Link to="/dashboard" color={colors.white} mb={spacing.s}>
         <Item>
           <l.Flex alignTop pl={hasProfilePhoto ? spacing.xxxl : undefined}>
@@ -45,14 +45,14 @@ const UserMenu = (props: Props) => {
               <>
                 <ProfilePhoto
                   customStyles={{ left: spacing.ml, position: 'absolute' }}
-                  imageSrc={user.profilePhotoUrl}
+                  imageSrc={member.profilePhotoUrl}
                   sideLength={52}
                 />
                 <l.Space width={spacing.xxxl} />
               </>
             )}
             <t.Text className="logout" nowrap>
-              {user.nickname || `${user.firstName} ${user.lastName}`}
+              {member.nickname || `${member.firstName} ${member.lastName}`}
             </t.Text>
           </l.Flex>
         </Item>
@@ -60,8 +60,8 @@ const UserMenu = (props: Props) => {
       <Item onClick={logout}>
         <t.Text className="logout">Logout</t.Text>
       </Item>
-    </UserMenuWrapper>
+    </MemberMenuWrapper>
   );
 };
 
-export default UserMenu;
+export default MemberMenu;

@@ -100,7 +100,7 @@ const PhoneAnchor = styled(t.Text)({
   transition: transitions.default,
 });
 
-const Footer = ({ user }: { user?: Member }) => (
+const Footer = ({ member }: { member?: Member }) => (
   <div>
     <DividerWrapper>
       <Divider white />
@@ -132,7 +132,7 @@ const Footer = ({ user }: { user?: Member }) => (
             text="Donate"
           />
           <l.Space height={spacing.l} />
-          {user ? (
+          {member ? (
             <t.TextButton color={colors.red} large onClick={logout}>
               Logout
             </t.TextButton>

@@ -74,7 +74,10 @@ const SocialIconsWrapper = styled('div')({
   },
 });
 
-const Hero = ({ location, user }: { user?: Member } & RouteComponentProps) => {
+const Hero = ({
+  location,
+  member,
+}: { member?: Member } & RouteComponentProps) => {
   const secondary = !R.equals(location.pathname, '/');
   return (
     <HeroWrapper>

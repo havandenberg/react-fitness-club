@@ -21,6 +21,7 @@ export interface CalendarEventShape {
 
 export interface CalendarEvent extends Event {
   description: string;
+  divisionId: string;
   end: Date;
   id: string;
   location?: string;
@@ -42,6 +43,10 @@ export const expandRecurringEvents: (
   events.map((event: CalendarEventShape) => {
     const startDate = new Date(event.start.date || event.start.dateTime || '');
     const endDate = new Date(event.end.date || event.end.dateTime || '');
+    const ids = event.description ? event.description.split(':') : [];
+    const programId = ids.length > 0 ? ids[0] : '';
+    const divisionId = ids.length > 1 ? ids[1] : '';
+
     if (event.recurrence && !R.isEmpty(event.recurrence)) {
       const startMoment = moment.utc(startDate);
       const endMoment = moment.utc(endDate);
@@ -55,12 +60,11 @@ export const expandRecurringEvents: (
         .map((date: Date) => {
           occurrences.push({
             ...event,
+            divisionId,
             end: moment(date)
               .add(hourDiff, 'hours')
               .toDate(),
-            programId: event.description
-              ? event.description.substr(0, event.description.indexOf(':'))
-              : '',
+            programId,
             start: date,
             title: event.summary,
           });
@@ -68,10 +72,9 @@ export const expandRecurringEvents: (
     } else {
       occurrences.push({
         ...event,
+        divisionId,
         end: endDate,
-        programId: event.description
-          ? event.description.substr(0, event.description.indexOf(':'))
-          : '',
+        programId,
         start: startDate,
         title: event.summary,
       });

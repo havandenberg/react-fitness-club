@@ -8,13 +8,13 @@ import {
   Switch,
 } from 'react-router-dom';
 import { colors, maxWidth } from '../styles/theme';
-import { Member, parseUserData } from '../types/member';
+import { Member, parseMemberData } from '../types/member';
 import { parsePrograms, Program } from '../types/program';
 import {
   checkAuthed,
+  listenForMemberChanges,
+  listenForMembersChanges,
   listenForProgramChanges,
-  listenForUserChanges,
-  listenForUsersChanges,
 } from '../utils/auth';
 import {
   CalendarEvent,
@@ -45,12 +45,12 @@ interface State {
   events: CalendarEvent[];
   loading: boolean;
   loadingEvents: boolean;
+  loadingMember: boolean;
+  loadingMembers: boolean;
   loadingPrograms: boolean;
-  loadingUser: boolean;
-  loadingUsers: boolean;
   programs: Program[];
-  user?: Member;
-  users?: Member[];
+  member?: Member;
+  members?: Member[];
 }
 
 class App extends React.Component<SubscribeProps, State> {
@@ -58,12 +58,12 @@ class App extends React.Component<SubscribeProps, State> {
     events: [],
     loading: true,
     loadingEvents: true,
+    loadingMember: true,
+    loadingMembers: true,
     loadingPrograms: true,
-    loadingUser: true,
-    loadingUsers: true,
+    member: undefined,
+    members: undefined,
     programs: [],
-    user: undefined,
-    users: undefined,
   };
 
   componentDidMount() {
@@ -74,26 +74,26 @@ class App extends React.Component<SubscribeProps, State> {
     );
   }
 
-  authedCallback = (user: Member) => {
-    this.setState({ user }, () => {
+  authedCallback = (member: Member) => {
+    this.setState({ member }, () => {
       listenForProgramChanges((programs: Program[]) =>
         this.setState(
           { programs: parsePrograms(programs), loadingPrograms: false },
           this.checkFinishedLoading,
         ),
       );
-      listenForUserChanges(user.uid, (userData: Member) => {
+      listenForMemberChanges(member.uid, (memberData: Member) => {
         this.setState(
-          { user: parseUserData(userData), loadingUser: false },
+          { member: parseMemberData(memberData), loadingMember: false },
           this.checkFinishedLoading,
         );
       });
-      listenForUsersChanges((usersData: { [key: string]: Member }) => {
+      listenForMembersChanges((membersData: { [key: string]: Member }) => {
         this.setState(
           {
-            loadingUsers: false,
-            users: R.values(usersData).map((member: Member) =>
-              parseUserData(member),
+            loadingMembers: false,
+            members: R.values(membersData).map((mem: Member) =>
+              parseMemberData(mem),
             ),
           },
           this.checkFinishedLoading,
@@ -115,25 +115,38 @@ class App extends React.Component<SubscribeProps, State> {
     const {
       loadingPrograms,
       loadingEvents,
-      loadingUser,
-      loadingUsers,
+      loadingMember,
+      loadingMembers,
     } = this.state;
-    if (!loadingPrograms && !loadingEvents && !loadingUser && !loadingUsers) {
+    if (
+      !loadingPrograms &&
+      !loadingEvents &&
+      !loadingMember &&
+      !loadingMembers
+    ) {
       this.setState({ loading: false });
     }
   };
 
   unauthedCallback = () => {
-    this.setState({ loadingUser: false, user: undefined });
+    this.setState({ loadingMember: false, member: undefined });
   };
 
   render() {
-    const { events, loading, loadingUser, programs, user, users } = this.state;
+    const {
+      events,
+      loading,
+      loadingMember,
+      programs,
+      member,
+      members,
+    } = this.state;
+    // console.log(members);
 
     return (
       <Router>
         <Main id="top">
-          <Nav user={user} />
+          <Nav member={member} />
           <Hero />
           <Switch>
             <Route exact path="/" component={Home} />
@@ -149,7 +162,7 @@ class App extends React.Component<SubscribeProps, State> {
                   events={events}
                   loading={loading}
                   programs={programs}
-                  user={user}
+                  member={member}
                 />
               )}
             />
@@ -161,32 +174,32 @@ class App extends React.Component<SubscribeProps, State> {
                   events={events}
                   loading={loading}
                   programs={programs}
-                  user={user}
+                  member={member}
                 />
               )}
             />
             <Route
-              path="/programs/:programId/:classId"
+              path="/programs/:programId/:divisionId/:classInstId"
               render={props => (
                 <ClassManager
                   {...props}
                   events={events}
                   loading={loading}
                   programs={programs}
-                  user={user}
-                  users={users}
+                  member={member}
+                  members={members}
                 />
               )}
             />
             <Route
               path="/login"
               render={props => (
-                <Login {...props} loading={loadingUser} user={user} />
+                <Login {...props} loading={loadingMember} member={member} />
               )}
             />
             <Redirect to="/" />
           </Switch>
-          <Footer user={user} />
+          <Footer member={member} />
         </Main>
       </Router>
     );

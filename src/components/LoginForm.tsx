@@ -16,6 +16,7 @@ interface LoginFields {
   email: string;
   password: string;
 }
+
 const loginFieldValidations: FormFieldValidations<LoginFields> = {
   email: (value: string) => isValidEmail(value),
   password: (value: string) => !R.isEmpty(value),

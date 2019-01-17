@@ -20,7 +20,7 @@ import SignupForm from './SignupForm';
 
 interface Props {
   loading: boolean;
-  user?: Member;
+  member?: Member;
 }
 
 interface State {
@@ -43,9 +43,9 @@ class Login extends React.Component<RouteComponentProps & Props, State> {
   };
 
   render() {
-    const { loading, user } = this.props;
+    const { loading, member } = this.props;
     const { isNew } = this.state;
-    return user ? (
+    return member ? (
       <Redirect to="/dashboard" />
     ) : (
       <div>

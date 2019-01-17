@@ -36,7 +36,7 @@ interface Props {
   events: CalendarEvent[];
   loading: boolean;
   programs: Program[];
-  user?: Member;
+  member?: Member;
 }
 
 interface State {
@@ -53,20 +53,20 @@ class Dashboard extends React.Component<Props, State> {
   };
 
   render() {
-    const { events, loading, programs, user } = this.props;
+    const { events, loading, programs, member } = this.props;
     const { view } = this.state;
     return loading ? (
       <l.FlexCentered my={spacing.xxxxxl}>
         <PulseLoader sizeUnit="px" size={30} color={colors.black} />
       </l.FlexCentered>
-    ) : user ? (
+    ) : member ? (
       <div>
         <t.Title center mb={spacing.ml}>
           Dashboard
         </t.Title>
         <Divider white />
         <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
-          {user.isAccountSetupComplete && (
+          {member.isAccountSetupComplete && (
             <l.Flex
               alignTop
               mb={spacing.xxxl}
@@ -98,20 +98,26 @@ class Dashboard extends React.Component<Props, State> {
               </t.TextButton>
             </l.Flex>
           )}
-          {user.isAccountSetupComplete ? (
+          {member.isAccountSetupComplete ? (
             <>
               {view === 'profile' && (
-                <Profile setView={this.setView('edit-profile')} user={user} />
+                <Profile
+                  setView={this.setView('edit-profile')}
+                  member={member}
+                />
               )}
               {view === 'edit-profile' && (
-                <EditProfile setView={this.setView('profile')} user={user} />
+                <EditProfile
+                  setView={this.setView('profile')}
+                  member={member}
+                />
               )}
               {view === 'programs' && (
-                <Programs events={events} programs={programs} user={user} />
+                <Programs events={events} programs={programs} member={member} />
               )}
             </>
           ) : (
-            <SetupForm user={user} />
+            <SetupForm member={member} />
           )}
         </l.Page>
         <l.Space height={100} />

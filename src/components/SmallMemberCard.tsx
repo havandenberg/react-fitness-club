@@ -2,14 +2,25 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import l from '../styles/layout';
-import { borders, colors, spacing, transitions } from '../styles/theme';
+import {
+  borders,
+  colors,
+  fontSizes,
+  spacing,
+  transitions,
+} from '../styles/theme';
 import t from '../styles/typography';
 import { ClassInst } from '../types/class';
 import { Member } from '../types/member';
-import { Program } from '../types/program';
 import { toggleAttendingClass } from '../utils/class';
-import { isTabletUp } from '../utils/screensize';
+import { isTabletUp, TABLET_UP } from '../utils/screensize';
 import ProfilePhoto from './ProfilePhoto';
+
+const Name = styled(t.Text)({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
 
 const SmallMemberCardWrapper = styled(l.Flex)(
   {
@@ -35,33 +46,40 @@ const SmallMemberCardWrapper = styled(l.Flex)(
 
 const SmallMemberCard = ({
   classInst,
+  divisionId,
   member,
-  program,
+  programId,
 }: {
   classInst?: ClassInst;
+  divisionId?: string;
   member: Member;
-  program?: Program;
+  programId?: string;
 }) => (
   <SmallMemberCardWrapper
     classInst={classInst}
-    isSignedIn={classInst && R.contains(member.uid, classInst.membersAttended)}
+    isSignedIn={classInst && R.contains(member.uid, classInst.attendanceIds)}
     onClick={
-      classInst && program
-        ? () => toggleAttendingClass(member, program, classInst)
+      classInst && programId && divisionId
+        ? () =>
+            toggleAttendingClass(classInst, member.uid, programId, divisionId)
         : undefined
     }
+    mb={spacing.ml}
     p={[spacing.s, spacing.sm, spacing.sm]}
-    spaceBetween
-    width={250}
+    width={['100%', 250, 300]}
   >
     <ProfilePhoto
       imageSrc={member.profilePhotoUrl}
-      sideLength={[spacing.xxxl, spacing.xxxxl, spacing.xxxxl]}
+      sideLength={[spacing.xxxxl, spacing.xxxxxl, spacing.xxxxxl]}
     />
     <l.Space width={[spacing.sm, spacing.ml, spacing.ml]} />
-    <t.Text large={isTabletUp()}>{`${member.firstName} ${
-      member.lastName
-    }`}</t.Text>
+    <Name
+      fontSize={fontSizes.largeText}
+      maxWidth={isTabletUp() ? 200 : undefined}
+    >
+      {member.firstName} <l.Break breakpoint={TABLET_UP} />
+      {member.lastName}
+    </Name>
   </SmallMemberCardWrapper>
 );
 

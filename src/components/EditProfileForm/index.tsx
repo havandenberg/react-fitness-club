@@ -102,7 +102,7 @@ const formData: Array<FormStep<EditProfileFields>> = [
 
 class EditProfileForm extends Form<EditProfileFields> {}
 
-export const processFormValues = (user: EditProfileFields) => ({
+export const processFormValues = (member: EditProfileFields) => ({
   ...R.pick(
     [
       'allergies',
@@ -119,37 +119,37 @@ export const processFormValues = (user: EditProfileFields) => ({
       'streetAddress2',
       'zip',
     ],
-    user,
+    member,
   ),
   dateOfBirth: {
-    day: user.dobDay,
-    month: user.dobMonth,
-    year: user.dobYear,
+    day: member.dobDay,
+    month: member.dobMonth,
+    year: member.dobYear,
   },
   emergencyContact: {
-    email: user.eEmail,
-    firstName: user.eFirstName,
-    lastName: user.eLastName,
-    phone: user.ePhone,
-    relationship: user.eRelationship,
+    email: member.eEmail,
+    firstName: member.eFirstName,
+    lastName: member.eLastName,
+    phone: member.ePhone,
+    relationship: member.eRelationship,
   },
 });
 
 interface Props {
   setView: () => void;
-  user: Member;
+  member: Member;
 }
 
 class EditProfileComponent extends React.Component<Props> {
   getInitialFormValues: () => EditProfileFields = () => {
-    const { user } = this.props;
-    const { dateOfBirth, emergencyContact } = user;
+    const { member } = this.props;
+    const { dateOfBirth, emergencyContact } = member;
     return {
       confirmPassword: '',
       nickname: '',
       password: '',
       streetAddress2: '',
-      ...R.omit(['dateOfBirth', 'emergencyContact', 'state'], user),
+      ...R.omit(['dateOfBirth', 'emergencyContact', 'state'], member),
       dobDay: dateOfBirth.day,
       dobMonth: dateOfBirth.month,
       dobYear: dateOfBirth.year,
@@ -158,7 +158,7 @@ class EditProfileComponent extends React.Component<Props> {
       eLastName: emergencyContact.lastName,
       ePhone: emergencyContact.phone,
       eRelationship: emergencyContact.relationship,
-      state: R.isEmpty(user.state) ? '-' : user.state,
+      state: R.isEmpty(member.state) ? '-' : member.state,
     };
   };
 

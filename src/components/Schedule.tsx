@@ -7,7 +7,13 @@ import l from '../styles/layout';
 import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
-import { getProgramById, isCoachOf, Program } from '../types/program';
+import {
+  Division,
+  getDivisionById,
+  getProgramById,
+  isCoachOf,
+  Program,
+} from '../types/program';
 import {
   generateNewClass,
   getClassInstById,
@@ -27,21 +33,29 @@ const Schedule = ({
   history,
   loading,
   programs,
-  user,
+  member,
 }: {
   events: CalendarEvent[];
   loading: boolean;
   programs: Program[];
-  user?: Member;
+  member?: Member;
 } & RouteComponentProps) => {
-  const handleSelectEvent = (event: CalendarEvent, program: Program) => {
-    if (user && isCoachOf(user, program)) {
+  const handleSelectEvent = (
+    event: CalendarEvent,
+    program: Program,
+    division: Division,
+  ) => {
+    if (member && isCoachOf(member.uid, program)) {
       const classId = getClassInstIdFromEvent(event);
-      if (getClassInstById(classId, program)) {
-        history.push(`/programs/${program.id}/${classId}`);
+      if (getClassInstById(classId, division)) {
+        history.push(`/programs/${program.id}/${division.id}/${classId}`);
       } else {
-        openClass(generateNewClass(event, user), program).then(() =>
-          history.push(`/programs/${program.id}/${classId}`),
+        openClass(
+          generateNewClass(event, member.uid),
+          program.id,
+          division.id,
+        ).then(() =>
+          history.push(`/programs/${program.id}/${division.id}/${classId}`),
         );
       }
     }
@@ -73,8 +87,10 @@ const Schedule = ({
               events={events ? events : []}
               onSelectEvent={(event: CalendarEvent) => {
                 const program = getProgramById(event.programId, programs);
-                if (program) {
-                  handleSelectEvent(event, program);
+                const divisionId =
+                  program && getDivisionById(event.divisionId, program);
+                if (program && divisionId) {
+                  handleSelectEvent(event, program, divisionId);
                 }
               }}
               popup

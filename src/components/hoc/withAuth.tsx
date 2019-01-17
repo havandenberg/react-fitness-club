@@ -3,19 +3,19 @@ import { Redirect } from 'react-router';
 import { Member } from '../../types/member';
 
 interface AuthProps {
-  user: Member | null;
+  member: Member | null;
 }
 
 interface AuthInnerProps {
-  user: Member;
+  member: Member;
 }
 
 const withAuth = <P extends AuthProps>(Component: React.ComponentType<P>) =>
   class WithAuth extends React.Component<P & AuthInnerProps> {
     render() {
-      const { user } = this.props;
-      return user !== null ? (
-        <Component {...this.props} user={user} />
+      const { member } = this.props;
+      return member !== null ? (
+        <Component {...this.props} member={member} />
       ) : (
         <Redirect to="/" />
       );

@@ -1,16 +1,30 @@
 import * as R from 'ramda';
 import { ClassInst } from './class';
-import { Member } from './member';
+
+export interface Division {
+  classes: ClassInst[];
+  id: string;
+  memberIds: string[];
+  name: string;
+}
 
 export interface Program {
   assistantCoachIds: string[];
-  classes: ClassInst[];
   coachId: string;
+  divisions: Division[];
   id: string;
   logoSrc: string;
   name: string;
-  members: string[];
 }
+
+export const getDivisionById = (divisionId: string, program: Program) =>
+  R.find((division: Division) => divisionId === division.id, program.divisions);
+
+export const getDivisionByName = (divisionName: string, program: Program) =>
+  R.find(
+    (division: Division) => divisionName === division.name,
+    program.divisions,
+  );
 
 export const getProgramById = (programId: string, programs: Program[]) =>
   R.find((prog: Program) => programId === prog.id, programs);
@@ -21,19 +35,24 @@ export const parsePrograms = (programs: Program[]) =>
     return {
       ...program,
       assistantCoachIds: JSON.parse(`${program.assistantCoachIds}`),
-      classes: R.values(program.classes).map((classInst: ClassInst) => ({
-        ...classInst,
-        date: {
-          ...classInst.date,
-          end: new Date(classInst.date.end),
-          start: new Date(classInst.date.start),
-        },
-        membersAttended: JSON.parse(`${classInst.membersAttended}`),
+      divisions: R.values(program.divisions).map((division: Division) => ({
+        ...division,
+        classes: division.classes
+          ? R.values(division.classes).map((classInst: ClassInst) => ({
+              ...classInst,
+              attendanceIds: JSON.parse(`${classInst.attendanceIds}`),
+              date: {
+                ...classInst.date,
+                end: new Date(classInst.date.end),
+                start: new Date(classInst.date.start),
+              },
+            }))
+          : [],
+        memberIds: division.memberIds ? JSON.parse(`${division.memberIds}`) : [],
       })),
-      members: JSON.parse(`${program.members}`),
     };
   });
 
-export const isCoachOf = (user: Member, program: Program) =>
-  program.coachId === user.uid ||
-  R.contains(user.uid, program.assistantCoachIds);
+export const isCoachOf = (memberId: string, program: Program) =>
+  program.coachId === memberId ||
+  R.contains(memberId, program.assistantCoachIds);

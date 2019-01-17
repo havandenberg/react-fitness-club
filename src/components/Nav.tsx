@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'react-emotion';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
 import * as Sticky from 'react-stickynode';
-import UserImg from '../assets/images/user';
+import MemberImg from '../assets/images/user';
 import l from '../styles/layout';
 import {
   breakpoints,
@@ -20,7 +20,7 @@ import { Member } from '../types/member';
 import { logout } from '../utils/auth';
 import { isMobile, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
-import UserMenu from './UserMenu';
+import MemberMenu from './MemberMenu';
 
 interface Item {
   name: string;
@@ -120,7 +120,7 @@ const NavItem = ({
   </NavItemWrapper>
 );
 
-const UserIcon = styled('div')({
+const MemberIcon = styled('div')({
   height: spacing.ml,
   transform: `translateY(${spacing.t})`,
   [breakpoints.mobile]: {
@@ -129,12 +129,12 @@ const UserIcon = styled('div')({
 });
 
 interface Props {
-  user?: Member;
+  member?: Member;
 }
 
 interface State {
   hoverItem: number;
-  userHover: boolean;
+  memberHover: boolean;
 }
 
 class Nav extends React.Component<RouteComponentProps & Props, State> {
@@ -143,7 +143,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
 
     this.state = {
       hoverItem: -1,
-      userHover: false,
+      memberHover: false,
     };
   }
 
@@ -155,38 +155,40 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
     this.setState({ hoverItem: -1 });
   };
 
-  toggleUserHover = (userHover: boolean) => {
+  toggleMemberHover = (memberHover: boolean) => {
     return () => {
-      this.setState({ userHover });
+      this.setState({ memberHover });
     };
   };
 
   render() {
-    const { location, user } = this.props;
-    const { hoverItem, userHover } = this.state;
+    const { location, member } = this.props;
+    const { hoverItem, memberHover } = this.state;
 
-    const userMenuComponent = (
+    const memberMenuComponent = (
       <l.FlexCentered
         height={[spacing.xl, spacing.xl, parseInt(navHeight, 10) + 34]}
-        onClick={this.toggleUserHover(!userHover)}
-        onMouseEnter={this.toggleUserHover(true)}
-        onMouseLeave={this.toggleUserHover(false)}
+        onClick={this.toggleMemberHover(!memberHover)}
+        onMouseEnter={this.toggleMemberHover(true)}
+        onMouseLeave={this.toggleMemberHover(false)}
         pointer
         position="relative"
         width={[spacing.xl, 60, 80]}
         zIndex={z.high}
       >
         <t.Link to="/login">
-          <UserIcon>
-            <UserImg color={user || userHover ? colors.red : colors.white} />
-          </UserIcon>
+          <MemberIcon>
+            <MemberImg
+              color={member || memberHover ? colors.red : colors.white}
+            />
+          </MemberIcon>
         </t.Link>
-        {!isMobile() && user && userHover && (
-          <UserMenu
+        {!isMobile() && member && memberHover && (
+          <MemberMenu
             logout={() => {
-              this.setState({ userHover: false }, logout);
+              this.setState({ memberHover: false }, logout);
             }}
-            user={user}
+            member={member}
           />
         )}
       </l.FlexCentered>
@@ -222,11 +224,11 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
                 />
               );
             })}
-            {isTabletUp() && userMenuComponent}
+            {isTabletUp() && memberMenuComponent}
           </l.Flex>
           {!isTabletUp() && (
             <l.Space position="absolute" top={spacing.t} right={spacing.t}>
-              {userMenuComponent}
+              {memberMenuComponent}
             </l.Space>
           )}
         </NavWrapper>

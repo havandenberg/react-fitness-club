@@ -202,7 +202,7 @@ class LiabilityWaiverStep extends React.Component<
     if (currentUser) {
       const fileRef = firebase
         .storage()
-        .ref(`users/${currentUser.uid}/liability-waiver.pdf`);
+        .ref(`members/${currentUser.uid}/liability-waiver.pdf`);
       fileRef.put(blob);
       if (fields.sendLiabilityCopy) {
         blobToBase64String(blob).then(dataURL =>

@@ -137,7 +137,7 @@ class EmergencyInfoStep extends React.Component<
           data: any,
         ) => {
           if (currentUser) {
-            const userRef = firebase
+            const memberRef = firebase
               .database()
               .ref(`members/${currentUser.uid}`);
             if (!R.isEmpty(fields.password)) {
@@ -148,7 +148,7 @@ class EmergencyInfoStep extends React.Component<
                     currentUser
                       .updateEmail(fields.email)
                       .then(() => {
-                        userRef
+                        memberRef
                           .update(processFormValues(data))
                           .then(() => {
                             onSuccess();
@@ -163,7 +163,7 @@ class EmergencyInfoStep extends React.Component<
                         onFail(error, error.message);
                       });
                   } else {
-                    userRef
+                    memberRef
                       .update(processFormValues(data))
                       .then(() => {
                         onSuccess();
@@ -185,7 +185,7 @@ class EmergencyInfoStep extends React.Component<
               currentUser
                 .updateEmail(fields.email)
                 .then(() => {
-                  userRef
+                  memberRef
                     .update(processFormValues(data))
                     .then(() => {
                       onSuccess();
@@ -200,7 +200,7 @@ class EmergencyInfoStep extends React.Component<
                   onFail(error, error.message);
                 });
             } else {
-              userRef
+              memberRef
                 .update(processFormValues(data))
                 .then(() => {
                   onSuccess();

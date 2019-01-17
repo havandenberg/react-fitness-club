@@ -1,4 +1,4 @@
 import * as firebase from 'firebase';
 
-export const getCurrentMemberRef = (userId: string) =>
-  firebase.database().ref(`members/${userId}`);
+export const getCurrentMemberRef = (memberId: string) =>
+  firebase.database().ref(`members/${memberId}`);

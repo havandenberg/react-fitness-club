@@ -17,12 +17,12 @@ const ProfileInfo = styled('div')({
 
 interface Props {
   setView: () => void;
-  user: Member;
+  member: Member;
 }
 
 class Profile extends React.Component<Props> {
   render() {
-    const { setView, user } = this.props;
+    const { setView, member } = this.props;
     return (
       <div>
         <l.Flex
@@ -32,7 +32,7 @@ class Profile extends React.Component<Props> {
         >
           <ProfilePhoto
             sideLength={[150, 175, 200]}
-            imageSrc={user.profilePhotoUrl}
+            imageSrc={member.profilePhotoUrl}
           />
           <l.Space height={spacing.xxxl} width={spacing.xxxxxl} />
           <ProfileInfo>
@@ -49,8 +49,8 @@ class Profile extends React.Component<Props> {
               >
                 Name:
               </t.Text>
-              <t.Text large overflowX>{`${user.firstName} ${user.lastName}${
-                user.nickname ? ' (' + user.nickname + ')' : ''
+              <t.Text large overflowX>{`${member.firstName} ${member.lastName}${
+                member.nickname ? ' (' + member.nickname + ')' : ''
               }`}</t.Text>
             </l.Flex>
             <l.Flex
@@ -67,7 +67,7 @@ class Profile extends React.Component<Props> {
                 Email:
               </t.Text>
               <t.Text large overflowX>
-                {user.email}
+                {member.email}
               </t.Text>
             </l.Flex>
             <l.Flex
@@ -83,7 +83,7 @@ class Profile extends React.Component<Props> {
               >
                 Phone:
               </t.Text>
-              <t.Text large>{user.phone}</t.Text>
+              <t.Text large>{member.phone}</t.Text>
             </l.Flex>
             <l.Flex
               alignTop={isMobile()}
@@ -99,8 +99,8 @@ class Profile extends React.Component<Props> {
                 DOB:
               </t.Text>
               <t.Text large overflowX>
-                {user.dateOfBirth.month}/{user.dateOfBirth.day}/
-                {user.dateOfBirth.year}
+                {member.dateOfBirth.month}/{member.dateOfBirth.day}/
+                {member.dateOfBirth.year}
               </t.Text>
             </l.Flex>
             <t.Text bold large mb={[spacing.s, spacing.sm]}>
@@ -112,7 +112,7 @@ class Profile extends React.Component<Props> {
               mb={spacing.xl}
               overflowX
             >
-              {user.medicalConditions}
+              {member.medicalConditions}
             </t.Text>
             <t.Text bold large mb={[spacing.ml, spacing.sm]}>
               Emergency Contact Info:
@@ -131,8 +131,8 @@ class Profile extends React.Component<Props> {
                 Name:
               </t.Text>
               <t.Text large overflowX>
-                {user.emergencyContact.firstName}{' '}
-                {user.emergencyContact.lastName}
+                {member.emergencyContact.firstName}{' '}
+                {member.emergencyContact.lastName}
               </t.Text>
             </l.Flex>
             <l.Flex
@@ -149,7 +149,7 @@ class Profile extends React.Component<Props> {
                 Email:
               </t.Text>
               <t.Text large overflowX>
-                {user.emergencyContact.email}
+                {member.emergencyContact.email}
               </t.Text>
             </l.Flex>
             <l.Flex
@@ -166,7 +166,7 @@ class Profile extends React.Component<Props> {
                 Phone:
               </t.Text>
               <t.Text large overflowX>
-                {user.emergencyContact.phone}
+                {member.emergencyContact.phone}
               </t.Text>
             </l.Flex>
             <l.Flex
@@ -183,7 +183,7 @@ class Profile extends React.Component<Props> {
                 Relationship:
               </t.Text>
               <t.Text large overflowX>
-                {user.emergencyContact.relationship}
+                {member.emergencyContact.relationship}
               </t.Text>
             </l.Flex>
           </ProfileInfo>

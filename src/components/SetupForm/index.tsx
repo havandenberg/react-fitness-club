@@ -135,7 +135,7 @@ const formData: Array<FormStep<SetupFields>> = [
 
 class SetupForm extends Form<SetupFields> {}
 
-export const processFormValues = (user: SetupFields) => ({
+export const processFormValues = (member: SetupFields) => ({
   ...R.pick(
     [
       'allergies',
@@ -152,32 +152,32 @@ export const processFormValues = (user: SetupFields) => ({
       'streetAddress2',
       'zip',
     ],
-    user,
+    member,
   ),
   dateOfBirth: {
-    day: user.dobDay,
-    month: user.dobMonth,
-    year: user.dobYear,
+    day: member.dobDay,
+    month: member.dobMonth,
+    year: member.dobYear,
   },
   emergencyContact: {
-    email: user.eEmail,
-    firstName: user.eFirstName,
-    lastName: user.eLastName,
-    phone: user.ePhone,
-    relationship: user.eRelationship,
+    email: member.eEmail,
+    firstName: member.eFirstName,
+    lastName: member.eLastName,
+    phone: member.ePhone,
+    relationship: member.eRelationship,
   },
   isAccountSetupComplete: true,
   isLiabilityWaiverSigned: true,
 });
 
 interface Props {
-  user: Member;
+  member: Member;
 }
 
 class SetupFormComponent extends React.Component<Props> {
   getInitialFormValues: () => SetupFields = () => {
-    const { user } = this.props;
-    const { dateOfBirth, emergencyContact } = user;
+    const { member } = this.props;
+    const { dateOfBirth, emergencyContact } = member;
     return {
       initialFour: '',
       initialOne: '',
@@ -188,7 +188,7 @@ class SetupFormComponent extends React.Component<Props> {
       nickname: '',
       sendLiabilityCopy: true,
       streetAddress2: '',
-      ...R.omit(['dateOfBirth', 'emergencyContact', 'state'], user),
+      ...R.omit(['dateOfBirth', 'emergencyContact', 'state'], member),
       dobDay: dateOfBirth.day,
       dobMonth: dateOfBirth.month,
       dobYear: dateOfBirth.year,
@@ -197,12 +197,12 @@ class SetupFormComponent extends React.Component<Props> {
       eLastName: emergencyContact.lastName,
       ePhone: emergencyContact.phone,
       eRelationship: emergencyContact.relationship,
-      state: R.isEmpty(user.state) ? '-' : user.state,
+      state: R.isEmpty(member.state) ? '-' : member.state,
     };
   };
 
   render() {
-    const { user } = this.props;
+    const { member } = this.props;
     return (
       <div>
         <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
@@ -211,7 +211,7 @@ class SetupFormComponent extends React.Component<Props> {
             fontSize={[mobileSizes.h2, fontSizes.h2]}
             italic
           >
-            Welcome to React Fitness Club, {user.firstName}!
+            Welcome to React Fitness Club, {member.firstName}!
           </t.Text>
         </l.FlexCentered>
         <l.FlexCentered mb={[spacing.xl, spacing.xxxl]}>

@@ -5,31 +5,35 @@ import { Program } from '../types/program';
 
 export const checkAuthed = (
   subscribe: (data: object) => void,
-  authedCallback: (user: Member) => void,
+  authedCallback: (member: Member) => void,
   unauthedCallback: () => void,
 ) => {
   const membersRef = firebase.database().ref('members');
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      membersRef.child(user.uid).once('value', snapshot => {
+  auth.onAuthStateChanged(member => {
+    if (member) {
+      membersRef.child(member.uid).once('value', snapshot => {
         if (snapshot.exists()) {
           authedCallback(snapshot.val());
         } else {
-          const newUser = {
+          const newMember = {
             ...newMemberDefaults,
-            email: user.email || '',
-            firstName: user.displayName ? user.displayName.split(' ')[0] : '',
-            lastName: user.displayName ? user.displayName.split(' ')[1] : '',
-            profilePhotoUrl: user.photoURL || '',
-            uid: user.uid,
+            email: member.email || '',
+            firstName: member.displayName
+              ? member.displayName.split(' ')[0]
+              : '',
+            lastName: member.displayName
+              ? member.displayName.split(' ')[1]
+              : '',
+            profilePhotoUrl: member.photoURL || '',
+            uid: member.uid,
           };
           firebase
             .database()
-            .ref(`members/${user.uid}`)
-            .set(newUser, () => {
-              authedCallback(newUser);
+            .ref(`members/${member.uid}`)
+            .set(newMember, () => {
+              authedCallback(newMember);
             });
-          subscribe(mailchimpUser(user.displayName, user.email));
+          subscribe(mailchimpUser(member.displayName, member.email));
         }
       });
     } else {
@@ -51,9 +55,9 @@ export const listenForProgramChanges = (
     });
 };
 
-export const listenForUserChanges = (
+export const listenForMemberChanges = (
   uid: string,
-  callback: (user?: Member) => void,
+  callback: (member?: Member) => void,
 ) => {
   firebase
     .database()
@@ -67,8 +71,8 @@ export const listenForUserChanges = (
     });
 };
 
-export const listenForUsersChanges = (
-  callback: (users?: { [key: string]: Member }) => void,
+export const listenForMembersChanges = (
+  callback: (members?: { [key: string]: Member }) => void,
 ) => {
   firebase
     .database()
@@ -110,17 +114,17 @@ export const signup = (
 ) => {
   auth
     .createUserWithEmailAndPassword(email, password)
-    .then((userData: firebase.auth.UserCredential) => {
-      if (userData.user) {
+    .then((memberData: firebase.auth.UserCredential) => {
+      if (memberData.user) {
         firebase
           .database()
-          .ref(`members/${userData.user.uid}`)
+          .ref(`members/${memberData.user.uid}`)
           .set({
             ...newMemberDefaults,
             email,
             firstName,
             lastName,
-            uid: userData.user.uid,
+            uid: memberData.user.uid,
           });
         subscribe({
           EMAIL: email,

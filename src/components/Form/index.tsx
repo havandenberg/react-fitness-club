@@ -70,6 +70,7 @@ export type FormComponentProps<FormFields> = {
   onBack: (e: React.FormEvent) => void;
   onForward: (e: React.FormEvent) => void;
   onSubmit: (submit: FormSubmit<FormFields>) => void;
+  resetForm: () => void;
   validate: () => boolean;
 } & Handlers<FormFields>;
 
@@ -238,7 +239,8 @@ class Form<FormFields> extends React.Component<
   ) => {
     const { fields } = this.state;
     const validateChange = this.props.fieldChangeValidations[`${field}`];
-    const cleansedValue = typeof value === 'string' ? removeInvalidCharacters(value) : value;
+    const cleansedValue =
+      typeof value === 'string' ? removeInvalidCharacters(value) : value;
 
     if (!validateChange || validateChange(cleansedValue, fields)) {
       this.setState(
@@ -381,7 +383,7 @@ class Form<FormFields> extends React.Component<
           </t.Text>
         )}
         <div id={id}>
-          {this.hasErrors() && (
+          {this.hasErrors() && validationErrorMessage && (
             <t.Text center color={colors.red} mb={[spacing.ml, spacing.xl]}>
               {validationErrorMessage}
             </t.Text>
@@ -397,6 +399,7 @@ class Form<FormFields> extends React.Component<
               onBack={this.handleBack}
               onForward={this.handleForward}
               onSubmit={this.handleSubmit}
+              resetForm={this.resetForm}
               validate={this.validate}
               ref={(
                 ref: React.RefObject<

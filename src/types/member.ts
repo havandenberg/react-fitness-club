@@ -62,6 +62,6 @@ export const newMemberDefaults: Member = {
   zip: '',
 };
 
-export const parseUserData = (user: Member) => ({
-  ...user,
+export const parseMemberData = (member: Member) => ({
+  ...member,
 });
