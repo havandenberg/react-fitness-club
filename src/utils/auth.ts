@@ -71,21 +71,6 @@ export const listenForMemberChanges = (
     });
 };
 
-export const listenForMembersChanges = (
-  callback: (members?: { [key: string]: Member }) => void,
-) => {
-  firebase
-    .database()
-    .ref(`members`)
-    .on('value', snapshot => {
-      if (snapshot) {
-        callback(snapshot.val());
-      } else {
-        callback();
-      }
-    });
-};
-
 export const logout = () => {
   auth.signOut();
 };

@@ -69,7 +69,8 @@ const EnrolledDivisionCard = withRouter(
         <l.Flex alignTop mb={spacing.ml}>
           <l.Img src={program.logoSrc} height={spacing.xxxl} mr={spacing.xl} />
           <div>
-            <t.H3 mb={spacing.ml}>{program.name}</t.H3>
+            <t.H3 mt={0}>{program.name}</t.H3>
+            <t.Text color={colors.gray}>{division.name}</t.Text>
           </div>
         </l.Flex>
         <t.HelpText mb={spacing.t}>Upcoming classes:</t.HelpText>

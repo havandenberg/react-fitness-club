@@ -9,11 +9,10 @@ import {
 } from 'react-router-dom';
 import { colors, maxWidth } from '../styles/theme';
 import { Member, parseMemberData } from '../types/member';
-import { parsePrograms, Program } from '../types/program';
+import { Division, isCoachOf, parsePrograms, Program } from '../types/program';
 import {
   checkAuthed,
   listenForMemberChanges,
-  listenForMembersChanges,
   listenForProgramChanges,
 } from '../utils/auth';
 import {
@@ -41,12 +40,17 @@ const Main = styled('div')({
   maxWidth,
 });
 
+interface LoadingMembersKey {
+  loading: boolean;
+  uid: string;
+}
+
 interface State {
   events: CalendarEvent[];
   loading: boolean;
   loadingEvents: boolean;
   loadingMember: boolean;
-  loadingMembers: boolean;
+  loadingMembers: LoadingMembersKey[];
   loadingPrograms: boolean;
   programs: Program[];
   member?: Member;
@@ -54,17 +58,20 @@ interface State {
 }
 
 class App extends React.Component<SubscribeProps, State> {
-  state = {
-    events: [],
-    loading: true,
-    loadingEvents: true,
-    loadingMember: true,
-    loadingMembers: true,
-    loadingPrograms: true,
-    member: undefined,
-    members: undefined,
-    programs: [],
-  };
+  constructor(props: SubscribeProps) {
+    super(props);
+    this.state = {
+      events: [],
+      loading: true,
+      loadingEvents: true,
+      loadingMember: true,
+      loadingMembers: [],
+      loadingPrograms: true,
+      member: undefined,
+      members: undefined,
+      programs: [],
+    };
+  }
 
   componentDidMount() {
     checkAuthed(
@@ -88,17 +95,6 @@ class App extends React.Component<SubscribeProps, State> {
           this.checkFinishedLoading,
         );
       });
-      listenForMembersChanges((membersData: { [key: string]: Member }) => {
-        this.setState(
-          {
-            loadingMembers: false,
-            members: R.values(membersData).map((mem: Member) =>
-              parseMemberData(mem),
-            ),
-          },
-          this.checkFinishedLoading,
-        );
-      });
       getEvents().then(data => {
         this.setState(
           {
@@ -111,20 +107,83 @@ class App extends React.Component<SubscribeProps, State> {
     });
   };
 
+  areMembersLoaded = (loadingMembers: LoadingMembersKey[]) =>
+    !R.isEmpty(loadingMembers) &&
+    R.reduce(
+      (areLoaded: boolean, loadingMembersKey: LoadingMembersKey) =>
+        areLoaded && !loadingMembersKey.loading,
+      true,
+      loadingMembers,
+    );
+
   checkFinishedLoading = () => {
     const {
       loadingPrograms,
       loadingEvents,
       loadingMember,
       loadingMembers,
+      member,
+      programs,
     } = this.state;
-    if (
-      !loadingPrograms &&
-      !loadingEvents &&
-      !loadingMember &&
-      !loadingMembers
+    const initialLoadingFinished =
+      !loadingPrograms && !loadingEvents && !loadingMember;
+    if (initialLoadingFinished && member && R.isEmpty(loadingMembers)) {
+      const programsWithCoachAuth = programs.filter((program: Program) =>
+        isCoachOf(member.uid, program),
+      );
+      if (!R.isEmpty(programsWithCoachAuth)) {
+        const members = R.uniq(
+          R.reduce(
+            (mems: string[], program: Program) =>
+              mems.concat(
+                R.reduce(
+                  (ms: string[], division: Division) =>
+                    ms.concat(division.memberIds),
+                  [],
+                  program.divisions,
+                ),
+              ),
+            [],
+            programsWithCoachAuth,
+          ),
+        ).concat([member.uid]);
+        const initialLoadingMembers = members.map((memId: string) => ({
+          loading: true,
+          uid: memId,
+        }));
+        this.setState({ loadingMembers: initialLoadingMembers }, () => {
+          members.map((mem: string) =>
+            listenForMemberChanges(mem, (memberData: Member) => {
+              this.setState(
+                prevState => ({
+                  loadingMembers: prevState.loadingMembers.map(
+                    (loadingMemberKey: LoadingMembersKey) =>
+                      R.equals(loadingMemberKey.uid, mem)
+                        ? { ...loadingMemberKey, loading: false }
+                        : loadingMemberKey,
+                  ),
+                  members: prevState.members
+                    ? prevState.members.concat(parseMemberData(memberData))
+                    : [],
+                }),
+                this.checkFinishedLoading,
+              );
+            }),
+          );
+        });
+      } else {
+        this.setState({
+          loading: false,
+          loadingMembers: [{ loading: false, uid: '' }],
+        });
+      }
+    } else if (
+      initialLoadingFinished &&
+      this.areMembersLoaded(loadingMembers)
     ) {
-      this.setState({ loading: false });
+      this.setState({
+        loading: false,
+      });
     }
   };
 
@@ -141,7 +200,6 @@ class App extends React.Component<SubscribeProps, State> {
       member,
       members,
     } = this.state;
-    // console.log(members);
 
     return (
       <Router>
