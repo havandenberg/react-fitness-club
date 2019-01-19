@@ -26,8 +26,8 @@ export const openClass = (
     });
 };
 
-export const generateNewClass = (event: CalendarEvent, memberId: string) => ({
-  attendanceIds: [memberId],
+export const generateNewClass = (event: CalendarEvent) => ({
+  attendanceIds: [],
   date: event,
   id: getClassInstIdFromEvent(event),
 });
@@ -63,3 +63,11 @@ export const toggleAttendingClass = (
     });
   }
 };
+
+export const getClassesAttended = (division: Division, memberId: string) =>
+  R.sortBy(
+    (classInst: ClassInst) => classInst.date.start.getTime() / 1000,
+    division.classes.filter((classInst: ClassInst) =>
+      R.contains(memberId, classInst.attendanceIds),
+    ),
+  );

@@ -1,4 +1,3 @@
-import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import l from '../styles/layout';
@@ -10,16 +9,16 @@ import {
   transitions,
 } from '../styles/theme';
 import t from '../styles/typography';
-import { ClassInst } from '../types/class';
 import { Member } from '../types/member';
-import { toggleAttendingClass } from '../utils/class';
-import { isTabletUp, TABLET_UP } from '../utils/screensize';
+import { isTabletUp } from '../utils/screensize';
 import ProfilePhoto from './ProfilePhoto';
+
+type ActiveType = 'border' | 'text';
 
 const Name = styled(t.Text)({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
+  transition: transitions.default,
 });
 
 const SmallMemberCardWrapper = styled(l.Flex)(
@@ -29,56 +28,81 @@ const SmallMemberCardWrapper = styled(l.Flex)(
     transition: transitions.default,
   },
   ({
-    isSignedIn,
-    classInst,
+    activeType,
+    isActive,
+    onClick,
   }: {
-    classInst?: ClassInst;
-    isSignedIn?: boolean;
+    activeType?: ActiveType;
+    isActive?: boolean;
+    onClick?: () => void;
   }) => ({
-    borderColor: classInst
-      ? isSignedIn
-        ? colors.lightGreen
-        : colors.lightRed
-      : undefined,
-    cursor: classInst ? 'pointer' : 'default',
+    '.name': {
+      color:
+        activeType === 'text'
+          ? isActive
+            ? colors.red
+            : colors.black
+          : undefined,
+    },
+    ':hover': {
+      '.name': {
+        color: activeType === 'text' ? colors.red : colors.black,
+      },
+    },
+    borderColor:
+      activeType === 'border'
+        ? isActive
+          ? colors.lightGreen
+          : colors.lightRed
+        : undefined,
+    cursor: onClick ? 'pointer' : 'default',
   }),
 );
 
 const SmallMemberCard = ({
-  classInst,
-  divisionId,
+  activeType,
+  customStyles = {
+    nameFontSize: fontSizes.largeText,
+    photoSideLength: [spacing.xxxxl, spacing.xxxxxl, spacing.xxxxxl],
+    wrapper: {
+      mb: spacing.ml,
+      p: [spacing.s, spacing.sm, spacing.sm],
+      width: ['100%', 250, 300],
+    },
+  },
+  isActive,
   member,
-  programId,
+  onClick,
 }: {
-  classInst?: ClassInst;
-  divisionId?: string;
+  activeType?: ActiveType;
+  customStyles?: {
+    nameFontSize?: string | number | Array<string | number>;
+    photoSideLength?: string | number | Array<string | number>;
+    wrapper?: { [key: string]: string | number | Array<string | number> };
+  };
+  isActive?: boolean;
   member: Member;
-  programId?: string;
+  onClick?: () => void;
 }) => (
   <SmallMemberCardWrapper
-    classInst={classInst}
-    isSignedIn={classInst && R.contains(member.uid, classInst.attendanceIds)}
-    onClick={
-      classInst && programId && divisionId
-        ? () =>
-            toggleAttendingClass(classInst, member.uid, programId, divisionId)
-        : undefined
-    }
-    mb={spacing.ml}
-    p={[spacing.s, spacing.sm, spacing.sm]}
-    width={['100%', 250, 300]}
+    activeType={activeType}
+    isActive={isActive}
+    onClick={onClick}
+    {...customStyles.wrapper}
   >
     <ProfilePhoto
       imageSrc={member.profilePhotoUrl}
-      sideLength={[spacing.xxxxl, spacing.xxxxxl, spacing.xxxxxl]}
+      sideLength={customStyles.photoSideLength}
     />
     <l.Space width={[spacing.sm, spacing.ml, spacing.ml]} />
     <Name
-      fontSize={fontSizes.largeText}
+      bold
+      className="name"
+      fontSize={customStyles.nameFontSize}
+      isWrap
       maxWidth={isTabletUp() ? 200 : undefined}
     >
-      {member.firstName} <l.Break breakpoint={TABLET_UP} />
-      {member.lastName}
+      {member.firstName} {member.lastName}
     </Name>
   </SmallMemberCardWrapper>
 );

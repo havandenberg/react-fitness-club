@@ -14,7 +14,7 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
-import { getDivisionById, isCoachOf, Program } from '../types/program';
+import { Program } from '../types/program';
 import {
   generateNewClass,
   getClassInstById,
@@ -22,6 +22,7 @@ import {
   openClass,
 } from '../utils/class';
 import { CalendarEvent, formatDescriptiveDate } from '../utils/events';
+import { getDivisionById, isCoachOf } from '../utils/program';
 import { getButtonProps } from './Form/Button';
 import { ProgramCardWrapper } from './ProgramCard';
 
@@ -87,7 +88,7 @@ const EnrolledDivisionCard = withRouter(
                   );
                 } else {
                   openClass(
-                    generateNewClass(event, member.uid),
+                    generateNewClass(event),
                     program.id,
                     divisionId,
                   ).then(() =>

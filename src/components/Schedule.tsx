@@ -7,13 +7,7 @@ import l from '../styles/layout';
 import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
-import {
-  Division,
-  getDivisionById,
-  getProgramById,
-  isCoachOf,
-  Program,
-} from '../types/program';
+import { Division, Program } from '../types/program';
 import {
   generateNewClass,
   getClassInstById,
@@ -21,6 +15,7 @@ import {
   openClass,
 } from '../utils/class';
 import { CalendarEvent } from '../utils/events';
+import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
 import { isMobileOnly } from '../utils/screensize';
 import Divider from './Divider';
 import withScroll from './hoc/withScroll';
@@ -50,11 +45,7 @@ const Schedule = ({
       if (getClassInstById(classId, division)) {
         history.push(`/programs/${program.id}/${division.id}/${classId}`);
       } else {
-        openClass(
-          generateNewClass(event, member.uid),
-          program.id,
-          division.id,
-        ).then(() =>
+        openClass(generateNewClass(event), program.id, division.id).then(() =>
           history.push(`/programs/${program.id}/${division.id}/${classId}`),
         );
       }

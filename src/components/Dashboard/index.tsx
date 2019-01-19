@@ -15,10 +15,11 @@ import Divider from '../Divider';
 import EditProfile from '../EditProfileForm';
 import withScroll from '../hoc/withScroll';
 import SetupForm from '../SetupForm';
+import Admin from './Admin';
 import Profile from './Profile';
 import Programs from './Programs';
 
-const NavItem = styled(t.Text)(
+export const NavItem = styled(t.Text)(
   ({ active, disabled }: { active?: boolean; disabled?: boolean }) => ({
     ':hover': {
       color: disabled ? `${colors.red}80` : colors.red,
@@ -30,13 +31,15 @@ const NavItem = styled(t.Text)(
   }),
 );
 
-export type DashboardView = 'profile' | 'edit-profile' | 'programs';
+export type DashboardView = 'profile' | 'edit-profile' | 'programs' | 'admin';
 
 interface Props {
   events: CalendarEvent[];
+  isAdmin: boolean;
   loading: boolean;
   programs: Program[];
   member?: Member;
+  members?: Member[];
 }
 
 interface State {
@@ -53,7 +56,7 @@ class Dashboard extends React.Component<Props, State> {
   };
 
   render() {
-    const { events, loading, programs, member } = this.props;
+    const { events, loading, programs, member, members } = this.props;
     const { view } = this.state;
     return loading ? (
       <l.FlexCentered my={spacing.xxxxxl}>
@@ -88,6 +91,18 @@ class Dashboard extends React.Component<Props, State> {
                 Profile
               </NavItem>
               <l.Space width={[0, spacing.xxxxxl]} />
+              {members && (
+                <>
+                  <NavItem
+                    active={view === 'admin'}
+                    large
+                    onClick={this.setView('admin')}
+                  >
+                    Admin
+                  </NavItem>
+                  <l.Space width={[0, spacing.xxxxxl]} />
+                </>
+              )}
               <t.TextButton
                 color={`${colors.red}80`}
                 hoverStyle="opacity"
@@ -114,6 +129,9 @@ class Dashboard extends React.Component<Props, State> {
               )}
               {view === 'programs' && (
                 <Programs events={events} programs={programs} member={member} />
+              )}
+              {view === 'admin' && members && (
+                <Admin member={member} members={members} programs={programs} />
               )}
             </>
           ) : (

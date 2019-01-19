@@ -4,196 +4,123 @@ import l from '../../styles/layout';
 import { spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import { Member } from '../../types/member';
-import { isMobile, isTabletUp } from '../../utils/screensize';
+import {
+  isDesktop,
+  isMobile,
+  isMobileOnly,
+  isTabletUp,
+} from '../../utils/screensize';
 import { ButtonPrimary } from '../Form/Button';
 import withScroll from '../hoc/withScroll';
 import ProfilePhoto from '../ProfilePhoto';
 
-const LABEL_WIDTH = 200;
+export const LABEL_WIDTH = 200;
 
 const ProfileInfo = styled('div')({
   flex: 1,
 });
 
 interface Props {
-  setView: () => void;
+  isAdmin?: boolean;
+  setView?: () => void;
   member: Member;
 }
 
-class Profile extends React.Component<Props> {
-  render() {
-    const { setView, member } = this.props;
-    return (
-      <div>
-        <l.Flex
-          alignTop={!isMobile()}
-          flexDirection={isMobile() ? 'column' : 'row'}
-          alignItems={isMobile() ? 'center' : 'flex-start'}
+const Profile = (props: Props) => {
+  const { isAdmin, setView, member } = props;
+
+  const ProfileField = ({ label, value }: { label: string; value: string }) => (
+    <l.Flex
+      alignTop={isMobile()}
+      flexDirection={
+        isMobileOnly() || (isMobile() && isAdmin) ? 'column' : 'row'
+      }
+      mb={[spacing.ml, spacing.sm]}
+    >
+      <t.Text bold large mb={[spacing.s, 0]} width={['100%', LABEL_WIDTH]}>
+        {label}
+      </t.Text>
+      <t.Text
+        large
+        overflowX
+        maxWidth={isAdmin ? (isDesktop() ? 400 : 350) : undefined}
+      >
+        {value}
+      </t.Text>
+    </l.Flex>
+  );
+  return (
+    <l.Flex
+      alignTop={!isMobile() && !!setView}
+      flexDirection={isMobile() || !setView ? 'column' : 'row'}
+      alignItems={isMobile() || !setView ? 'center' : 'flex-start'}
+    >
+      <ProfilePhoto
+        sideLength={[150, 175, 200]}
+        imageSrc={member.profilePhotoUrl}
+      />
+      <l.Space height={spacing.xxxl} width={spacing.xxxxxl} />
+      <ProfileInfo>
+        <ProfileField
+          label="Name:"
+          value={`${member.firstName} ${member.lastName}${
+            member.nickname ? ' (' + member.nickname + ')' : ''
+          }`}
+        />
+        <ProfileField label="Email:" value={member.email} />
+        <ProfileField label="Phone:" value={member.phone} />
+        <ProfileField
+          label="DOB:"
+          value={`${member.dateOfBirth.month}/${member.dateOfBirth.day}/${
+            member.dateOfBirth.year
+          }`}
+        />
+        <l.Space height={spacing.ml} />
+        <t.Text bold large mb={[spacing.s, spacing.sm]}>
+          Allergies:
+        </t.Text>
+        <t.Text
+          large
+          maxWidth={isTabletUp() ? 550 : undefined}
+          mb={spacing.xl}
+          overflowX
         >
-          <ProfilePhoto
-            sideLength={[150, 175, 200]}
-            imageSrc={member.profilePhotoUrl}
-          />
-          <l.Space height={spacing.xxxl} width={spacing.xxxxxl} />
-          <ProfileInfo>
-            <l.Flex
-              alignTop={isMobile()}
-              columnOnMobile
-              mb={[spacing.ml, spacing.sm]}
-            >
-              <t.Text
-                bold
-                large
-                mb={[spacing.s, 0]}
-                width={['100%', LABEL_WIDTH]}
-              >
-                Name:
-              </t.Text>
-              <t.Text large overflowX>{`${member.firstName} ${member.lastName}${
-                member.nickname ? ' (' + member.nickname + ')' : ''
-              }`}</t.Text>
-            </l.Flex>
-            <l.Flex
-              alignTop={isMobile()}
-              columnOnMobile
-              mb={[spacing.ml, spacing.sm]}
-            >
-              <t.Text
-                bold
-                large
-                mb={[spacing.s, 0]}
-                width={['100%', LABEL_WIDTH]}
-              >
-                Email:
-              </t.Text>
-              <t.Text large overflowX>
-                {member.email}
-              </t.Text>
-            </l.Flex>
-            <l.Flex
-              alignTop={isMobile()}
-              columnOnMobile
-              mb={[spacing.ml, spacing.sm]}
-            >
-              <t.Text
-                bold
-                large
-                mb={[spacing.s, 0]}
-                width={['100%', LABEL_WIDTH]}
-              >
-                Phone:
-              </t.Text>
-              <t.Text large>{member.phone}</t.Text>
-            </l.Flex>
-            <l.Flex
-              alignTop={isMobile()}
-              columnOnMobile
-              mb={[spacing.ml, spacing.xl]}
-            >
-              <t.Text
-                bold
-                large
-                mb={[spacing.s, 0]}
-                width={['100%', LABEL_WIDTH]}
-              >
-                DOB:
-              </t.Text>
-              <t.Text large overflowX>
-                {member.dateOfBirth.month}/{member.dateOfBirth.day}/
-                {member.dateOfBirth.year}
-              </t.Text>
-            </l.Flex>
-            <t.Text bold large mb={[spacing.s, spacing.sm]}>
-              Medical Info:
-            </t.Text>
-            <t.Text
-              large
-              maxWidth={isTabletUp() ? 550 : undefined}
-              mb={spacing.xl}
-              overflowX
-            >
-              {member.medicalConditions}
-            </t.Text>
-            <t.Text bold large mb={[spacing.ml, spacing.sm]}>
-              Emergency Contact Info:
-            </t.Text>
-            <l.Flex
-              alignTop={isMobile()}
-              columnOnMobile
-              mb={[spacing.ml, spacing.sm]}
-            >
-              <t.Text
-                bold
-                large
-                mb={[spacing.s, 0]}
-                width={['100%', LABEL_WIDTH]}
-              >
-                Name:
-              </t.Text>
-              <t.Text large overflowX>
-                {member.emergencyContact.firstName}{' '}
-                {member.emergencyContact.lastName}
-              </t.Text>
-            </l.Flex>
-            <l.Flex
-              alignTop={isMobile()}
-              columnOnMobile
-              mb={[spacing.ml, spacing.sm]}
-            >
-              <t.Text
-                bold
-                large
-                mb={[spacing.s, 0]}
-                width={['100%', LABEL_WIDTH]}
-              >
-                Email:
-              </t.Text>
-              <t.Text large overflowX>
-                {member.emergencyContact.email}
-              </t.Text>
-            </l.Flex>
-            <l.Flex
-              alignTop={isMobile()}
-              columnOnMobile
-              mb={[spacing.ml, spacing.sm]}
-            >
-              <t.Text
-                bold
-                large
-                mb={[spacing.s, 0]}
-                width={['100%', LABEL_WIDTH]}
-              >
-                Phone:
-              </t.Text>
-              <t.Text large overflowX>
-                {member.emergencyContact.phone}
-              </t.Text>
-            </l.Flex>
-            <l.Flex
-              alignTop={isMobile()}
-              columnOnMobile
-              mb={[spacing.ml, spacing.sm]}
-            >
-              <t.Text
-                bold
-                large
-                mb={[spacing.s, 0]}
-                width={['100%', LABEL_WIDTH]}
-              >
-                Relationship:
-              </t.Text>
-              <t.Text large overflowX>
-                {member.emergencyContact.relationship}
-              </t.Text>
-            </l.Flex>
-          </ProfileInfo>
-          <l.Flex mt={[spacing.xl, spacing.xxxl, 0]}>
-            <ButtonPrimary onClick={setView}>Edit</ButtonPrimary>
-          </l.Flex>
+          {member.allergies}
+        </t.Text>
+        <t.Text bold large mb={[spacing.s, spacing.sm]}>
+          Medical Info:
+        </t.Text>
+        <t.Text
+          large
+          maxWidth={isTabletUp() ? 550 : undefined}
+          mb={spacing.xl}
+          overflowX
+        >
+          {member.medicalConditions}
+        </t.Text>
+        <t.Text bold large mb={[spacing.ml, spacing.sm]}>
+          Emergency Contact Info:
+        </t.Text>
+        <ProfileField
+          label="Name:"
+          value={`${member.emergencyContact.firstName} ${
+            member.emergencyContact.lastName
+          }`}
+        />
+        <ProfileField label="Email:" value={member.emergencyContact.email} />
+        <ProfileField label="Phone:" value={member.emergencyContact.phone} />
+        <ProfileField
+          label="Relationship:"
+          value={member.emergencyContact.relationship}
+        />
+      </ProfileInfo>
+      {setView && (
+        <l.Flex mt={[spacing.xl, spacing.xxxl, 0]}>
+          <ButtonPrimary onClick={setView}>Edit</ButtonPrimary>
         </l.Flex>
-      </div>
-    );
-  }
-}
+      )}
+    </l.Flex>
+  );
+};
 
 export default withScroll(Profile);

@@ -220,10 +220,12 @@ const TextButton = styled(Text)(
   ({
     color = colors.red,
     hoverStyle = 'opacity',
+    large,
   }: {
     border: string;
     color: string;
     hoverStyle: HoverStyle;
+    large?: boolean;
   }) => ({
     ':hover': {
       borderBottom: hoverStyle === 'underline' ? borders.red : undefined,
@@ -232,6 +234,13 @@ const TextButton = styled(Text)(
     borderBottom: hoverStyle === 'underline' ? borders.transparent : undefined,
     color,
     cursor: 'pointer',
+    fontSize: large ? fontSizes.largeText : fontSizes.text,
+    [breakpoints.tablet]: {
+      fontSize: large ? tabletSizes.largeText : tabletSizes.text,
+    },
+    [breakpoints.mobile]: {
+      fontSize: large ? mobileSizes.largeText : mobileSizes.text,
+    },
     transition: transitions.default,
   }),
   ...textOptions,

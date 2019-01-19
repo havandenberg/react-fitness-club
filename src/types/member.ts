@@ -61,7 +61,3 @@ export const newMemberDefaults: Member = {
   uid: '',
   zip: '',
 };
-
-export const parseMemberData = (member: Member) => ({
-  ...member,
-});

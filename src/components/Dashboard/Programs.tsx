@@ -4,9 +4,9 @@ import l from '../../styles/layout';
 import { spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import { Member } from '../../types/member';
-import { Division, Program } from '../../types/program';
+import { Program } from '../../types/program';
 import { CalendarEvent } from '../../utils/events';
-import { getEnrolledPrograms } from '../../utils/program';
+import { getEnrolledDivision, getEnrolledPrograms } from '../../utils/program';
 import EnrolledDivisionCard from '../EnrolledDivisionCard';
 import withScroll from '../hoc/withScroll';
 import ProgramCard from '../ProgramCard';
@@ -26,9 +26,7 @@ class Programs extends React.Component<Props> {
         <t.H2 mb={spacing.xxl}>Enrolled Programs:</t.H2>
         <l.Flex columnOnMobile>
           {enrolledPrograms.map((program: Program, index: number) => {
-            const division = program.divisions.find((div: Division) =>
-              R.contains(member.uid, div.memberIds),
-            );
+            const division = getEnrolledDivision(program, member.uid);
             return (
               program &&
               division && (

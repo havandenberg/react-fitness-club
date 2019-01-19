@@ -1,3 +1,4 @@
+import * as firebase from 'firebase';
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
@@ -8,8 +9,8 @@ import {
   Switch,
 } from 'react-router-dom';
 import { colors, maxWidth } from '../styles/theme';
-import { Member, parseMemberData } from '../types/member';
-import { Division, isCoachOf, parsePrograms, Program } from '../types/program';
+import { Member } from '../types/member';
+import { Division, Program } from '../types/program';
 import {
   checkAuthed,
   listenForMemberChanges,
@@ -20,6 +21,8 @@ import {
   expandRecurringEvents,
   getEvents,
 } from '../utils/events';
+import { parseMemberData } from '../utils/member';
+import { isCoachOf, parsePrograms } from '../utils/program';
 import About from './About';
 import ClassManager from './ClassManager';
 import Contact from './Contact';
@@ -47,6 +50,7 @@ interface LoadingMembersKey {
 
 interface State {
   events: CalendarEvent[];
+  isAdmin: boolean;
   loading: boolean;
   loadingEvents: boolean;
   loadingMember: boolean;
@@ -62,6 +66,7 @@ class App extends React.Component<SubscribeProps, State> {
     super(props);
     this.state = {
       events: [],
+      isAdmin: false,
       loading: true,
       loadingEvents: true,
       loadingMember: true,
@@ -128,55 +133,53 @@ class App extends React.Component<SubscribeProps, State> {
     const initialLoadingFinished =
       !loadingPrograms && !loadingEvents && !loadingMember;
     if (initialLoadingFinished && member && R.isEmpty(loadingMembers)) {
-      const programsWithCoachAuth = programs.filter((program: Program) =>
-        isCoachOf(member.uid, program),
-      );
-      if (!R.isEmpty(programsWithCoachAuth)) {
-        const members = R.uniq(
-          R.reduce(
-            (mems: string[], program: Program) =>
-              mems.concat(
+      firebase
+        .database()
+        .ref('adminList')
+        .child(member.uid)
+        .once('value', snapshot => {
+          if (snapshot.exists()) {
+            this.setState(
+              () => ({ isAdmin: true }),
+              () => {
+                firebase
+                  .database()
+                  .ref('membersList')
+                  .once('value', snap => {
+                    const members = JSON.parse(snap.val());
+                    this.loadMembers(members);
+                  });
+              },
+            );
+          } else {
+            const programsWithCoachAuth = programs.filter((program: Program) =>
+              isCoachOf(member.uid, program),
+            );
+            if (!R.isEmpty(programsWithCoachAuth)) {
+              const members = R.uniq(
                 R.reduce(
-                  (ms: string[], division: Division) =>
-                    ms.concat(division.memberIds),
+                  (mems: string[], program: Program) =>
+                    mems.concat(
+                      R.reduce(
+                        (ms: string[], division: Division) =>
+                          ms.concat(division.memberIds),
+                        [],
+                        program.divisions,
+                      ),
+                    ),
                   [],
-                  program.divisions,
+                  programsWithCoachAuth,
                 ),
-              ),
-            [],
-            programsWithCoachAuth,
-          ),
-        ).concat([member.uid]);
-        const initialLoadingMembers = members.map((memId: string) => ({
-          loading: true,
-          uid: memId,
-        }));
-        this.setState({ loadingMembers: initialLoadingMembers }, () => {
-          members.map((mem: string) =>
-            listenForMemberChanges(mem, (memberData: Member) => {
-              this.setState(
-                prevState => ({
-                  loadingMembers: prevState.loadingMembers.map(
-                    (loadingMemberKey: LoadingMembersKey) =>
-                      R.equals(loadingMemberKey.uid, mem)
-                        ? { ...loadingMemberKey, loading: false }
-                        : loadingMemberKey,
-                  ),
-                  members: prevState.members
-                    ? prevState.members.concat(parseMemberData(memberData))
-                    : [],
-                }),
-                this.checkFinishedLoading,
               );
-            }),
-          );
+              this.loadMembers(members);
+            } else {
+              this.setState({
+                loading: false,
+                loadingMembers: [{ loading: false, uid: '' }],
+              });
+            }
+          }
         });
-      } else {
-        this.setState({
-          loading: false,
-          loadingMembers: [{ loading: false, uid: '' }],
-        });
-      }
     } else if (
       initialLoadingFinished &&
       this.areMembersLoaded(loadingMembers)
@@ -187,6 +190,33 @@ class App extends React.Component<SubscribeProps, State> {
     }
   };
 
+  loadMembers = (members: string[]) => {
+    const initialLoadingMembers = members.map((memId: string) => ({
+      loading: true,
+      uid: memId,
+    }));
+    this.setState({ loadingMembers: initialLoadingMembers }, () => {
+      members.map((mem: string) =>
+        listenForMemberChanges(mem, (memberData: Member) => {
+          this.setState(
+            prevState => ({
+              loadingMembers: prevState.loadingMembers.map(
+                (loadingMemberKey: LoadingMembersKey) =>
+                  R.equals(loadingMemberKey.uid, mem)
+                    ? { ...loadingMemberKey, loading: false }
+                    : loadingMemberKey,
+              ),
+              members: prevState.members
+                ? prevState.members.concat(parseMemberData(memberData))
+                : [parseMemberData(memberData)],
+            }),
+            this.checkFinishedLoading,
+          );
+        }),
+      );
+    });
+  };
+
   unauthedCallback = () => {
     this.setState({ loadingMember: false, member: undefined });
   };
@@ -194,6 +224,7 @@ class App extends React.Component<SubscribeProps, State> {
   render() {
     const {
       events,
+      isAdmin,
       loading,
       loadingMember,
       programs,
@@ -230,9 +261,11 @@ class App extends React.Component<SubscribeProps, State> {
                 <Dashboard
                   {...props}
                   events={events}
+                  isAdmin={isAdmin}
                   loading={loading}
                   programs={programs}
                   member={member}
+                  members={members}
                 />
               )}
             />

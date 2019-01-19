@@ -6,14 +6,10 @@ import l from '../styles/layout';
 import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
-import {
-  getDivisionById,
-  getProgramById,
-  isCoachOf,
-  Program,
-} from '../types/program';
-import { getClassInstById } from '../utils/class';
+import { Program } from '../types/program';
+import { getClassInstById, toggleAttendingClass } from '../utils/class';
 import { CalendarEvent, formatDescriptiveDate } from '../utils/events';
+import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
 import { isMobile, isMobileOnly } from '../utils/screensize';
 import Divider from './Divider';
 import withScroll from './hoc/withScroll';
@@ -96,10 +92,17 @@ class ClassManager extends React.Component<
               .map((mem: Member, index: number) => (
                 <React.Fragment key={index}>
                   <SmallMemberCard
-                    classInst={classInst}
-                    divisionId={division.id}
+                    activeType="border"
+                    isActive
                     member={mem}
-                    programId={program.id}
+                    onClick={() =>
+                      toggleAttendingClass(
+                        classInst,
+                        mem.uid,
+                        program.id,
+                        division.id,
+                      )
+                    }
                   />
                   {index < members.length - 1 && <l.Space width={spacing.ml} />}
                 </React.Fragment>
@@ -117,10 +120,16 @@ class ClassManager extends React.Component<
               .map((mem: Member, index: number) => (
                 <React.Fragment key={index}>
                   <SmallMemberCard
-                    classInst={classInst}
-                    divisionId={division.id}
+                    activeType="border"
                     member={mem}
-                    programId={program.id}
+                    onClick={() =>
+                      toggleAttendingClass(
+                        classInst,
+                        mem.uid,
+                        program.id,
+                        division.id,
+                      )
+                    }
                   />
                   {index < members.length - 1 && <l.Space width={spacing.ml} />}
                 </React.Fragment>

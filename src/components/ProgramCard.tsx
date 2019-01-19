@@ -6,8 +6,8 @@ import l from '../styles/layout';
 import { borders, breakpoints, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
-import { getDivisionByName, Program } from '../types/program';
-import { enrollInDivision } from '../utils/program';
+import { Program } from '../types/program';
+import { enrollInDivision, getDivisionByName } from '../utils/program';
 import Form, {
   FormComponentProps,
   FormFieldValidations,
@@ -133,6 +133,9 @@ export const ProgramCardWrapper = styled(l.Space)(
     border: borders.black,
     borderRadius: borders.borderRadius,
     padding: spacing.xl,
+    [breakpoints.tablet]: {
+      padding: spacing.ml,
+    },
     [breakpoints.mobile]: {
       padding: spacing.ml,
     },
