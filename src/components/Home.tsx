@@ -11,7 +11,12 @@ import {
   spacing,
 } from '../styles/theme';
 import t from '../styles/typography';
-import { ASSETS_PATH, CAPOEIRA_PATH, REACT_PATH } from '../utils/constants';
+import {
+  AIKIDO_PATH,
+  ASSETS_PATH,
+  CAPOEIRA_PATH,
+  REACT_PATH,
+} from '../utils/constants';
 import { isMobile, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import FeaturedLinks from './FeaturedLinks';
@@ -48,7 +53,7 @@ const Home = () => (
       large
       mb={[spacing.xl, spacing.xxl]}
       mx="auto"
-      width={['100%', '75%']}
+      width={['100%', '85%', '75%']}
     >
       <t.Link
         border={borders.red}
@@ -176,18 +181,28 @@ const Home = () => (
           </l.Flex>
           <l.Space height={spacing.xl} />
           <l.Flex alignTop>
+            <t.Anchor
+              color={colors.red}
+              fontSize={[mobileSizes.largeText, fontSizes.largeText]}
+              href={AIKIDO_PATH}
+              target="_blank"
+            >
+              <Logo src={`${ASSETS_PATH}/programs/Aikido/aikido-logo.png`} />
+            </t.Anchor>
             <t.Text large mb={spacing.xxxl}>
               <t.Anchor
                 border={borders.red}
                 color={colors.red}
                 fontSize={[mobileSizes.largeText, fontSizes.largeText]}
+                href={AIKIDO_PATH}
+                target="_blank"
               >
                 Aikido:
               </t.Anchor>{' '}
-              Modern Japanese martial art that focuses on defending yourself
-              while also protecting your attacker from injury. Training consists
-              of rolls, strikes, grabs, throws and pins. Taught by Sensei
-              Koksul.
+              The Japanese martial art of Aikido is a comprehensive system of
+              throwing, joint-locking, striking and pinning techniques, coupled
+              with training in traditional Japanese weapons such as the sword,
+              staff and knife. Taught by Sensei Köksal.
             </t.Text>
           </l.Flex>
           <t.H2 mb={[spacing.ml, spacing.ml]}>Fitness Programs:</t.H2>

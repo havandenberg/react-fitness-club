@@ -168,7 +168,7 @@ class ProgramCard extends React.Component<Props, State> {
         <l.Flex alignTop mb={spacing.ml}>
           <l.Img
             src={program.logoSrc}
-            height={spacing.xxxxxl}
+            height={spacing.xxxl}
             mr={spacing.xl}
           />
           <div>

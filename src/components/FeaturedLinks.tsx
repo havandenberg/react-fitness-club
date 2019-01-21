@@ -83,10 +83,15 @@ const Overlay = styled('div')(
 
 const QuadrantWrapper = styled(t.Anchor)({
   cursor: 'pointer',
+  height: 380,
   position: 'relative',
   width: '50%',
   zIndex: z.mid,
+  [breakpoints.tablet]: {
+    height: 240,
+  },
   [breakpoints.mobile]: {
+    height: 'auto',
     width: '100%',
   },
 });
@@ -234,8 +239,8 @@ const FeaturedLinks = () => (
     </l.Flex>
     <l.Flex columnOnMobile>
       <Quadrant
-        href="/"
-        imageSource={`${ASSETS_PATH}/featured/photos/aikido-featured.png`}
+        href="https://worcesteraikido.com/"
+        imageSource={`${ASSETS_PATH}/featured/photos/aikido-featured.jpg`}
         label="Aikido"
         labelProps={{ bottom: spacing.xl, left: spacing.xl }}
         videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-3.mp4`}

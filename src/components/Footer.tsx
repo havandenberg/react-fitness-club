@@ -125,7 +125,7 @@ const Footer = ({ member }: { member?: Member }) => (
         <l.Space mr={[spacing.xl, spacing.xxxl]}>
           <FooterLink text="Schedule" to="/schedule" />
           <l.Space height={spacing.l} />
-          <FooterLink disabled text="Events" to="#" />
+          <FooterLink text="Events" to="/events" />
           <l.Space height={spacing.l} />
           <FooterAnchor
             href="https://www.gofundme.com/react-fitness-club-alumni-floor"

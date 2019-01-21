@@ -2,7 +2,7 @@ export const ASSETS_PATH = 'https://s3.amazonaws.com/react-fitness-club';
 
 export const REACT_PATH = 'http://www.react-nation.com';
 export const CAPOEIRA_PATH = 'http://www.masscapoeira.com';
-export const AIKIDO_PATH = '';
+export const AIKIDO_PATH = 'https://worcesteraikido.com/';
 
 export const FACEBOOK_PATH = 'https://www.facebook.com/REaCT.Nat/';
 export const INSTAGRAM_PATH = 'https://www.instagram.com/react.nation/';

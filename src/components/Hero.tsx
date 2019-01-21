@@ -37,6 +37,15 @@ const LogoWrapper = styled(l.Flex)(
   }),
 );
 
+const PosterLink = styled(t.Link)({
+  position: 'absolute',
+  right: 150,
+  top: spacing.xl,
+  [breakpoints.mobile]: {
+    position: 'static',
+  },
+});
+
 const QuickLinks = styled(l.Flex)({
   color: colors.red,
   flexDirection: isTabletUp() ? 'column' : 'row',
@@ -91,7 +100,7 @@ const Hero = ({
         </Link>
       </LogoWrapper>
       {!secondary && (
-        <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
+        <l.FlexCentered mb={[spacing.ml, spacing.xl]} mt={[0, spacing.ml, 0]}>
           <t.Subtitle center>
             Multi-Style Martial Arts Training & Fitness Club
           </t.Subtitle>
@@ -99,16 +108,16 @@ const Hero = ({
       )}
       <QuickLinks alignBottom>
         {isTabletUp() && (
-          <t.Text color={colors.black} mb={[0, spacing.sm]}>
+          <t.Text color={colors.black} mb={[0, spacing.t, spacing.sm]}>
             Quick Links:
           </t.Text>
         )}
         <QuickLink border={borders.red} color={colors.red} to="/schedule">
           Schedule
         </QuickLink>
-        {/* <QuickAnchor border={borders.red} to="/events">
-        Events
-      </QuickAnchor> */}
+        <QuickLink bold border={borders.red} color={colors.red} to="/events">
+          Events (1)
+        </QuickLink>
         <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">
           <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
         </QuickLink>
@@ -124,6 +133,14 @@ const Hero = ({
           <SocialIcons small />
         </SocialIconsWrapper>
       </QuickLinks>
+      <l.FlexCentered mb={[spacing.ml, 0]}>
+        <PosterLink to="/events">
+          <l.Img
+            height={[200, 100, 100]}
+            src="https://s3.amazonaws.com/react-fitness-club/programs/Aikido/events/NV-Worcester-2019.png"
+          />
+        </PosterLink>
+      </l.FlexCentered>
     </HeroWrapper>
   );
 };

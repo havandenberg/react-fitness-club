@@ -27,6 +27,7 @@ import About from './About';
 import ClassManager from './ClassManager';
 import Contact from './Contact';
 import Dashboard from './Dashboard';
+import Events from './Events';
 import Footer from './Footer';
 import Gallery from './Gallery';
 import Hero from './Hero';
@@ -218,7 +219,16 @@ class App extends React.Component<SubscribeProps, State> {
   };
 
   unauthedCallback = () => {
-    this.setState({ loadingMember: false, member: undefined });
+    getEvents().then(data => {
+      this.setState({
+        events: expandRecurringEvents(data.items),
+        loading: false,
+        loadingEvents: false,
+        loadingMember: false,
+        loadingPrograms: false,
+        member: undefined,
+      });
+    });
   };
 
   render() {
@@ -240,6 +250,7 @@ class App extends React.Component<SubscribeProps, State> {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
+            <Route path="/events" component={Events} />
             <Route exact path="/programs" component={Programs} />
             <Route path="/gallery" component={Gallery} />
             <Route path="/contact" component={Contact} />
