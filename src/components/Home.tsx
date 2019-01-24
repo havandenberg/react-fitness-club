@@ -29,11 +29,13 @@ const Bold = styled('span')({
   fontWeight: 'bold',
 });
 
-const Bullet = styled('img')(({ secondary }: { secondary?: boolean }) => ({
-  height: secondary ? spacing.xl : spacing.xxl,
-  marginRight: secondary ? spacing.ml : spacing.xl,
-  width: secondary ? spacing.xl : spacing.xxl,
-}));
+export const Bullet = styled('img')(
+  ({ secondary }: { secondary?: boolean }) => ({
+    height: secondary ? spacing.xl : spacing.xxl,
+    marginRight: secondary ? spacing.ml : spacing.xl,
+    width: secondary ? spacing.xl : spacing.xxl,
+  }),
+);
 
 const Logo = styled('img')({
   marginRight: spacing.ml,
@@ -133,7 +135,7 @@ const Home = () => (
               >
                 REaCT:
               </t.Anchor>{' '}
-              A mixed martial arts system with 3 phases of training, stand up,
+              A mixed martial arts system with 3 phases of training: stand up,
               take downs, and grappling. Taught by Coach Ryan. Ages 8+.
             </t.Text>
           </l.Flex>
@@ -304,14 +306,14 @@ const Home = () => (
         </t.Text>
       </l.FlexCentered>
       <l.FlexCentered columnOnMobile mx="auto" spaceBetween width="100%">
-        <LinkPrimary to="/about" width={['100%', 'auto']}>
+        <LinkPrimary to="/" width={['100%', 'auto']}>
           More about our philosophy
         </LinkPrimary>
         <l.Space
           height={[spacing.xl, 0]}
           width={[0, spacing.xxl, spacing.xxxxxl]}
         />
-        <LinkPrimary to="/programs" width={['100%', 'auto']}>
+        <LinkPrimary to="/" width={['100%', 'auto']}>
           Check out our programs
         </LinkPrimary>
       </l.FlexCentered>

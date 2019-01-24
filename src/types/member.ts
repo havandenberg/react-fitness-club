@@ -23,13 +23,13 @@ export interface Member {
   isLiabilityWaiverSigned: boolean;
   lastName: string;
   medicalConditions: string;
-  nickname?: string;
+  nickname: string;
   phone: string;
   profilePhotoUrl: string;
   squareCustomerId: string;
   state: string;
   streetAddress1: string;
-  streetAddress2?: string;
+  streetAddress2: string;
   uid: string;
   zip: string;
 }

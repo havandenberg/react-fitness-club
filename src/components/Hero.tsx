@@ -7,8 +7,12 @@ import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
-import { isMobile, isMobileOnly, isTabletUp } from '../utils/screensize';
-import { scrollToId } from '../utils/scroll';
+import {
+  isMobile,
+  isMobileOnly,
+  isSmall,
+  isTabletUp,
+} from '../utils/screensize';
 import SocialIcons from './SocialIcons';
 
 const HeroWrapper = styled('div')({
@@ -37,12 +41,13 @@ const LogoWrapper = styled(l.Flex)(
   }),
 );
 
-const PosterLink = styled(t.Link)({
+const PosterLink = styled(l.FlexCentered)({
   position: 'absolute',
   right: 150,
   top: spacing.xl,
   [breakpoints.mobile]: {
-    position: 'static',
+    right: spacing.sm,
+    top: spacing.xxxxl,
   },
 });
 
@@ -118,9 +123,6 @@ const Hero = ({
         <QuickLink bold border={borders.red} color={colors.red} to="/events">
           Events (1)
         </QuickLink>
-        <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">
-          <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
-        </QuickLink>
         <QuickAnchor
           border={borders.red}
           color={colors.red}
@@ -133,14 +135,14 @@ const Hero = ({
           <SocialIcons small />
         </SocialIconsWrapper>
       </QuickLinks>
-      <l.FlexCentered mb={[spacing.ml, 0]}>
-        <PosterLink to="/events">
+      <PosterLink mb={[spacing.ml, 0]}>
+        <t.Link to="/events">
           <l.Img
-            height={[200, 100, 100]}
+            height={[secondary ? 75 : isSmall() ? 65 : 75, 100, 150]}
             src="https://s3.amazonaws.com/react-fitness-club/programs/Aikido/events/NV-Worcester-2019.png"
           />
-        </PosterLink>
-      </l.FlexCentered>
+        </t.Link>
+      </PosterLink>
     </HeroWrapper>
   );
 };

@@ -152,7 +152,7 @@ class MemberList extends React.Component<Props, State> {
         <l.Scroll height={[200, 800, 800]} width="100%">
           {R.sortBy(R.prop('lastName'))(this.filterMembers()).map(
             (member: Member) => (
-              <div id={member.uid} key={member.uid}>
+              <div id={member.uid} key={`smc-${member.uid}`}>
                 <SmallMemberCard
                   activeType="text"
                   isActive={R.equals(selectedMemberId, member.uid)}
