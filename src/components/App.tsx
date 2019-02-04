@@ -245,7 +245,7 @@ class App extends React.Component<SubscribeProps, State> {
     return (
       <Router>
         <Main id="top">
-          <Nav member={member} />
+          <Nav member={member} programs={programs} />
           <Hero />
           <Switch>
             <Route exact path="/" component={Home} />

@@ -20,17 +20,12 @@ export const personalInfoStep: (
       items: [
         {
           flex: '100%',
-          helpText: 'username@example.com',
-          inputType: 'text',
-          isViewOnly: true,
-          valueName: 'email',
-          viewOnlyText: R.equals(authProvider, 'password')
-            ? 'you can change your email after profile setup'
-            : `email provided by ${authProvider.replace('.com', '')}`,
+          helpText: 'png or jpg',
+          inputType: 'file',
+          valueName: 'profilePhotoUrl',
         },
       ],
-      label: 'Email',
-      rowWidth: ['100%', '65%'],
+      label: 'Profile Photo',
     },
     {
       isRequired: true,
@@ -63,15 +58,21 @@ export const personalInfoStep: (
       rowWidth: ['100%', '35%'],
     },
     {
+      isRequired: true,
       items: [
         {
           flex: '100%',
-          helpText: 'png or jpg',
-          inputType: 'file',
-          valueName: 'profilePhotoUrl',
+          helpText: 'username@example.com',
+          inputType: 'text',
+          isViewOnly: true,
+          valueName: 'email',
+          viewOnlyText: R.equals(authProvider, 'password')
+            ? 'you can change your email after profile setup'
+            : `email provided by ${authProvider.replace('.com', '')}`,
         },
       ],
-      label: 'Profile Photo',
+      label: 'Email',
+      rowWidth: ['100%', '65%'],
     },
     {
       isRequired: true,

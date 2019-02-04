@@ -209,8 +209,7 @@ class SetupFormComponent extends React.Component<Props> {
           <t.Text
             center={isMobile()}
             fontSize={[mobileSizes.h2, fontSizes.h2]}
-            italic
-          >
+            italic>
             Welcome to React Fitness Club, {member.firstName}!
           </t.Text>
         </l.FlexCentered>

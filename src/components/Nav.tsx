@@ -17,6 +17,7 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
+import { Program } from '../types/program';
 import { logout } from '../utils/auth';
 import { isMobile, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
@@ -130,6 +131,7 @@ const MemberIcon = styled('div')({
 
 interface Props {
   member?: Member;
+  programs: Program[];
 }
 
 interface State {
@@ -162,7 +164,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
   };
 
   render() {
-    const { location, member } = this.props;
+    const { location, member, programs } = this.props;
     const { hoverItem, memberHover } = this.state;
 
     const memberMenuComponent = (
@@ -189,6 +191,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
               this.setState({ memberHover: false }, logout);
             }}
             member={member}
+            programs={programs}
           />
         )}
       </l.FlexCentered>

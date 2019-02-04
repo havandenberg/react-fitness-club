@@ -87,6 +87,7 @@ export const ButtonTertiary = styled('div')({
   ':hover': {
     borderBottom: borders.red,
   },
+  borderBottom: borders.transparent,
   color: colors.red,
   cursor: 'pointer',
   fontSize: fontSizes.largeText,

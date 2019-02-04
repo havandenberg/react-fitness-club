@@ -32,15 +32,12 @@ export const personalInfoStep: (
       items: [
         {
           flex: '100%',
-          helpText: 'username@example.com',
-          inputType: 'text',
-          isViewOnly: !R.equals(authProvider, 'password'),
-          valueName: 'email',
-          viewOnlyText: `email provided by ${authProvider.replace('.com', '')}`,
+          helpText: 'png or jpg',
+          inputType: 'file',
+          valueName: 'profilePhotoUrl',
         },
       ],
-      label: 'Email',
-      rowWidth: ['100%', '65%'],
+      label: 'Profile Photo',
     },
     {
       isRequired: true,
@@ -73,15 +70,19 @@ export const personalInfoStep: (
       rowWidth: ['100%', '35%'],
     },
     {
+      isRequired: true,
       items: [
         {
           flex: '100%',
-          helpText: 'png or jpg',
-          inputType: 'file',
-          valueName: 'profilePhotoUrl',
+          helpText: 'username@example.com',
+          inputType: 'text',
+          isViewOnly: !R.equals(authProvider, 'password'),
+          valueName: 'email',
+          viewOnlyText: `email provided by ${authProvider.replace('.com', '')}`,
         },
       ],
-      label: 'Profile Photo',
+      label: 'Email',
+      rowWidth: ['100%', '65%'],
     },
     {
       isRequired: true,
@@ -213,9 +214,9 @@ export const personalInfoStep: (
       label: 'New Password',
       rowWidth: ['100%', '45%'],
     };
-    data.splice(1, 0, passwordData);
+    data.splice(4, 0, passwordData);
     if (!fields || !R.isEmpty(fields.password)) {
-      data.splice(2, 0, confirmPasswordData);
+      data.splice(5, 0, confirmPasswordData);
     }
   }
   return data;

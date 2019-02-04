@@ -1,3 +1,5 @@
+import { Membership } from './membership';
+
 export type dobField = 'month' | 'day' | 'year';
 
 export interface DateOfBirth {
@@ -23,7 +25,9 @@ export interface Member {
   isLiabilityWaiverSigned: boolean;
   lastName: string;
   medicalConditions: string;
+  membership: Membership;
   nickname: string;
+  pastMemberships: Membership[];
   phone: string;
   profilePhotoUrl: string;
   squareCustomerId: string;
@@ -51,7 +55,13 @@ export const newMemberDefaults: Member = {
   isLiabilityWaiverSigned: false,
   lastName: '',
   medicalConditions: '',
+  membership: {
+    inactivePeriods: [],
+    signupDate: '',
+    type: '',
+  },
   nickname: '',
+  pastMemberships: [],
   phone: '',
   profilePhotoUrl: '',
   squareCustomerId: '',

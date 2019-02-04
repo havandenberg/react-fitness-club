@@ -24,6 +24,13 @@ export const checkAuthed = (
             lastName: member.displayName
               ? member.displayName.split(' ')[1]
               : '',
+            membership: {
+              ...newMemberDefaults.membership,
+              inactivePeriods: JSON.stringify(
+                newMemberDefaults.membership.inactivePeriods,
+              ),
+            },
+            pastMemberships: JSON.stringify(newMemberDefaults.pastMemberships),
             profilePhotoUrl: member.photoURL || '',
             uid: member.uid,
           };
@@ -31,7 +38,20 @@ export const checkAuthed = (
             .database()
             .ref(`members/${member.uid}`)
             .set(newMember, () => {
-              authedCallback(newMember);
+              firebase
+                .database()
+                .ref(`membersList`)
+                .once('value', snap => {
+                  const membersList = JSON.parse(snap.val());
+                  firebase
+                    .database()
+                    .ref()
+                    .update({
+                      membersList: JSON.stringify(
+                        membersList.concat([member.uid]),
+                      ),
+                    });
+                });
             });
           subscribe(mailchimpUser(member.displayName, member.email));
         }
@@ -104,20 +124,49 @@ export const signup = (
         firebase
           .database()
           .ref(`members/${memberData.user.uid}`)
-          .set({
-            ...newMemberDefaults,
-            email,
-            firstName,
-            lastName,
-            uid: memberData.user.uid,
-          });
-        subscribe({
-          EMAIL: email,
-          FNAME: firstName,
-          LNAME: lastName,
-          SOURCE: 'web-portal-form',
-        });
+          .set(
+            {
+              ...newMemberDefaults,
+              email,
+              firstName,
+              lastName,
+              membership: {
+                ...newMemberDefaults.membership,
+                inactivePeriods: JSON.stringify(
+                  newMemberDefaults.membership.inactivePeriods,
+                ),
+              },
+              pastMemberships: JSON.stringify(
+                newMemberDefaults.pastMemberships,
+              ),
+              uid: memberData.user.uid,
+            },
+            () => {
+              firebase
+                .database()
+                .ref(`membersList`)
+                .once('value', snap => {
+                  const membersList = JSON.parse(snap.val());
+                  if (memberData.user) {
+                    firebase
+                      .database()
+                      .ref()
+                      .update({
+                        membersList: JSON.stringify(
+                          membersList.concat([memberData.user.uid]),
+                        ),
+                      });
+                  }
+                });
+            },
+          );
       }
+      subscribe({
+        EMAIL: email,
+        FNAME: firstName,
+        LNAME: lastName,
+        SOURCE: 'web-portal-form',
+      });
     })
     .catch((error: Error) => {
       onFail(error, error.message);

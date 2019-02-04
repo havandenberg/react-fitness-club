@@ -72,6 +72,7 @@ export type FormComponentProps<FormFields> = {
   onSubmit: (submit: FormSubmit<FormFields>) => void;
   resetForm: () => void;
   validate: () => boolean;
+  validateAll: () => boolean;
 } & Handlers<FormFields>;
 
 export interface FormStep<FormFields> {
@@ -259,6 +260,7 @@ class Form<FormFields> extends React.Component<
   setStep = (currentStep: string) => this.setState({ currentStep });
 
   validate = () => {
+    const { validationErrorMessage } = this.props;
     const { fields, currentStep } = this.state;
     const errors: string[] = [];
 
@@ -280,7 +282,7 @@ class Form<FormFields> extends React.Component<
 
     const isValid = R.isEmpty(errors);
 
-    if (!isValid) {
+    if (validationErrorMessage && !isValid) {
       this.resetScroll();
     }
 
@@ -288,6 +290,7 @@ class Form<FormFields> extends React.Component<
   };
 
   validateAll = () => {
+    const { validationErrorMessage } = this.props;
     const { fields } = this.state;
     const errors: string[] = [];
 
@@ -302,7 +305,7 @@ class Form<FormFields> extends React.Component<
 
     const isValid = R.isEmpty(errors);
 
-    if (!isValid) {
+    if (validationErrorMessage && !isValid) {
       this.resetScroll();
     }
 
@@ -379,7 +382,7 @@ class Form<FormFields> extends React.Component<
             mx="auto"
             width="75%"
           >
-            {onFailMessage || errorMessage}
+            {errorMessage || onFailMessage}
           </t.Text>
         )}
         <div id={id}>
@@ -401,6 +404,7 @@ class Form<FormFields> extends React.Component<
               onSubmit={this.handleSubmit}
               resetForm={this.resetForm}
               validate={this.validate}
+              validateAll={this.validateAll}
               ref={(
                 ref: React.RefObject<
                   React.ComponentType<FormComponentProps<FormFields>>

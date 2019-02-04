@@ -76,64 +76,67 @@ class ClassManager extends React.Component<
         </l.FlexCentered>
         <Divider white />
         <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
-          <l.FlexCentered mb={spacing.xl}>
-            <t.H3>{formatDescriptiveDate(classInst.date)}</t.H3>
-          </l.FlexCentered>
+          <l.FlexColumnCentered mb={spacing.xl}>
+            <t.H3 color={colors.gray} mb={spacing.t}>
+              {division.name}
+            </t.H3>
+            <t.Text large>{formatDescriptiveDate(classInst.date)}</t.Text>
+          </l.FlexColumnCentered>
           <t.H3 mb={spacing.ml}>Attendance:</t.H3>
           <l.Flex
             isWrap
             justifyContent={isMobile() ? 'center' : 'flex-start'}
             mb={spacing.ml}
           >
-            {divisionMembers
-              .filter((mem: Member) =>
+            {R.sortBy((mem: Member) => mem.lastName.toLowerCase())(
+              divisionMembers.filter((mem: Member) =>
                 R.contains(mem.uid, classInst.attendanceIds),
-              )
-              .map((mem: Member, index: number) => (
-                <React.Fragment key={index}>
-                  <SmallMemberCard
-                    activeType="border"
-                    isActive
-                    member={mem}
-                    onClick={() =>
-                      toggleAttendingClass(
-                        classInst,
-                        mem.uid,
-                        program.id,
-                        division.id,
-                      )
-                    }
-                  />
-                  {index < members.length - 1 && <l.Space width={spacing.ml} />}
-                </React.Fragment>
-              ))}
+              ),
+            ).map((mem: Member, index: number) => (
+              <React.Fragment key={index}>
+                <SmallMemberCard
+                  activeType="border"
+                  isActive
+                  member={mem}
+                  onClick={() =>
+                    toggleAttendingClass(
+                      classInst,
+                      mem.uid,
+                      program.id,
+                      division.id,
+                    )
+                  }
+                />
+                {index < members.length - 1 && <l.Space width={spacing.ml} />}
+              </React.Fragment>
+            ))}
           </l.Flex>
           <l.Flex
             isWrap
             justifyContent={isMobile() ? 'center' : 'flex-start'}
             mb={spacing.ml}
           >
-            {divisionMembers
-              .filter(
+            {R.sortBy((mem: Member) => mem.lastName.toLowerCase())(
+              divisionMembers.filter(
                 (mem: Member) => !R.contains(mem.uid, classInst.attendanceIds),
-              )
-              .map((mem: Member, index: number) => (
-                <React.Fragment key={index}>
-                  <SmallMemberCard
-                    activeType="border"
-                    member={mem}
-                    onClick={() =>
-                      toggleAttendingClass(
-                        classInst,
-                        mem.uid,
-                        program.id,
-                        division.id,
-                      )
-                    }
-                  />
-                  {index < members.length - 1 && <l.Space width={spacing.ml} />}
-                </React.Fragment>
-              ))}
+              ),
+            ).map((mem: Member, index: number) => (
+              <React.Fragment key={index}>
+                <SmallMemberCard
+                  activeType="border"
+                  member={mem}
+                  onClick={() =>
+                    toggleAttendingClass(
+                      classInst,
+                      mem.uid,
+                      program.id,
+                      division.id,
+                    )
+                  }
+                />
+                {index < members.length - 1 && <l.Space width={spacing.ml} />}
+              </React.Fragment>
+            ))}
           </l.Flex>
         </l.Page>
       </div>

@@ -4,7 +4,9 @@ import {
   AlignItemsProps,
   alignSelf,
   AlignSelfProps,
+  borderColor,
   bottom,
+  color,
   flex,
   flexDirection,
   FlexDirectionProps,
@@ -165,6 +167,11 @@ const FlexColumn = styled(Flex)({
   flexDirection: 'column',
 });
 
+const FlexColumnCentered = styled(Flex)({
+  flexDirection: 'column',
+  justifyContent: 'center',
+});
+
 const Img = styled('img')(height, space, width);
 
 export const scrollStyles = {
@@ -195,6 +202,7 @@ const Space = styled('div')(
   alignItems,
   alignSelf,
   bottom,
+  flex,
   height,
   justifyContent,
   justifySelf,
@@ -235,12 +243,19 @@ const BorderLine = styled('div')(
   width,
 );
 
-const Line = styled('div')({
-  borderBottom: borders.black,
-  color: colors.black,
-  margin: '0 auto',
-  width: spacing.xxxl,
-});
+const Line = styled('div')(
+  {
+    borderBottom: borders.black,
+    color: colors.black,
+    margin: '0 auto',
+    width: spacing.xxxl,
+  },
+  borderColor,
+  color,
+  height,
+  space,
+  width,
+);
 
 const Page = styled(Space)({
   background: colors.background,
@@ -265,6 +280,7 @@ export default {
   Flex,
   FlexCentered,
   FlexColumn,
+  FlexColumnCentered,
   Img,
   Line,
   Page,

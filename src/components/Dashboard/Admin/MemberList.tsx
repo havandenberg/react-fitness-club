@@ -69,35 +69,40 @@ class MemberList extends React.Component<Props, State> {
       const isValidDivision = division
         ? R.contains(member.uid, division.memberIds)
         : true;
+      const values = R.values(
+        R.pick(
+          [
+            'allergies',
+            'city',
+            'email',
+            'firstName',
+            'lastName',
+            'medicalConditions',
+            'nickname',
+            'phone',
+            'state',
+            'streetAddress1',
+            'streetAddress2',
+            'zip',
+          ],
+          member,
+        ),
+      )
+        .concat(R.values(member.dateOfBirth))
+        .concat(R.values(member.emergencyContact))
+        .concat([member.membership.type]);
       return (
         isValidProgram &&
         isValidDivision &&
         R.reduce(
-          (containsSearchValue: boolean, value: string) =>
-            containsSearchValue ||
-            R.contains(searchValue.toLowerCase(), value.toLowerCase()),
+          (containsSearchValue: boolean, value: string) => {
+            return (
+              containsSearchValue ||
+              (value ? R.contains(searchValue.toLowerCase(), value.toLowerCase()) : false)
+            );
+          },
           false,
-          R.values(
-            R.pick(
-              [
-                'allergies',
-                'city',
-                'email',
-                'firstName',
-                'lastName',
-                'medicalConditions',
-                'nickname',
-                'phone',
-                'state',
-                'streetAddress1',
-                'streetAddress2',
-                'zip',
-              ],
-              member,
-            ),
-          )
-            .concat(R.values(member.dateOfBirth))
-            .concat(R.values(member.emergencyContact)),
+          values,
         )
       );
     });
@@ -150,33 +155,29 @@ class MemberList extends React.Component<Props, State> {
           </>
         )}
         <l.Scroll height={[200, 800, 800]} width="100%">
-          {R.sortBy(R.prop('lastName'))(this.filterMembers()).map(
-            (member: Member) => (
-              <div id={member.uid} key={`smc-${member.uid}`}>
-                <SmallMemberCard
-                  activeType="text"
-                  isActive={R.equals(selectedMemberId, member.uid)}
-                  customStyles={{
-                    nameFontSize: [
-                      mobileSizes.text,
-                      mobileSizes.text,
-                      fontSizes.text,
-                    ],
-                    photoSideLength: [
-                      spacing.xxxl,
-                      spacing.xxxl,
-                      spacing.xxxxl,
-                    ],
-                    wrapper: {
-                      p: spacing.s,
-                    },
-                  }}
-                  member={member}
-                  onClick={() => onMemberSelect(member)}
-                />
-              </div>
-            ),
-          )}
+          {R.sortBy((member: Member) => member.lastName.toLowerCase())(
+            this.filterMembers(),
+          ).map((member: Member) => (
+            <div id={member.uid} key={`smc-${member.uid}`}>
+              <SmallMemberCard
+                activeType="text"
+                isActive={R.equals(selectedMemberId, member.uid)}
+                customStyles={{
+                  nameFontSize: [
+                    mobileSizes.text,
+                    mobileSizes.text,
+                    fontSizes.text,
+                  ],
+                  photoSideLength: [spacing.xxxl, spacing.xxxl, spacing.xxxxl],
+                  wrapper: {
+                    p: spacing.s,
+                  },
+                }}
+                member={member}
+                onClick={() => onMemberSelect(member)}
+              />
+            </div>
+          ))}
         </l.Scroll>
       </l.Space>
     );

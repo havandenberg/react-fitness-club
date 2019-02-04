@@ -8,11 +8,13 @@ import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
 import {
+  isDesktop,
   isMobile,
   isMobileOnly,
   isSmall,
   isTabletUp,
 } from '../utils/screensize';
+import { scrollToId } from '../utils/scroll';
 import SocialIcons from './SocialIcons';
 
 const HeroWrapper = styled('div')({
@@ -120,9 +122,23 @@ const Hero = ({
         <QuickLink border={borders.red} color={colors.red} to="/schedule">
           Schedule
         </QuickLink>
-        <QuickLink bold border={borders.red} color={colors.red} to="/events">
+        <QuickLink
+          bold="true"
+          border={borders.red}
+          color={colors.red}
+          to="/events"
+        >
           Events (1)
         </QuickLink>
+        {isDesktop() && (
+          <QuickLink
+            border={borders.red}
+            color={colors.red}
+            to="/?id=newsletter"
+          >
+            <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
+          </QuickLink>
+        )}
         <QuickAnchor
           border={borders.red}
           color={colors.red}

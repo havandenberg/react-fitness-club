@@ -1,11 +1,13 @@
 import styled from 'react-emotion';
 import { Link as RouterLink } from 'react-router-dom';
 import {
+  alignSelf,
   color as colorFunc,
   display,
   flex,
   fontSize as fontSizeFunc,
   height,
+  justifySelf,
   maxWidth,
   space,
   textAlign,
@@ -28,6 +30,7 @@ import {
 // Basic typography components
 
 const textOptions = [
+  alignSelf,
   ({ bold }: { bold?: boolean }) => ({
     fontWeight: bold ? 'bold' : undefined,
   }),
@@ -39,6 +42,7 @@ const textOptions = [
   flex,
   fontSizeFunc,
   height,
+  justifySelf,
   ({ italic }: { italic?: boolean }) => ({
     fontStyle: italic ? 'italic' : undefined,
   }),
@@ -214,22 +218,24 @@ const Link = styled(RouterLink)(
   ...textOptions,
 );
 
-type HoverStyle = 'opacity' | 'underline';
+type HoverStyle = 'opacity' | 'underline' | 'none';
 
 const TextButton = styled(Text)(
   ({
     color = colors.red,
     hoverStyle = 'opacity',
     large,
+    onClick,
   }: {
     border: string;
     color: string;
     hoverStyle: HoverStyle;
     large?: boolean;
+    onClick?: () => void;
   }) => ({
     ':hover': {
       borderBottom: hoverStyle === 'underline' ? borders.red : undefined,
-      color: hoverStyle === 'opacity' ? colors.red : undefined,
+      opacity: hoverStyle === 'opacity' ? 1 : undefined,
     },
     borderBottom: hoverStyle === 'underline' ? borders.transparent : undefined,
     color,
@@ -241,6 +247,7 @@ const TextButton = styled(Text)(
     [breakpoints.mobile]: {
       fontSize: large ? mobileSizes.largeText : mobileSizes.text,
     },
+    opacity: hoverStyle === 'opacity' && onClick ? 0.5 : undefined,
     transition: transitions.default,
   }),
   ...textOptions,

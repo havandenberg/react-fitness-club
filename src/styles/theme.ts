@@ -16,12 +16,20 @@ export const colors = {
   background: '#F2F3F4',
   background90: '#F2F3F4E6',
   black: '#242424',
+  darkBlue: '#406BAC',
+  gold: '#D4AF37',
   gray: '#4A4A4A',
   green: '#4BB543',
+  lightBlue: '#059D9E',
+  lightGold: '#ECD868',
   lightGray: '#DEDEDE',
   lightGreen: '#4BB543',
   lightRed: '#F46767',
+  medGray: '#818181',
+  purple: '#7C3EBD',
   red: '#F14042',
+  sponsoredGreen: '#0A7861',
+  sponsoredLightGreen: '#18B09A',
   white: '#FFFFFF',
 };
 
@@ -33,8 +41,16 @@ export const gradients = {
   divider: `linear-gradient(to bottom, ${colors.black} 0, ${
     colors.black
   } 20%, ${colors.gray} 50%, ${colors.black} 80%, ${colors.black} 100%);`,
+  gold: `linear-gradient(to bottom, ${colors.lightGold}, ${colors.gold});`,
+  gray: `linear-gradient(to bottom, ${colors.medGray}, ${colors.gray});`,
   green: `linear-gradient(to bottom, ${colors.lightGreen}, ${colors.green});`,
+  multipass: `linear-gradient(to right, ${colors.lightBlue} 0, ${
+    colors.lightBlue
+  } 20%, ${colors.darkBlue} 50%, ${colors.purple} 80%, ${colors.purple} 100%);`,
   red: `linear-gradient(to bottom, ${colors.lightRed}, ${colors.red});`,
+  sponsoredGreen: `linear-gradient(to bottom, ${colors.sponsoredLightGreen}, ${
+    colors.sponsoredGreen
+  });`,
 };
 
 export const borders = {

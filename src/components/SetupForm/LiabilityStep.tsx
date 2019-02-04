@@ -26,7 +26,7 @@ import {
 import l from '../../styles/layout';
 import { borders, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
-import { getCurrentMemberRef } from '../../utils/member';
+import { getMemberRef } from '../../utils/member';
 import { scrollToId } from '../../utils/scroll';
 import { isUnderEighteen } from '../../utils/validation';
 import { FormComponentProps } from '../Form';
@@ -138,22 +138,19 @@ class LiabilityWaiverStep extends React.Component<
               ...liabilityStyles.signatureRow,
               borderBottom: borders.black,
               marginBottom: spacing.ml,
-            }}
-          >
+            }}>
             <Text
               style={{
                 ...liabilityStyles.signatureLabelLeft,
                 ...liabilityStyles.signature,
-              }}
-            >
+              }}>
               {fields.memberSignature}
             </Text>
             <Text
               style={{
                 ...liabilityStyles.signatureLabelRight,
                 ...liabilityStyles.signature,
-              }}
-            >
+              }}>
               {new Date().toLocaleDateString('en-US')}
             </Text>
           </View>
@@ -175,16 +172,14 @@ class LiabilityWaiverStep extends React.Component<
                   style={{
                     ...liabilityStyles.signatureLabelLeft,
                     ...liabilityStyles.signature,
-                  }}
-                >
+                  }}>
                   {fields.memberParentSignature}
                 </Text>
                 <Text
                   style={{
                     ...liabilityStyles.signatureLabelRight,
                     ...liabilityStyles.signature,
-                  }}
-                >
+                  }}>
                   {new Date().toLocaleDateString('en-US')}
                 </Text>
               </View>
@@ -228,7 +223,7 @@ class LiabilityWaiverStep extends React.Component<
       ) => {
         const user = firebase.auth().currentUser;
         if (user) {
-          getCurrentMemberRef(user.uid)
+          getMemberRef(user.uid)
             .update(processFormValues(data))
             .then(() => {
               onSuccess();
@@ -276,8 +271,7 @@ class LiabilityWaiverStep extends React.Component<
                 valid={setupFieldValidations.initialOne(
                   fields.initialOne,
                   fields,
-                )}
-              >
+                )}>
                 initials
               </t.HelpText>
             </div>
@@ -298,8 +292,7 @@ class LiabilityWaiverStep extends React.Component<
                 valid={setupFieldValidations.initialTwo(
                   fields.initialTwo,
                   fields,
-                )}
-              >
+                )}>
                 initials
               </t.HelpText>
             </div>
@@ -320,8 +313,7 @@ class LiabilityWaiverStep extends React.Component<
                 valid={setupFieldValidations.initialThree(
                   fields.initialThree,
                   fields,
-                )}
-              >
+                )}>
                 initials
               </t.HelpText>
             </div>
@@ -342,8 +334,7 @@ class LiabilityWaiverStep extends React.Component<
                 valid={setupFieldValidations.initialFour(
                   fields.initialFour,
                   fields,
-                )}
-              >
+                )}>
                 initials
               </t.HelpText>
             </div>
@@ -365,8 +356,7 @@ class LiabilityWaiverStep extends React.Component<
                   valid={setupFieldValidations.memberSignature(
                     fields.memberSignature,
                     fields,
-                  )}
-                >
+                  )}>
                   member signature
                 </t.HelpText>
               </div>
@@ -401,8 +391,7 @@ class LiabilityWaiverStep extends React.Component<
                       valid={setupFieldValidations.memberParentSignature(
                         fields.memberParentSignature,
                         fields,
-                      )}
-                    >
+                      )}>
                       parent/guardian signature (member under 18)
                     </t.HelpText>
                   </div>

@@ -133,7 +133,12 @@ const Footer = ({ member }: { member?: Member }) => (
           />
           <l.Space height={spacing.l} />
           {member ? (
-            <t.TextButton color={colors.red} large onClick={logout}>
+            <t.TextButton
+              color={colors.red}
+              hoverStyle="none"
+              large
+              onClick={logout}
+            >
               Logout
             </t.TextButton>
           ) : (
@@ -195,7 +200,7 @@ const Footer = ({ member }: { member?: Member }) => (
           textAlign={isTabletUp() ? 'right' : 'center'}
           width="100%"
         >
-          Site developed by
+          Developed by
           <l.Break breakpoint={TABLET} /> Halsey Vandenberg
         </t.Text>
       </l.FlexColumn>
