@@ -13,15 +13,16 @@ import {
   spacing,
 } from '../styles/theme';
 import t from '../styles/typography';
+import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Program } from '../types/program';
+import { formatDescriptiveDate } from '../utils/calendar-event';
 import {
   generateNewClass,
   getClassInstById,
   getClassInstIdFromEvent,
   openClass,
 } from '../utils/class';
-import { CalendarEvent, formatDescriptiveDate } from '../utils/events';
 import { getDivisionById, isCoachOf } from '../utils/program';
 import { getButtonProps } from './Form/Button';
 import { ProgramCardWrapper } from './ProgramCard';
@@ -102,15 +103,13 @@ const EnrolledDivisionCard = withRouter(
                 <l.Flex
                   key={classInstId}
                   mb={index === 0 ? spacing.sm : undefined}
-                  spaceBetween
-                >
+                  spaceBetween>
                   <ActiveText
                     bold
                     isGreen={moment().isBetween(
                       moment(event.start),
                       moment(event.end),
-                    )}
-                  >
+                    )}>
                     {formatDescriptiveDate(event)}
                   </ActiveText>
                   {isCoachOf(member.uid, program) ? (

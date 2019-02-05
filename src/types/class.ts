@@ -1,4 +1,4 @@
-import { CalendarEvent } from '../utils/events';
+import { CalendarEvent } from '../types/calendar-event';
 
 export interface ClassInst {
   date: CalendarEvent;

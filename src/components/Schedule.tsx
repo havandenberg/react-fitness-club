@@ -6,6 +6,7 @@ import { PulseLoader } from 'react-spinners';
 import l from '../styles/layout';
 import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
+import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Division, Program } from '../types/program';
 import {
@@ -14,7 +15,6 @@ import {
   getClassInstIdFromEvent,
   openClass,
 } from '../utils/class';
-import { CalendarEvent } from '../utils/events';
 import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
 import { isMobileOnly } from '../utils/screensize';
 import Divider from './Divider';

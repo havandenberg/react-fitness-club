@@ -1,35 +1,7 @@
 import * as moment from 'moment';
 import * as R from 'ramda';
-import { Event } from 'react-big-calendar';
 import { rrulestr } from 'rrule';
-
-export interface CalendarEventShape {
-  description: string;
-  end: {
-    dateTime?: string;
-    date?: string;
-  };
-  id: string;
-  location?: string;
-  recurrence?: string[];
-  start: {
-    dateTime?: string;
-    date?: string;
-  };
-  summary: string;
-}
-
-export interface CalendarEvent extends Event {
-  description: string;
-  divisionId: string;
-  end: Date;
-  id: string;
-  location?: string;
-  recurrence?: string[];
-  programId: string;
-  start: Date;
-  title: string;
-}
+import { CalendarEvent, CalendarEventShape } from '../types/calendar-event';
 
 const MAX_RECURRENCES = 50;
 

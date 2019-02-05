@@ -9,6 +9,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import { colors, maxWidth } from '../styles/theme';
+import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Division, Program } from '../types/program';
 import {
@@ -16,11 +17,7 @@ import {
   listenForMemberChanges,
   listenForProgramChanges,
 } from '../utils/auth';
-import {
-  CalendarEvent,
-  expandRecurringEvents,
-  getEvents,
-} from '../utils/events';
+import { expandRecurringEvents, getEvents } from '../utils/calendar-event';
 import { parseMemberData } from '../utils/member';
 import { isCoachOf, parsePrograms } from '../utils/program';
 import About from './About';

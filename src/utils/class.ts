@@ -1,9 +1,9 @@
 import * as firebase from 'firebase';
 import * as moment from 'moment';
 import * as R from 'ramda';
+import { CalendarEvent } from '../types/calendar-event';
 import { ClassInst } from '../types/class';
 import { Division } from '../types/program';
-import { CalendarEvent } from './events';
 
 export const openClass = (
   classInst: ClassInst,

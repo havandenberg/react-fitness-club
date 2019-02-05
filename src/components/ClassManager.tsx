@@ -5,10 +5,11 @@ import { PulseLoader } from 'react-spinners';
 import l from '../styles/layout';
 import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
+import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Program } from '../types/program';
+import { formatDescriptiveDate } from '../utils/calendar-event';
 import { getClassInstById, toggleAttendingClass } from '../utils/class';
-import { CalendarEvent, formatDescriptiveDate } from '../utils/events';
 import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
 import { isMobile, isMobileOnly } from '../utils/screensize';
 import Divider from './Divider';
@@ -86,8 +87,7 @@ class ClassManager extends React.Component<
           <l.Flex
             isWrap
             justifyContent={isMobile() ? 'center' : 'flex-start'}
-            mb={spacing.ml}
-          >
+            mb={spacing.ml}>
             {R.sortBy((mem: Member) => mem.lastName.toLowerCase())(
               divisionMembers.filter((mem: Member) =>
                 R.contains(mem.uid, classInst.attendanceIds),
@@ -114,8 +114,7 @@ class ClassManager extends React.Component<
           <l.Flex
             isWrap
             justifyContent={isMobile() ? 'center' : 'flex-start'}
-            mb={spacing.ml}
-          >
+            mb={spacing.ml}>
             {R.sortBy((mem: Member) => mem.lastName.toLowerCase())(
               divisionMembers.filter(
                 (mem: Member) => !R.contains(mem.uid, classInst.attendanceIds),

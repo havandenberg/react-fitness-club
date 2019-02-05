@@ -4,10 +4,10 @@ import { isInactiveMembership } from 'src/utils/membership';
 import l from '../../styles/layout';
 import { colors, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
+import { CalendarEvent } from '../../types/calendar-event';
 import { Member } from '../../types/member';
 import { MULTI_PROGRAM_MEMBERSHIPS } from '../../types/membership';
 import { Program } from '../../types/program';
-import { CalendarEvent } from '../../utils/events';
 import {
   getEnrolledDivision,
   getEnrolledPrograms,

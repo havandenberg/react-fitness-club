@@ -92,9 +92,7 @@ const SmallProgramCard = ({
         </l.FlexColumn>
       </NameComponent>
       {showCost && (
-        <l.FlexColumn
-          alignTop={isMobileOnly()}
-          ml={spacing.xl}>
+        <l.FlexColumn alignTop={isMobileOnly()} ml={spacing.xl}>
           <t.Text large>{`$${monthlyCost} / month`}</t.Text>
           {hasDiscount && (
             <t.Text
