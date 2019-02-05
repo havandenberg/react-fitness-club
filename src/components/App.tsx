@@ -216,16 +216,22 @@ class App extends React.Component<SubscribeProps, State> {
   };
 
   unauthedCallback = () => {
-    getEvents().then(data => {
-      this.setState({
-        events: expandRecurringEvents(data.items),
-        loading: false,
-        loadingEvents: false,
-        loadingMember: false,
-        loadingPrograms: false,
-        member: undefined,
-      });
-    });
+    listenForProgramChanges((programs: Program[]) =>
+      this.setState(
+        { programs: parsePrograms(programs), loadingPrograms: false },
+        () =>
+          getEvents().then(data => {
+            this.setState({
+              events: expandRecurringEvents(data.items),
+              loading: false,
+              loadingEvents: false,
+              loadingMember: false,
+              loadingPrograms: false,
+              member: undefined,
+            });
+          }),
+      ),
+    );
   };
 
   render() {

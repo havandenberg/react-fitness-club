@@ -4,6 +4,7 @@ import {
   AlignItemsProps,
   alignSelf,
   AlignSelfProps,
+  background,
   borderColor,
   bottom,
   color,
@@ -80,6 +81,7 @@ const Flex = styled('div')<
     alignItems: 'center',
   },
   alignSelf,
+  background,
   flex,
   flexDirection,
   height,
@@ -201,6 +203,7 @@ export const scrollStyles = {
 const Space = styled('div')(
   alignItems,
   alignSelf,
+  background,
   bottom,
   flex,
   height,

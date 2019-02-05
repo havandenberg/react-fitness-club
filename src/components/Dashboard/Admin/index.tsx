@@ -13,6 +13,7 @@ import ProgramInfo from './ProgramInfo';
 type AdminView = 'programs' | 'profile';
 
 interface Props {
+  isAdmin: boolean;
   member: Member;
   members: Member[];
   programs: Program[];
@@ -42,11 +43,12 @@ class Admin extends React.Component<Props, State> {
   };
 
   render() {
-    const { member, members, programs } = this.props;
+    const { isAdmin, member, members, programs } = this.props;
     const { selectedMember, view } = this.state;
     return (
       <l.Flex alignTop columnOnMobile>
         <MemberList
+          isAdmin={isAdmin}
           memberId={member.uid}
           members={members}
           onMemberSelect={this.handleSelectMember}
@@ -59,21 +61,18 @@ class Admin extends React.Component<Props, State> {
             alignTop
             mb={spacing.xxxl}
             justifyContent={isMobile() ? 'space-around' : 'center'}
-            width={['100%', 'auto', 'auto']}
-          >
+            width={['100%', 'auto', 'auto']}>
             <NavItem
               active={R.contains(view, ['profile', 'edit-profile'])}
               large
-              onClick={this.setView('profile')}
-            >
+              onClick={this.setView('profile')}>
               Profile
             </NavItem>
             <l.Space width={[0, spacing.xxxxxl]} />
             <NavItem
               active={view === 'programs'}
               large
-              onClick={this.setView('programs')}
-            >
+              onClick={this.setView('programs')}>
               Program Info
             </NavItem>
           </l.Flex>

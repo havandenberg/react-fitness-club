@@ -12,7 +12,7 @@ const About = () => (
       About
     </t.Title>
     <Divider white />
-    <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+    <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl,spacing.xxxl, spacing.xxxxxl]}>
       <l.FlexCentered>Under Construction</l.FlexCentered>
     </l.Page>
     <Newsletter />

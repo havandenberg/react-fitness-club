@@ -34,23 +34,23 @@ export const colors = {
 };
 
 export const gradients = {
-  black: `linear-gradient(to bottom, ${colors.gray}, ${colors.black});`,
+  black: `linear-gradient(to bottom, ${colors.gray}, ${colors.black})`,
   blackReverse: `linear-gradient(to top, ${colors.gray} 0, ${
     colors.gray
-  } 85%, ${colors.black} 100%);`,
+  } 85%, ${colors.black} 100%)`,
   divider: `linear-gradient(to bottom, ${colors.black} 0, ${
     colors.black
-  } 20%, ${colors.gray} 50%, ${colors.black} 80%, ${colors.black} 100%);`,
-  gold: `linear-gradient(to bottom, ${colors.lightGold}, ${colors.gold});`,
-  gray: `linear-gradient(to bottom, ${colors.medGray}, ${colors.gray});`,
-  green: `linear-gradient(to bottom, ${colors.lightGreen}, ${colors.green});`,
+  } 20%, ${colors.gray} 50%, ${colors.black} 80%, ${colors.black} 100%)`,
+  gold: `linear-gradient(to bottom, ${colors.lightGold}, ${colors.gold})`,
+  gray: `linear-gradient(to bottom, ${colors.medGray}, ${colors.gray})`,
+  green: `linear-gradient(to bottom, ${colors.lightGreen}, ${colors.green})`,
   multipass: `linear-gradient(to right, ${colors.lightBlue} 0, ${
     colors.lightBlue
-  } 20%, ${colors.darkBlue} 50%, ${colors.purple} 80%, ${colors.purple} 100%);`,
-  red: `linear-gradient(to bottom, ${colors.lightRed}, ${colors.red});`,
+  } 20%, ${colors.darkBlue} 50%, ${colors.purple} 80%, ${colors.purple} 100%)`,
+  red: `linear-gradient(to bottom, ${colors.lightRed}, ${colors.red})`,
   sponsoredGreen: `linear-gradient(to bottom, ${colors.sponsoredLightGreen}, ${
     colors.sponsoredGreen
-  });`,
+  })`,
 };
 
 export const borders = {

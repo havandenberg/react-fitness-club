@@ -17,6 +17,8 @@ export interface Program {
   discountMultiplier?: number;
   discountMonths?: number;
   divisions: Division[];
+  eventBackground: string;
+  eventColor: string;
   id: string;
   logoSrc: string;
   monthlyCost: number;

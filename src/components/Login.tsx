@@ -59,7 +59,7 @@ class Login extends React.Component<RouteComponentProps & Props, State> {
               RFC Portal Login
             </t.Title>
             <Divider white />
-            <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+            <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl,spacing.xxxl, spacing.xxxxxl]}>
               <l.FlexCentered>
                 <t.Text large>
                   Sign up or log in to RFC with your social media account.

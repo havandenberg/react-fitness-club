@@ -15,6 +15,7 @@ import { SelectInput, TextInput } from '../../Form/Input';
 import SmallMemberCard from '../../SmallMemberCard';
 
 interface Props {
+  isAdmin: boolean;
   memberId: string;
   members: Member[];
   onMemberSelect: (member: Member) => void;
@@ -30,8 +31,8 @@ interface State {
 
 class MemberList extends React.Component<Props, State> {
   state = {
-    divisionId: 'All',
-    programId: '',
+    divisionId: 'all',
+    programId: 'all',
     searchValue: '',
   };
 
@@ -98,7 +99,9 @@ class MemberList extends React.Component<Props, State> {
           (containsSearchValue: boolean, value: string) => {
             return (
               containsSearchValue ||
-              (value ? R.contains(searchValue.toLowerCase(), value.toLowerCase()) : false)
+              (value
+                ? R.contains(searchValue.toLowerCase(), value.toLowerCase())
+                : false)
             );
           },
           false,
@@ -109,10 +112,19 @@ class MemberList extends React.Component<Props, State> {
   };
 
   render() {
-    const { memberId, onMemberSelect, programs, selectedMemberId } = this.props;
+    const {
+      isAdmin,
+      memberId,
+      onMemberSelect,
+      programs,
+      selectedMemberId,
+    } = this.props;
     const { divisionId, programId, searchValue } = this.state;
     const program =
       !R.equals(programId, 'all') && getProgramById(programId, programs);
+    const programList = isAdmin
+      ? programs
+      : getCoachingPrograms(programs, memberId);
     return (
       <l.Space width={['100%', 250, 325]}>
         <t.HelpText mb={spacing.t}>Search members:</t.HelpText>
@@ -127,10 +139,9 @@ class MemberList extends React.Component<Props, State> {
           mb={R.equals(programId, 'all') ? spacing.m : spacing.sm}
           onChange={this.handleFilterChange('programId')}
           value={programId}
-          width="100%"
-        >
+          width="100%">
           <option value="all">All</option>
-          {getCoachingPrograms(programs, memberId).map((prog: Program) => (
+          {programList.map((prog: Program) => (
             <option key={prog.id} value={prog.id}>
               {prog.name}
             </option>
@@ -143,8 +154,7 @@ class MemberList extends React.Component<Props, State> {
               mb={spacing.m}
               onChange={this.handleFilterChange('divisionId')}
               value={divisionId}
-              width="100%"
-            >
+              width="100%">
               <option value="all">All</option>
               {program.divisions.map((div: Division) => (
                 <option key={div.id} value={div.id}>

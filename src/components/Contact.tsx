@@ -28,7 +28,7 @@ const Contact = () => (
       Contact
     </t.Title>
     <Divider white />
-    <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+    <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl,spacing.xxxl, spacing.xxxxxl]}>
       <l.Flex
         alignTop
         columnOnMobile

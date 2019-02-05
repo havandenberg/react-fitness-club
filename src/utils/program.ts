@@ -122,7 +122,9 @@ export const parsePrograms = (programs: Program[]) =>
               },
             }))
           : [],
-        memberIds: division.memberIds ? JSON.parse(`${division.memberIds}`) : [],
+        memberIds: division.memberIds
+          ? JSON.parse(`${division.memberIds}`)
+          : [],
       })),
     };
   });

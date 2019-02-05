@@ -76,7 +76,7 @@ class ClassManager extends React.Component<
           <t.Title center>{program.name} Class</t.Title>
         </l.FlexCentered>
         <Divider white />
-        <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+        <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl,spacing.xxxl, spacing.xxxxxl]}>
           <l.FlexColumnCentered mb={spacing.xl}>
             <t.H3 color={colors.gray} mb={spacing.t}>
               {division.name}

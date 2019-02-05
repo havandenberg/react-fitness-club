@@ -81,7 +81,7 @@ class Dashboard extends React.Component<Props, State> {
   };
 
   render() {
-    const { events, loading, programs, member, members } = this.props;
+    const { events, isAdmin, loading, programs, member, members } = this.props;
     const { view } = this.state;
     return loading ? (
       <l.FlexCentered my={spacing.xxxxxl}>
@@ -93,7 +93,9 @@ class Dashboard extends React.Component<Props, State> {
           Dashboard
         </t.Title>
         <Divider white />
-        <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl, spacing.xxxxxl]}>
+        <l.Page
+          px={[spacing.sm, 0]}
+          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
           {member.isAccountSetupComplete && (
             <l.FlexCentered columnOnMobile>
               <l.Flex alignTop mb={[spacing.ml, spacing.xxxl, spacing.xxxl]}>
@@ -161,7 +163,12 @@ class Dashboard extends React.Component<Props, State> {
                 <Programs events={events} programs={programs} member={member} />
               )}
               {view === 'admin' && members && (
-                <Admin member={member} members={members} programs={programs} />
+                <Admin
+                  isAdmin={isAdmin}
+                  member={member}
+                  members={members}
+                  programs={programs}
+                />
               )}
               {view === 'membership' && (
                 <Membership
