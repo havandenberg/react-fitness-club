@@ -1,6 +1,7 @@
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ASSETS_PATH } from 'src/utils/constants';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
@@ -10,8 +11,10 @@ import { Member } from '../types/member';
 import { SpecialEvent as SpecialEventType } from '../types/special-event';
 import { formatDescriptiveDate } from '../utils/calendar-event';
 import {
+  generateNewClass,
   getClassInstIdFromEvent,
   getSpecialEventClassInstById,
+  openSpecialEventClass,
 } from '../utils/class';
 import { isMobile, isTabletOnly, TABLET_UP } from '../utils/screensize';
 import {
@@ -22,6 +25,10 @@ import {
 import { ButtonPrimary } from './Form/Button';
 import GalleryImage from './GalleryImage';
 import SmallMemberCard from './SmallMemberCard';
+
+const SessionButton = styled(t.TextButton)({
+  display: 'inline-block',
+});
 
 const SpecialEventWrapper = styled(l.Space)({
   border: borders.black,
@@ -43,7 +50,7 @@ interface State {
   showMembers: boolean;
 }
 
-class SpecialEvent extends React.Component<Props, State> {
+class SpecialEvent extends React.Component<Props & RouteComponentProps, State> {
   state = {
     showMembers: false,
   };
@@ -62,7 +69,7 @@ class SpecialEvent extends React.Component<Props, State> {
   };
 
   render() {
-    const { events, member, members, specialEvent } = this.props;
+    const { events, history, member, members, specialEvent } = this.props;
     const { showMembers } = this.state;
 
     const sessions = getSpecialEventSessions(specialEvent, events);
@@ -99,29 +106,46 @@ class SpecialEvent extends React.Component<Props, State> {
             <t.Text bold mb={spacing.ml}>
               Sessions:
             </t.Text>
-            {sessions.map((session: CalendarEvent, index: number) => {
-              const classInstId = getClassInstIdFromEvent(session);
-              const sessionProps =
-                members &&
-                getSpecialEventClassInstById(classInstId, specialEvent)
-                  ? this.getSessionProps(session)
-                  : {};
-              const Session =
-                members &&
-                getSpecialEventClassInstById(classInstId, specialEvent)
-                  ? t.Link
-                  : t.Text;
-              return (
-                <React.Fragment key={session.id}>
-                  <Session {...sessionProps}>
-                    {formatDescriptiveDate(session)}
-                  </Session>
-                  {index < sessions.length - 1 && (
-                    <l.Space height={spacing.s} />
-                  )}
-                </React.Fragment>
-              );
-            })}
+            <div>
+              {sessions.map((session: CalendarEvent, index: number) => {
+                const classInstId = getClassInstIdFromEvent(session);
+                const classInst = getSpecialEventClassInstById(
+                  classInstId,
+                  specialEvent,
+                );
+                return (
+                  <React.Fragment key={session.id}>
+                    <SessionButton
+                      color={members ? colors.red : colors.black}
+                      onClick={
+                        members
+                          ? () => {
+                              if (classInst) {
+                                history.push(
+                                  `/events/${specialEvent.id}/${classInstId}`,
+                                );
+                              } else {
+                                openSpecialEventClass(
+                                  generateNewClass(session),
+                                  specialEvent.id,
+                                ).then(() =>
+                                  history.push(
+                                    `/events/${specialEvent.id}/${classInstId}`,
+                                  ),
+                                );
+                              }
+                            }
+                          : undefined
+                      }>
+                      {formatDescriptiveDate(session)}
+                    </SessionButton>
+                    {index < sessions.length - 1 && (
+                      <l.Space height={spacing.s} />
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </l.Space>
           <l.Space height={spacing.ml} width={spacing.ml} />
           <l.FlexColumn mb={[spacing.sm, 0]}>
@@ -209,4 +233,4 @@ class SpecialEvent extends React.Component<Props, State> {
   }
 }
 
-export default SpecialEvent;
+export default withRouter(SpecialEvent);

@@ -224,7 +224,7 @@ type HoverStyle = 'opacity' | 'underline' | 'none';
 const TextButton = styled(Text)(
   ({
     color = colors.red,
-    hoverStyle = 'opacity',
+    hoverStyle,
     large,
     onClick,
   }: {

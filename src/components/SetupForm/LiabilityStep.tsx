@@ -13,8 +13,10 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import {
+  clauseFive,
   clauseFour,
   clauseOne,
+  clauseSix,
   clauseThree,
   clauseTwo,
   intro,
@@ -33,7 +35,7 @@ import { FormComponentProps } from '../Form';
 import FormActions from '../Form/Actions';
 import { CheckboxRadioInputWithLabel } from '../Form/CheckboxRadio';
 import { TextInput } from '../Form/Input';
-import { processFormValues, SetupFields, setupFieldValidations } from './';
+import { processFormValues, SetupFields } from './';
 
 export const LIABILITY_WAIVER = 'Liability Waiver';
 
@@ -121,8 +123,11 @@ class LiabilityWaiverStep extends React.Component<
             <Text style={liabilityStyles.text}>{clauseFour}</Text>
             <Text>{fields.initialFour}</Text>
           </View>
-          <View style={liabilityStyles.last}>
-            <Text style={liabilityStyles.introText}>{lastSection}</Text>
+          <View style={liabilityStyles.row}>
+            <Text style={liabilityStyles.text}>{clauseFive}</Text>
+          </View>
+          <View style={liabilityStyles.row}>
+            <Text style={liabilityStyles.text}>{clauseSix}</Text>
           </View>
           <View style={liabilityStyles.last}>
             <Text style={liabilityStyles.introText}>{typedSection}</Text>
@@ -151,14 +156,17 @@ class LiabilityWaiverStep extends React.Component<
                 ...liabilityStyles.signatureLabelRight,
                 ...liabilityStyles.signature,
               }}>
-              {new Date().toLocaleDateString('en-US')}
+              {' '}
             </Text>
           </View>
+        </Page>
+        <Page size="A4">
           {isUnderEighteen(
             `${fields.dobYear}${fields.dobMonth}${fields.dobDay}`,
           ) && (
             <>
-              <View style={liabilityStyles.last}>
+              <View
+                style={{ ...liabilityStyles.last, marginTop: spacing.xxxxl }}>
                 <Text style={liabilityStyles.introText}>{parentRelease}</Text>
               </View>
               <View style={liabilityStyles.signatureRow}>
@@ -180,7 +188,7 @@ class LiabilityWaiverStep extends React.Component<
                     ...liabilityStyles.signatureLabelRight,
                     ...liabilityStyles.signature,
                   }}>
-                  {new Date().toLocaleDateString('en-US')}
+                  {' '}
                 </Text>
               </View>
             </>
@@ -267,13 +275,7 @@ class LiabilityWaiverStep extends React.Component<
                 value={fields.initialOne}
               />
               <l.Space height={spacing.s} />
-              <t.HelpText
-                valid={setupFieldValidations.initialOne(
-                  fields.initialOne,
-                  fields,
-                )}>
-                initials
-              </t.HelpText>
+              <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
           <l.Flex mb={spacing.ml}>
@@ -288,13 +290,7 @@ class LiabilityWaiverStep extends React.Component<
                 value={fields.initialTwo}
               />
               <l.Space height={spacing.s} />
-              <t.HelpText
-                valid={setupFieldValidations.initialTwo(
-                  fields.initialTwo,
-                  fields,
-                )}>
-                initials
-              </t.HelpText>
+              <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
           <l.Flex mb={spacing.ml}>
@@ -309,13 +305,7 @@ class LiabilityWaiverStep extends React.Component<
                 value={fields.initialThree}
               />
               <l.Space height={spacing.s} />
-              <t.HelpText
-                valid={setupFieldValidations.initialThree(
-                  fields.initialThree,
-                  fields,
-                )}>
-                initials
-              </t.HelpText>
+              <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
           <l.Flex mb={spacing.xl}>
@@ -330,15 +320,11 @@ class LiabilityWaiverStep extends React.Component<
                 value={fields.initialFour}
               />
               <l.Space height={spacing.s} />
-              <t.HelpText
-                valid={setupFieldValidations.initialFour(
-                  fields.initialFour,
-                  fields,
-                )}>
-                initials
-              </t.HelpText>
+              <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
+          <t.Text mb={spacing.xl}>{clauseFive}</t.Text>
+          <t.Text mb={spacing.xl}>{clauseSix}</t.Text>
           <t.Text mb={spacing.xxxl}>{lastSection}</t.Text>
           <t.Text mb={spacing.xxxl}>{typedSection}</t.Text>
           <l.FlexColumn>
@@ -352,13 +338,7 @@ class LiabilityWaiverStep extends React.Component<
                   value={fields.memberSignature}
                 />
                 <l.Space height={spacing.s} />
-                <t.HelpText
-                  valid={setupFieldValidations.memberSignature(
-                    fields.memberSignature,
-                    fields,
-                  )}>
-                  member signature
-                </t.HelpText>
+                <t.HelpText>member signature</t.HelpText>
               </div>
               <l.Space width={spacing.xxl} />
               <div>
@@ -387,11 +367,7 @@ class LiabilityWaiverStep extends React.Component<
                       value={fields.memberParentSignature}
                     />
                     <l.Space height={spacing.s} />
-                    <t.HelpText
-                      valid={setupFieldValidations.memberParentSignature(
-                        fields.memberParentSignature,
-                        fields,
-                      )}>
+                    <t.HelpText>
                       parent/guardian signature (member under 18)
                     </t.HelpText>
                   </div>

@@ -7,7 +7,7 @@ import { Member } from '../../types/member';
 import { daysCountInMonths } from '../../utils/constants';
 import { isMobile } from '../../utils/screensize';
 import {
-  isUnderEighteen,
+  // isUnderEighteen,
   isValidDOBField,
   isValidEmail,
   isValidPhone,
@@ -74,17 +74,17 @@ export const setupFieldValidations: FormFieldValidations<SetupFields> = {
   eRelationship: (value: string) => !R.isEmpty(value),
   email: (value: string) => isValidEmail(value),
   firstName: (value: string) => !R.isEmpty(value),
-  initialFour: (value: string) => value.length > 1,
-  initialOne: (value: string) => value.length > 1,
-  initialThree: (value: string) => value.length > 1,
-  initialTwo: (value: string) => value.length > 1,
+  // initialFour: (value: string) => value.length > 1,
+  // initialOne: (value: string) => value.length > 1,
+  // initialThree: (value: string) => value.length > 1,
+  // initialTwo: (value: string) => value.length > 1,
   lastName: (value: string) => !R.isEmpty(value),
   medicalConditions: (value: string) => !R.isEmpty(value),
-  memberParentSignature: (value: string, fields: SetupFields) =>
-    isUnderEighteen(`${fields.dobYear}${fields.dobMonth}${fields.dobDay}`)
-      ? !R.isEmpty(value)
-      : true,
-  memberSignature: (value: string) => !R.isEmpty(value),
+  // memberParentSignature: (value: string, fields: SetupFields) =>
+  //   isUnderEighteen(`${fields.dobYear}${fields.dobMonth}${fields.dobDay}`)
+  //     ? !R.isEmpty(value)
+  //     : true,
+  // memberSignature: (value: string) => !R.isEmpty(value),
   phone: (value: string) => isValidPhone(value),
   profilePhotoUrl: (value: string) => !R.isEmpty(value),
   state: (value: string) => !R.isEmpty(value) && value !== '-',

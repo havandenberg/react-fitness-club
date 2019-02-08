@@ -29,10 +29,12 @@ const SmallMemberCardWrapper = styled(l.Flex)(
   },
   ({
     activeType,
+    borderColor,
     isActive,
     onClick,
   }: {
     activeType?: ActiveType;
+    borderColor?: string;
     isActive?: boolean;
     onClick?: () => void;
   }) => ({
@@ -54,7 +56,7 @@ const SmallMemberCardWrapper = styled(l.Flex)(
         ? isActive
           ? colors.lightGreen
           : colors.lightRed
-        : undefined,
+        : borderColor,
     cursor: onClick ? 'pointer' : 'default',
   }),
 );

@@ -83,6 +83,7 @@ const Flex = styled('div')<
   },
   alignSelf,
   background,
+  borderColor,
   flex,
   flexDirection,
   height,

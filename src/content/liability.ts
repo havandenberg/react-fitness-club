@@ -13,11 +13,17 @@ export const clauseThree =
 export const clauseFour =
   '4) I, for myself and on behalf of my heirs, assigns, personal representatives and next of kin, HEREBY RELEASE AND HOLD HARMLESS React Fitness Club their directors, officers, officials, agents, volunteers and/or employees, other participants, sponsoring agencies, sponsors, advertisers, and if applicable, owners and lessors of premises used to conduct the event (“RELEASEES”), WITH RESPECT TO ANY AND ALL INJURY, DISABILITY, DEATH, or loss or damage to person or property, WHETHER ARISING FROM THE NEGLIGENCE OF THE RELEASEES OR OTHERWISE, to the fullest extent permitted by law.';
 
+export const clauseFive =
+  '5) It is recommendeded that you consult a physician before starting any exercise program. If you experience any pain or difficulty with these exercises, stop and consult your healthcare provider. Consult with your health care professional to design an appropriate exercise prescription.';
+
+export const clauseSix =
+  '6) I have read and agree to the anti-hazing and affirmative consent guidelines of React Fitness Club, LLC.';
+
 export const lastSection =
   'I HAVE READ THIS RELEASE OF LIABILITY AND ASSUMPTION OF RISK AGREEMENT, FULLY UNDERSTAND ITS TERMS, UNDERSTAND THAT I HAVE GIVEN UP SUBSTANTIAL RIGHTS BY SIGNING IT, AND SIGN IT FREELY AND VOLUNTARILY WITHOUT ANY INDUCEMENT.';
 
 export const typedSection =
-  'I understand that typing my name below constitutes a legal signature confirming that I acknowledge and agree to the above terms.';
+  'I understand that writing or typing my name below constitutes a legal signature confirming that I acknowledge and agree to the above terms.';
 
 export const parentRelease =
   'This is to certify that I, as parent/guardian with legal responsibility for this participant, do consent and agree to his/her release as provided above of all the Releasees, and for myself, my heirs, assigns, and next of kin, I release and agree to indemnify and hold harmless the Releasees from any and all liabilities incident to my minor child’s involvement or participation in these programs as provided above, EVEN IF ARISING FROM THEIR NEGLIGENCE, to the fullest extent permitted by law.';
