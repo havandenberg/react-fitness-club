@@ -214,6 +214,7 @@ const Link = styled(RouterLink)(
       color,
     },
     borderBottom: borders.transparent,
+    transition: transitions.default,
   }),
   ...textOptions,
 );

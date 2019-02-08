@@ -172,6 +172,7 @@ class Dashboard extends React.Component<Props, State> {
               )}
               {view === 'membership' && (
                 <Membership
+                  events={events}
                   member={member}
                   programs={programs}
                   setProgramView={this.setView('programs')}

@@ -11,17 +11,16 @@ import {
   transitions,
 } from '../../styles/theme';
 import t from '../../styles/typography';
+import { CalendarEvent } from '../../types/calendar-event';
 import { MembershipType } from '../../types/membership';
 import { Division, Program } from '../../types/program';
 import { getMemberRef } from '../../utils/member';
 import { getGenericMembership } from '../../utils/membership';
 import {
-  getDivisionDiscountMonths,
-  getDivisionDiscountMultiplier,
-} from '../../utils/program';
-import {
   enrollInDivision,
   getDivisionById,
+  getDivisionDiscountMonths,
+  getDivisionDiscountMultiplier,
   getProgramById,
 } from '../../utils/program';
 import { isSmall } from '../../utils/screensize';
@@ -111,6 +110,7 @@ const formItems: Array<
 ];
 
 interface MembershipFormProps extends MembershipProps {
+  events: CalendarEvent[];
   setProgramView?: () => void;
   cancelSwitchMembership?: () => void;
 }
@@ -215,6 +215,7 @@ class Step extends React.Component<
       cancelSwitchMembership,
       errors,
       fields,
+      member,
       onChange,
       programs,
       validate,
@@ -241,7 +242,7 @@ class Step extends React.Component<
 
     return (
       <>
-        <l.Flex spaceBetween mb={spacing.xl}>
+        <l.Flex alignTop spaceBetween mb={spacing.xl}>
           {cancelSwitchMembership && (
             <CancelSwitchMembership
               large
@@ -250,9 +251,21 @@ class Step extends React.Component<
               Back
             </CancelSwitchMembership>
           )}
-          <t.Text center large>
-            Select a membership and confirm below:
-          </t.Text>
+          <l.FlexColumn>
+            <t.Text center large>
+              Select a membership and confirm below:
+            </t.Text>
+            {R.isEmpty(member.membership.type) && (
+              <>
+                <t.Text center mb={spacing.t} mt={spacing.ml}>
+                  Looking for an upcoming special event?
+                </t.Text>
+                <t.Link border={borders.red} color={colors.red} to="/events">
+                  Find your event here
+                </t.Link>
+              </>
+            )}
+          </l.FlexColumn>
           <l.Space width={spacing.xxxxxl} />
         </l.Flex>
         <l.Flex columnRevOnMobile mb={spacing.xxxl}>

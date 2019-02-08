@@ -85,12 +85,20 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
 
     return events.filter((event: CalendarEvent) => {
       const isValidProgram =
-        R.equals(programId, 'all') || R.equals(event.programId, programId);
+        R.equals(programId, 'all') ||
+        (R.equals(programId, 'events') &&
+          R.equals(event.divisionId, 'events')) ||
+        (R.equals(event.programId, 'openmat') &&
+          !R.equals(programId, 'events')) ||
+        R.equals(event.programId, programId);
       const isValidDivision =
-        R.equals(divisionId, 'all') || R.equals(event.divisionId, divisionId);
+        R.equals(divisionId, 'all') ||
+        R.equals(programId, 'events') ||
+        R.equals(event.divisionId, divisionId);
       const values = R.values(
         R.pick(['description', 'summary', 'location'], event),
       );
+
       return (
         isValidProgram &&
         isValidDivision &&
@@ -113,7 +121,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
   getEventProps = (event: CalendarEvent) => {
     const program = getProgramById(event.programId, this.props.programs);
     const isOpenMat = R.equals(event.programId, 'openmat');
-    const isProgramEvent = R.equals(event.divisionId, 'event');
+    const isProgramEvent = R.equals(event.divisionId, 'events');
     if (isOpenMat) {
       return {
         style: {
@@ -209,6 +217,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                       value={programId}
                       width="100%">
                       <option value="all">All</option>
+                      <option value="events">Special Events</option>
                       {programs.map((prog: Program) => (
                         <option key={prog.id} value={prog.id}>
                           {prog.name}

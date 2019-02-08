@@ -59,8 +59,8 @@ class ClassManager extends React.Component<
       return <Redirect to="/" />;
     }
 
-    const divisionMembers = R.sortBy(R.prop('lastName'))(
-      members.filter((mem: Member) => R.contains(mem.uid, division.memberIds)),
+    const divisionMembers = members.filter((mem: Member) =>
+      R.contains(mem.uid, division.memberIds),
     );
 
     return (
@@ -76,7 +76,9 @@ class ClassManager extends React.Component<
           <t.Title center>{program.name} Class</t.Title>
         </l.FlexCentered>
         <Divider white />
-        <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl,spacing.xxxl, spacing.xxxxxl]}>
+        <l.Page
+          px={[spacing.sm, 0]}
+          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
           <l.FlexColumnCentered mb={spacing.xl}>
             <t.H3 color={colors.gray} mb={spacing.t}>
               {division.name}

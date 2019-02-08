@@ -4,6 +4,7 @@ import * as React from 'react';
 import l from '../../styles/layout';
 import { colors, fontSizes, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
+import { CalendarEvent } from '../../types/calendar-event';
 import { Member } from '../../types/member';
 import { InactivePeriod } from '../../types/membership';
 import { Program } from '../../types/program';
@@ -20,6 +21,7 @@ import MembershipForm from './MembershipForm';
 import SwitchMembership from './SwitchMembership';
 
 export interface MembershipProps {
+  events: CalendarEvent[];
   member: Member;
   programs: Program[];
   setProgramView?: () => void;
@@ -90,7 +92,7 @@ class Membership extends React.Component<MembershipProps, State> {
     const isInactive = isInactiveMembership(member.membership);
 
     if (R.isEmpty(member.membership.type)) {
-      return <MembershipForm {...this.props} />;
+      return <MembershipForm events {...this.props} />;
     }
 
     if (isSwitchingMembership) {

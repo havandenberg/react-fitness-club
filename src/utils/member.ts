@@ -6,6 +6,9 @@ import { Membership } from '../types/membership';
 export const getMemberRef = (memberId: string) =>
   firebase.database().ref(`members/${memberId}`);
 
+export const getMemberName = (member: Member) =>
+  member.nickname || `${member.firstName} ${member.lastName}`;
+
 export const parseMemberData = (member: Member) => {
   const membership: Membership = {
     ...member.membership,

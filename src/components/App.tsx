@@ -12,14 +12,17 @@ import { colors, maxWidth } from '../styles/theme';
 import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Division, Program } from '../types/program';
+import { SpecialEvent } from '../types/special-event';
 import {
   checkAuthed,
   listenForMemberChanges,
   listenForProgramChanges,
+  listenForSpecialEventsChanges,
 } from '../utils/auth';
 import { expandRecurringEvents, getEvents } from '../utils/calendar-event';
 import { parseMemberData } from '../utils/member';
 import { isCoachOf, parsePrograms } from '../utils/program';
+import { parseSpecialEvents } from '../utils/special-event';
 import About from './About';
 import ClassManager from './ClassManager';
 import Contact from './Contact';
@@ -54,9 +57,11 @@ interface State {
   loadingMember: boolean;
   loadingMembers: LoadingMembersKey[];
   loadingPrograms: boolean;
-  programs: Program[];
+  loadingSpecialEvents: boolean;
   member?: Member;
   members?: Member[];
+  programs: Program[];
+  specialEvents: SpecialEvent[];
 }
 
 class App extends React.Component<SubscribeProps, State> {
@@ -70,9 +75,11 @@ class App extends React.Component<SubscribeProps, State> {
       loadingMember: true,
       loadingMembers: [],
       loadingPrograms: true,
+      loadingSpecialEvents: true,
       member: undefined,
       members: undefined,
       programs: [],
+      specialEvents: [],
     };
   }
 
@@ -95,6 +102,15 @@ class App extends React.Component<SubscribeProps, State> {
       listenForMemberChanges(member.uid, (memberData: Member) => {
         this.setState(
           { member: parseMemberData(memberData), loadingMember: false },
+          this.checkFinishedLoading,
+        );
+      });
+      listenForSpecialEventsChanges((events: SpecialEvent[]) => {
+        this.setState(
+          {
+            loadingSpecialEvents: false,
+            specialEvents: parseSpecialEvents(events),
+          },
           this.checkFinishedLoading,
         );
       });
@@ -121,15 +137,19 @@ class App extends React.Component<SubscribeProps, State> {
 
   checkFinishedLoading = () => {
     const {
-      loadingPrograms,
       loadingEvents,
       loadingMember,
       loadingMembers,
+      loadingPrograms,
+      loadingSpecialEvents,
       member,
       programs,
     } = this.state;
     const initialLoadingFinished =
-      !loadingPrograms && !loadingEvents && !loadingMember;
+      !loadingPrograms &&
+      !loadingEvents &&
+      !loadingMember &&
+      !loadingSpecialEvents;
     if (initialLoadingFinished && member && R.isEmpty(loadingMembers)) {
       firebase
         .database()
@@ -215,23 +235,42 @@ class App extends React.Component<SubscribeProps, State> {
     });
   };
 
+  checkUnauthedFinishedLoading = () => {
+    const { loadingEvents, loadingPrograms, loadingSpecialEvents } = this.state;
+    if (!loadingEvents && !loadingPrograms && !loadingSpecialEvents) {
+      this.setState({
+        loading: false,
+        loadingMember: false,
+        member: undefined,
+      });
+    }
+  };
+
   unauthedCallback = () => {
     listenForProgramChanges((programs: Program[]) =>
       this.setState(
         { programs: parsePrograms(programs), loadingPrograms: false },
-        () =>
-          getEvents().then(data => {
-            this.setState({
-              events: expandRecurringEvents(data.items),
-              loading: false,
-              loadingEvents: false,
-              loadingMember: false,
-              loadingPrograms: false,
-              member: undefined,
-            });
-          }),
+        this.checkUnauthedFinishedLoading,
       ),
     );
+    getEvents().then(data => {
+      this.setState(
+        {
+          events: expandRecurringEvents(data.items),
+          loadingEvents: false,
+        },
+        this.checkUnauthedFinishedLoading,
+      );
+    });
+    listenForSpecialEventsChanges((events: SpecialEvent[]) => {
+      this.setState(
+        {
+          loadingSpecialEvents: false,
+          specialEvents: parseSpecialEvents(events),
+        },
+        this.checkUnauthedFinishedLoading,
+      );
+    });
   };
 
   render() {
@@ -240,9 +279,11 @@ class App extends React.Component<SubscribeProps, State> {
       isAdmin,
       loading,
       loadingMember,
-      programs,
+      loadingSpecialEvents,
       member,
       members,
+      programs,
+      specialEvents,
     } = this.state;
 
     return (
@@ -253,7 +294,19 @@ class App extends React.Component<SubscribeProps, State> {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
-            <Route path="/events" component={Events} />
+            <Route
+              path="/events"
+              render={props => (
+                <Events
+                  {...props}
+                  events={events}
+                  loadingSpecialEvents={loadingSpecialEvents}
+                  member={member}
+                  members={members}
+                  specialEvents={specialEvents}
+                />
+              )}
+            />
             <Route exact path="/programs" component={Programs} />
             <Route path="/gallery" component={Gallery} />
             <Route path="/contact" component={Contact} />

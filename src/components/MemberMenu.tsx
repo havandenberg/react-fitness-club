@@ -13,6 +13,7 @@ import {
 import t from '../styles/typography';
 import { Member } from '../types/member';
 import { Program } from '../types/program';
+import { getMemberName } from '../utils/member';
 import { getMembershipProgram } from '../utils/program';
 import { TinyMembershipBadge } from './MembershipBadge';
 import ProfilePhoto from './ProfilePhoto';
@@ -54,8 +55,7 @@ const MemberMenu = (props: Props) => {
       <t.Link
         to="/dashboard"
         color={colors.white}
-        mb={hasMembership ? spacing.m : spacing.s}
-      >
+        mb={hasMembership ? spacing.m : spacing.s}>
         <Item>
           <l.Flex alignTop pl={hasProfilePhoto ? spacing.xxxl : undefined}>
             {hasProfilePhoto && (
@@ -70,7 +70,7 @@ const MemberMenu = (props: Props) => {
             )}
             <l.FlexColumn alignBottom>
               <t.Text className="logout" nowrap>
-                {member.nickname || `${member.firstName} ${member.lastName}`}
+                {getMemberName(member)}
               </t.Text>
               {hasMembership && (
                 <>

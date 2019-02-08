@@ -63,6 +63,9 @@ export const getEvents = () =>
     ),
   ).then(res => res.json());
 
+export const getSpecialCalendarEvents = (events: CalendarEvent[]) =>
+  events.filter((event: CalendarEvent) => R.equals(event.divisionId, 'event'));
+
 export const getProgramIdFromEvent = (event: CalendarEvent) =>
   event.description
     ? event.description.substr(0, event.description.indexOf(':'))

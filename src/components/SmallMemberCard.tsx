@@ -54,7 +54,7 @@ const SmallMemberCardWrapper = styled(l.Flex)(
         ? isActive
           ? colors.lightGreen
           : colors.lightRed
-        : undefined,
+        : colors.gray,
     cursor: onClick ? 'pointer' : 'default',
   }),
 );
@@ -88,8 +88,7 @@ const SmallMemberCard = ({
     activeType={activeType}
     isActive={isActive}
     onClick={onClick}
-    {...customStyles.wrapper}
-  >
+    {...customStyles.wrapper}>
     <ProfilePhoto
       imageSrc={member.profilePhotoUrl}
       sideLength={customStyles.photoSideLength}
@@ -100,8 +99,7 @@ const SmallMemberCard = ({
       className="name"
       fontSize={customStyles.nameFontSize}
       isWrap
-      maxWidth={isTabletUp() ? 200 : undefined}
-    >
+      maxWidth={isTabletUp() ? 200 : undefined}>
       {member.firstName} {member.lastName}
     </Name>
   </SmallMemberCardWrapper>

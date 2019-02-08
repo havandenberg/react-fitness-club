@@ -37,7 +37,7 @@ export const ImageWrapper = styled('div')(
 );
 
 export interface Image {
-  caption: string;
+  caption?: string;
   src: string;
   thumbnail: string;
   thumbnailHeight: number;
@@ -61,9 +61,11 @@ const GalleryImage = ({ customStyles, image }: Props) => (
       />
     </GalleryWrapper>
     <Image src={image.src} />
-    <l.Space display="inline-block" mb={[spacing.ml, 0]} mt={spacing.m}>
-      <l.Caption>{image.caption}</l.Caption>
-    </l.Space>
+    {image.caption && (
+      <l.Space display="inline-block" mb={[spacing.ml, 0]} mt={spacing.m}>
+        <l.Caption>{image.caption}</l.Caption>
+      </l.Space>
+    )}
   </ImageWrapper>
 );
 

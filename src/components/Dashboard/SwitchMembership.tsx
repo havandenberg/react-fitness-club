@@ -16,6 +16,7 @@ const SwitchMembership = ({
 }: Props) => (
   <div>
     <MembershipForm
+      events={[]}
       cancelSwitchMembership={cancelSwitchMembership}
       member={member}
       programs={programs}

@@ -1,7 +1,14 @@
 import * as R from 'ramda';
 import * as React from 'react';
+import styled from 'react-emotion';
 import l from '../../../styles/layout';
-import { fontSizes, mobileSizes, spacing } from '../../../styles/theme';
+import {
+  borders,
+  colors,
+  fontSizes,
+  mobileSizes,
+  spacing,
+} from '../../../styles/theme';
 import t from '../../../styles/typography';
 import { Member } from '../../../types/member';
 import { Division, Program } from '../../../types/program';
@@ -13,6 +20,10 @@ import {
 } from '../../../utils/program';
 import { SelectInput, TextInput } from '../../Form/Input';
 import SmallMemberCard from '../../SmallMemberCard';
+
+const MemberListScroll = styled(l.Scroll)({
+  borderRadius: borders.borderRadius,
+});
 
 interface Props {
   isAdmin: boolean;
@@ -164,7 +175,11 @@ class MemberList extends React.Component<Props, State> {
             </SelectInput>
           </>
         )}
-        <l.Scroll height={[200, 800, 800]} width="100%">
+        <MemberListScroll
+          background={colors.lightGray}
+          height={[200, 800, 800]}
+          p={[0, spacing.t]}
+          width="100%">
           {R.sortBy((member: Member) => member.lastName.toLowerCase())(
             this.filterMembers(),
           ).map((member: Member) => (
@@ -188,7 +203,7 @@ class MemberList extends React.Component<Props, State> {
               />
             </div>
           ))}
-        </l.Scroll>
+        </MemberListScroll>
       </l.Space>
     );
   }
