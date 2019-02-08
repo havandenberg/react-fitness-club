@@ -9,6 +9,10 @@ import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { SpecialEvent as SpecialEventType } from '../types/special-event';
 import { formatDescriptiveDate } from '../utils/calendar-event';
+import {
+  getClassInstIdFromEvent,
+  getSpecialEventClassInstById,
+} from '../utils/class';
 import { isMobile, isTabletOnly, TABLET_UP } from '../utils/screensize';
 import {
   getSpecialEventSessions,
@@ -42,6 +46,15 @@ interface State {
 class SpecialEvent extends React.Component<Props, State> {
   state = {
     showMembers: false,
+  };
+
+  getSessionProps = (session: CalendarEvent) => {
+    const { specialEvent } = this.props;
+    const classInstId = getClassInstIdFromEvent(session);
+    return {
+      color: colors.red,
+      to: `/events/${specialEvent.id}/${classInstId}`,
+    };
   };
 
   toggleShowMembers = () => {
@@ -86,12 +99,29 @@ class SpecialEvent extends React.Component<Props, State> {
             <t.Text bold mb={spacing.ml}>
               Sessions:
             </t.Text>
-            {sessions.map((session: CalendarEvent, index: number) => (
-              <React.Fragment key={session.id}>
-                <t.Text>{formatDescriptiveDate(session)}</t.Text>
-                {index < sessions.length - 1 && <l.Space height={spacing.s} />}
-              </React.Fragment>
-            ))}
+            {sessions.map((session: CalendarEvent, index: number) => {
+              const classInstId = getClassInstIdFromEvent(session);
+              const sessionProps =
+                members &&
+                getSpecialEventClassInstById(classInstId, specialEvent)
+                  ? this.getSessionProps(session)
+                  : {};
+              const Session =
+                members &&
+                getSpecialEventClassInstById(classInstId, specialEvent)
+                  ? t.Link
+                  : t.Text;
+              return (
+                <React.Fragment key={session.id}>
+                  <Session {...sessionProps}>
+                    {formatDescriptiveDate(session)}
+                  </Session>
+                  {index < sessions.length - 1 && (
+                    <l.Space height={spacing.s} />
+                  )}
+                </React.Fragment>
+              );
+            })}
           </l.Space>
           <l.Space height={spacing.ml} width={spacing.ml} />
           <l.FlexColumn mb={[spacing.sm, 0]}>
@@ -107,7 +137,7 @@ class SpecialEvent extends React.Component<Props, State> {
             {member &&
               (isMemberSignedUpForEvent ? (
                 <>
-                  <t.Text color={colors.green} center large mt={spacing.xl}>
+                  <t.Text color={colors.green} center mt={spacing.xl}>
                     You are <l.Break breakpoint={TABLET_UP} />
                     signed up!
                   </t.Text>
@@ -156,7 +186,11 @@ class SpecialEvent extends React.Component<Props, State> {
                     <SmallMemberCard
                       customStyles={{
                         photoSideLength: spacing.xxxl,
-                        wrapper: { mb: spacing.sm, p: spacing.sm },
+                        wrapper: {
+                          borderColor: colors.gray,
+                          mb: spacing.sm,
+                          p: spacing.sm,
+                        },
                       }}
                       isActive
                       member={mem}

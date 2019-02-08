@@ -24,6 +24,9 @@ export const parseMemberData = (member: Member) => {
 export const getMemberById = (memberId: string, members: Member[]) =>
   R.find((mem: Member) => memberId === mem.uid, members);
 
+export const isCoach = (member: Member) =>
+  R.equals(member.membership.type, 'coach');
+
 // MANUAL UPDATE MEMBERS
 
 const ENABLE_UPDATE_MEMBERS = true;

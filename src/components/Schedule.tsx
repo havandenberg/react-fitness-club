@@ -11,14 +11,19 @@ import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Division, Program } from '../types/program';
+import { SpecialEvent } from '../types/special-event';
 import {
   generateNewClass,
-  getClassInstById,
   getClassInstIdFromEvent,
+  getDivisionClassInstById,
+  getSpecialEventClassInstById,
   openClass,
+  openSpecialEventClass,
 } from '../utils/class';
+import { isCoach } from '../utils/member';
 import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
 import { isMobileOnly, isTabletOnly } from '../utils/screensize';
+import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
 import { SelectInput, TextInput } from './Form/Input';
 import withScroll from './hoc/withScroll';
@@ -47,6 +52,7 @@ const LegendSet = styled(l.FlexColumn)({
 
 interface Props {
   events: CalendarEvent[];
+  specialEvents: SpecialEvent[];
   loading: boolean;
   programs: Program[];
   member?: Member;
@@ -122,27 +128,31 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     const program = getProgramById(event.programId, this.props.programs);
     const isOpenMat = R.equals(event.programId, 'openmat');
     const isProgramEvent = R.equals(event.divisionId, 'events');
+    const commonStyles = {
+      color: colors.white,
+    };
+
     if (isOpenMat) {
       return {
         style: {
+          ...commonStyles,
           background: gradients.multipass,
-          color: colors.white,
         },
       };
     }
     if (isProgramEvent) {
       return {
         style: {
+          ...commonStyles,
           background: colors.purple,
-          color: colors.white,
         },
       };
     }
     if (program) {
       return {
         style: {
+          ...commonStyles,
           background: program.eventBackground,
-          color: program.eventColor,
         },
       };
     }
@@ -151,18 +161,35 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
 
   handleSelectEvent = (
     event: CalendarEvent,
-    program: Program,
-    division: Division,
+    program?: Program,
+    division?: Division,
   ) => {
-    const { history, member } = this.props;
-    if (member && isCoachOf(member.uid, program)) {
+    const { history, member, specialEvents } = this.props;
+    if (member) {
       const classId = getClassInstIdFromEvent(event);
-      if (getClassInstById(classId, division)) {
-        history.push(`/programs/${program.id}/${division.id}/${classId}`);
-      } else {
-        openClass(generateNewClass(event), program.id, division.id).then(() =>
-          history.push(`/programs/${program.id}/${division.id}/${classId}`),
+      if (isCoach(member) && R.equals(event.divisionId, 'events')) {
+        const specialEvent = getSpecialEventById(
+          event.specialEventId,
+          specialEvents,
         );
+        if (specialEvent) {
+          if (getSpecialEventClassInstById(classId, specialEvent)) {
+            history.push(`/events/${specialEvent.id}/${classId}`);
+          } else {
+            openSpecialEventClass(
+              generateNewClass(event),
+              specialEvent.id,
+            ).then(() => history.push(`/events/${specialEvent.id}/${classId}`));
+          }
+        }
+      } else if (program && division && isCoachOf(member.uid, program)) {
+        if (getDivisionClassInstById(classId, division)) {
+          history.push(`/programs/${program.id}/${division.id}/${classId}`);
+        } else {
+          openClass(generateNewClass(event), program.id, division.id).then(() =>
+            history.push(`/programs/${program.id}/${division.id}/${classId}`),
+          );
+        }
       }
     }
   };
@@ -298,7 +325,10 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                     const prog = getProgramById(event.programId, programs);
                     const divId =
                       prog && getDivisionById(event.divisionId, prog);
-                    if (prog && divId) {
+                    if (
+                      (prog && divId) ||
+                      R.equals(event.divisionId, 'events')
+                    ) {
                       this.handleSelectEvent(event, prog, divId);
                     }
                   }}

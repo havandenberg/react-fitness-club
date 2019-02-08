@@ -24,6 +24,7 @@ export interface CalendarEvent extends Event {
   location?: string;
   recurrence?: string[];
   programId: string;
+  specialEventId: string;
   start: Date;
   title: string;
 }

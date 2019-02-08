@@ -6,12 +6,21 @@ import l from '../styles/layout';
 import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
+import { ClassInst } from '../types/class';
 import { Member } from '../types/member';
-import { Program } from '../types/program';
+import { Division, Program } from '../types/program';
+import { SpecialEvent } from '../types/special-event';
 import { formatDescriptiveDate } from '../utils/calendar-event';
-import { getClassInstById, toggleAttendingClass } from '../utils/class';
+import {
+  getDivisionClassInstById,
+  getSpecialEventClassInstById,
+  toggleAttendingDivisionClass,
+  toggleAttendingSpecialEventClass,
+} from '../utils/class';
+import { isCoach } from '../utils/member';
 import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
 import { isMobile, isMobileOnly } from '../utils/screensize';
+import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
 import withScroll from './hoc/withScroll';
 import SmallMemberCard from './SmallMemberCard';
@@ -20,9 +29,11 @@ interface MatchParams {
   classInstId: string;
   divisionId: string;
   programId: string;
+  specialEventId: string;
 }
 
 interface Props {
+  specialEvents: SpecialEvent[];
   events: CalendarEvent[];
   loading: boolean;
   programs: Program[];
@@ -33,13 +44,46 @@ interface Props {
 class ClassManager extends React.Component<
   Props & RouteComponentProps<MatchParams>
 > {
+  toggleAttendingClass = (
+    classInst: ClassInst,
+    memberId: string,
+    program?: Program,
+    division?: Division,
+    specialEvent?: SpecialEvent,
+  ) => {
+    if (specialEvent) {
+      toggleAttendingSpecialEventClass(classInst, memberId, specialEvent.id);
+    } else if (program && division) {
+      toggleAttendingDivisionClass(
+        classInst,
+        memberId,
+        program.id,
+        division.id,
+      );
+    }
+  };
+
   render() {
-    const { loading, match, programs, member, members } = this.props;
+    const {
+      loading,
+      match,
+      programs,
+      member,
+      members,
+      specialEvents,
+    } = this.props;
     const program = getProgramById(match.params.programId, programs);
     const division =
       program && getDivisionById(match.params.divisionId, program);
+    const specialEvent = getSpecialEventById(
+      match.params.specialEventId,
+      specialEvents,
+    );
     const classInst =
-      division && getClassInstById(match.params.classInstId, division);
+      (division &&
+        getDivisionClassInstById(match.params.classInstId, division)) ||
+      (specialEvent &&
+        getSpecialEventClassInstById(match.params.classInstId, specialEvent));
 
     if (loading || !members) {
       return (
@@ -50,30 +94,39 @@ class ClassManager extends React.Component<
     }
 
     if (
-      !program ||
       !member ||
-      !division ||
       !classInst ||
-      !isCoachOf(member.uid, program)
+      !((program && isCoachOf(member.uid, program)) || isCoach(member))
     ) {
       return <Redirect to="/" />;
     }
 
-    const divisionMembers = members.filter((mem: Member) =>
-      R.contains(mem.uid, division.memberIds),
+    const eventMembers = members.filter((mem: Member) =>
+      R.contains(
+        mem.uid,
+        (division && division.memberIds) ||
+          (specialEvent && specialEvent.memberIds) ||
+          [],
+      ),
     );
+
+    const logoSrc = (program && program.logoSrc) || '';
+    const name =
+      (program && `${program.name} Class`) ||
+      (specialEvent && 'Special Event') ||
+      '';
+    const divisionName =
+      (division && `${division.name}`) ||
+      (specialEvent && specialEvent.name) ||
+      '';
 
     return (
       <div>
         <l.FlexCentered mb={spacing.sm}>
           {!isMobileOnly() && (
-            <l.Img
-              height={spacing.xxxxl}
-              src={program.logoSrc}
-              mr={spacing.xl}
-            />
+            <l.Img height={spacing.xxxxl} src={logoSrc} mr={spacing.xl} />
           )}
-          <t.Title center>{program.name} Class</t.Title>
+          <t.Title center>{name}</t.Title>
         </l.FlexCentered>
         <Divider white />
         <l.Page
@@ -81,7 +134,7 @@ class ClassManager extends React.Component<
           py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
           <l.FlexColumnCentered mb={spacing.xl}>
             <t.H3 color={colors.gray} mb={spacing.t}>
-              {division.name}
+              {divisionName}
             </t.H3>
             <t.Text large>{formatDescriptiveDate(classInst.date)}</t.Text>
           </l.FlexColumnCentered>
@@ -91,7 +144,7 @@ class ClassManager extends React.Component<
             justifyContent={isMobile() ? 'center' : 'flex-start'}
             mb={spacing.ml}>
             {R.sortBy((mem: Member) => mem.lastName.toLowerCase())(
-              divisionMembers.filter((mem: Member) =>
+              eventMembers.filter((mem: Member) =>
                 R.contains(mem.uid, classInst.attendanceIds),
               ),
             ).map((mem: Member, index: number) => (
@@ -101,11 +154,12 @@ class ClassManager extends React.Component<
                   isActive
                   member={mem}
                   onClick={() =>
-                    toggleAttendingClass(
+                    this.toggleAttendingClass(
                       classInst,
                       mem.uid,
-                      program.id,
-                      division.id,
+                      program,
+                      division,
+                      specialEvent,
                     )
                   }
                 />
@@ -118,7 +172,7 @@ class ClassManager extends React.Component<
             justifyContent={isMobile() ? 'center' : 'flex-start'}
             mb={spacing.ml}>
             {R.sortBy((mem: Member) => mem.lastName.toLowerCase())(
-              divisionMembers.filter(
+              eventMembers.filter(
                 (mem: Member) => !R.contains(mem.uid, classInst.attendanceIds),
               ),
             ).map((mem: Member, index: number) => (
@@ -127,11 +181,12 @@ class ClassManager extends React.Component<
                   activeType="border"
                   member={mem}
                   onClick={() =>
-                    toggleAttendingClass(
+                    this.toggleAttendingClass(
                       classInst,
                       mem.uid,
-                      program.id,
-                      division.id,
+                      program,
+                      division,
+                      specialEvent,
                     )
                   }
                 />

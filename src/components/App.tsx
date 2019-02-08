@@ -295,6 +295,7 @@ class App extends React.Component<SubscribeProps, State> {
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route
+              exact
               path="/events"
               render={props => (
                 <Events
@@ -317,8 +318,9 @@ class App extends React.Component<SubscribeProps, State> {
                   {...props}
                   events={events}
                   loading={loading}
-                  programs={programs}
                   member={member}
+                  programs={programs}
+                  specialEvents={specialEvents}
                 />
               )}
             />
@@ -343,9 +345,24 @@ class App extends React.Component<SubscribeProps, State> {
                   {...props}
                   events={events}
                   loading={loading}
-                  programs={programs}
                   member={member}
                   members={members}
+                  programs={programs}
+                  specialEvents={specialEvents}
+                />
+              )}
+            />
+            <Route
+              path="/events/:specialEventId/:classInstId"
+              render={props => (
+                <ClassManager
+                  {...props}
+                  events={events}
+                  loading={loading}
+                  member={member}
+                  members={members}
+                  programs={programs}
+                  specialEvents={specialEvents}
                 />
               )}
             />

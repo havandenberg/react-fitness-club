@@ -8,6 +8,15 @@ import { SpecialEvent } from '../types/special-event';
 export const getSpecialEventRef = (specialEventId: string) =>
   firebase.database().ref(`specialEvents/${specialEventId}`);
 
+export const getSpecialEventById = (
+  specialEventId: string,
+  specialEvents: SpecialEvent[],
+) =>
+  R.find(
+    (specialEvent: SpecialEvent) => specialEventId === specialEvent.id,
+    specialEvents,
+  );
+
 export const getSpecialEventSessions = (
   specialEvent: SpecialEvent,
   calendarEvents: CalendarEvent[],

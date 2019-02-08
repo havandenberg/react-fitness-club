@@ -19,8 +19,8 @@ import { Program } from '../types/program';
 import { formatDescriptiveDate } from '../utils/calendar-event';
 import {
   generateNewClass,
-  getClassInstById,
   getClassInstIdFromEvent,
+  getDivisionClassInstById,
   openClass,
 } from '../utils/class';
 import { getDivisionById, isCoachOf } from '../utils/program';
@@ -81,7 +81,7 @@ const EnrolledDivisionCard = withRouter(
             .slice(0, 2)
             .map((event: CalendarEvent, index: number) => {
               const classInstId = getClassInstIdFromEvent(event);
-              const classInst = getClassInstById(classInstId, division);
+              const classInst = getDivisionClassInstById(classInstId, division);
               const handleManageClass = () => {
                 if (classInst) {
                   history.push(

@@ -54,7 +54,7 @@ const SmallMemberCardWrapper = styled(l.Flex)(
         ? isActive
           ? colors.lightGreen
           : colors.lightRed
-        : colors.gray,
+        : undefined,
     cursor: onClick ? 'pointer' : 'default',
   }),
 );

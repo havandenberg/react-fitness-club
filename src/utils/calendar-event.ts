@@ -18,6 +18,7 @@ export const expandRecurringEvents: (
     const ids = event.description ? event.description.split(':') : [];
     const programId = ids.length > 0 ? ids[0] : '';
     const divisionId = ids.length > 1 ? ids[1] : '';
+    const specialEventId = ids.length > 2 ? ids[2] : '';
 
     if (event.recurrence && !R.isEmpty(event.recurrence)) {
       const startMoment = moment.utc(startDate);
@@ -37,6 +38,7 @@ export const expandRecurringEvents: (
               .add(hourDiff, 'hours')
               .toDate(),
             programId,
+            specialEventId,
             start: date,
             title: event.summary,
           });
@@ -47,6 +49,7 @@ export const expandRecurringEvents: (
         divisionId,
         end: endDate,
         programId,
+        specialEventId,
         start: startDate,
         title: event.summary,
       });
