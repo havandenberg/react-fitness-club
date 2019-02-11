@@ -24,6 +24,7 @@ export const expandRecurringEvents: (
       const startMoment = moment.utc(startDate);
       const endMoment = moment.utc(endDate);
       const hourDiff = moment.duration(endMoment.diff(startMoment)).asHours();
+
       rrulestr(
         `DTSTART:${startMoment.format('YYYYMMDD')}T${startMoment.format(
           'HHmmss',

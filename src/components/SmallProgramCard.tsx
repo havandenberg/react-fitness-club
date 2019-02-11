@@ -14,7 +14,7 @@ import { getDivisionById } from '../utils/program';
 import { isMobileOnly, isSmall, isTabletUp } from '../utils/screensize';
 import { NameLayout } from './MembershipBadge';
 
-const SmallProgramCardWrapper = styled(l.Flex)(
+const SmallProgramCardWrapper = styled(l.FlexCentered)(
   ({ onClick }: { onClick?: () => void }) => ({
     cursor: onClick ? 'pointer' : 'default',
   }),
@@ -66,7 +66,7 @@ const SmallProgramCard = ({
     ? l.Flex
     : l.FlexColumn;
   return (
-    <SmallProgramCardWrapper onClick={onClick} spaceBetween {...styles.wrapper}>
+    <SmallProgramCardWrapper onClick={onClick} {...styles.wrapper}>
       <NameComponent>
         <l.Img
           src={program.logoSrc}

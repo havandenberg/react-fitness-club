@@ -298,7 +298,7 @@ class Step extends React.Component<
               {selectedProgram && (
                 <SmallProgramCard
                   customStyles={{
-                    wrapper: { mb: 0, width: ['100%', '100%', 350] },
+                    wrapper: { mb: 0, width: '100%' },
                   }}
                   divisionId={selectedDivision && selectedDivision.id}
                   program={selectedProgram}

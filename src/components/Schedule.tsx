@@ -5,8 +5,9 @@ import BigCalendar, { View } from 'react-big-calendar';
 import styled from 'react-emotion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
+import * as Sticky from 'react-stickynode';
 import l from '../styles/layout';
-import { breakpoints, colors, gradients, spacing } from '../styles/theme';
+import { breakpoints, colors, gradients, spacing, z } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
@@ -22,7 +23,7 @@ import {
 } from '../utils/class';
 import { isCoach } from '../utils/member';
 import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
-import { isMobileOnly, isTabletOnly } from '../utils/screensize';
+import { isMobile, isMobileOnly, isTabletOnly } from '../utils/screensize';
 import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
 import { SelectInput, TextInput } from './Form/Input';
@@ -39,6 +40,7 @@ const LegendIcon = styled(l.Space)({
 });
 
 const FilterBar = styled(l.Flex)({
+  background: colors.background,
   [breakpoints.tablet]: {
     flexDirection: 'column',
   },
@@ -226,99 +228,112 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
             </l.FlexCentered>
           ) : (
             <>
-              <FilterBar columnRevOnMobile mb={spacing.ml} spaceBetween>
-                <l.Flex
-                  columnOnMobile
-                  mb={[0, spacing.ml, 0]}
-                  width={['100%', 'auto']}>
-                  <l.Space
-                    mb={[spacing.sm, 0]}
-                    mr={[0, spacing.sm]}
+              <Sticky
+                innerZ={z.high}
+                top={isMobile() ? 15 : 50}
+                bottomBoundary="#calendar-end">
+                <FilterBar
+                  columnRevOnMobile
+                  pb={spacing.ml}
+                  pt={spacing.s}
+                  spaceBetween>
+                  <l.Flex
+                    columnOnMobile
+                    mb={[0, spacing.ml, 0]}
                     width={['100%', 'auto']}>
-                    <t.HelpText mb={spacing.t}>Search events:</t.HelpText>
-                    <TextInput
-                      onChange={this.handleSearchChange}
-                      value={searchValue}
-                      width="100%"
-                    />
-                  </l.Space>
-                  <l.Space
-                    mb={[spacing.sm, 0]}
-                    mr={[0, spacing.sm]}
-                    width={['100%', 'auto']}>
-                    <t.HelpText mb={spacing.t}>Program:</t.HelpText>
-                    <SelectInput
-                      mr={R.equals(programId, 'all') ? spacing.m : spacing.sm}
-                      onChange={this.handleFilterChange('programId')}
-                      value={programId}
-                      width="100%">
-                      <option value="all">All</option>
-                      <option value="events">Special Events</option>
-                      {programs.map((prog: Program) => (
-                        <option key={prog.id} value={prog.id}>
-                          {prog.name}
-                        </option>
-                      ))}
-                    </SelectInput>
-                  </l.Space>
-                  {program && (
-                    <l.Space width={['100%', 'auto']}>
-                      <t.HelpText mb={spacing.t}>Division:</t.HelpText>
+                    <l.Space
+                      mb={[spacing.sm, 0]}
+                      mr={[0, spacing.sm]}
+                      width={['100%', 'auto']}>
+                      <t.HelpText mb={spacing.t}>Search events:</t.HelpText>
+                      <TextInput
+                        onChange={this.handleSearchChange}
+                        value={searchValue}
+                        width="100%"
+                      />
+                    </l.Space>
+                    <l.Space
+                      mb={[spacing.sm, 0]}
+                      mr={[0, spacing.sm]}
+                      width={['100%', 'auto']}>
+                      <t.HelpText mb={spacing.t}>Program:</t.HelpText>
                       <SelectInput
-                        onChange={this.handleFilterChange('divisionId')}
-                        value={divisionId}
+                        mr={R.equals(programId, 'all') ? spacing.m : spacing.sm}
+                        onChange={this.handleFilterChange('programId')}
+                        value={programId}
                         width="100%">
                         <option value="all">All</option>
-                        {program.divisions.map((div: Division) => (
-                          <option key={div.id} value={div.id}>
-                            {div.name}
+                        <option value="events">Special Events</option>
+                        {programs.map((prog: Program) => (
+                          <option key={prog.id} value={prog.id}>
+                            {prog.name}
                           </option>
                         ))}
                       </SelectInput>
                     </l.Space>
-                  )}
-                </l.Flex>
-                <l.Flex mb={[spacing.ml, 0]}>
-                  <LegendSet alignTop mr={spacing.ml}>
-                    <l.Flex mb={spacing.t} mr={[0, spacing.ml, 0]}>
-                      <LegendIcon background={gradients.multipass} />
-                      <t.HelpText color={colors.black}>
-                        Multi-Program
-                      </t.HelpText>
-                    </l.Flex>
-                    <l.Flex>
-                      <LegendIcon
-                        background={isTabletOnly() ? colors.purple : '#0274BF'}
-                      />
-                      <t.HelpText color={colors.black}>
-                        {isTabletOnly() ? 'Special Events' : 'Aikido'}
-                      </t.HelpText>
-                    </l.Flex>
-                  </LegendSet>
-                  <LegendSet alignTop mr={spacing.ml}>
-                    <l.Flex mb={spacing.t} mr={[0, spacing.ml, 0]}>
-                      <LegendIcon
-                        background={isTabletOnly() ? '#0274BF' : colors.purple}
-                      />
-                      <t.HelpText color={colors.black}>
-                        {isTabletOnly() ? 'Aikido' : 'Special Events'}
-                      </t.HelpText>
-                    </l.Flex>
-                    <l.Flex>
-                      <LegendIcon background="#0A7861" />
-                      <t.HelpText color={colors.black}>Capoeira</t.HelpText>
-                    </l.Flex>
-                  </LegendSet>
-                  <LegendSet alignTop>
-                    <l.Space height={spacing.m} mb={spacing.t} />
-                    <l.Flex>
-                      <LegendIcon background="#F14042" />
-                      <t.HelpText color={colors.black}>React</t.HelpText>
-                    </l.Flex>
-                  </LegendSet>
-                </l.Flex>
-              </FilterBar>
-              <l.Space height={650}>
+                    {program && (
+                      <l.Space width={['100%', 'auto']}>
+                        <t.HelpText mb={spacing.t}>Division:</t.HelpText>
+                        <SelectInput
+                          onChange={this.handleFilterChange('divisionId')}
+                          value={divisionId}
+                          width="100%">
+                          <option value="all">All</option>
+                          {program.divisions.map((div: Division) => (
+                            <option key={div.id} value={div.id}>
+                              {div.name}
+                            </option>
+                          ))}
+                        </SelectInput>
+                      </l.Space>
+                    )}
+                  </l.Flex>
+                  <l.Flex mb={[spacing.ml, 0]}>
+                    <LegendSet alignTop mr={spacing.ml}>
+                      <l.Flex mb={spacing.t} mr={[0, spacing.ml, 0]}>
+                        <LegendIcon background={gradients.multipass} />
+                        <t.HelpText color={colors.black}>
+                          Multi-Program
+                        </t.HelpText>
+                      </l.Flex>
+                      <l.Flex>
+                        <LegendIcon
+                          background={
+                            isTabletOnly() ? colors.purple : '#0274BF'
+                          }
+                        />
+                        <t.HelpText color={colors.black}>
+                          {isTabletOnly() ? 'Special Events' : 'Aikido'}
+                        </t.HelpText>
+                      </l.Flex>
+                    </LegendSet>
+                    <LegendSet alignTop mr={spacing.ml}>
+                      <l.Flex mb={spacing.t} mr={[0, spacing.ml, 0]}>
+                        <LegendIcon
+                          background={
+                            isTabletOnly() ? '#0274BF' : colors.purple
+                          }
+                        />
+                        <t.HelpText color={colors.black}>
+                          {isTabletOnly() ? 'Aikido' : 'Special Events'}
+                        </t.HelpText>
+                      </l.Flex>
+                      <l.Flex>
+                        <LegendIcon background="#0A7861" />
+                        <t.HelpText color={colors.black}>Capoeira</t.HelpText>
+                      </l.Flex>
+                    </LegendSet>
+                    <LegendSet alignTop>
+                      <l.Space height={spacing.m} mb={spacing.t} />
+                      <l.Flex>
+                        <LegendIcon background="#F14042" />
+                        <t.HelpText color={colors.black}>React</t.HelpText>
+                      </l.Flex>
+                    </LegendSet>
+                  </l.Flex>
+                </FilterBar>
+              </Sticky>
+              <l.Space height={900}>
                 <BigCalendar
                   defaultView={
                     isMobileOnly()
@@ -346,6 +361,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                   view={calendarView}
                 />
               </l.Space>
+              <div id="calendar-end" />
             </>
           )}
         </l.Page>
