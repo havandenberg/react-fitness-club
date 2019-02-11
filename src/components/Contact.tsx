@@ -28,14 +28,15 @@ const Contact = () => (
       Contact
     </t.Title>
     <Divider white />
-    <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl,spacing.xxxl, spacing.xxxxxl]}>
+    <l.Page
+      px={[spacing.sm, 0]}
+      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
       <l.Flex
         alignTop
         columnOnMobile
         mb={[0, spacing.xxxl]}
         mx="auto"
-        spaceBetween
-      >
+        spaceBetween>
         <l.Space mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
           <ContactText mb={spacing.ml}>
             Follow us on social media:&nbsp;
@@ -49,14 +50,12 @@ const Contact = () => (
           <t.Anchor
             border={borders.red}
             href="tel:17743171269"
-            width={['100%', 'auto']}
-          >
+            width={['100%', 'auto']}>
             <t.Text
               center={isMobile()}
               color={colors.red}
               fontSize={[fontSizes.largeText, fontSizes.largeText]}
-              width={['100%', 'auto']}
-            >
+              width={['100%', 'auto']}>
               774-317-1267
             </t.Text>
           </t.Anchor>
@@ -68,14 +67,12 @@ const Contact = () => (
           <t.Anchor
             border={borders.red}
             onClick={() => scrollToId('studio-location', { offset: -40 })}
-            width={['100%', 'auto']}
-          >
+            width={['100%', 'auto']}>
             <t.Text
               center={isMobile()}
               color={colors.red}
               fontSize={[fontSizes.largeText, fontSizes.largeText]}
-              width={['100%', 'auto']}
-            >
+              width={['100%', 'auto']}>
               173 Grove St, 2nd Floor
               <l.Break />
               Worcester, MA 01605
@@ -98,7 +95,7 @@ const Contact = () => (
         &nbsp;directly or use the form below.
       </t.Text>
       <t.Text center large mb={spacing.xxxl}>
-        To sign up for any RFC program directly, please{' '}
+        To sign up for any RFC program directly,{' '}
         <t.Link border={borders.red} color={colors.red} to="/login?type=signup">
           click here
         </t.Link>{' '}
@@ -147,8 +144,7 @@ const Contact = () => (
       </l.Flex>
       <t.Anchor
         href="https://www.google.com/maps/place/React+Fitness+Club/@42.2793643,-71.8049137,15z/data=!4m2!3m1!1s0x0:0x9046b19a3d697bcc?ved=2ahUKEwjSvtKd5PfeAhXEx4MKHc9mAekQ_BIwEHoECAYQCA"
-        target="_blank"
-      >
+        target="_blank">
         <MapImage src={`${ASSETS_PATH}/studio/map.png`} />
       </t.Anchor>
     </l.Page>

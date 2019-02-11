@@ -100,8 +100,7 @@ const Hero = ({
       <LogoWrapper
         pb={secondary ? [spacing.ml, 0, 0] : [spacing.ml, spacing.xl]}
         pt={[spacing.ml, spacing.xl]}
-        secondary={secondary}
-      >
+        secondary={secondary}>
         <Link to="/">
           <Logo secondary={secondary} src={LogoImg} />
         </Link>
@@ -114,11 +113,6 @@ const Hero = ({
         </l.FlexCentered>
       )}
       <QuickLinks alignBottom>
-        {isTabletUp() && (
-          <t.Text color={colors.black} mb={[0, spacing.t, spacing.sm]}>
-            Quick Links:
-          </t.Text>
-        )}
         <QuickLink border={borders.red} color={colors.red} to="/schedule">
           Schedule
         </QuickLink>
@@ -126,16 +120,14 @@ const Hero = ({
           bold="true"
           border={borders.red}
           color={colors.red}
-          to="/events"
-        >
+          to="/events">
           Events (1)
         </QuickLink>
         {isDesktop() && (
           <QuickLink
             border={borders.red}
             color={colors.red}
-            to="/?id=newsletter"
-          >
+            to="/?id=newsletter">
             <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
           </QuickLink>
         )}
@@ -143,8 +135,7 @@ const Hero = ({
           border={borders.red}
           color={colors.red}
           href="https://www.gofundme.com/react-fitness-club-alumni-floor"
-          target="_blank"
-        >
+          target="_blank">
           Donate
         </QuickAnchor>
         <SocialIconsWrapper>

@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import * as R from 'ramda';
 import * as React from 'react';
-import BigCalendar from 'react-big-calendar';
+import BigCalendar, { View } from 'react-big-calendar';
 import styled from 'react-emotion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
@@ -59,6 +59,7 @@ interface Props {
 }
 
 interface State {
+  calendarView: View;
   divisionId: string;
   programId: string;
   searchValue: string;
@@ -66,6 +67,9 @@ interface State {
 
 class Schedule extends React.Component<Props & RouteComponentProps, State> {
   state = {
+    calendarView: isMobileOnly()
+      ? BigCalendar.Views.DAY
+      : BigCalendar.Views.WEEK,
     divisionId: 'all',
     programId: 'all',
     searchValue: '',
@@ -128,9 +132,14 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     const program = getProgramById(event.programId, this.props.programs);
     const isOpenMat = R.equals(event.programId, 'openmat');
     const isProgramEvent = R.equals(event.divisionId, 'events');
+
     const commonStyles = {
       color: colors.white,
     };
+
+    if (R.equals(this.state.calendarView, BigCalendar.Views.AGENDA)) {
+      return {};
+    }
 
     if (isOpenMat) {
       return {
@@ -196,7 +205,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
 
   render() {
     const { events, loading, programs } = this.props;
-    const { divisionId, programId, searchValue } = this.state;
+    const { calendarView, divisionId, programId, searchValue } = this.state;
     const program =
       !R.equals(programId, 'all') && getProgramById(programId, programs);
     return (
@@ -332,7 +341,9 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                       this.handleSelectEvent(event, prog, divId);
                     }
                   }}
+                  onView={(view: View) => this.setState({ calendarView: view })}
                   popup
+                  view={calendarView}
                 />
               </l.Space>
             </>

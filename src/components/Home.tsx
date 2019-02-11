@@ -18,7 +18,6 @@ import {
   REACT_PATH,
 } from '../utils/constants';
 import { isMobile, isTabletUp } from '../utils/screensize';
-import { scrollToId } from '../utils/scroll';
 import FeaturedLinks from './FeaturedLinks';
 import { LinkPrimary } from './Form/Button';
 import GalleryImage from './GalleryImage';
@@ -55,30 +54,25 @@ const Home = () => (
       large
       mb={[spacing.xl, spacing.xxl]}
       mx="auto"
-      width={['100%', '85%', '75%']}
-    >
+      width={['100%', '85%', '75%']}>
+      Our{' '}
       <t.Link
         border={borders.red}
         color={colors.red}
-        to="/contact?id=studio-location"
-      >
-        Our brand new studio
+        to="/contact?id=studio-location">
+        brand new studio in Worcester, MA
       </t.Link>{' '}
-      is still undergoing renovations, but we will be opening for classes soon.{' '}
+      is now open for training.
       <l.Break />
       <l.Space height={spacing.m} />
-      <t.Anchor
-        border={borders.red}
-        color={colors.red}
-        fontSize={[mobileSizes.largeText, fontSizes.largeText]}
-        onClick={() => scrollToId('newsletter')}
-      >
-        Sign up for our newsletter
-      </t.Anchor>{' '}
-      for updates about opening day!
+      <t.Link border={borders.red} color={colors.red} to="/login">
+        Sign up for classes here!
+      </t.Link>
     </t.Text>
     <FeaturedLinks />
-    <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl,spacing.xxxl, spacing.xxxxxl]}>
+    <l.Page
+      px={[spacing.sm, 0]}
+      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
       <l.Flex columnOnMobile spaceBetween>
         {isTabletUp() && <Star src={StarImg} />}
         <t.Text
@@ -87,8 +81,7 @@ const Home = () => (
           mb={[spacing.xl, 0]}
           mx="auto"
           textAlign="justify"
-          width={['100%', '80%']}
-        >
+          width={['100%', '80%']}>
           React Fitness Club is a multi-style <Bold>martial arts</Bold> and{' '}
           <Bold>fitness</Bold> club. Each of our programs aims to support the
           path to individual <Bold>physical and mental success</Bold> as a human
@@ -103,8 +96,7 @@ const Home = () => (
       <t.Text
         center
         fontSize={[fontSizes.largeText, fontSizes.h2]}
-        my={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
-      >
+        my={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
         Join the club that gets you further!
       </t.Text>
       <l.Flex alignTop>
@@ -121,8 +113,7 @@ const Home = () => (
               color={colors.red}
               fontSize={[mobileSizes.largeText, fontSizes.largeText]}
               href={REACT_PATH}
-              target="_blank"
-            >
+              target="_blank">
               <Logo src={`${ASSETS_PATH}/programs/REaCT/react-logo.png`} />
             </t.Anchor>
             <t.Text large>
@@ -131,8 +122,7 @@ const Home = () => (
                 color={colors.red}
                 fontSize={[mobileSizes.largeText, fontSizes.largeText]}
                 href={REACT_PATH}
-                target="_blank"
-              >
+                target="_blank">
                 REaCT:
               </t.Anchor>{' '}
               A mixed martial arts system with 3 phases of training: stand up,
@@ -159,8 +149,7 @@ const Home = () => (
               color={colors.red}
               fontSize={[mobileSizes.largeText, fontSizes.largeText]}
               href={CAPOEIRA_PATH}
-              target="_blank"
-            >
+              target="_blank">
               <Logo
                 src={`${ASSETS_PATH}/programs/Capoeira/capoeira-logo.png`}
               />
@@ -171,8 +160,7 @@ const Home = () => (
                 color={colors.red}
                 fontSize={[mobileSizes.largeText, fontSizes.largeText]}
                 href={CAPOEIRA_PATH}
-                target="_blank"
-              >
+                target="_blank">
                 Capoeira:
               </t.Anchor>{' '}
               African-Brazilian martial art that incorporates acrobatics, dance,
@@ -187,8 +175,7 @@ const Home = () => (
               color={colors.red}
               fontSize={[mobileSizes.largeText, fontSizes.largeText]}
               href={AIKIDO_PATH}
-              target="_blank"
-            >
+              target="_blank">
               <Logo src={`${ASSETS_PATH}/programs/Aikido/aikido-logo.png`} />
             </t.Anchor>
             <t.Text large mb={spacing.xxxl}>
@@ -197,8 +184,7 @@ const Home = () => (
                 color={colors.red}
                 fontSize={[mobileSizes.largeText, fontSizes.largeText]}
                 href={AIKIDO_PATH}
-                target="_blank"
-              >
+                target="_blank">
                 Aikido:
               </t.Anchor>{' '}
               The Japanese martial art of Aikido is a comprehensive system of
@@ -215,8 +201,7 @@ const Home = () => (
             <t.Anchor
               border={borders.red}
               color={colors.red}
-              fontSize={[mobileSizes.largeText, fontSizes.largeText]}
-            >
+              fontSize={[mobileSizes.largeText, fontSizes.largeText]}>
               OCR Team:
             </t.Anchor>{' '}
             Tough Mudders, Spartan Races, you name it, we run it! This program
@@ -234,8 +219,7 @@ const Home = () => (
             <l.FlexCentered
               mb={[spacing.xxxl, spacing.xxxxxl]}
               mx="auto"
-              width={['85%', '65%']}
-            >
+              width={['85%', '65%']}>
               <GalleryImage
                 image={{
                   caption:
@@ -278,8 +262,7 @@ const Home = () => (
       <l.FlexCentered
         mb={[spacing.ml, spacing.xxxl]}
         mx="auto"
-        width={['100%', '100%', '80%']}
-      >
+        width={['100%', '100%', '80%']}>
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
           Free 45 minute intro classes for any program
@@ -288,8 +271,7 @@ const Home = () => (
       <l.FlexCentered
         mb={[spacing.ml, spacing.xxxl]}
         mx="auto"
-        width={['100%', '100%', '80%']}
-      >
+        width={['100%', '100%', '80%']}>
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
           All ages training from 8+
@@ -298,8 +280,7 @@ const Home = () => (
       <l.FlexCentered
         mb={[spacing.xxxl, spacing.xxxxxl]}
         mx="auto"
-        width={['100%', '100%', '80%']}
-      >
+        width={['100%', '100%', '80%']}>
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
           No martial arts or fitness experience necessary
