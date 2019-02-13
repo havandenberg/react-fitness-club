@@ -1,4 +1,3 @@
-import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { bottom, left, opacity, right, top } from 'styled-system';
@@ -17,7 +16,12 @@ import {
   z,
 } from '../styles/theme';
 import t from '../styles/typography';
-import { ASSETS_PATH, CAPOEIRA_PATH, REACT_PATH } from '../utils/constants';
+import {
+  AIKIDO_PATH,
+  ASSETS_PATH,
+  CAPOEIRA_PATH,
+  REACT_PATH,
+} from '../utils/constants';
 import { isMobile } from '../utils/screensize';
 
 type ENTER = 'enter';
@@ -81,7 +85,7 @@ const Overlay = styled('div')(
   }),
 );
 
-const QuadrantWrapper = styled(t.Anchor)({
+const QuadrantWrapper = styled(t.Link)({
   cursor: 'pointer',
   height: 380,
   position: 'relative',
@@ -109,7 +113,6 @@ const VideoWrapper = styled('div')(
 );
 
 interface FeaturedVideoProps {
-  href?: string;
   imageSource: string;
   label: string;
   labelProps: {
@@ -118,6 +121,7 @@ interface FeaturedVideoProps {
     right?: string;
     top?: string;
   };
+  to?: string;
   videoSource: string;
 }
 
@@ -180,15 +184,13 @@ class Quadrant extends React.Component<FeaturedVideoProps, FeaturedVideoState> {
   };
 
   render() {
-    const { href, imageSource, label, labelProps, videoSource } = this.props;
+    const { to, imageSource, label, labelProps, videoSource } = this.props;
     const { isMuted, isPlaying } = this.state;
     return (
       <QuadrantWrapper
-        href={!R.isEmpty(href) && href}
-        target={!R.isEmpty(href) && '_blank'}
+        to={to || ''}
         onMouseEnter={() => this.onHover('enter')}
-        onMouseLeave={() => this.onHover('leave')}
-      >
+        onMouseLeave={() => this.onHover('leave')}>
         <Image src={imageSource} />
         <Overlay isPlaying={isPlaying} />
         {(!isMobile() || !isPlaying) && <Label {...labelProps}>{label}</Label>}
@@ -209,8 +211,7 @@ class Quadrant extends React.Component<FeaturedVideoProps, FeaturedVideoState> {
             muted={isMuted}
             preload="true"
             ref={this.vid}
-            width="100%"
-          >
+            width="100%">
             <source src={videoSource} type="video/mp4" />
           </video>
         </VideoWrapper>
@@ -223,14 +224,14 @@ const FeaturedLinks = () => (
   <l.Space mx={[0, spacing.ml]}>
     <l.Flex columnOnMobile>
       <Quadrant
-        href={REACT_PATH}
+        to={REACT_PATH}
         imageSource={`${ASSETS_PATH}/featured/photos/react-featured.png`}
         label="REaCT Mixed Martial Arts"
         labelProps={{ top: spacing.xl, left: spacing.xl }}
         videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-1.mp4`}
       />
       <Quadrant
-        href={CAPOEIRA_PATH}
+        to={CAPOEIRA_PATH}
         imageSource={`${ASSETS_PATH}/featured/photos/capoeira-featured.png`}
         label="Capoeira Luanda"
         labelProps={{ top: spacing.xl, right: spacing.xl }}
@@ -239,7 +240,7 @@ const FeaturedLinks = () => (
     </l.Flex>
     <l.Flex columnOnMobile>
       <Quadrant
-        href="https://worcesteraikido.com/"
+        to={AIKIDO_PATH}
         imageSource={`${ASSETS_PATH}/featured/photos/aikido-featured.jpg`}
         label="Aikido"
         labelProps={{ bottom: spacing.xl, left: spacing.xl }}

@@ -17,6 +17,10 @@ import Newsletter from './Newsletter';
 import Program from './Program';
 import SmallProgramCard from './SmallProgramCard';
 
+const scrollOptions = {
+  offset: isMobileOnly() ? -250 : -204,
+};
+
 interface Props {
   events: CalendarEvent[];
   loadingPrograms: boolean;
@@ -103,13 +107,13 @@ const Programs = ({
                         fontSizes.text,
                       ],
                       photoSideLength: spacing.xl,
-                      wrapper: { p: spacing.t, mb: [0, 0, 0], width: 'auto' },
+                      wrapper: {
+                        mb: [0, 0, 0],
+                        p: spacing.t,
+                        width: 'auto',
+                      },
                     }}
-                    onClick={() =>
-                      scrollToId(program.id, {
-                        offset: isMobileOnly() ? -250 : -204,
-                      })
-                    }
+                    onClick={() => scrollToId(program.id, scrollOptions)}
                     program={program}
                   />
                   {index < programs.length - 1 && (
@@ -140,4 +144,4 @@ const Programs = ({
   </div>
 );
 
-export default withScroll(Programs);
+export default withScroll(Programs, scrollOptions);

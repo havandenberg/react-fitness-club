@@ -4,7 +4,7 @@ import * as React from 'react';
 import l from '../styles/layout';
 import { borders, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
-import { programsList } from '../utils/constants';
+import { Program } from '../types/program';
 import { isValidEmail } from '../utils/validation';
 import Form, {
   FormComponentProps,
@@ -42,7 +42,9 @@ const initialValues = {
   program: 'General interest',
 };
 
-const personalInfoData: Array<FormRowData<ContactFields>> = [
+const getPersonalInfoData: (
+  programs: Program[],
+) => Array<FormRowData<ContactFields>> = programs => [
   {
     isRequired: true,
     items: [
@@ -67,7 +69,9 @@ const personalInfoData: Array<FormRowData<ContactFields>> = [
       {
         flex: '100%',
         inputType: 'select',
-        selectOptions: ['General interest', ...programsList],
+        selectOptions: ['General interest'].concat(
+          programs.map((program: Program) => program.id),
+        ),
         valueName: 'program',
       },
     ],
@@ -101,8 +105,12 @@ const personalInfoData: Array<FormRowData<ContactFields>> = [
   },
 ];
 
+interface Props {
+  programs: Program[];
+}
+
 class Step extends React.Component<
-  FormComponentProps<ContactFields> & SubscribeProps
+  Props & FormComponentProps<ContactFields> & SubscribeProps
 > {
   handleSubmit = (
     onSuccess: () => void,
@@ -152,7 +160,15 @@ class Step extends React.Component<
   };
 
   render() {
-    const { errors, fields, loading, onChange, onSubmit } = this.props;
+    const {
+      errors,
+      fields,
+      loading,
+      onChange,
+      onSubmit,
+      programs,
+    } = this.props;
+    const personalInfoData = getPersonalInfoData(programs);
     return (
       <div>
         {personalInfoData.map(
@@ -206,15 +222,15 @@ const formData: Array<FormStep<ContactFields>> = [
   {
     FormComponent: Step,
     label: 'Contact Form',
-    rowItems: personalInfoData,
+    rowItems: getPersonalInfoData([]),
   },
 ];
 
 class ContactForm extends Form<ContactFields> {}
 
-class ContactFormComponent extends React.Component<SubscribeProps> {
+class ContactFormComponent extends React.Component<Props & SubscribeProps> {
   render() {
-    const { status, subscribe } = this.props;
+    const { programs, status, subscribe } = this.props;
     return (
       <l.Flex mx="auto" width={['100%', '90%', '80%']}>
         <ContactForm
@@ -225,8 +241,7 @@ class ContactFormComponent extends React.Component<SubscribeProps> {
               <t.Anchor
                 border={borders.red}
                 color={colors.red}
-                href="mailto:reactfitnessclub@gmail.com"
-              >
+                href="mailto:reactfitnessclub@gmail.com">
                 reactfitnessclub@gmail.com
               </t.Anchor>
             </t.Text>
@@ -236,7 +251,7 @@ class ContactFormComponent extends React.Component<SubscribeProps> {
           isEditing
           fieldValidations={contactFieldValidations}
           steps={formData}
-          stepProps={{ status, subscribe }}
+          stepProps={{ programs, status, subscribe }}
           successMessage="Success! One of our coaches will contact you as soon as possible with a response."
         />
       </l.Flex>

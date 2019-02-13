@@ -4,6 +4,7 @@ import StarImg from '../assets/images/star.svg';
 import l from '../styles/layout';
 import { borders, colors, fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
+import { Program } from '../types/program';
 import { ASSETS_PATH } from '../utils/constants';
 import { DESKTOP, isMobile } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
@@ -22,7 +23,7 @@ const MapImage = styled('img')({
   width: '100%',
 });
 
-const Contact = () => (
+const Contact = ({ programs }: { programs: Program[] }) => (
   <div>
     <t.Title center mb={spacing.ml}>
       Contact
@@ -105,7 +106,7 @@ const Contact = () => (
         </t.Link>{' '}
         to begin program signup.
       </t.Text>
-      <ContactForm />
+      <ContactForm programs={programs} />
       <l.Space id="studio-location" height={[spacing.xxxl, spacing.xxxxxl]} />
       <t.Subtitle center mb={[spacing.l, spacing.l]}>
         The React Fitness Club Studio is located at:

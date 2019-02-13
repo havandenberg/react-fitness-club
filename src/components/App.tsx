@@ -325,7 +325,10 @@ class App extends React.Component<SubscribeProps, State> {
               )}
             />
             <Route path="/gallery" component={Gallery} />
-            <Route path="/contact" component={Contact} />
+            <Route
+              path="/contact"
+              render={props => <Contact {...props} programs={programs} />}
+            />
             <Route
               path="/schedule"
               render={props => (

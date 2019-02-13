@@ -110,22 +110,17 @@ const Home = () => (
           </t.Text>
           <l.Space height={spacing.xl} />
           <l.Flex alignTop>
-            <t.Anchor
-              color={colors.red}
-              fontSize={[mobileSizes.largeText, fontSizes.largeText]}
-              href={REACT_PATH}
-              target="_blank">
+            <t.Link to={REACT_PATH}>
               <Logo src={`${ASSETS_PATH}/programs/REaCT/react-logo.png`} />
-            </t.Anchor>
+            </t.Link>
             <t.Text large>
-              <t.Anchor
+              <t.Link
                 border={borders.red}
                 color={colors.red}
                 fontSize={[mobileSizes.largeText, fontSizes.largeText]}
-                href={REACT_PATH}
-                target="_blank">
+                to={REACT_PATH}>
                 REaCT:
-              </t.Anchor>{' '}
+              </t.Link>{' '}
               A mixed martial arts system with 3 phases of training: stand up,
               take downs, and grappling. Taught by Coach Ryan. Ages 8+.
             </t.Text>
@@ -146,24 +141,19 @@ const Home = () => (
           )}
           {isMobile() && <l.Space height={spacing.xl} />}
           <l.Flex alignTop>
-            <t.Anchor
-              color={colors.red}
-              fontSize={[mobileSizes.largeText, fontSizes.largeText]}
-              href={CAPOEIRA_PATH}
-              target="_blank">
+            <t.Link to={CAPOEIRA_PATH}>
               <Logo
                 src={`${ASSETS_PATH}/programs/Capoeira/capoeira-logo.png`}
               />
-            </t.Anchor>
+            </t.Link>
             <t.Text large>
-              <t.Anchor
+              <t.Link
                 border={borders.red}
                 color={colors.red}
                 fontSize={[mobileSizes.largeText, fontSizes.largeText]}
-                href={CAPOEIRA_PATH}
-                target="_blank">
+                to={CAPOEIRA_PATH}>
                 Capoeira:
-              </t.Anchor>{' '}
+              </t.Link>{' '}
               African-Brazilian martial art that incorporates acrobatics, dance,
               music, and songs in a rhythmic dialogue of body, mind, and spirit.
               Taught by Professor Morcego. Ages 8+.
@@ -172,22 +162,17 @@ const Home = () => (
           </l.Flex>
           <l.Space height={spacing.xl} />
           <l.Flex alignTop>
-            <t.Anchor
-              color={colors.red}
-              fontSize={[mobileSizes.largeText, fontSizes.largeText]}
-              href={AIKIDO_PATH}
-              target="_blank">
+            <t.Link to={AIKIDO_PATH}>
               <Logo src={`${ASSETS_PATH}/programs/Aikido/aikido-logo.png`} />
-            </t.Anchor>
+            </t.Link>
             <t.Text large mb={spacing.xxxl}>
-              <t.Anchor
+              <t.Link
                 border={borders.red}
                 color={colors.red}
                 fontSize={[mobileSizes.largeText, fontSizes.largeText]}
-                href={AIKIDO_PATH}
-                target="_blank">
+                to={AIKIDO_PATH}>
                 Aikido:
-              </t.Anchor>{' '}
+              </t.Link>{' '}
               The Japanese martial art of Aikido is a comprehensive system of
               throwing, joint-locking, striking and pinning techniques, coupled
               with training in traditional Japanese weapons such as the sword,

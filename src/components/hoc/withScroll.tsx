@@ -8,13 +8,16 @@ export interface ScrollProps {
   };
 }
 
-const withScroll = <P extends object>(Component: React.ComponentType<P>) =>
+const withScroll = <P extends object>(
+  Component: React.ComponentType<P>,
+  customStyles?: {},
+) =>
   class WithScroll extends React.Component<P & ScrollProps> {
     componentDidMount() {
       const { location } = this.props;
       if (location) {
         const id = parse(location.search)['?id'];
-        scrollToId(id ? `${id}` : 'top');
+        scrollToId(id ? `${id}` : 'top', customStyles);
       }
     }
     render() {
