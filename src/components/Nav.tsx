@@ -31,7 +31,7 @@ interface Item {
 const navItems = [
   { name: 'Home', path: '/' },
   // { name: 'About', path: '/about' },
-  // { name: 'Programs', path: '/programs' },
+  { name: 'Programs', path: '/programs' },
   // { name: 'Gallery', path: '/gallery' },
   { name: 'Contact', path: '/contact' },
 ];
@@ -176,8 +176,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
         pointer
         position="relative"
         width={[spacing.xl, 60, 80]}
-        zIndex={z.high}
-      >
+        zIndex={z.high}>
         <t.Link to="/login">
           <MemberIcon>
             <MemberImg
@@ -207,8 +206,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
                 color={colors.white}
                 ml={[0, spacing.sm]}
                 my={[spacing.s, 0]}
-                nowrap
-              >
+                nowrap>
                 REACT FITNESS CLUB
               </t.Text>
             </l.Flex>

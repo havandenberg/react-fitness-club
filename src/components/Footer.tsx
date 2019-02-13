@@ -110,13 +110,12 @@ const Footer = ({ member }: { member?: Member }) => (
       columnRevOnMobile
       px={[spacing.xl, spacing.xxxl, spacing.huge]}
       py={[spacing.xl, spacing.xxxl, spacing.xxxxxl]}
-      spaceBetween
-    >
+      spaceBetween>
       <l.Flex grow={1} spaceBetween={!isTabletUp()} width={['100%', 'auto']}>
         <l.Space mr={[spacing.xl, spacing.huge]}>
           <FooterLink disabled text="About" to="/about" />
           <l.Space height={spacing.l} />
-          <FooterLink disabled text="Programs" to="/programs" />
+          <FooterLink text="Programs" to="/programs" />
           <l.Space height={spacing.l} />
           <FooterLink disabled text="Gallery" to="/gallery" />
           <l.Space height={spacing.l} />
@@ -135,10 +134,9 @@ const Footer = ({ member }: { member?: Member }) => (
           {member ? (
             <t.TextButton
               color={colors.red}
-              hoverStyle="none"
               large
-              onClick={logout}
-            >
+              hoverStyle="none"
+              onClick={logout}>
               Logout
             </t.TextButton>
           ) : (
@@ -149,18 +147,15 @@ const Footer = ({ member }: { member?: Member }) => (
       <l.FlexColumn
         alignBottom={isTabletUp()}
         mb={[spacing.xxl, 0]}
-        width={['100%', 'auto']}
-      >
+        width={['100%', 'auto']}>
         <t.Link
           to="/contact?id=studio-location"
           mb={spacing.l}
-          onClick={() => scrollToId('studio-location')}
-        >
+          onClick={() => scrollToId('studio-location')}>
           <PhoneAnchor
             color={colors.white}
             large
-            textAlign={isMobile() ? 'center' : 'right'}
-          >
+            textAlign={isMobile() ? 'center' : 'right'}>
             173 Grove St, 2nd Floor
             <l.Break />
             Worcester, MA 01605
@@ -178,8 +173,7 @@ const Footer = ({ member }: { member?: Member }) => (
       columnRevOnMobile
       px={[spacing.sm, spacing.xl]}
       py={spacing.xl}
-      spaceBetween
-    >
+      spaceBetween>
       <t.Title center={isSmall()} color={colors.white} nowrap={!isSmall()}>
         REACT FITNESS CLUB
       </t.Title>
@@ -188,8 +182,7 @@ const Footer = ({ member }: { member?: Member }) => (
           color={colors.white}
           mb={[spacing.m]}
           textAlign={isTabletUp() ? 'right' : 'center'}
-          width="100%"
-        >
+          width="100%">
           Copyright © {new Date().getFullYear()}
           <l.Break breakpoint={SMALL} />
           <l.Break breakpoint={TABLET} /> React Fitness Club
@@ -198,8 +191,7 @@ const Footer = ({ member }: { member?: Member }) => (
         <t.Text
           color={colors.white}
           textAlign={isTabletUp() ? 'right' : 'center'}
-          width="100%"
-        >
+          width="100%">
           Developed by
           <l.Break breakpoint={TABLET} /> Halsey Vandenberg
         </t.Text>

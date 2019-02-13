@@ -10,7 +10,7 @@ import { CalendarEvent } from '../../types/calendar-event';
 import { Member } from '../../types/member';
 import { Program } from '../../types/program';
 import { logout } from '../../utils/auth';
-import { isMobile } from '../../utils/screensize';
+import { isMobileOnly } from '../../utils/screensize';
 import Divider from '../Divider';
 import EditProfile from '../EditProfileForm';
 import withScroll from '../hoc/withScroll';
@@ -116,7 +116,7 @@ class Dashboard extends React.Component<Props, State> {
                   onClick={this.setView('profile')}>
                   Profile
                 </NavItem>
-                {!isMobile() && <l.Space width={[0, spacing.xxxxxl]} />}
+                {!isMobileOnly() && <l.Space width={[0, spacing.xxxxxl]} />}
               </l.Flex>
               <l.Flex alignTop mb={spacing.xxxl}>
                 {members ? (

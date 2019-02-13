@@ -2,7 +2,6 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { ASSETS_PATH } from 'src/utils/constants';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
@@ -16,6 +15,7 @@ import {
   getSpecialEventClassInstById,
   openSpecialEventClass,
 } from '../utils/class';
+import { ASSETS_PATH } from '../utils/constants';
 import { isMobile, isTabletOnly, TABLET_UP } from '../utils/screensize';
 import {
   getSpecialEventSessions,

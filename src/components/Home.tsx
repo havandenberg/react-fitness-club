@@ -287,14 +287,14 @@ const Home = () => (
         </t.Text>
       </l.FlexCentered>
       <l.FlexCentered columnOnMobile mx="auto" spaceBetween width="100%">
-        <LinkPrimary to="/" width={['100%', 'auto']}>
+        {/* <LinkPrimary to="/" width={['100%', 'auto']}>
           More about our philosophy
         </LinkPrimary>
         <l.Space
           height={[spacing.xl, 0]}
           width={[0, spacing.xxl, spacing.xxxxxl]}
-        />
-        <LinkPrimary to="/" width={['100%', 'auto']}>
+        /> */}
+        <LinkPrimary to="/programs" width={['100%', 'auto']}>
           Check out our programs
         </LinkPrimary>
       </l.FlexCentered>

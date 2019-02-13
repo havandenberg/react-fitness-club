@@ -59,12 +59,18 @@ class Login extends React.Component<RouteComponentProps & Props, State> {
               RFC Portal Login
             </t.Title>
             <Divider white />
-            <l.Page px={[spacing.sm, 0]} py={[spacing.xxxl,spacing.xxxl, spacing.xxxxxl]}>
-              <l.FlexCentered>
-                <t.Text large>
+            <l.Page
+              px={[spacing.sm, 0]}
+              py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+              <l.FlexColumn>
+                <t.Text large mb={spacing.ml}>
                   Sign up or log in to RFC with your social media account.
                 </t.Text>
-              </l.FlexCentered>
+                <t.Text center large>
+                  After you sign in you will be able to choose a membership and
+                  sign up for programs.
+                </t.Text>
+              </l.FlexColumn>
               <l.Space height={spacing.xxxl} />
               <l.FlexCentered columnOnMobile>
                 <GoogleLoginButton

@@ -32,6 +32,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "node-instagram": "^4.2.0",
+    "query-string": "^6.2.0",
     "ramda": "^0.25.0",
     "react": "^16.6.0",
     "react-animate-on-scroll": "^2.1.5",

@@ -279,6 +279,7 @@ class App extends React.Component<SubscribeProps, State> {
       isAdmin,
       loading,
       loadingMember,
+      loadingPrograms,
       loadingSpecialEvents,
       member,
       members,
@@ -308,7 +309,20 @@ class App extends React.Component<SubscribeProps, State> {
                 />
               )}
             />
-            <Route exact path="/programs" component={Programs} />
+            <Route
+              exact
+              path="/programs"
+              render={props => (
+                <Programs
+                  {...props}
+                  events={events}
+                  loadingPrograms={loadingPrograms}
+                  member={member}
+                  members={members}
+                  programs={programs}
+                />
+              )}
+            />
             <Route path="/gallery" component={Gallery} />
             <Route path="/contact" component={Contact} />
             <Route

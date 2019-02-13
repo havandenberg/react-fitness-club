@@ -5,6 +5,7 @@ import {
   alignSelf,
   AlignSelfProps,
   background,
+  BackgroundProps,
   borderColor,
   bottom,
   color,
@@ -65,6 +66,7 @@ interface FlexDivProps {
 const Flex = styled('div')<
   AlignItemsProps &
     AlignSelfProps &
+    BackgroundProps &
     HeightProps &
     JustifyContentProps &
     JustifySelfProps &

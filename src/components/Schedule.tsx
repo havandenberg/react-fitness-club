@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { parse } from 'query-string';
 import * as R from 'ramda';
 import * as React from 'react';
 import BigCalendar, { View } from 'react-big-calendar';
@@ -52,6 +53,7 @@ const LegendSet = styled(l.FlexColumn)({
   },
 });
 
+
 interface Props {
   events: CalendarEvent[];
   specialEvents: SpecialEvent[];
@@ -67,15 +69,24 @@ interface State {
   searchValue: string;
 }
 
-class Schedule extends React.Component<Props & RouteComponentProps, State> {
-  state = {
-    calendarView: isMobileOnly()
-      ? BigCalendar.Views.DAY
-      : BigCalendar.Views.WEEK,
-    divisionId: 'all',
-    programId: 'all',
-    searchValue: '',
-  };
+class Schedule extends React.Component<
+  Props & RouteComponentProps,
+  State
+> {
+  constructor(props: Props & RouteComponentProps) {
+    super(props);
+
+    const { divisionId, programId, searchValue } = parse(props.location.search);
+
+    this.state = {
+      calendarView: isMobileOnly()
+        ? BigCalendar.Views.DAY
+        : BigCalendar.Views.WEEK,
+      divisionId: divisionId ? `${divisionId}` : 'all',
+      programId: programId ? `${programId}` : 'all',
+      searchValue: searchValue ? `${searchValue}` : '',
+    };
+  }
 
   handleFilterChange = (field: string) => (
     e: React.ChangeEvent<HTMLSelectElement>,

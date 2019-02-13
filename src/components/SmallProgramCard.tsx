@@ -43,7 +43,6 @@ const SmallProgramCard = ({
     photoSideLength?: string | number | Array<string | number>;
     wrapper?: { [key: string]: string | number | Array<string | number> };
   };
-  isActive?: boolean;
   divisionId?: string;
   nameLayout?: NameLayout;
   onClick?: () => void;

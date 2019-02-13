@@ -1,5 +1,12 @@
 import { ClassInst } from './class';
 
+export interface Coach {
+  bio: string;
+  id: string;
+  name: string;
+  profilePhotoUrl: string;
+}
+
 export interface Division {
   classes: ClassInst[];
   discountMultiplier?: number;
