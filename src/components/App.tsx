@@ -37,6 +37,7 @@ import Login from './Login';
 import Nav from './Nav';
 import Programs from './Programs';
 import Schedule from './Schedule';
+import Signup from './Signup';
 
 const Main = styled('div')({
   background: colors.background,
@@ -384,6 +385,12 @@ class App extends React.Component<SubscribeProps, State> {
               path="/login"
               render={props => (
                 <Login {...props} loading={loadingMember} member={member} />
+              )}
+            />
+            <Route
+              path="/signup"
+              render={props => (
+                <Signup {...props} loading={loadingMember} member={member} />
               )}
             />
             <Redirect to="/" />

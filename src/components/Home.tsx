@@ -59,13 +59,14 @@ const Home = () => (
       <t.Link
         border={borders.red}
         color={colors.red}
+        large="true"
         to="/contact?id=studio-location">
         brand new studio in Worcester, MA
       </t.Link>{' '}
       is now open for training.
       <l.Break />
       <l.Space height={spacing.m} />
-      <t.Link border={borders.red} color={colors.red} to="/login">
+      <t.Link border={borders.red} color={colors.red} large="true" to="/signup">
         Sign up for classes here!
       </t.Link>
     </t.Text>

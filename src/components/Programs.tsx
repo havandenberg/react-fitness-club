@@ -64,7 +64,7 @@ const Programs = ({
                 nowrap>
                 Martial Arts Styles
               </t.H3>
-              <t.Link border={borders.red} color={colors.red} to="/login">
+              <t.Link border={borders.red} color={colors.red} to="/signup">
                 <l.Flex pb={spacing.t}>
                   {isTabletUp() ? 'Get a' : 'A'}ll-program access with
                   {isTabletUp() && ' our'}
