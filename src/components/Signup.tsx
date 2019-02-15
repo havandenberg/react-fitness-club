@@ -64,6 +64,7 @@ class Signup extends React.Component<RouteComponentProps & Props> {
               We offer the following membership options:
             </t.Text>
             <l.Flex
+              columnRevOnMobile
               justifyContent="space-around"
               my={spacing.xxxl}
               width="100%">
@@ -71,7 +72,7 @@ class Signup extends React.Component<RouteComponentProps & Props> {
                 <t.Text bold large>
                   Single Program Membership
                 </t.Text>
-                <l.Space height={spacing.sm} />
+                <l.Space height={spacing.xxxl} />
                 <t.Text color={colors.gray}>
                   Full access to one RFC program
                 </t.Text>
@@ -84,7 +85,7 @@ class Signup extends React.Component<RouteComponentProps & Props> {
                   Click here for program pricing
                 </t.Link>
               </l.FlexColumn>
-              <l.FlexColumn>
+              <l.FlexColumn mb={[spacing.xxxl, 0, 0]}>
                 <MembershipBadge
                   membership={getGenericMembership('multipass')}
                 />

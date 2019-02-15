@@ -19,7 +19,7 @@ import {
 } from '../utils/constants';
 import { isMobile, isTabletUp } from '../utils/screensize';
 import FeaturedLinks from './FeaturedLinks';
-import { LinkPrimary } from './Form/Button';
+import { ButtonPrimary, LinkPrimary } from './Form/Button';
 import GalleryImage from './GalleryImage';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
@@ -48,13 +48,7 @@ export const Star = styled('img')({
 
 const Home = () => (
   <div>
-    <t.Text
-      center
-      italic
-      large
-      mb={[spacing.xl, spacing.xxl]}
-      mx="auto"
-      width={['100%', '85%', '75%']}>
+    <t.Text center italic large mx="auto" width={['100%', '85%', '75%']}>
       Our{' '}
       <t.Link
         border={borders.red}
@@ -64,12 +58,14 @@ const Home = () => (
         brand new studio in Worcester, MA
       </t.Link>{' '}
       is now open for training.
-      <l.Break />
-      <l.Space height={spacing.m} />
-      <t.Link border={borders.red} color={colors.red} large="true" to="/signup">
-        Sign up for classes here!
-      </t.Link>
     </t.Text>
+    <l.Space height={spacing.m} />
+    <l.FlexCentered>
+      <t.Link to="/signup">
+        <ButtonPrimary>Sign up for classes here!</ButtonPrimary>
+      </t.Link>
+    </l.FlexCentered>
+    <l.Space height={[spacing.xl, spacing.xxl]} />
     <FeaturedLinks />
     <l.Page
       px={[spacing.sm, 0]}

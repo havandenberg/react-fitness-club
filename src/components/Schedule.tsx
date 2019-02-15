@@ -24,7 +24,12 @@ import {
 } from '../utils/class';
 import { isCoach } from '../utils/member';
 import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
-import { isMobile, isMobileOnly, isTabletOnly } from '../utils/screensize';
+import {
+  isMobile,
+  isMobileOnly,
+  isTabletOnly,
+  isTabletUp,
+} from '../utils/screensize';
 import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
 import { SelectInput, TextInput } from './Form/Input';
@@ -53,7 +58,6 @@ const LegendSet = styled(l.FlexColumn)({
   },
 });
 
-
 interface Props {
   events: CalendarEvent[];
   specialEvents: SpecialEvent[];
@@ -69,10 +73,7 @@ interface State {
   searchValue: string;
 }
 
-class Schedule extends React.Component<
-  Props & RouteComponentProps,
-  State
-> {
+class Schedule extends React.Component<Props & RouteComponentProps, State> {
   constructor(props: Props & RouteComponentProps) {
     super(props);
 
@@ -240,6 +241,7 @@ class Schedule extends React.Component<
           ) : (
             <>
               <Sticky
+                enabled={isTabletUp()}
                 innerZ={z.high}
                 top={isMobile() ? 15 : 50}
                 bottomBoundary="#calendar-end">

@@ -130,6 +130,9 @@ class LiabilityWaiverStep extends React.Component<
             <Text style={liabilityStyles.text}>{clauseSix}</Text>
           </View>
           <View style={liabilityStyles.last}>
+            <Text style={liabilityStyles.introText}>{lastSection}</Text>
+          </View>
+          <View style={liabilityStyles.last}>
             <Text style={liabilityStyles.introText}>{typedSection}</Text>
           </View>
           <View style={liabilityStyles.signatureRow}>
@@ -156,44 +159,41 @@ class LiabilityWaiverStep extends React.Component<
                 ...liabilityStyles.signatureLabelRight,
                 ...liabilityStyles.signature,
               }}>
-              {' '}
+              {new Date().toLocaleDateString('en-US')}
             </Text>
           </View>
         </Page>
-        <Page size="A4">
-          {isUnderEighteen(
-            `${fields.dobYear}${fields.dobMonth}${fields.dobDay}`,
-          ) && (
-            <>
-              <View
-                style={{ ...liabilityStyles.last, marginTop: spacing.xxxxl }}>
-                <Text style={liabilityStyles.introText}>{parentRelease}</Text>
-              </View>
-              <View style={liabilityStyles.signatureRow}>
-                <Text style={liabilityStyles.signatureLabelLeft}>
-                  Parent/Guardian Signature
-                </Text>
-                <Text style={liabilityStyles.signatureLabelRight}>Date</Text>
-              </View>
-              <View style={liabilityStyles.signatureRow}>
-                <Text
-                  style={{
-                    ...liabilityStyles.signatureLabelLeft,
-                    ...liabilityStyles.signature,
-                  }}>
-                  {fields.memberParentSignature}
-                </Text>
-                <Text
-                  style={{
-                    ...liabilityStyles.signatureLabelRight,
-                    ...liabilityStyles.signature,
-                  }}>
-                  {' '}
-                </Text>
-              </View>
-            </>
-          )}
-        </Page>
+        {isUnderEighteen(
+          `${fields.dobYear}${fields.dobMonth}${fields.dobDay}`,
+        ) && (
+          <Page size="A4">
+            <View style={{ ...liabilityStyles.last, marginTop: spacing.xxxxl }}>
+              <Text style={liabilityStyles.introText}>{parentRelease}</Text>
+            </View>
+            <View style={liabilityStyles.signatureRow}>
+              <Text style={liabilityStyles.signatureLabelLeft}>
+                Parent/Guardian Signature
+              </Text>
+              <Text style={liabilityStyles.signatureLabelRight}>Date</Text>
+            </View>
+            <View style={liabilityStyles.signatureRow}>
+              <Text
+                style={{
+                  ...liabilityStyles.signatureLabelLeft,
+                  ...liabilityStyles.signature,
+                }}>
+                {fields.memberParentSignature}
+              </Text>
+              <Text
+                style={{
+                  ...liabilityStyles.signatureLabelRight,
+                  ...liabilityStyles.signature,
+                }}>
+                {new Date().toLocaleDateString('en-US')}
+              </Text>
+            </View>
+          </Page>
+        )}
       </Document>
     );
   };
