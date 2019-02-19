@@ -8,7 +8,6 @@ import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
 import {
-  isDesktop,
   isMobile,
   isMobileOnly,
   isSmall,
@@ -78,7 +77,7 @@ const quickItemStyles = {
   },
 };
 
-const QuickAnchor = styled(t.Anchor)({ ...quickItemStyles });
+// const QuickAnchor = styled(t.Anchor)({ ...quickItemStyles });
 const QuickLink = styled(t.Link)({ ...quickItemStyles });
 
 const SocialIconsWrapper = styled('div')({
@@ -123,21 +122,16 @@ const Hero = ({
           to="/events">
           Events (1)
         </QuickLink>
-        {isDesktop() && (
-          <QuickLink
-            border={borders.red}
-            color={colors.red}
-            to="/?id=newsletter">
-            <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
-          </QuickLink>
-        )}
-        <QuickAnchor
+        <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">
+          <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
+        </QuickLink>
+        {/* <QuickAnchor
           border={borders.red}
           color={colors.red}
           href="https://www.gofundme.com/react-fitness-club-alumni-floor"
           target="_blank">
           Donate
-        </QuickAnchor>
+        </QuickAnchor> */}
         <SocialIconsWrapper>
           <SocialIcons small />
         </SocialIconsWrapper>

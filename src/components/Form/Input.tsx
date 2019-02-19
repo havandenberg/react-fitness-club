@@ -63,9 +63,9 @@ export const SelectInput = styled('select')(
   flex,
   space,
   textAlign,
-  withCustomStyles,
   withError,
   width,
+  withCustomStyles,
 );
 
 export const TextInput = styled('input')(
@@ -77,9 +77,9 @@ export const TextInput = styled('input')(
   flex,
   space,
   textAlign,
-  withCustomStyles,
   withError,
   width,
+  withCustomStyles,
 );
 
 export const TextArea = styled('textarea')(
@@ -92,7 +92,7 @@ export const TextArea = styled('textarea')(
   flex,
   space,
   textAlign,
-  withCustomStyles,
   withError,
   width,
+  withCustomStyles,
 );

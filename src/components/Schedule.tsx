@@ -24,12 +24,7 @@ import {
 } from '../utils/class';
 import { isCoach } from '../utils/member';
 import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
-import {
-  isMobile,
-  isMobileOnly,
-  isTabletOnly,
-  isTabletUp,
-} from '../utils/screensize';
+import { isMobileOnly, isTabletOnly, isTabletUp } from '../utils/screensize';
 import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
 import { SelectInput, TextInput } from './Form/Input';
@@ -243,7 +238,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
               <Sticky
                 enabled={isTabletUp()}
                 innerZ={z.high}
-                top={isMobile() ? 15 : 50}
+                top="#nav-end"
                 bottomBoundary="#calendar-end">
                 <FilterBar
                   columnRevOnMobile

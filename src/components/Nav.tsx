@@ -197,44 +197,47 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
     );
 
     return (
-      <Sticky innerZ={z.max}>
-        <NavWrapper columnOnMobile spaceBetween position="relative">
-          <NavLink exact to="/">
-            <l.Flex height={['auto', navHeight]}>
-              <t.Text
-                bold
-                color={colors.white}
-                ml={[0, spacing.sm]}
-                my={[spacing.s, 0]}
-                nowrap>
-                REACT FITNESS CLUB
-              </t.Text>
+      <div id="nav-end">
+        <Sticky innerZ={z.max}>
+          <NavWrapper columnOnMobile spaceBetween position="relative">
+            <NavLink exact to="/">
+              <l.Flex height={['auto', navHeight]}>
+                <t.Text
+                  bold
+                  color={colors.white}
+                  ml={[0, spacing.sm]}
+                  my={[spacing.s, 0]}
+                  nowrap>
+                  REACT FITNESS CLUB
+                </t.Text>
+              </l.Flex>
+            </NavLink>
+            <l.Flex height="100%">
+              {navItems.map((item: Item, i: number) => {
+                const active =
+                  i === hoverItem || item.path === location.pathname;
+                return (
+                  <NavItem
+                    active={active}
+                    key={item.name}
+                    onMouseEnter={() => this.onMouseEnter(i)}
+                    onMouseLeave={this.onMouseLeave}
+                    text={item.name}
+                    to={item.path}
+                  />
+                );
+              })}
+              {isTabletUp() && memberMenuComponent}
             </l.Flex>
-          </NavLink>
-          <l.Flex height="100%">
-            {navItems.map((item: Item, i: number) => {
-              const active = i === hoverItem || item.path === location.pathname;
-              return (
-                <NavItem
-                  active={active}
-                  key={item.name}
-                  onMouseEnter={() => this.onMouseEnter(i)}
-                  onMouseLeave={this.onMouseLeave}
-                  text={item.name}
-                  to={item.path}
-                />
-              );
-            })}
-            {isTabletUp() && memberMenuComponent}
-          </l.Flex>
-          {!isTabletUp() && (
-            <l.Space position="absolute" top={spacing.t} right={spacing.t}>
-              {memberMenuComponent}
-            </l.Space>
-          )}
-        </NavWrapper>
-        <Divider />
-      </Sticky>
+            {!isTabletUp() && (
+              <l.Space position="absolute" top={spacing.t} right={spacing.t}>
+                {memberMenuComponent}
+              </l.Space>
+            )}
+          </NavWrapper>
+          <Divider />
+        </Sticky>
+      </div>
     );
   }
 }

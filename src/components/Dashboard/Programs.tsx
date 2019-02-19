@@ -19,13 +19,14 @@ import ProgramCard from '../ProgramCard';
 
 interface Props {
   events: CalendarEvent[];
+  isAdmin: boolean;
   programs: Program[];
   member: Member;
 }
 
 class Programs extends React.Component<Props> {
   render() {
-    const { events, programs, member } = this.props;
+    const { events, isAdmin, programs, member } = this.props;
     const program = getProgramById(member.membership.type, programs);
     const enrolledPrograms: Program[] = R.contains(
       member.membership.type,
@@ -36,7 +37,7 @@ class Programs extends React.Component<Props> {
       ? [program]
       : [];
 
-    const unenrolledPrograms = enrolledPrograms.filter(
+    const unenrolledPrograms = programs.filter(
       (prog: Program) => !R.contains(prog.id, R.pluck('id', enrolledPrograms)),
     );
 
@@ -61,8 +62,9 @@ class Programs extends React.Component<Props> {
               division && (
                 <React.Fragment key={`enrolled-${prog.id}`}>
                   <EnrolledDivisionCard
-                    events={events}
                     divisionId={division.id}
+                    events={events}
+                    isAdmin={isAdmin}
                     program={prog}
                     member={member}
                   />

@@ -49,23 +49,23 @@ const FooterLinkText = styled(t.Text)(
   }),
 );
 
-const FooterAnchor = ({
-  color,
-  disabled,
-  text,
-  href,
-}: {
-  color?: string;
-  disabled?: boolean;
-  text: string;
-  href: string;
-}) => (
-  <t.Anchor href={disabled ? '' : href} target="_blank">
-    <FooterLinkText color={color} disabled={disabled}>
-      {text}
-    </FooterLinkText>
-  </t.Anchor>
-);
+// const FooterAnchor = ({
+//   color,
+//   disabled,
+//   text,
+//   href,
+// }: {
+//   color?: string;
+//   disabled?: boolean;
+//   text: string;
+//   href: string;
+// }) => (
+//   <t.Anchor href={disabled ? '' : href} target="_blank">
+//     <FooterLinkText color={color} disabled={disabled}>
+//       {text}
+//     </FooterLinkText>
+//   </t.Anchor>
+// );
 
 const FooterLink = ({
   disabled,
@@ -111,25 +111,29 @@ const Footer = ({ member }: { member?: Member }) => (
       px={[spacing.xl, spacing.xxxl, spacing.huge]}
       py={[spacing.xl, spacing.xxxl, spacing.xxxxxl]}
       spaceBetween>
-      <l.Flex grow={1} spaceBetween={!isTabletUp()} width={['100%', 'auto']}>
+      <l.Flex
+        alignTop
+        grow={1}
+        spaceBetween={!isTabletUp()}
+        width={['100%', 'auto']}>
         <l.Space mr={[spacing.xl, spacing.huge]}>
           <FooterLink disabled text="About" to="/about" />
           <l.Space height={spacing.l} />
           <FooterLink text="Programs" to="/programs" />
           <l.Space height={spacing.l} />
-          <FooterLink disabled text="Gallery" to="/gallery" />
+          <FooterLink text="Events" to="/events" />
           <l.Space height={spacing.l} />
-          <FooterLink text="Contact" to="/contact" />
+          <FooterLink disabled text="Gallery" to="/gallery" />
         </l.Space>
         <l.Space mr={[spacing.xl, spacing.xxxl]}>
           <FooterLink text="Schedule" to="/schedule" />
           <l.Space height={spacing.l} />
-          <FooterLink text="Events" to="/events" />
-          <l.Space height={spacing.l} />
+          <FooterLink text="Contact" to="/contact" />
+          {/* <l.Space height={spacing.l} />
           <FooterAnchor
             href="https://www.gofundme.com/react-fitness-club-alumni-floor"
             text="Donate"
-          />
+          /> */}
           <l.Space height={spacing.l} />
           {member ? (
             <t.TextButton

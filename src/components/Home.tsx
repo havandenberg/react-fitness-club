@@ -59,7 +59,7 @@ const Home = () => (
       </t.Link>{' '}
       is now open for training.
     </t.Text>
-    <l.Space height={spacing.m} />
+    <l.Space height={spacing.xl} />
     <l.FlexCentered>
       <t.Link to="/signup">
         <ButtonPrimary>Sign up for classes here!</ButtonPrimary>

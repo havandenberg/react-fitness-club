@@ -160,7 +160,12 @@ class Dashboard extends React.Component<Props, State> {
                 />
               )}
               {view === 'programs' && (
-                <Programs events={events} programs={programs} member={member} />
+                <Programs
+                  events={events}
+                  isAdmin={isAdmin}
+                  programs={programs}
+                  member={member}
+                />
               )}
               {view === 'admin' && members && (
                 <Admin
