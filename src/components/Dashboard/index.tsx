@@ -3,6 +3,7 @@ import * as React from 'react';
 import styled from 'react-emotion';
 import { Redirect } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
+import { scrollToId } from 'src/utils/scroll';
 import l from '../../styles/layout';
 import { borders, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
@@ -58,7 +59,7 @@ class Dashboard extends React.Component<Props, State> {
 
     this.state = {
       view:
-        props.member && R.isEmpty(props.member.membership)
+        props.member && R.isEmpty(props.member.membership.type)
           ? 'membership'
           : 'programs',
     };
@@ -77,7 +78,10 @@ class Dashboard extends React.Component<Props, State> {
   }
 
   setView = (view: DashboardView) => {
-    return () => this.setState({ view });
+    return () => {
+      this.setState({ view });
+      scrollToId('dashboard-top');
+    };
   };
 
   render() {
@@ -88,7 +92,7 @@ class Dashboard extends React.Component<Props, State> {
         <PulseLoader sizeUnit="px" size={30} color={colors.black} />
       </l.FlexCentered>
     ) : member ? (
-      <l.Space position="relative">
+      <l.Space id="dashboard-top" position="relative">
         <t.Title center mb={spacing.ml}>
           Dashboard
         </t.Title>

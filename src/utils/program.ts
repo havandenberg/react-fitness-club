@@ -78,7 +78,7 @@ export const getDivisionDiscountMultiplier = (
     ? division.discountMultiplier
     : program.discountMultiplier
     ? program.discountMultiplier
-    : 0;
+    : 1;
 };
 
 export const getDivisionDiscountCost = (

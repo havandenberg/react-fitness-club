@@ -38,8 +38,10 @@ export interface SetupFields {
   dobDay: string;
   dobYear: string;
   firstName: string;
+  initialFive: string;
   initialFour: string;
   initialOne: string;
+  initialSix: string;
   initialThree: string;
   initialTwo: string;
   lastName: string;
@@ -74,8 +76,10 @@ export const setupFieldValidations: FormFieldValidations<SetupFields> = {
   eRelationship: (value: string) => !R.isEmpty(value),
   email: (value: string) => isValidEmail(value),
   firstName: (value: string) => !R.isEmpty(value),
+  initialFive: (value: string) => value.length > 1,
   initialFour: (value: string) => value.length > 1,
   initialOne: (value: string) => value.length > 1,
+  initialSix: (value: string) => value.length > 1,
   initialThree: (value: string) => value.length > 1,
   initialTwo: (value: string) => value.length > 1,
   lastName: (value: string) => !R.isEmpty(value),
@@ -96,8 +100,10 @@ export const setupFieldChangeValidations: FormFieldValidations<SetupFields> = {
   dobDay: (value: string) => isValidDOBField(value, 'day'),
   dobMonth: (value: string) => isValidDOBField(value, 'month'),
   dobYear: (value: string) => isValidDOBField(value, 'year'),
+  initialFive: (value: string) => value.length < 4,
   initialFour: (value: string) => value.length < 4,
   initialOne: (value: string) => value.length < 4,
+  initialSix: (value: string) => value.length < 4,
   initialThree: (value: string) => value.length < 4,
   initialTwo: (value: string) => value.length < 4,
   zip: (value: string) => isValidZipCodeField(value),
@@ -125,6 +131,8 @@ const formData: Array<FormStep<SetupFields>> = [
           { flex: 1, inputType: 'text', valueName: 'initialTwo' },
           { flex: 1, inputType: 'text', valueName: 'initialThree' },
           { flex: 1, inputType: 'text', valueName: 'initialFour' },
+          { flex: 1, inputType: 'text', valueName: 'initialFive' },
+          { flex: 1, inputType: 'text', valueName: 'initialSix' },
           { flex: 1, inputType: 'text', valueName: 'memberParentSignature' },
           { flex: 1, inputType: 'text', valueName: 'memberSignature' },
         ],
@@ -179,8 +187,10 @@ class SetupFormComponent extends React.Component<Props> {
     const { member } = this.props;
     const { dateOfBirth, emergencyContact } = member;
     return {
+      initialFive: '',
       initialFour: '',
       initialOne: '',
+      initialSix: '',
       initialThree: '',
       initialTwo: '',
       memberParentSignature: '',

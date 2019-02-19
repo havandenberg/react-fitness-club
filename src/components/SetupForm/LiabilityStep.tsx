@@ -125,9 +125,11 @@ class LiabilityWaiverStep extends React.Component<
           </View>
           <View style={liabilityStyles.row}>
             <Text style={liabilityStyles.text}>{clauseFive}</Text>
+            <Text>{fields.initialFive}</Text>
           </View>
           <View style={liabilityStyles.row}>
             <Text style={liabilityStyles.text}>{clauseSix}</Text>
+            <Text>{fields.initialSix}</Text>
           </View>
           <View style={liabilityStyles.last}>
             <Text style={liabilityStyles.introText}>{lastSection}</Text>
@@ -202,26 +204,6 @@ class LiabilityWaiverStep extends React.Component<
     e.preventDefault();
     const { fields, onSubmit } = this.props;
     const { currentUser } = firebase.auth();
-    if (currentUser) {
-      const fileRef = firebase
-        .storage()
-        .ref(`members/${currentUser.uid}/liability-waiver.pdf`);
-      fileRef.put(blob);
-      if (fields.sendLiabilityCopy) {
-        blobToBase64String(blob).then(dataURL =>
-          emailjs.send(
-            'react_fitness_club',
-            'rfc_liability_form',
-            {
-              content: dataURL.substring(dataURL.indexOf(',') + 1),
-              email: fields.email,
-              from_name: `${fields.nickname || fields.firstName}`,
-            },
-            process.env.REACT_APP_EMAILJS_KEY,
-          ),
-        );
-      }
-    }
     onSubmit(
       (
         onSuccess: () => void,
@@ -229,9 +211,26 @@ class LiabilityWaiverStep extends React.Component<
         resetForm: () => void,
         data: any,
       ) => {
-        const user = firebase.auth().currentUser;
-        if (user) {
-          getMemberRef(user.uid)
+        if (currentUser) {
+          const fileRef = firebase
+            .storage()
+            .ref(`members/${currentUser.uid}/liability-waiver.pdf`);
+          fileRef.put(blob);
+          if (fields.sendLiabilityCopy) {
+            blobToBase64String(blob).then(dataURL =>
+              emailjs.send(
+                'react_fitness_club',
+                'rfc_liability_form',
+                {
+                  content: dataURL.substring(dataURL.indexOf(',') + 1),
+                  email: fields.email,
+                  from_name: `${fields.nickname || fields.firstName}`,
+                },
+                process.env.REACT_APP_EMAILJS_KEY,
+              ),
+            );
+          }
+          getMemberRef(currentUser.uid)
             .update(processFormValues(data))
             .then(() => {
               onSuccess();
@@ -323,8 +322,36 @@ class LiabilityWaiverStep extends React.Component<
               <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
-          <t.Text mb={spacing.xl}>{clauseFive}</t.Text>
-          <t.Text mb={spacing.xl}>{clauseSix}</t.Text>
+          <l.Flex mb={spacing.xl}>
+            <t.Text mr={spacing.ml}>{clauseFive}</t.Text>
+            <div>
+              <InitialInput
+                error={R.contains('initialFive', errors)}
+                helpText="initials"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange('initialFive', e.currentTarget.value);
+                }}
+                value={fields.initialFive}
+              />
+              <l.Space height={spacing.s} />
+              <t.HelpText>initials</t.HelpText>
+            </div>
+          </l.Flex>
+          <l.Flex mb={spacing.xl}>
+            <t.Text mr={spacing.ml}>{clauseSix}</t.Text>
+            <div>
+              <InitialInput
+                error={R.contains('initialSix', errors)}
+                helpText="initials"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange('initialSix', e.currentTarget.value);
+                }}
+                value={fields.initialSix}
+              />
+              <l.Space height={spacing.s} />
+              <t.HelpText>initials</t.HelpText>
+            </div>
+          </l.Flex>
           <t.Text mb={spacing.xxxl}>{lastSection}</t.Text>
           <t.Text mb={spacing.xxxl}>{typedSection}</t.Text>
           <l.FlexColumn>

@@ -61,7 +61,7 @@ const Programs = ({
           <>
             <Sticky
               innerZ={z.high}
-              top={isMobileOnly() ? 70 : 50}
+              top="#nav-end"
               bottomBoundary="#programs-end">
               <l.Flex
                 background={colors.background}

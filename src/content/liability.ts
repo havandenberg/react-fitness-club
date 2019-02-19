@@ -28,4 +28,4 @@ export const typedSection =
 export const parentRelease =
   'This is to certify that I, as parent/guardian with legal responsibility for this participant, do consent and agree to his/her release as provided above of all the Releasees, and for myself, my heirs, assigns, and next of kin, I release and agree to indemnify and hold harmless the Releasees from any and all liabilities incident to my minor child’s involvement or participation in these programs as provided above, EVEN IF ARISING FROM THEIR NEGLIGENCE, to the fullest extent permitted by law.';
 
-export const title = 'React Fitness Club Adult Waiver/Release';
+export const title = 'React Fitness Club Member Waiver/Release';

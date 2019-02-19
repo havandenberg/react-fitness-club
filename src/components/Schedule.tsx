@@ -7,6 +7,7 @@ import styled from 'react-emotion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
 import * as Sticky from 'react-stickynode';
+import { programContent } from 'src/content/programs';
 import l from '../styles/layout';
 import { breakpoints, colors, gradients, spacing, z } from '../styles/theme';
 import t from '../styles/typography';
@@ -217,6 +218,9 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     const { calendarView, divisionId, programId, searchValue } = this.state;
     const program =
       !R.equals(programId, 'all') && getProgramById(programId, programs);
+    const filteredPrograms = programs.filter((prog: Program) =>
+      R.contains(prog.id, Object.keys(programContent)),
+    );
     return (
       <div>
         <t.Title center mb={spacing.ml}>
@@ -272,7 +276,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                         width="100%">
                         <option value="all">All</option>
                         <option value="events">Special Events</option>
-                        {programs.map((prog: Program) => (
+                        {filteredPrograms.map((prog: Program) => (
                           <option key={prog.id} value={prog.id}>
                             {prog.name}
                           </option>

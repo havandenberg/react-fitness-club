@@ -242,7 +242,7 @@ class Step extends React.Component<
 
     return (
       <>
-        <l.Flex alignTop spaceBetween mb={spacing.xl}>
+        <l.FlexCentered alignTop spaceBetween mb={spacing.xl}>
           {cancelSwitchMembership && (
             <CancelSwitchMembership
               large
@@ -266,8 +266,8 @@ class Step extends React.Component<
               </>
             )}
           </l.FlexColumn>
-          <l.Space width={spacing.xxxxxl} />
-        </l.Flex>
+          {cancelSwitchMembership && <l.Space width={spacing.xxxxxl} />}
+        </l.FlexCentered>
         <l.Flex columnRevOnMobile mb={spacing.xxxl}>
           <MembershipCard
             isActive={
