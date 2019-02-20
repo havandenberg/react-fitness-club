@@ -26,7 +26,7 @@ import {
   typedSection,
 } from '../../content/liability';
 import l from '../../styles/layout';
-import { borders, spacing } from '../../styles/theme';
+import { borders, breakpoints, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import { getMemberRef } from '../../utils/member';
 import { scrollToId } from '../../utils/scroll';
@@ -39,7 +39,15 @@ import { processFormValues, SetupFields } from './';
 
 export const LIABILITY_WAIVER = 'Liability Waiver';
 
-const InitialInput = styled(TextInput)({ width: 50 });
+const InitialInput = styled(TextInput)({
+  width: spacing.xxxxl,
+  [breakpoints.tablet]: {
+    width: spacing.xxxxl,
+  },
+  [breakpoints.mobile]: {
+    width: spacing.xxxxl,
+  },
+});
 
 const liabilityStyles = StyleSheet.create({
   initials: {
@@ -262,8 +270,10 @@ class LiabilityWaiverStep extends React.Component<
             {title}
           </t.Text>
           <t.Text mb={spacing.xl}>{intro}</t.Text>
-          <l.Flex mb={spacing.ml}>
-            <t.Text mr={spacing.ml}>{clauseOne}</t.Text>
+          <l.Flex columnOnMobile mb={spacing.ml}>
+            <t.Text mb={[spacing.ml, 0, 0]} mr={spacing.ml}>
+              {clauseOne}
+            </t.Text>
             <div>
               <InitialInput
                 error={R.contains('initialOne', errors)}
@@ -277,8 +287,10 @@ class LiabilityWaiverStep extends React.Component<
               <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
-          <l.Flex mb={spacing.ml}>
-            <t.Text mr={spacing.ml}>{clauseTwo}</t.Text>
+          <l.Flex columnOnMobile mb={spacing.ml}>
+            <t.Text mb={[spacing.ml, 0, 0]} mr={spacing.ml}>
+              {clauseTwo}
+            </t.Text>
             <div>
               <InitialInput
                 error={R.contains('initialTwo', errors)}
@@ -292,8 +304,10 @@ class LiabilityWaiverStep extends React.Component<
               <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
-          <l.Flex mb={spacing.ml}>
-            <t.Text mr={spacing.ml}>{clauseThree}</t.Text>
+          <l.Flex columnOnMobile mb={spacing.ml}>
+            <t.Text mb={[spacing.ml, 0, 0]} mr={spacing.ml}>
+              {clauseThree}
+            </t.Text>
             <div>
               <InitialInput
                 error={R.contains('initialThree', errors)}
@@ -307,8 +321,10 @@ class LiabilityWaiverStep extends React.Component<
               <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
-          <l.Flex mb={spacing.xl}>
-            <t.Text mr={spacing.ml}>{clauseFour}</t.Text>
+          <l.Flex columnOnMobile mb={spacing.xl}>
+            <t.Text mb={[spacing.ml, 0, 0]} mr={spacing.ml}>
+              {clauseFour}
+            </t.Text>
             <div>
               <InitialInput
                 error={R.contains('initialFour', errors)}
@@ -322,8 +338,10 @@ class LiabilityWaiverStep extends React.Component<
               <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
-          <l.Flex mb={spacing.xl}>
-            <t.Text mr={spacing.ml}>{clauseFive}</t.Text>
+          <l.Flex columnOnMobile mb={spacing.xl}>
+            <t.Text mb={[spacing.ml, 0, 0]} mr={spacing.ml}>
+              {clauseFive}
+            </t.Text>
             <div>
               <InitialInput
                 error={R.contains('initialFive', errors)}
@@ -337,8 +355,10 @@ class LiabilityWaiverStep extends React.Component<
               <t.HelpText>initials</t.HelpText>
             </div>
           </l.Flex>
-          <l.Flex mb={spacing.xl}>
-            <t.Text mr={spacing.ml}>{clauseSix}</t.Text>
+          <l.Flex columnOnMobile mb={spacing.xl}>
+            <t.Text mb={[spacing.ml, 0, 0]} mr={spacing.ml}>
+              {clauseSix}
+            </t.Text>
             <div>
               <InitialInput
                 error={R.contains('initialSix', errors)}

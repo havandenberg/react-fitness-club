@@ -49,12 +49,14 @@ const getPersonalInfoData: (
     isRequired: true,
     items: [
       {
+        autoComplete: 'given-name',
         flex: '50%',
         helpText: 'first',
         inputType: 'text',
         valueName: 'firstName',
       },
       {
+        autoComplete: 'family-name',
         flex: '50%',
         helpText: 'last',
         inputType: 'text',
@@ -82,6 +84,7 @@ const getPersonalInfoData: (
     isRequired: true,
     items: [
       {
+        autoComplete: 'email',
         flex: '100%',
         helpText: 'username@example.com',
         inputType: 'text',

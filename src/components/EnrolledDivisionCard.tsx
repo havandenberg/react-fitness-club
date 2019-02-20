@@ -120,9 +120,13 @@ class EnrolledDivisionCard extends React.Component<
       : undefined;
 
     return (
-      <ProgramCardWrapper height={[250, 350]} width={['100%', '50%']}>
+      <ProgramCardWrapper height={[250, 350]} width={['100%', '48%']}>
         <l.Flex alignTop mb={spacing.ml}>
-          <l.Img src={program.logoSrc} height={spacing.xxxl} mr={spacing.xl} />
+          <l.Img
+            src={program.logoSrc}
+            height={spacing.xxxl}
+            mr={[spacing.ml, spacing.ml, spacing.xl]}
+          />
           <div>
             <t.H3 mt={0}>{program.name}</t.H3>
             {isAdmin || isCoachOf(member.uid, program) ? (

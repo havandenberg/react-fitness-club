@@ -84,8 +84,7 @@ class Step extends React.Component<
               onChange('divisionId', e.currentTarget.value);
             }}
             value={fields.divisionId}
-            width="100%"
-          >
+            width="100%">
             {options.map((option: string, index: number) => (
               <option key={index} value={option}>
                 {option}
@@ -132,11 +131,14 @@ export const ProgramCardWrapper = styled(l.Space)(
   {
     border: borders.black,
     borderRadius: borders.borderRadius,
+    marginBottom: spacing.xl,
     padding: spacing.xl,
     [breakpoints.tablet]: {
+      marginBottom: spacing.xl,
       padding: spacing.ml,
     },
     [breakpoints.mobile]: {
+      marginBottom: 0,
       padding: spacing.ml,
     },
   },
@@ -169,7 +171,7 @@ class ProgramCard extends React.Component<Props, State> {
           <l.Img
             src={program.logoSrc}
             height={spacing.xxxl}
-            mr={spacing.xl}
+            mr={[spacing.ml, spacing.ml, spacing.xl]}
           />
           <div>
             <t.Text bold large mb={spacing.ml}>

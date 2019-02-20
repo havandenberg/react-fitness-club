@@ -3,15 +3,16 @@ import * as React from 'react';
 import styled from 'react-emotion';
 import { Redirect } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
-import { scrollToId } from 'src/utils/scroll';
+import * as Sticky from 'react-stickynode';
 import l from '../../styles/layout';
-import { borders, colors, spacing, transitions } from '../../styles/theme';
+import { borders, colors, spacing, transitions, z } from '../../styles/theme';
 import t from '../../styles/typography';
 import { CalendarEvent } from '../../types/calendar-event';
 import { Member } from '../../types/member';
 import { Program } from '../../types/program';
 import { logout } from '../../utils/auth';
-import { isMobileOnly } from '../../utils/screensize';
+import { isMobileOnly, isTabletUp } from '../../utils/screensize';
+import { scrollToId } from '../../utils/scroll';
 import Divider from '../Divider';
 import EditProfile from '../EditProfileForm';
 import withScroll from '../hoc/withScroll';
@@ -101,53 +102,65 @@ class Dashboard extends React.Component<Props, State> {
           px={[spacing.sm, 0]}
           py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
           {member.isAccountSetupComplete && (
-            <l.FlexCentered columnOnMobile>
-              <l.Flex alignTop mb={[spacing.ml, spacing.xxxl, spacing.xxxl]}>
-                {!R.isEmpty(member.membership.type) && (
-                  <>
+            <>
+              <Sticky
+                enabled={isTabletUp()}
+                innerZ={z.high}
+                top="#nav-end"
+                bottomBoundary="#dashboard-end">
+                <l.FlexCentered
+                  background={colors.background}
+                  columnOnMobile
+                  py={spacing.s}>
+                  <l.Flex alignTop mb={[spacing.ml, 0, 0]}>
+                    {!R.isEmpty(member.membership.type) && (
+                      <>
+                        <NavItem
+                          active={view === 'programs'}
+                          large
+                          onClick={this.setView('programs')}>
+                          Programs
+                        </NavItem>
+                        <l.Space width={spacing.xxxxxl} />
+                      </>
+                    )}
                     <NavItem
-                      active={view === 'programs'}
+                      active={R.contains(view, ['profile', 'edit-profile'])}
                       large
-                      onClick={this.setView('programs')}>
-                      Programs
+                      onClick={this.setView('profile')}>
+                      Profile
                     </NavItem>
+                    {!isMobileOnly() && <l.Space width={[0, spacing.xxxxxl]} />}
+                  </l.Flex>
+                  <l.Flex alignTop>
+                    {members ? (
+                      <NavItem
+                        active={view === 'admin'}
+                        large
+                        onClick={this.setView('admin')}>
+                        Admin
+                      </NavItem>
+                    ) : (
+                      <NavItem
+                        active={R.contains(view, ['membership'])}
+                        large
+                        onClick={this.setView('membership')}>
+                        Membership
+                      </NavItem>
+                    )}
                     <l.Space width={spacing.xxxxxl} />
-                  </>
-                )}
-                <NavItem
-                  active={R.contains(view, ['profile', 'edit-profile'])}
-                  large
-                  onClick={this.setView('profile')}>
-                  Profile
-                </NavItem>
-                {!isMobileOnly() && <l.Space width={[0, spacing.xxxxxl]} />}
-              </l.Flex>
-              <l.Flex alignTop mb={spacing.xxxl}>
-                {members ? (
-                  <NavItem
-                    active={view === 'admin'}
-                    large
-                    onClick={this.setView('admin')}>
-                    Admin
-                  </NavItem>
-                ) : (
-                  <NavItem
-                    active={R.contains(view, ['membership'])}
-                    large
-                    onClick={this.setView('membership')}>
-                    Membership
-                  </NavItem>
-                )}
-                <l.Space width={spacing.xxxxxl} />
-                <t.TextButton
-                  color={colors.red}
-                  hoverStyle="opacity"
-                  large
-                  onClick={logout}>
-                  Logout
-                </t.TextButton>
-              </l.Flex>
-            </l.FlexCentered>
+                    <t.TextButton
+                      color={colors.red}
+                      hoverStyle="opacity"
+                      large
+                      onClick={logout}>
+                      Logout
+                    </t.TextButton>
+                  </l.Flex>
+                </l.FlexCentered>
+              </Sticky>
+              <l.Space height={spacing.xxxl} />
+            </>
           )}
           {member.isAccountSetupComplete ? (
             <>
@@ -192,7 +205,7 @@ class Dashboard extends React.Component<Props, State> {
             <SetupForm member={member} />
           )}
         </l.Page>
-        <l.Space height={100} />
+        <l.Space id="dashboard-end" height={100} />
       </l.Space>
     ) : (
       <Redirect to="/" />

@@ -6,6 +6,7 @@ import LogoImg from '../assets/images/logo.png';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
+import { Alert } from '../types/alert';
 import { Member } from '../types/member';
 import {
   isMobile,
@@ -14,6 +15,7 @@ import {
   isTabletUp,
 } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
+import Alerts from './Alerts';
 import SocialIcons from './SocialIcons';
 
 const HeroWrapper = styled('div')({
@@ -90,12 +92,14 @@ const SocialIconsWrapper = styled('div')({
 });
 
 const Hero = ({
+  alerts,
   location,
   member,
-}: { member?: Member } & RouteComponentProps) => {
+}: { alerts: Alert[]; member?: Member } & RouteComponentProps) => {
   const secondary = !R.equals(location.pathname, '/');
   return (
     <HeroWrapper>
+      <Alerts alerts={alerts} secondary={secondary} />
       <LogoWrapper
         pb={secondary ? [spacing.ml, 0, 0] : [spacing.ml, spacing.xl]}
         pt={[spacing.ml, spacing.xl]}

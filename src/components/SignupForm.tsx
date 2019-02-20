@@ -50,12 +50,14 @@ const formRowData: Array<FormRowData<SignupFields>> = [
     isRequired: true,
     items: [
       {
+        autoComplete: 'given-name',
         flex: '50%',
         helpText: 'first',
         inputType: 'text',
         valueName: 'firstName',
       },
       {
+        autoComplete: 'family-name',
         flex: '50%',
         helpText: 'last',
         inputType: 'text',
@@ -69,6 +71,7 @@ const formRowData: Array<FormRowData<SignupFields>> = [
     isRequired: true,
     items: [
       {
+        autoComplete: 'email',
         flex: '100%',
         helpText: 'username@example.com',
         inputType: 'text',
@@ -82,6 +85,7 @@ const formRowData: Array<FormRowData<SignupFields>> = [
     isRequired: true,
     items: [
       {
+        autoComplete: 'new-password',
         flex: '100%',
         helpText: ['1 lowercase', '1 uppercase', '1 number', '8+ characters'],
         helpTextValidations: [

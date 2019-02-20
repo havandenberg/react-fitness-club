@@ -60,6 +60,7 @@ const Programs = ({
         ) : (
           <>
             <Sticky
+              enabled={isTabletUp()}
               innerZ={z.high}
               top="#nav-end"
               bottomBoundary="#programs-end">

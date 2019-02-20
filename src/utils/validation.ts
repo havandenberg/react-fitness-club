@@ -9,7 +9,7 @@ export const isValidEmail = (email: string) =>
   );
 
 export const isValidPhone = (phone: string) =>
-  /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(phone);
+  /^([+]?\d{1,2}[.-\s]?)?(\d{3}[.-]?){2}\d{4}$/.test(phone);
 
 export const isValidPassword = (password: string) =>
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(password);

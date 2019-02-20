@@ -32,6 +32,7 @@ export const InputLabel = styled(t.Text)(
 );
 
 export interface FormItemProps<FormFields, K extends keyof FormFields> {
+  autoComplete?: string;
   flex: string | number | Array<string | number>;
   helpText?: string | string[];
   helpTextValidations?: Array<(value: string, fields: FormFields) => boolean>;
@@ -92,6 +93,7 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
       case 'text':
         return (
           <TextInput
+            autoComplete={item.autoComplete}
             error={hasError}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               onChange(item.valueName, e.currentTarget.value);
@@ -106,6 +108,7 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
       case 'textarea':
         return (
           <TextArea
+            autoComplete={item.autoComplete}
             error={hasError}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               onChange(item.valueName, e.currentTarget.value);
@@ -119,14 +122,14 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
       case 'select':
         return item.selectOptions ? (
           <SelectInput
+            autoComplete={item.autoComplete}
             error={hasError}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               onChange(item.valueName, e.currentTarget.value);
             }}
             customStyles={item.inputStyles}
             value={fields[item.valueName]}
-            width="100%"
-          >
+            width="100%">
             {item.selectOptions.map((option: string, index: number) => (
               <option key={index} value={option}>
                 {option}
@@ -169,8 +172,7 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
       <l.Flex
         alignTop
         columnOnMobile
-        mt={R.isEmpty(items) ? spacing.ml : undefined}
-      >
+        mt={R.isEmpty(items) ? spacing.ml : undefined}>
         {label !== undefined && (
           <InputLabel nowrap={!isMobile()} width={customStyles.labelWidth}>
             {label}
@@ -181,8 +183,7 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
         <l.Flex
           flex={1}
           maxWidth={customStyles.rowWidth}
-          width={customStyles.rowWidth}
-        >
+          width={customStyles.rowWidth}>
           {items.map(
             (
               item: FormItemProps<FormFields, keyof FormFields>,
@@ -213,8 +214,7 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
                           (helpTextItem: string, helpIndex: number) => (
                             <React.Fragment key={helpTextItem}>
                               <t.HelpText
-                                valid={this.validateHelpText(item, helpIndex)}
-                              >
+                                valid={this.validateHelpText(item, helpIndex)}>
                                 {helpTextItem}
                               </t.HelpText>
                               {item.helpText &&

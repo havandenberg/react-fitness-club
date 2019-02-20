@@ -43,12 +43,14 @@ export const personalInfoStep: (
       isRequired: true,
       items: [
         {
+          autoComplete: 'given-name',
           flex: '50%',
           helpText: 'first',
           inputType: 'text',
           valueName: 'firstName',
         },
         {
+          autoComplete: 'family-name',
           flex: '50%',
           helpText: 'last',
           inputType: 'text',
@@ -61,6 +63,7 @@ export const personalInfoStep: (
     {
       items: [
         {
+          autoComplete: 'nickname',
           flex: '100%',
           inputType: 'text',
           valueName: 'nickname',
@@ -73,6 +76,7 @@ export const personalInfoStep: (
       isRequired: true,
       items: [
         {
+          autoComplete: 'email',
           flex: '100%',
           helpText: 'username@example.com',
           inputType: 'text',
@@ -88,18 +92,21 @@ export const personalInfoStep: (
       isRequired: true,
       items: [
         {
+          autoComplete: 'bday-month',
           flex: '30%',
           helpText: 'MM',
           inputType: 'text',
           valueName: 'dobMonth',
         },
         {
+          autoComplete: 'bday-day',
           flex: '30%',
           helpText: 'DD',
           inputType: 'text',
           valueName: 'dobDay',
         },
         {
+          autoComplete: 'bday-year',
           flex: '40%',
           helpText: 'YYYY',
           inputType: 'text',
@@ -113,6 +120,7 @@ export const personalInfoStep: (
       isRequired: true,
       items: [
         {
+          autoComplete: 'tel-national',
           flex: '100%',
           helpText: 'valid phone number',
           inputType: 'text',
@@ -126,6 +134,7 @@ export const personalInfoStep: (
       isRequired: true,
       items: [
         {
+          autoComplete: 'address-line1',
           flex: '100%',
           helpText: 'address line 1',
           inputType: 'text',
@@ -139,6 +148,7 @@ export const personalInfoStep: (
     {
       items: [
         {
+          autoComplete: 'address-line2',
           flex: '100%',
           helpText: 'address line 2',
           inputType: 'text',
@@ -151,6 +161,7 @@ export const personalInfoStep: (
     {
       items: [
         {
+          autoComplete: 'address-level2',
           flex: '40%',
           helpText: 'city',
           inputType: 'text',
@@ -158,6 +169,7 @@ export const personalInfoStep: (
           valueName: 'city',
         },
         {
+          autoComplete: 'address-level1',
           flex: '20%',
           helpText: 'state',
           inputType: 'select',
@@ -166,6 +178,7 @@ export const personalInfoStep: (
           valueName: 'state',
         },
         {
+          autoComplete: 'postal-code',
           flex: '25%',
           helpText: 'zip',
           inputType: 'text',
@@ -373,8 +386,7 @@ class PersonalInfoStep extends React.Component<
           <l.Space
             position={['static', 'static', 'absolute']}
             right={0}
-            top={-110}
-          >
+            top={-110}>
             <FormActions
               forwardText="Save"
               handleForward={this.handleSubmit}

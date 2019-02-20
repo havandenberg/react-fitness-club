@@ -1,6 +1,5 @@
 import * as R from 'ramda';
 import * as React from 'react';
-import { isInactiveMembership } from 'src/utils/membership';
 import l from '../../styles/layout';
 import { colors, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
@@ -8,11 +7,13 @@ import { CalendarEvent } from '../../types/calendar-event';
 import { Member } from '../../types/member';
 import { MULTI_PROGRAM_MEMBERSHIPS } from '../../types/membership';
 import { Program } from '../../types/program';
+import { isInactiveMembership } from '../../utils/membership';
 import {
   getEnrolledDivision,
   getEnrolledPrograms,
   getProgramById,
 } from '../../utils/program';
+import { isMobileOnly } from '../../utils/screensize';
 import EnrolledDivisionCard from '../EnrolledDivisionCard';
 import withScroll from '../hoc/withScroll';
 import ProgramCard from '../ProgramCard';
@@ -54,9 +55,12 @@ class Programs extends React.Component<Props> {
     return (
       <div>
         <t.H2 mb={spacing.xxl}>Enrolled Programs:</t.H2>
-        <l.Flex columnOnMobile>
+        <l.Flex columnOnMobile isWrap>
           {enrolledPrograms.map((prog: Program, index: number) => {
             const division = getEnrolledDivision(prog, member.uid);
+            const showSpacer = isMobileOnly()
+              ? index < enrolledPrograms.length - 1
+              : index + (1 % 2) < 2;
             return (
               prog &&
               division && (
@@ -68,7 +72,7 @@ class Programs extends React.Component<Props> {
                     program={prog}
                     member={member}
                   />
-                  {index < enrolledPrograms.length - 1 && (
+                  {showSpacer && (
                     <l.Space height={spacing.xl} width={spacing.xl} />
                   )}
                 </React.Fragment>
@@ -79,18 +83,21 @@ class Programs extends React.Component<Props> {
         {R.contains(member.membership.type, MULTI_PROGRAM_MEMBERSHIPS) &&
           !R.isEmpty(unenrolledPrograms) && (
             <>
-              <t.H2 mb={spacing.xxl} mt={spacing.xxxxxl}>
-                All Programs:
-              </t.H2>
-              <l.Flex columnOnMobile>
-                {unenrolledPrograms.map((prog: Program, index: number) => (
-                  <React.Fragment key={`all-${prog.id}`}>
-                    <ProgramCard program={prog} member={member} />
-                    {index < programs.length - 1 && (
-                      <l.Space height={spacing.xl} width={spacing.xl} />
-                    )}
-                  </React.Fragment>
-                ))}
+              <t.H2 my={spacing.xxl}>All Programs:</t.H2>
+              <l.Flex columnOnMobile isWrap>
+                {unenrolledPrograms.map((prog: Program, index: number) => {
+                  const showSpacer = isMobileOnly()
+                    ? index < programs.length - 1
+                    : index + (1 % 3) < 3;
+                  return (
+                    <React.Fragment key={`all-${prog.id}`}>
+                      <ProgramCard program={prog} member={member} />
+                      {showSpacer && (
+                        <l.Space height={spacing.xl} width={spacing.xl} />
+                      )}
+                    </React.Fragment>
+                  );
+                })}
               </l.Flex>
             </>
           )}

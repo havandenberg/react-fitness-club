@@ -31,6 +31,7 @@ const formRowData: Array<FormRowData<LoginFields>> = [
   {
     items: [
       {
+        autoComplete: 'email',
         flex: '100%',
         inputType: 'text',
         valueName: 'email',
@@ -41,6 +42,7 @@ const formRowData: Array<FormRowData<LoginFields>> = [
   {
     items: [
       {
+        autoComplete: 'current-password',
         flex: '100%',
         inputType: 'password',
         valueName: 'password',
