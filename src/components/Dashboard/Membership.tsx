@@ -91,6 +91,8 @@ class Membership extends React.Component<MembershipProps, State> {
 
     const isInactive = isInactiveMembership(member.membership);
 
+    const monthlyCost = getMemberMonthlyCost(member, program);
+
     if (R.isEmpty(member.membership.type)) {
       return <MembershipForm events {...this.props} />;
     }
@@ -129,14 +131,20 @@ class Membership extends React.Component<MembershipProps, State> {
                   Monthly Cost:
                 </t.Text>
                 <l.Space width={[spacing.ml, spacing.xxxl, spacing.xxxl]} />
-                <t.Text large flex={1}>
-                  ${getMemberMonthlyCost(member, program)}
-                  {hasDiscount(member, program, division && division.id)
-                    ? ` until ${moment(member.membership.signupDate)
-                        .add(6, 'months')
-                        .format('MM/DD/YYYY')}`
-                    : ''}
-                </t.Text>
+                {monthlyCost < 0 ? (
+                  <t.Text large flex={1}>
+                    N/A
+                  </t.Text>
+                ) : (
+                  <t.Text large flex={1}>
+                    ${monthlyCost}
+                    {hasDiscount(member, program, division && division.id)
+                      ? ` until ${moment(member.membership.signupDate)
+                          .add(6, 'months')
+                          .format('MM/DD/YYYY')}`
+                      : ''}
+                  </t.Text>
+                )}
               </l.Flex>
               <l.Flex mb={spacing.sm} width="100%">
                 <t.Text large flex={1} textAlign="right">

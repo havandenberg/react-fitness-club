@@ -242,7 +242,10 @@ class Step extends React.Component<
 
     return (
       <>
-        <l.FlexCentered alignTop spaceBetween mb={spacing.xl}>
+        <l.Flex
+          alignTop
+          justifyContent={cancelSwitchMembership ? 'space-between' : 'center'}
+          mb={spacing.xl}>
           {cancelSwitchMembership && (
             <CancelSwitchMembership
               large
@@ -267,7 +270,7 @@ class Step extends React.Component<
             )}
           </l.FlexColumn>
           {cancelSwitchMembership && <l.Space width={spacing.xxxxxl} />}
-        </l.FlexCentered>
+        </l.Flex>
         <l.Flex columnRevOnMobile mb={spacing.xxxl}>
           <MembershipCard
             isActive={
@@ -328,7 +331,11 @@ class Step extends React.Component<
                 {programs.map((prog: Program) => (
                   <option key={prog.id} value={prog.id}>
                     {programSelectIsOpen
-                      ? `${prog.name} ($${prog.monthlyCost}/month)`
+                      ? `${prog.name} (${
+                          prog.monthlyCost < 0
+                            ? 'N/A'
+                            : prog.monthlyCost + '/month'
+                        })`
                       : prog.name}
                   </option>
                 ))}

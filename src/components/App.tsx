@@ -9,12 +9,15 @@ import {
   Switch,
 } from 'react-router-dom';
 import { colors, maxWidth } from '../styles/theme';
+import { Alert } from '../types/alert';
 import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Division, Program } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
+import { parseAlerts } from '../utils/alert';
 import {
   checkAuthed,
+  listenForAlertsChanges,
   listenForMemberChanges,
   listenForProgramChanges,
   listenForSpecialEventsChanges,
@@ -51,9 +54,11 @@ interface LoadingMembersKey {
 }
 
 interface State {
+  alerts: Alert[];
   events: CalendarEvent[];
   isAdmin: boolean;
   loading: boolean;
+  loadingAlerts: boolean;
   loadingEvents: boolean;
   loadingMember: boolean;
   loadingMembers: LoadingMembersKey[];
@@ -69,9 +74,11 @@ class App extends React.Component<SubscribeProps, State> {
   constructor(props: SubscribeProps) {
     super(props);
     this.state = {
+      alerts: [],
       events: [],
       isAdmin: false,
       loading: true,
+      loadingAlerts: true,
       loadingEvents: true,
       loadingMember: true,
       loadingMembers: [],
@@ -94,6 +101,12 @@ class App extends React.Component<SubscribeProps, State> {
 
   authedCallback = (member: Member) => {
     this.setState({ member }, () => {
+      listenForAlertsChanges((alerts: Alert[]) =>
+        this.setState(
+          { alerts: parseAlerts(alerts), loadingAlerts: false },
+          this.checkFinishedLoading,
+        ),
+      );
       listenForProgramChanges((programs: Program[]) =>
         this.setState(
           { programs: parsePrograms(programs), loadingPrograms: false },
@@ -138,6 +151,7 @@ class App extends React.Component<SubscribeProps, State> {
 
   checkFinishedLoading = () => {
     const {
+      loadingAlerts,
       loadingEvents,
       loadingMember,
       loadingMembers,
@@ -147,6 +161,7 @@ class App extends React.Component<SubscribeProps, State> {
       programs,
     } = this.state;
     const initialLoadingFinished =
+      !loadingAlerts &&
       !loadingPrograms &&
       !loadingEvents &&
       !loadingMember &&
@@ -237,8 +252,18 @@ class App extends React.Component<SubscribeProps, State> {
   };
 
   checkUnauthedFinishedLoading = () => {
-    const { loadingEvents, loadingPrograms, loadingSpecialEvents } = this.state;
-    if (!loadingEvents && !loadingPrograms && !loadingSpecialEvents) {
+    const {
+      loadingAlerts,
+      loadingEvents,
+      loadingPrograms,
+      loadingSpecialEvents,
+    } = this.state;
+    if (
+      !loadingAlerts &&
+      !loadingEvents &&
+      !loadingPrograms &&
+      !loadingSpecialEvents
+    ) {
       this.setState({
         loading: false,
         loadingMember: false,
@@ -248,6 +273,12 @@ class App extends React.Component<SubscribeProps, State> {
   };
 
   unauthedCallback = () => {
+    listenForAlertsChanges((alerts: Alert[]) =>
+      this.setState(
+        { alerts: parseAlerts(alerts), loadingAlerts: false },
+        this.checkUnauthedFinishedLoading,
+      ),
+    );
     listenForProgramChanges((programs: Program[]) =>
       this.setState(
         { programs: parsePrograms(programs), loadingPrograms: false },
@@ -276,9 +307,11 @@ class App extends React.Component<SubscribeProps, State> {
 
   render() {
     const {
+      alerts,
       events,
       isAdmin,
       loading,
+      loadingAlerts,
       loadingMember,
       loadingPrograms,
       loadingSpecialEvents,
@@ -292,7 +325,7 @@ class App extends React.Component<SubscribeProps, State> {
       <Router>
         <Main id="top">
           <Nav member={member} programs={programs} />
-          <Hero />
+          <Hero alerts={alerts} loadingAlerts={loadingAlerts} />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />

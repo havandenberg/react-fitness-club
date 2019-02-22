@@ -7,6 +7,7 @@ import {
 } from 'react-social-login-buttons';
 import { PulseLoader } from 'react-spinners';
 import { getGenericMembership } from 'src/utils/membership';
+import { scrollToId } from 'src/utils/scroll';
 import l from '../styles/layout';
 import {
   borders,
@@ -74,6 +75,14 @@ class Signup extends React.Component<RouteComponentProps & Props> {
               To sign up for React Fitness Club, create an account using one of
               the options below and complete the setup form.
             </t.Text>
+            <t.TextButton
+              border={borders.red}
+              color={colors.red}
+              large
+              mb={spacing.ml}
+              onClick={() => scrollToId('sign-up-here')}>
+              Sign up here
+            </t.TextButton>
             <t.Text center large mb={spacing.ml}>
               Then you will be able to choose a membership and enroll in
               programs.
@@ -123,7 +132,7 @@ class Signup extends React.Component<RouteComponentProps & Props> {
             <t.Text center large mb={spacing.xxl}>
               Day passes are also available at the door for $10 / day.
             </t.Text>
-            <t.Text color={colors.red} large>
+            <t.Text color={colors.red} large id="sign-up-here">
               Sign up below:
             </t.Text>
             <t.Text large my={spacing.xxl}>

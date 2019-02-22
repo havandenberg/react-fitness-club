@@ -67,11 +67,13 @@ const SmallProgramCard = ({
   return (
     <SmallProgramCardWrapper onClick={onClick} {...styles.wrapper}>
       <NameComponent>
-        <l.Img
-          src={program.logoSrc}
-          height={styles.photoSideLength}
-          mb={spacing.t}
-        />
+        {!R.isEmpty(program.logoSrc) && (
+          <l.Img
+            src={program.logoSrc}
+            height={styles.photoSideLength}
+            mb={spacing.t}
+          />
+        )}
         <l.Space width={[spacing.sm, spacing.ml, spacing.ml]} />
         <l.FlexColumn>
           <t.Text
@@ -90,19 +92,24 @@ const SmallProgramCard = ({
           )}
         </l.FlexColumn>
       </NameComponent>
-      {showCost && (
-        <l.FlexColumn alignTop={isMobileOnly()} ml={spacing.xl}>
-          <t.Text large>{`$${monthlyCost} / month`}</t.Text>
-          {discountCost && hasDiscount && (
-            <t.Text
-              color={colors.gray}
-              mt={spacing.sm}
-              nowrap={
-                !isSmall()
-              }>{`$${discountCost} for first ${discountMonths} months`}</t.Text>
-          )}
-        </l.FlexColumn>
-      )}
+      {showCost &&
+        (monthlyCost < 0 ? (
+          <t.Text large ml={spacing.xl}>
+            N/A
+          </t.Text>
+        ) : (
+          <l.FlexColumn alignTop={isMobileOnly()} ml={spacing.xl}>
+            <t.Text large>{`$${monthlyCost} / month`}</t.Text>
+            {discountCost && hasDiscount && (
+              <t.Text
+                color={colors.gray}
+                mt={spacing.sm}
+                nowrap={
+                  !isSmall()
+                }>{`$${discountCost} for first ${discountMonths} months`}</t.Text>
+            )}
+          </l.FlexColumn>
+        ))}
     </SmallProgramCardWrapper>
   );
 };

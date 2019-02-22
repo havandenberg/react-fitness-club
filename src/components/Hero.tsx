@@ -62,7 +62,7 @@ const QuickLinks = styled(l.Flex)({
   top: spacing.xl,
   [breakpoints.mobile]: {
     justifyContent: 'space-between',
-    margin: `0 auto ${spacing.ml}`,
+    margin: `${spacing.ml} auto`,
     position: 'static',
     width: '90%',
   },
@@ -93,23 +93,30 @@ const SocialIconsWrapper = styled('div')({
 
 const Hero = ({
   alerts,
+  loadingAlerts,
   location,
   member,
-}: { alerts: Alert[]; member?: Member } & RouteComponentProps) => {
+}: {
+  alerts: Alert[];
+  loadingAlerts: boolean;
+  member?: Member;
+} & RouteComponentProps) => {
   const secondary = !R.equals(location.pathname, '/');
   return (
     <HeroWrapper>
-      <Alerts alerts={alerts} secondary={secondary} />
       <LogoWrapper
-        pb={secondary ? [spacing.ml, 0, 0] : [spacing.ml, spacing.xl]}
-        pt={[spacing.ml, spacing.xl]}
+        pb={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}
+        pt={[spacing.s, spacing.m]}
         secondary={secondary}>
         <Link to="/">
           <Logo secondary={secondary} src={LogoImg} />
         </Link>
       </LogoWrapper>
+      <Alerts alerts={alerts} secondary={secondary} />
       {!secondary && (
-        <l.FlexCentered mb={[spacing.ml, spacing.xl]} mt={[0, spacing.ml, 0]}>
+        <l.FlexCentered
+          mb={[spacing.ml, spacing.xl]}
+          pt={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}>
           <t.Subtitle center>
             Multi-Style Martial Arts Training & Fitness Club
           </t.Subtitle>

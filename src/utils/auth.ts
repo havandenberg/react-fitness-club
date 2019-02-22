@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import { auth, AuthProvider, getAuthProvider } from '../firebase';
+import { Alert } from '../types/alert';
 import { Member, newMemberDefaults } from '../types/member';
 import { Program } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
@@ -61,6 +62,17 @@ export const checkAuthed = (
       unauthedCallback();
     }
   });
+};
+
+export const listenForAlertsChanges = (callback: (alerts: Alert[]) => void) => {
+  firebase
+    .database()
+    .ref(`alerts`)
+    .on('value', snapshot => {
+      if (snapshot) {
+        callback(snapshot.val());
+      }
+    });
 };
 
 export const listenForProgramChanges = (
