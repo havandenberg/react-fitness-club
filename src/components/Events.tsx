@@ -1,16 +1,26 @@
+import * as R from 'ramda';
 import * as React from 'react';
+import styled from 'react-emotion';
 import { PulseLoader } from 'react-spinners';
+import { fontSize } from 'styled-system';
 import l from '../styles/layout';
-import { borders, colors, spacing } from '../styles/theme';
+import { borders, colors, fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { SpecialEvent as SpecialEventType } from '../types/special-event';
 import { getMemberName } from '../utils/member';
+import {
+  getPastSpecialEvents,
+  getUpcomingSpecialEvents,
+  sortSpecialEventsByDate,
+} from '../utils/special-event';
 import Divider from './Divider';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
 import SpecialEvent from './SpecialEvent';
+
+const EventsCount = styled('span')(fontSize);
 
 interface Props {
   events: CalendarEvent[];
@@ -20,62 +30,115 @@ interface Props {
   specialEvents: SpecialEventType[];
 }
 
-const Events = ({
-  events,
-  loadingSpecialEvents,
-  member,
-  members,
-  specialEvents,
-}: Props) => (
-  <div>
-    <t.Title center mb={spacing.ml}>
-      Events
-    </t.Title>
-    <Divider white />
-    <l.Page
-      px={[spacing.sm, 0]}
-      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
-      {loadingSpecialEvents ? (
-        <l.FlexCentered>
-          <l.FlexColumn>
-            <PulseLoader sizeUnit="px" size={30} color={colors.black} />
-            <t.Text mt={spacing.m}>Loading events</t.Text>
-          </l.FlexColumn>
-        </l.FlexCentered>
-      ) : (
-        <>
-          <l.Flex mb={spacing.xl} spaceBetween>
-            <t.H3 mr={spacing.sm} nowrap>
-              Upcoming Events
-            </t.H3>
-            <t.Text italic textAlign="right">
-              {member ? (
-                `Signing up as ${getMemberName(member)}`
+interface State {
+  showPastEvents: boolean;
+}
+
+class Events extends React.Component<Props, State> {
+  state = {
+    showPastEvents: false,
+  };
+
+  setShowPastEvents = (showPastEvents: boolean) => {
+    this.setState({ showPastEvents });
+  };
+
+  render() {
+    const {
+      events,
+      loadingSpecialEvents,
+      member,
+      members,
+      specialEvents,
+    } = this.props;
+    const { showPastEvents } = this.state;
+
+    const upcomingEvents = getUpcomingSpecialEvents(specialEvents);
+    const pastEvents = getPastSpecialEvents(specialEvents);
+    const sortedEvents = sortSpecialEventsByDate(
+      showPastEvents ? pastEvents : upcomingEvents,
+    );
+
+    return (
+      <div>
+        <t.Title center mb={spacing.ml}>
+          Events
+        </t.Title>
+        <Divider white />
+        <l.Page
+          px={[spacing.sm, 0]}
+          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+          {loadingSpecialEvents ? (
+            <l.FlexCentered>
+              <l.FlexColumn>
+                <PulseLoader sizeUnit="px" size={30} color={colors.black} />
+                <t.Text mt={spacing.m}>Loading events</t.Text>
+              </l.FlexColumn>
+            </l.FlexCentered>
+          ) : (
+            <>
+              <l.Flex mb={spacing.xl} spaceBetween>
+                <l.Flex>
+                  <t.H3 mr={spacing.xl} nowrap>
+                    {showPastEvents ? 'Past' : 'Upcoming'} Events
+                    {!showPastEvents && (
+                      <EventsCount fontSize={fontSizes.text}>
+                        {' '}
+                        ({upcomingEvents.length})
+                      </EventsCount>
+                    )}
+                  </t.H3>
+                  <t.TextButton
+                    border={borders.red}
+                    color={colors.red}
+                    hoverStyle="underline"
+                    nowrap
+                    onClick={() => this.setShowPastEvents(!showPastEvents)}>
+                    {showPastEvents ? 'Upcoming' : 'Past'} Events
+                    {showPastEvents && <span> ({upcomingEvents.length})</span>}
+                  </t.TextButton>
+                </l.Flex>
+                <t.Text italic textAlign="right">
+                  {member ? (
+                    `Signing up as ${getMemberName(member)}`
+                  ) : (
+                    <span>
+                      <t.Link
+                        border={borders.red}
+                        color={colors.red}
+                        to="/login">
+                        Log in{' '}
+                      </t.Link>
+                      to sign up directly for events
+                    </span>
+                  )}
+                </t.Text>
+              </l.Flex>
+              {R.isEmpty(sortedEvents) ? (
+                <l.FlexCentered my={spacing.xxxxxl}>
+                  <t.Text large>No upcoming events. Check back soon!</t.Text>
+                </l.FlexCentered>
               ) : (
-                <span>
-                  <t.Link border={borders.red} color={colors.red} to="/login">
-                    Log in{' '}
-                  </t.Link>
-                  to sign up directly for events
-                </span>
+                <>
+                  {sortedEvents.map((specialEvent: SpecialEventType) => (
+                    <SpecialEvent
+                      key={specialEvent.id}
+                      events={events}
+                      member={member}
+                      members={members}
+                      specialEvent={specialEvent}
+                    />
+                  ))}
+                </>
               )}
-            </t.Text>
-          </l.Flex>
-          {specialEvents.map((specialEvent: SpecialEventType) => (
-            <SpecialEvent
-              key={specialEvent.id}
-              events={events}
-              member={member}
-              members={members}
-              specialEvent={specialEvent}
-            />
-          ))}
-        </>
-      )}
-    </l.Page>
-    <Newsletter />
-    <l.Space height={100} />
-  </div>
-);
+            </>
+          )}
+        </l.Page>
+        <Newsletter />
+        <l.Space height={100} />
+      </div>
+    );
+  }
+}
 
 export default withScroll(Events);

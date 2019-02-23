@@ -325,7 +325,11 @@ class App extends React.Component<SubscribeProps, State> {
       <Router>
         <Main id="top">
           <Nav member={member} programs={programs} />
-          <Hero alerts={alerts} loadingAlerts={loadingAlerts} />
+          <Hero
+            alerts={alerts}
+            loadingAlerts={loadingAlerts}
+            specialEvents={specialEvents}
+          />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />

@@ -28,6 +28,22 @@ export const getSpecialEventSessions = (
     ),
   );
 
+export const getUpcomingSpecialEvents = (specialEvents: SpecialEvent[]) =>
+  specialEvents.filter(
+    (event: SpecialEvent) => moment().diff(event.startDate) < 0,
+  );
+
+export const getPastSpecialEvents = (specialEvents: SpecialEvent[]) =>
+  specialEvents.filter(
+    (event: SpecialEvent) => moment().diff(event.startDate) >= 0,
+  );
+
+export const sortSpecialEventsByDate = (specialEvents: SpecialEvent[]) =>
+  R.sortBy(
+    (event: SpecialEvent) => moment(event.startDate).unix(),
+    specialEvents,
+  );
+
 export const getMemberSignedUpEvents = (
   memberId: string,
   specialEvents: SpecialEvent[],
@@ -73,7 +89,9 @@ export const parseSpecialEvents = (specialEvents: SpecialEvent[]) =>
           start: new Date(classInst.date.start),
         },
       })),
+      endDate: new Date(specialEvent.endDate),
       managerIds: JSON.parse(`${specialEvent.managerIds}`),
       memberIds: JSON.parse(`${specialEvent.memberIds}`),
+      startDate: new Date(specialEvent.startDate),
     };
   });

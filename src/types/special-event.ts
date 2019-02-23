@@ -9,4 +9,6 @@ export interface SpecialEvent extends Event {
   id: string;
   posterSrc: string;
   name: string;
+  startDate: Date;
+  endDate: Date;
 }

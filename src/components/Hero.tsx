@@ -2,12 +2,14 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { getUpcomingSpecialEvents } from 'src/utils/special-event';
 import LogoImg from '../assets/images/logo.png';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Alert } from '../types/alert';
 import { Member } from '../types/member';
+import { SpecialEvent } from '../types/special-event';
 import {
   isMobile,
   isMobileOnly,
@@ -93,15 +95,17 @@ const SocialIconsWrapper = styled('div')({
 
 const Hero = ({
   alerts,
-  loadingAlerts,
   location,
-  member,
+  specialEvents,
 }: {
   alerts: Alert[];
   loadingAlerts: boolean;
   member?: Member;
+  specialEvents: SpecialEvent[];
 } & RouteComponentProps) => {
   const secondary = !R.equals(location.pathname, '/');
+  const upcomingEvents = getUpcomingSpecialEvents(specialEvents);
+  const nextUpcomingEvent = !R.isEmpty(upcomingEvents) && upcomingEvents[0];
   return (
     <HeroWrapper>
       <LogoWrapper
@@ -127,11 +131,11 @@ const Hero = ({
           Schedule
         </QuickLink>
         <QuickLink
-          bold="true"
+          bold={nextUpcomingEvent}
           border={borders.red}
           color={colors.red}
           to="/events">
-          Events (1)
+          Events{nextUpcomingEvent ? ` (${upcomingEvents.length})` : ''}
         </QuickLink>
         <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">
           <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
@@ -147,14 +151,16 @@ const Hero = ({
           <SocialIcons small />
         </SocialIconsWrapper>
       </QuickLinks>
-      <PosterLink mb={[spacing.ml, 0]}>
-        <t.Link to="/events">
-          <l.Img
-            height={[secondary ? 75 : isSmall() ? 65 : 75, 100, 150]}
-            src="https://s3.amazonaws.com/react-fitness-club/programs/Aikido/events/NV-Worcester-2019.png"
-          />
-        </t.Link>
-      </PosterLink>
+      {!R.isEmpty(upcomingEvents) && (
+        <PosterLink mb={[spacing.ml, 0]}>
+          <t.Link to="/events">
+            <l.Img
+              height={[secondary ? 75 : isSmall() ? 65 : 75, 100, 150]}
+              src={upcomingEvents[0].posterSrc}
+            />
+          </t.Link>
+        </PosterLink>
+      )}
     </HeroWrapper>
   );
 };
