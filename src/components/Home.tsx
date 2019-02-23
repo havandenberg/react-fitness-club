@@ -48,7 +48,7 @@ export const Star = styled('img')({
 
 const Home = () => (
   <div>
-    <t.Text center italic large mx="auto" width={['100%', '85%', '75%']}>
+    <t.Text center italic large mx="auto" width={['95%', '85%', '75%']}>
       Our{' '}
       <t.Link
         border={borders.red}
