@@ -208,3 +208,7 @@ const mailchimpUser = (
   LNAME: displayName && displayName.split(' ')[1],
   SOURCE: 'web-portal-form',
 });
+
+export const sendForgotPasswordEmail = (email: string) => {
+  firebase.auth().sendPasswordResetEmail(email);
+};

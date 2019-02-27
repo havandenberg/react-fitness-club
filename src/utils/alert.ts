@@ -7,6 +7,7 @@ export const parseAlerts = (alerts: Alert[]) =>
       ...alert,
       dismissed: false,
       expire: new Date(alert.expire),
+      priority: alert.priority || 0,
       start: new Date(key),
     };
   });

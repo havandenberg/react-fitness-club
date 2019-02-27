@@ -20,6 +20,20 @@ export const coaches = {
     profilePhotoUrl:
       'https://firebasestorage.googleapis.com/v0/b/react-fitness-club.appspot.com/o/members%2FSp4i3d3O70Qpk5xQXMXgoVu76Zr2%2Fkoksal.jpg?alt=media&token=f076c8a4-dbf5-4d66-b56d-0aba9481accc',
   },
+  r8o9wau2IkgVZuq8PpgECk0yLv22: {
+    bio: '',
+    id: 'r8o9wau2IkgVZuq8PpgECk0yLv22',
+    name: 'Gaiamun',
+    profilePhotoUrl:
+      'https://lh4.googleusercontent.com/-QE89igYxJdo/AAAAAAAAAAI/AAAAAAAAAG0/ZxgJgSCf0Ec/photo.jpg',
+  },
+  t6Y99j7LU8YkkScNeamUpr7eqpx2: {
+    bio: '',
+    id: 't6Y99j7LU8YkkScNeamUpr7eqpx2',
+    name: 'Coach Ryan',
+    profilePhotoUrl:
+      'https://lh3.googleusercontent.com/-IQXC2ge0PcA/AAAAAAAAAAI/AAAAAAAAJYw/nQKJ4jXfdKg/photo.jpg',
+  },
   wZL2mVmePNNAc9AQ0AFySQZLCVj1: {
     bio: '',
     id: 'wZL2mVmePNNAc9AQ0AFySQZLCVj1',

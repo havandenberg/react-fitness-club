@@ -4,6 +4,7 @@ export interface Alert {
   expire: Date;
   header?: string;
   id: string;
+  priority: number;
   start: Date;
   showStart?: boolean;
 }

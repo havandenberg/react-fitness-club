@@ -4,6 +4,7 @@ import Gallery from 'react-grid-gallery';
 import { space } from 'styled-system';
 import l from '../styles/layout';
 import { borders, breakpoints, spacing } from '../styles/theme';
+import { Image as ImageType } from '../types/gallery';
 
 export const GalleryWrapper = styled('div')({
   borderRadius: borders.borderRadius,
@@ -36,17 +37,9 @@ export const ImageWrapper = styled('div')(
   space,
 );
 
-export interface Image {
-  caption?: string;
-  src: string;
-  thumbnail: string;
-  thumbnailHeight: number;
-  thumbnailWidth: number;
-}
-
 interface Props {
   customStyles?: object;
-  image: Image;
+  image: ImageType;
 }
 
 const GalleryImage = ({ customStyles, image }: Props) => (

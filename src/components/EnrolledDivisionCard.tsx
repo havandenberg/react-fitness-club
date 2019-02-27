@@ -24,6 +24,7 @@ import {
   openClass,
 } from '../utils/class';
 import { getDivisionById, isCoachOf } from '../utils/program';
+import { isTabletUp } from '../utils/screensize';
 import { getButtonProps } from './Form/Button';
 import { SelectInput } from './Form/Input';
 import { ProgramCardWrapper } from './ProgramCard';
@@ -101,7 +102,8 @@ class EnrolledDivisionCard extends React.Component<
     const { events, isAdmin, program, member } = this.props;
     const { selectedDivisionId } = this.state;
 
-    const maxEvents = R.equals(selectedDivisionId, 'all') ? 5 : 2;
+    const maxEvents =
+      isTabletUp() && R.equals(selectedDivisionId, 'all') ? 5 : 2;
 
     const upcomingEvents = R.sortBy(
       (event: CalendarEvent) => moment(event.start).unix(),
@@ -120,7 +122,7 @@ class EnrolledDivisionCard extends React.Component<
       : undefined;
 
     return (
-      <ProgramCardWrapper height={[250, 350]} width={['100%', '48%']}>
+      <ProgramCardWrapper height={350} width={['100%', '48%']}>
         <l.Flex alignTop mb={spacing.ml}>
           <l.Img
             src={program.logoSrc}

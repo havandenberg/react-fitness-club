@@ -6,8 +6,7 @@ import {
   GoogleLoginButton,
 } from 'react-social-login-buttons';
 import { PulseLoader } from 'react-spinners';
-import { getGenericMembership } from 'src/utils/membership';
-import { scrollToId } from 'src/utils/scroll';
+import UserImg from '../assets/images/user.svg';
 import l from '../styles/layout';
 import {
   borders,
@@ -19,6 +18,8 @@ import {
 import t from '../styles/typography';
 import { Member } from '../types/member';
 import { login } from '../utils/auth';
+import { getGenericMembership } from '../utils/membership';
+import { scrollToId } from '../utils/scroll';
 import Divider from './Divider';
 import { ButtonTertiary } from './Form/Button';
 import withScroll from './hoc/withScroll';
@@ -59,8 +60,15 @@ class Signup extends React.Component<RouteComponentProps & Props> {
 
     return (
       <div>
-        <t.Title center mb={spacing.ml}>
-          RFC Sign Up
+        <t.Title center pb={spacing.ml}>
+          <l.FlexCentered>
+            <l.Img
+              height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
+              mr={spacing.ml}
+              src={UserImg}
+            />
+            RFC Sign Up
+          </l.FlexCentered>
         </t.Title>
         <Divider white />
         <l.Page

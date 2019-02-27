@@ -1,4 +1,5 @@
 import * as React from 'react';
+import NewsletterImg from '../assets/images/newsletter.svg';
 import l from '../styles/layout';
 import { colors, inputWidth, spacing } from '../styles/theme';
 import t from '../styles/typography';
@@ -80,16 +81,17 @@ class Newsletter extends React.Component<SubscribeProps> {
     return (
       <l.Space id="newsletter" position="relative">
         <Divider white showHeavyBags />
+        <l.FlexCentered mb={spacing.xl} mt={[spacing.xxl, spacing.xxxxl]}>
+          <l.Img height={spacing.xxxxl} src={NewsletterImg} />
+        </l.FlexCentered>
         <t.Text
           bold
           center
           italic
           large
           mb={spacing.xl}
-          mt={[spacing.xxl, spacing.xxxxl]}
           mx="auto"
-          width={['100%', '60%']}
-        >
+          width={['100%', '60%']}>
           Enter your email here to sign up for our monthly newsletter!
         </t.Text>
         {status === 'success' && (

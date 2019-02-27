@@ -18,6 +18,7 @@ import {
   REACT_PATH,
 } from '../utils/constants';
 import { isMobile, isTabletUp } from '../utils/screensize';
+import Divider from './Divider';
 import FeaturedLinks from './FeaturedLinks';
 import { ButtonPrimary, LinkPrimary } from './Form/Button';
 import GalleryImage from './GalleryImage';
@@ -48,6 +49,8 @@ export const Star = styled('img')({
 
 const Home = () => (
   <div>
+    <Divider white />
+    <l.Space height={spacing.xl} />
     <t.Text center italic large mx="auto" width={['95%', '85%', '75%']}>
       Our{' '}
       <t.Link

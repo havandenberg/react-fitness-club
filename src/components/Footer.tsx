@@ -30,7 +30,7 @@ import SocialIcons from './SocialIcons';
 const DividerWrapper = styled(l.Space)({
   transform: `translateY(${spacing.s})`,
   width: '100%',
-  zIndex: -1,
+  zIndex: z.neg,
 });
 
 const FooterBottom = styled(l.Flex)({
@@ -123,7 +123,7 @@ const Footer = ({ member }: { member?: Member }) => (
           <l.Space height={spacing.l} />
           <FooterLink text="Events" to="/events" />
           <l.Space height={spacing.l} />
-          <FooterLink disabled text="Gallery" to="/gallery" />
+          <FooterLink text="Gallery" to="/gallery" />
         </l.Space>
         <l.Space mr={[spacing.xl, spacing.xxxl]}>
           <FooterLink text="Schedule" to="/schedule" />

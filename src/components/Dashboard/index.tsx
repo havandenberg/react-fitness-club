@@ -4,6 +4,7 @@ import styled from 'react-emotion';
 import { Redirect } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
 import * as Sticky from 'react-stickynode';
+import UserImg from '../../assets/images/user.svg';
 import l from '../../styles/layout';
 import { borders, colors, spacing, transitions, z } from '../../styles/theme';
 import t from '../../styles/typography';
@@ -94,8 +95,15 @@ class Dashboard extends React.Component<Props, State> {
       </l.FlexCentered>
     ) : member ? (
       <l.Space id="dashboard-top" position="relative">
-        <t.Title center mb={spacing.ml}>
-          Dashboard
+        <t.Title center pb={spacing.ml}>
+          <l.FlexCentered>
+            <l.Img
+              height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
+              mr={spacing.ml}
+              src={UserImg}
+            />
+            Dashboard
+          </l.FlexCentered>
         </t.Title>
         <Divider white />
         <l.Page

@@ -13,6 +13,7 @@ import {
   textAlign,
   width,
 } from 'styled-system';
+import ChainLinkImg from '../assets/images/chain-link-bg.png';
 import { scrollStyles } from './layout';
 import {
   borders,
@@ -65,6 +66,8 @@ const textOptions = [
 
 export const Title = styled('div')(
   {
+    backgroundImage: `url(${ChainLinkImg})`,
+    backgroundRepeat: 'repeat',
     color: colors.black,
     fontFamily: fonts.poppinsSemiBold,
     fontSize: fontSizes.title,

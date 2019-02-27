@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'react-emotion';
+import ContactImg from '../assets/images/contact.svg';
 import StarImg from '../assets/images/star.svg';
 import l from '../styles/layout';
 import { borders, colors, fontSizes, spacing } from '../styles/theme';
@@ -25,8 +26,15 @@ const MapImage = styled('img')({
 
 const Contact = ({ programs }: { programs: Program[] }) => (
   <div>
-    <t.Title center mb={spacing.ml}>
-      Contact
+    <t.Title center pb={spacing.ml}>
+      <l.FlexCentered>
+        <l.Img
+          height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
+          mr={spacing.ml}
+          src={ContactImg}
+        />
+        Contact
+      </l.FlexCentered>
     </t.Title>
     <Divider white />
     <l.Page

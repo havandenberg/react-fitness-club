@@ -10,6 +10,7 @@ import {
   shadows,
   spacing,
   transitions,
+  z,
 } from '../../styles/theme';
 
 export const getButtonProps: (background: string, gradient: string) => any = (
@@ -28,7 +29,7 @@ export const getButtonProps: (background: string, gradient: string) => any = (
     top: 0,
     transition: transitions.default,
     width: '100%',
-    zIndex: -1,
+    zIndex: z.neg,
   },
   ':hover': {
     ':before': {

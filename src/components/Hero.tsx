@@ -2,8 +2,11 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
-import { getUpcomingSpecialEvents } from 'src/utils/special-event';
+import ChainLinkImg from '../assets/images/chain-link-bg.png';
+import EventsImg from '../assets/images/events.svg';
 import LogoImg from '../assets/images/logo.png';
+import NewsletterImg from '../assets/images/newsletter.svg';
+import ScheduleImg from '../assets/images/schedule.svg';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
@@ -17,11 +20,13 @@ import {
   isTabletUp,
 } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
+import { getUpcomingSpecialEvents } from '../utils/special-event';
 import Alerts from './Alerts';
 import SocialIcons from './SocialIcons';
 
 const HeroWrapper = styled('div')({
-  background: colors.background,
+  backgroundImage: `url(${ChainLinkImg})`,
+  backgroundRepeat: 'repeat',
   position: 'relative',
 });
 
@@ -40,8 +45,8 @@ const LogoWrapper = styled(l.Flex)(
       ? isMobile()
         ? isMobileOnly()
           ? 0
-          : spacing.xxxl
-        : spacing.xxxxxl
+          : spacing.xl
+        : spacing.xxxl
       : 0,
   }),
 );
@@ -64,9 +69,8 @@ const QuickLinks = styled(l.Flex)({
   top: spacing.xl,
   [breakpoints.mobile]: {
     justifyContent: 'space-between',
-    margin: `${spacing.ml} auto`,
+    padding: `${spacing.ml}`,
     position: 'static',
-    width: '90%',
   },
 });
 
@@ -76,6 +80,7 @@ const quickItemStyles = {
   },
   colors: colors.red,
   marginBottom: spacing.t,
+  verticalAlign: 'middle',
   [breakpoints.mobile]: {
     marginBottom: 0,
   },
@@ -108,6 +113,7 @@ const Hero = ({
   const nextUpcomingEvent = !R.isEmpty(upcomingEvents) && upcomingEvents[0];
   return (
     <HeroWrapper>
+      {/* <HeroBG src={ChainLinkImg} /> */}
       <LogoWrapper
         pb={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}
         pt={[spacing.s, spacing.m]}
@@ -119,7 +125,9 @@ const Hero = ({
       <Alerts alerts={alerts} secondary={secondary} />
       {!secondary && (
         <l.FlexCentered
-          mb={[spacing.ml, spacing.xl]}
+          pb={
+            secondary ? [spacing.ml, spacing.xl] : [0, spacing.xl, spacing.xl]
+          }
           pt={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}>
           <t.Subtitle center>
             Multi-Style Martial Arts Training & Fitness Club
@@ -128,17 +136,43 @@ const Hero = ({
       )}
       <QuickLinks alignBottom>
         <QuickLink border={borders.red} color={colors.red} to="/schedule">
-          Schedule
+          <l.Flex columnRevOnMobile>
+            Schedule
+            <l.Img
+              height={spacing.ml}
+              ml={[0, spacing.s, spacing.s]}
+              src={ScheduleImg}
+            />
+          </l.Flex>
         </QuickLink>
         <QuickLink
-          bold={nextUpcomingEvent}
+          bold={!!nextUpcomingEvent}
           border={borders.red}
           color={colors.red}
           to="/events">
-          Events{nextUpcomingEvent ? ` (${upcomingEvents.length})` : ''}
+          <l.Flex columnRevOnMobile>
+            <span>
+              {isTabletUp() && 'Upcoming '}Events
+              {nextUpcomingEvent ? ` (${upcomingEvents.length})` : ''}
+            </span>
+            <l.Img
+              height={spacing.ml}
+              ml={[0, spacing.s, spacing.s]}
+              src={EventsImg}
+            />
+          </l.Flex>
         </QuickLink>
         <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">
-          <div onClick={() => scrollToId('newsletter')}>Newsletter</div>
+          <div onClick={() => scrollToId('newsletter')}>
+            <l.Flex columnRevOnMobile>
+              Newsletter
+              <l.Img
+                height={spacing.ml}
+                ml={[0, spacing.s, spacing.s]}
+                src={NewsletterImg}
+              />
+            </l.Flex>
+          </div>
         </QuickLink>
         {/* <QuickAnchor
           border={borders.red}

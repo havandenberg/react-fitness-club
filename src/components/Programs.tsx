@@ -2,7 +2,8 @@ import * as R from 'ramda';
 import * as React from 'react';
 import { PulseLoader } from 'react-spinners';
 import * as Sticky from 'react-stickynode';
-import { programContent } from 'src/content/programs';
+import ProgramsImg from '../assets/images/programs.svg';
+import { programContent } from '../content/programs';
 import l from '../styles/layout';
 import { borders, colors, fontSizes, spacing, z } from '../styles/theme';
 import t from '../styles/typography';
@@ -20,7 +21,7 @@ import Program from './Program';
 import SmallProgramCard from './SmallProgramCard';
 
 const scrollOptions = {
-  offset: isMobileOnly() ? -250 : -204,
+  offset: isMobileOnly() ? -80 : -204,
 };
 
 interface Props {
@@ -43,8 +44,15 @@ const Programs = ({
   );
   return (
     <div>
-      <t.Title center mb={spacing.ml}>
-        Programs
+      <t.Title center pb={spacing.ml}>
+        <l.FlexCentered>
+          <l.Img
+            height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
+            mr={spacing.ml}
+            src={ProgramsImg}
+          />
+          Programs
+        </l.FlexCentered>
       </t.Title>
       <Divider white />
       <l.Page

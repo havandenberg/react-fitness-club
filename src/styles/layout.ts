@@ -180,9 +180,9 @@ const FlexColumnCentered = styled(Flex)({
 
 const Img = styled('img')(height, space, width);
 
-export const scrollStyles = {
+export const scrollStyles = (showScrollBar: boolean) => ({
   '::-webkit-scrollbar': {
-    width: 18,
+    width: showScrollBar ? 18 : 0,
   },
   '::-webkit-scrollbar-button': {
     display: 'none',
@@ -198,11 +198,11 @@ export const scrollStyles = {
       'inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05)',
     backgroundClip: 'padding-box',
     backgroundColor: colors.black,
-    border: '6px solid rgba(0, 0, 0, 0)',
-    height: spacing.t,
+    border: showScrollBar ? '6px solid rgba(0, 0, 0, 0)' : 0,
+    height: showScrollBar ? spacing.t : 0,
   },
   overflow: 'scroll',
-};
+});
 
 const Space = styled('div')(
   alignItems,
@@ -224,8 +224,18 @@ const Space = styled('div')(
   width,
 );
 
-const Scroll = styled(Space)({ ...scrollStyles }, overflow);
-const ScrollFlex = styled(Flex)({ ...scrollStyles }, overflow);
+const Scroll = styled(Space)(
+  ({ showScrollBar = true }: { showScrollBar: boolean }) => ({
+    ...scrollStyles(showScrollBar),
+  }),
+  overflow,
+);
+const ScrollFlex = styled(Flex)(
+  ({ showScrollBar = true }: { showScrollBar: boolean }) => ({
+    ...scrollStyles(showScrollBar),
+  }),
+  overflow,
+);
 
 const Section = styled('div')(
   {
@@ -236,6 +246,13 @@ const Section = styled('div')(
   },
   space,
 );
+
+const GalleryWrapper = styled(Space)({
+  display: 'block',
+  minHeight: '1px',
+  overflow: 'auto',
+  width: '100%',
+});
 
 // Project specific layout components
 
@@ -289,6 +306,7 @@ export default {
   FlexCentered,
   FlexColumn,
   FlexColumnCentered,
+  GalleryWrapper,
   Img,
   Line,
   Page,

@@ -46,15 +46,13 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
     const { program } = this.props;
 
     const content = programContent[program.id];
-    const programCoaches = R.values(
-      R.filter(
-        (coach: Coach) =>
-          R.contains(
-            coach.id,
-            [program.coachId].concat(program.assistantCoachIds),
-          ),
-        coaches,
-      ),
+    const programCoachIds = R.filter(
+      (coachId: string) => R.contains(coachId, Object.keys(coaches)),
+      [program.coachId].concat(program.assistantCoachIds),
+    );
+    const programCoaches = R.map(
+      (coachId: string) => coaches[coachId],
+      programCoachIds,
     );
 
     return (

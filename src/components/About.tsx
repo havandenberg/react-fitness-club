@@ -8,7 +8,7 @@ import Newsletter from './Newsletter';
 
 const About = () => (
   <div>
-    <t.Title center mb={spacing.ml}>
+    <t.Title center pb={spacing.ml}>
       About
     </t.Title>
     <Divider white />

@@ -3,7 +3,7 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import posed, { PoseGroup } from 'react-pose';
-import { left } from 'styled-system';
+import { height, left, maxHeight } from 'styled-system';
 import AlertImg from '../assets/images/alert.svg';
 import CloseImg from '../assets/images/close.svg';
 import l from '../styles/layout';
@@ -16,7 +16,7 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { Alert } from '../types/alert';
-import { isMobileOnly, isTabletOnly, isTabletUp } from '../utils/screensize';
+import { isMobileOnly, isTabletOnly } from '../utils/screensize';
 
 const AlertWrapper = styled(l.Flex)({
   alignSelf: 'center',
@@ -26,7 +26,6 @@ const AlertWrapper = styled(l.Flex)({
   boxShadow: shadows.box,
   justifySelf: 'center',
   padding: spacing.t,
-  zIndex: 200,
 });
 
 const AlertAnimation = posed.div({
@@ -50,6 +49,10 @@ const AlertAnimation = posed.div({
     },
     y: -50,
   },
+  initialPose: {
+    opacity: 1,
+    y: 0,
+  },
 });
 
 const CloseButton = styled(l.FlexCentered)({
@@ -68,7 +71,7 @@ interface AlertProps {
 const AlertComponent = ({ alert, dismissAlert }: AlertProps) => {
   const alertMoment = moment(alert.start);
   return (
-    <AlertWrapper alignTop={isTabletUp()} mb={spacing.sm} width="100%">
+    <AlertWrapper alignTop mb={spacing.sm} width="100%">
       <l.Img
         height={spacing.xxl}
         width={spacing.xl}
@@ -104,7 +107,7 @@ const AlertComponent = ({ alert, dismissAlert }: AlertProps) => {
   );
 };
 
-const AlertsWrapper = styled(l.Space)(
+const AlertsWrapper = styled(l.Scroll)(
   {
     position: 'absolute',
     top: spacing.xl,
@@ -112,7 +115,9 @@ const AlertsWrapper = styled(l.Space)(
       position: 'static',
     },
   },
+  height,
   left,
+  maxHeight,
 );
 
 interface Props {
@@ -128,18 +133,14 @@ class Alerts extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      alerts: props.alerts.filter(
-        (alert: Alert) => moment().diff(alert.expire) < 0,
-      ),
+      alerts: this.filterAndSortAlerts(props.alerts),
     };
   }
 
   componentWillReceiveProps(nextProps: Props) {
     if (!R.equals(nextProps.alerts, this.props.alerts)) {
       this.setState({
-        alerts: nextProps.alerts.filter(
-          (alert: Alert) => moment().diff(alert.expire) < 0,
-        ),
+        alerts: this.filterAndSortAlerts(nextProps.alerts),
       });
     }
   }
@@ -152,22 +153,36 @@ class Alerts extends React.Component<Props, State> {
     });
   };
 
+  filterAndSortAlerts = (alerts: Alert[]) =>
+    R.sortBy(
+      (alert: Alert) => alert.priority * -1,
+      alerts.filter((alert: Alert) => moment().diff(alert.expire) < 0),
+    );
+
   render() {
     const { secondary } = this.props;
     const { alerts } = this.state;
+    const allAlertsDismissed = R.reduce(
+      (acc: boolean, alert: Alert) => acc && alert.dismissed,
+      true,
+      alerts,
+    );
     return (
       <AlertsWrapper
+        height={allAlertsDismissed ? 0 : 'auto'}
         left={
           isMobileOnly()
             ? 0
             : secondary
             ? isTabletOnly()
-              ? 220
+              ? 200
               : 300
             : spacing.ml
         }
+        maxHeight={[200, 150, 200]}
         px={[spacing.s, 0, 0]}
-        width={['100%', '35%', '35%']}>
+        showScrollBar={false}
+        width={['100%', '45%', '35%']}>
         <PoseGroup staggerChildren={300}>
           {alerts.map((alert: Alert, index: number) => {
             return (

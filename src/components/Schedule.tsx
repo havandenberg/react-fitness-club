@@ -1,17 +1,17 @@
 import * as moment from 'moment';
-import { parse } from 'query-string';
 import * as R from 'ramda';
 import * as React from 'react';
 import BigCalendar, { View } from 'react-big-calendar';
 import styled from 'react-emotion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
-import * as Sticky from 'react-stickynode';
-import { programContent } from 'src/content/programs';
+import ScheduleImg from '../assets/images/schedule.svg';
+import { programContent } from '../content/programs';
 import l from '../styles/layout';
-import { breakpoints, colors, gradients, spacing, z } from '../styles/theme';
+import { breakpoints, colors, gradients, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
+import { FilterPrimaryCategory } from '../types/filter';
 import { Member } from '../types/member';
 import { Division, Program } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
@@ -25,10 +25,10 @@ import {
 } from '../utils/class';
 import { isCoach } from '../utils/member';
 import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
-import { isMobileOnly, isTabletOnly, isTabletUp } from '../utils/screensize';
+import { isMobileOnly, isTabletOnly } from '../utils/screensize';
 import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
-import { SelectInput, TextInput } from './Form/Input';
+import FilterBar, { FilterProps } from './FilterBar';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
 
@@ -39,13 +39,6 @@ const LegendIcon = styled(l.Space)({
   height: spacing.sm,
   marginRight: spacing.s,
   width: spacing.sm,
-});
-
-const FilterBar = styled(l.Flex)({
-  background: colors.background,
-  [breakpoints.tablet]: {
-    flexDirection: 'column',
-  },
 });
 
 const LegendSet = styled(l.FlexColumn)({
@@ -64,44 +57,24 @@ interface Props {
 
 interface State {
   calendarView: View;
-  divisionId: string;
-  programId: string;
-  searchValue: string;
 }
 
 class Schedule extends React.Component<Props & RouteComponentProps, State> {
   constructor(props: Props & RouteComponentProps) {
     super(props);
-
-    const { divisionId, programId, searchValue } = parse(props.location.search);
-
     this.state = {
       calendarView: isMobileOnly()
         ? BigCalendar.Views.DAY
         : BigCalendar.Views.WEEK,
-      divisionId: divisionId ? `${divisionId}` : 'all',
-      programId: programId ? `${programId}` : 'all',
-      searchValue: searchValue ? `${searchValue}` : '',
     };
   }
 
-  handleFilterChange = (field: string) => (
-    e: React.ChangeEvent<HTMLSelectElement>,
+  filterEvents = (
+    searchValue: string,
+    programId: string,
+    divisionId: string,
   ) => {
-    this.setState({
-      ...this.state,
-      divisionId: R.equals(field, 'programId') ? 'all' : this.state.divisionId,
-      [field]: e.currentTarget.value,
-    });
-  };
-
-  handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchValue: e.currentTarget.value });
-  };
-
-  filterEvents = () => {
     const { events } = this.props;
-    const { divisionId, programId, searchValue } = this.state;
 
     return events.filter((event: CalendarEvent) => {
       const isValidProgram =
@@ -215,16 +188,36 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
 
   render() {
     const { events, loading, programs } = this.props;
-    const { calendarView, divisionId, programId, searchValue } = this.state;
-    const program =
-      !R.equals(programId, 'all') && getProgramById(programId, programs);
-    const filteredPrograms = programs.filter((prog: Program) =>
-      R.contains(prog.id, Object.keys(programContent)),
+    const { calendarView } = this.state;
+    const categories: FilterPrimaryCategory[] = R.map(
+      (program: Program) => ({
+        id: program.id,
+        name: program.name,
+        subCategories: program.divisions.map((division: Division) => ({
+          id: division.id,
+          name: division.name,
+        })),
+      }),
+      programs.filter((prog: Program) =>
+        R.contains(prog.id, Object.keys(programContent)),
+      ),
     );
+    categories.push({
+      id: 'events',
+      name: 'Special Events',
+    });
+
     return (
       <div>
-        <t.Title center mb={spacing.ml}>
-          Program Schedule
+        <t.Title center pb={spacing.ml}>
+          <l.FlexCentered>
+            <l.Img
+              height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
+              mr={spacing.ml}
+              src={ScheduleImg}
+            />
+            Schedule
+          </l.FlexCentered>
         </t.Title>
         <Divider white />
         <l.Page
@@ -238,68 +231,14 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
               </l.FlexColumn>
             </l.FlexCentered>
           ) : (
-            <>
-              <Sticky
-                enabled={isTabletUp()}
-                innerZ={z.high}
-                top="#nav-end"
-                bottomBoundary="#calendar-end">
-                <FilterBar
-                  columnRevOnMobile
-                  pb={spacing.ml}
-                  pt={spacing.s}
-                  spaceBetween>
-                  <l.Flex
-                    columnOnMobile
-                    mb={[0, spacing.ml, 0]}
-                    width={['100%', 'auto']}>
-                    <l.Space
-                      mb={[spacing.sm, 0]}
-                      mr={[0, spacing.sm]}
-                      width={['100%', 'auto']}>
-                      <t.HelpText mb={spacing.t}>Search events:</t.HelpText>
-                      <TextInput
-                        onChange={this.handleSearchChange}
-                        value={searchValue}
-                        width="100%"
-                      />
-                    </l.Space>
-                    <l.Space
-                      mb={[spacing.sm, 0]}
-                      mr={[0, spacing.sm]}
-                      width={['100%', 'auto']}>
-                      <t.HelpText mb={spacing.t}>Program:</t.HelpText>
-                      <SelectInput
-                        mr={R.equals(programId, 'all') ? spacing.m : spacing.sm}
-                        onChange={this.handleFilterChange('programId')}
-                        value={programId}
-                        width="100%">
-                        <option value="all">All</option>
-                        <option value="events">Special Events</option>
-                        {filteredPrograms.map((prog: Program) => (
-                          <option key={prog.id} value={prog.id}>
-                            {prog.name}
-                          </option>
-                        ))}
-                      </SelectInput>
-                    </l.Space>
-                    {program && (
-                      <l.Space width={['100%', 'auto']}>
-                        <t.HelpText mb={spacing.t}>Division:</t.HelpText>
-                        <SelectInput
-                          onChange={this.handleFilterChange('divisionId')}
-                          value={divisionId}
-                          width="100%">
-                          <option value="all">All</option>
-                          {program.divisions.map((div: Division) => (
-                            <option key={div.id} value={div.id}>
-                              {div.name}
-                            </option>
-                          ))}
-                        </SelectInput>
-                      </l.Space>
-                    )}
-                  </l.Flex>
+            <div>
+              <FilterBar
+                categories={categories}
+                categoryLabel="Programs:"
+                subCategoryLabel="Divisions:"
+                searchLabel="Search Events:"
+                scrollEndId="#calendar-end"
+                legend={
                   <l.Flex mb={[spacing.ml, 0]}>
                     <LegendSet alignTop mr={spacing.ml}>
                       <l.Flex mb={spacing.t} mr={[0, spacing.ml, 0]}>
@@ -343,38 +282,55 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                       </l.Flex>
                     </LegendSet>
                   </l.Flex>
-                </FilterBar>
-              </Sticky>
-              <l.Space height={900}>
-                <BigCalendar
-                  defaultView={
-                    isMobileOnly()
-                      ? BigCalendar.Views.DAY
-                      : BigCalendar.Views.WEEK
-                  }
-                  eventPropGetter={this.getEventProps}
-                  localizer={localizer}
-                  max={new Date(2013, 1, 1, 22)}
-                  min={new Date(2013, 1, 1, 10)}
-                  events={events ? this.filterEvents() : []}
-                  onSelectEvent={(event: CalendarEvent) => {
-                    const prog = getProgramById(event.programId, programs);
-                    const divId =
-                      prog && getDivisionById(event.divisionId, prog);
-                    if (
-                      (prog && divId) ||
-                      R.equals(event.divisionId, 'events')
-                    ) {
-                      this.handleSelectEvent(event, prog, divId);
-                    }
-                  }}
-                  onView={(view: View) => this.setState({ calendarView: view })}
-                  popup
-                  view={calendarView}
-                />
-              </l.Space>
+                }>
+                {({ searchValue, categoryId, subCategoryId }: FilterProps) => {
+                  return (
+                    <l.Space height={900}>
+                      <BigCalendar
+                        defaultView={
+                          isMobileOnly()
+                            ? BigCalendar.Views.DAY
+                            : BigCalendar.Views.WEEK
+                        }
+                        eventPropGetter={this.getEventProps}
+                        localizer={localizer}
+                        max={new Date(2013, 1, 1, 22)}
+                        min={new Date(2013, 1, 1, 10)}
+                        events={
+                          events
+                            ? this.filterEvents(
+                                searchValue,
+                                categoryId,
+                                subCategoryId,
+                              )
+                            : []
+                        }
+                        onSelectEvent={(event: CalendarEvent) => {
+                          const prog = getProgramById(
+                            event.programId,
+                            programs,
+                          );
+                          const divId =
+                            prog && getDivisionById(event.divisionId, prog);
+                          if (
+                            (prog && divId) ||
+                            R.equals(event.divisionId, 'events')
+                          ) {
+                            this.handleSelectEvent(event, prog, divId);
+                          }
+                        }}
+                        onView={(view: View) =>
+                          this.setState({ calendarView: view })
+                        }
+                        popup
+                        view={calendarView}
+                      />
+                    </l.Space>
+                  );
+                }}
+              </FilterBar>
               <div id="calendar-end" />
-            </>
+            </div>
           )}
         </l.Page>
         <Newsletter />

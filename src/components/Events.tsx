@@ -3,6 +3,7 @@ import * as React from 'react';
 import styled from 'react-emotion';
 import { PulseLoader } from 'react-spinners';
 import { fontSize } from 'styled-system';
+import EventsImg from '../assets/images/events.svg';
 import l from '../styles/layout';
 import { borders, colors, fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
@@ -10,6 +11,7 @@ import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { SpecialEvent as SpecialEventType } from '../types/special-event';
 import { getMemberName } from '../utils/member';
+import { isMobileOnly } from '../utils/screensize';
 import {
   getPastSpecialEvents,
   getUpcomingSpecialEvents,
@@ -61,8 +63,15 @@ class Events extends React.Component<Props, State> {
 
     return (
       <div>
-        <t.Title center mb={spacing.ml}>
-          Events
+        <t.Title center pb={spacing.ml}>
+          <l.FlexCentered>
+            <l.Img
+              height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
+              mr={spacing.ml}
+              src={EventsImg}
+            />
+            Events
+          </l.FlexCentered>
         </t.Title>
         <Divider white />
         <l.Page
@@ -78,8 +87,8 @@ class Events extends React.Component<Props, State> {
           ) : (
             <>
               <l.Flex mb={spacing.xl} spaceBetween>
-                <l.Flex>
-                  <t.H3 mr={spacing.xl} nowrap>
+                <l.Flex alignTop={isMobileOnly()} columnOnMobile>
+                  <t.H3 mr={[spacing.m, spacing.xl]} nowrap>
                     {showPastEvents ? 'Past' : 'Upcoming'} Events
                     {!showPastEvents && (
                       <EventsCount fontSize={fontSizes.text}>
@@ -92,6 +101,7 @@ class Events extends React.Component<Props, State> {
                     border={borders.red}
                     color={colors.red}
                     hoverStyle="underline"
+                    mt={spacing.s}
                     nowrap
                     onClick={() => this.setShowPastEvents(!showPastEvents)}>
                     {showPastEvents ? 'Upcoming' : 'Past'} Events
@@ -115,9 +125,9 @@ class Events extends React.Component<Props, State> {
                 </t.Text>
               </l.Flex>
               {R.isEmpty(sortedEvents) ? (
-                <l.FlexCentered my={spacing.xxxxxl}>
-                  <t.Text large>No upcoming events. Check back soon!</t.Text>
-                </l.FlexCentered>
+                <t.Text center large my={spacing.xxxxxl}>
+                  No upcoming events. Check back soon!
+                </t.Text>
               ) : (
                 <>
                   {sortedEvents.map((specialEvent: SpecialEventType) => (

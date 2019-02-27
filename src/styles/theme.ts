@@ -141,6 +141,8 @@ export const z = {
   low: 1,
   max: 100,
   mid: 2,
+  neg: -1,
+  none: 0,
 };
 
 // Single variables
