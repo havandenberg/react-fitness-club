@@ -23,6 +23,7 @@ import FeaturedLinks from './FeaturedLinks';
 import { ButtonPrimary, LinkPrimary } from './Form/Button';
 import GalleryImage from './GalleryImage';
 import withScroll from './hoc/withScroll';
+import IntroVideo from './IntroVideo';
 import Newsletter from './Newsletter';
 
 const Bold = styled('span')({
@@ -62,6 +63,10 @@ const Home = () => (
       </t.Link>{' '}
       is now open for training.
     </t.Text>
+    <l.Space height={spacing.xl} />
+    <l.FlexCentered>
+      <IntroVideo />
+    </l.FlexCentered>
     <l.Space height={spacing.xl} />
     <l.FlexCentered>
       <t.Link to="/signup">

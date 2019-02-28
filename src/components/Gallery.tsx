@@ -11,7 +11,8 @@ import { borders, colors, spacing, z } from '../styles/theme';
 import t from '../styles/typography';
 import { FilterPrimaryCategory } from '../types/filter';
 import { GalleryImageData } from '../types/gallery';
-import { isTabletUp } from '../utils/screensize';
+import { isDesktop, isTabletUp } from '../utils/screensize';
+import { scrollToId } from '../utils/scroll';
 import Divider from './Divider';
 import FilterBar, { ClearButton } from './FilterBar';
 import withScroll from './hoc/withScroll';
@@ -43,6 +44,9 @@ class Gallery extends React.Component<{}, State> {
 
   clearTags = () => {
     this.setState({ selectedTags: [] });
+    scrollToId('gallery-top', {
+      offset: isDesktop() ? -183 : -226,
+    });
   };
 
   filterImages = (
@@ -105,6 +109,9 @@ class Gallery extends React.Component<{}, State> {
         selectedTags: [...selectedTags, tag],
       });
     }
+    scrollToId('gallery-top', {
+      offset: isDesktop() ? -183 : -226,
+    });
   };
 
   render() {
@@ -149,7 +156,12 @@ class Gallery extends React.Component<{}, State> {
                 color={colors.red}
                 hoverStyle="underline"
                 mt={[spacing.sm, 0, 0]}
-                onClick={() => this.setState({ showTags: !showTags })}>
+                onClick={() => {
+                  this.setState({ showTags: !showTags });
+                  scrollToId('gallery-top', {
+                    offset: isDesktop() ? -183 : -226,
+                  });
+                }}>
                 {showTags ? 'Hide' : 'Show'} tags
               </t.TextButton>
             }
@@ -163,18 +175,15 @@ class Gallery extends React.Component<{}, State> {
                   <Sticky
                     enabled={isTabletUp()}
                     innerZ={z.mid}
-                    top={143}
+                    top={isDesktop() ? 143 : 186}
                     bottomBoundary="#gallery-end">
-                    <l.Flex
-                      background={colors.background}
-                      isWrap
-                      mb={spacing.s}>
+                    <l.Flex background={colors.background} isWrap>
                       {sortedTags.map((tag: string, index: number) => (
                         <React.Fragment key={tag}>
                           <Tag
                             active={R.contains(tag, selectedTags)}
                             onClick={() => this.handleSelectTag(tag)}
-                            mb={spacing.s}>
+                            mb={spacing.sm}>
                             {tag}
                           </Tag>
                           {index < sortedTags.length - 1 && (
@@ -194,7 +203,7 @@ class Gallery extends React.Component<{}, State> {
                     </l.Flex>
                   </Sticky>
                 )}
-                <l.GalleryWrapper>
+                <l.GalleryWrapper id="gallery-top">
                   <GridGallery
                     enableImageSelection={false}
                     images={this.filterImages(

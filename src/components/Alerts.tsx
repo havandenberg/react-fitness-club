@@ -182,7 +182,7 @@ class Alerts extends React.Component<Props, State> {
         maxHeight={[200, 150, 200]}
         px={[spacing.s, 0, 0]}
         showScrollBar={false}
-        width={['100%', '45%', '35%']}>
+        width={['100%', secondary ? '45%' : '35%', '35%']}>
         <PoseGroup staggerChildren={300}>
           {alerts.map((alert: Alert, index: number) => {
             return (

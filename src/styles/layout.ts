@@ -21,6 +21,7 @@ import {
   justifySelf,
   JustifySelfProps,
   left,
+  maxHeight,
   maxWidth,
   MaxWidthProps,
   minHeight,
@@ -215,6 +216,7 @@ const Space = styled('div')(
   justifyContent,
   justifySelf,
   left,
+  maxHeight,
   minHeight,
   minWidth,
   position,
@@ -222,6 +224,7 @@ const Space = styled('div')(
   space,
   top,
   width,
+  zIndex,
 );
 
 const Scroll = styled(Space)(

@@ -43,6 +43,33 @@ export const galleryCategories: FilterPrimaryCategory[] = [
 
 const galleryImages: GalleryImageData[] = [
   // rfc
+  {
+    caption: '',
+    categoryId: 'all',
+    src: `${ASSETS_PATH}/studio/front-building.png`,
+    tags: ['studio'],
+    thumbnail: `${ASSETS_PATH}/studio/front-building.png`,
+    thumbnailHeight: 300,
+    thumbnailWidth: 200,
+  },
+  {
+    caption: '',
+    categoryId: 'all',
+    src: `${ASSETS_PATH}/studio/front-room.png`,
+    tags: ['studio'],
+    thumbnail: `${ASSETS_PATH}/studio/front-room.png`,
+    thumbnailHeight: 300,
+    thumbnailWidth: 200,
+  },
+  {
+    caption: '',
+    categoryId: 'all',
+    src: `${ASSETS_PATH}/studio/front-sign.png`,
+    tags: ['studio'],
+    thumbnail: `${ASSETS_PATH}/studio/front-sign.png`,
+    thumbnailHeight: 300,
+    thumbnailWidth: 200,
+  },
   // react
   {
     caption: 'REaCT circle to close out class.',
