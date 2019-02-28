@@ -7,7 +7,7 @@ import {
 import { PulseLoader } from 'react-spinners';
 import UserImg from '../assets/images/user.svg';
 import l from '../styles/layout';
-import { colors, fontSizes, spacing } from '../styles/theme';
+import { borders, colors, fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
 import { login } from '../utils/auth';
@@ -69,11 +69,18 @@ class Login extends React.Component<RouteComponentProps & Props, State> {
           px={[spacing.sm, 0]}
           py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
           <l.FlexColumn>
-            <t.Text large mb={spacing.ml}>
+            <t.Text large mb={spacing.xl}>
               Log in to RFC with your social media account.
             </t.Text>
-            <t.Link center="true" color={colors.red} large="true" to="/signup">
-              New to RFC? Sign up here!
+            <t.Link to="/signup">
+              <t.TextButton
+                border={borders.red}
+                center
+                color={colors.red}
+                hoverStyle="underline"
+                large>
+                New to RFC? Sign up here!
+              </t.TextButton>
             </t.Link>
           </l.FlexColumn>
           <l.Space height={[spacing.xl, spacing.xxxl]} />

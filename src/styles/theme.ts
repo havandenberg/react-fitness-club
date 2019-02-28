@@ -57,6 +57,7 @@ export const borders = {
   black: `solid 1px ${colors.black}`,
   blackThick: `solid 2px ${colors.black}`,
   borderRadius: 6,
+  darkBlue: `solid 1px ${colors.darkBlue}`,
   gray: `solid 1px ${colors.gray}`,
   red: `solid 1px ${colors.red}`,
   redThick: `solid 2px ${colors.red}`,

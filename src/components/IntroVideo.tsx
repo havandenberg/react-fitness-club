@@ -53,17 +53,17 @@ class IntroVideo extends React.Component<{}, State> {
     return (
       <div>
         <t.TextButton
-          border={borders.red}
-          color={colors.red}
+          border={borders.darkBlue}
+          color={colors.darkBlue}
           hoverStyle="underline"
           onClick={this.openModal}>
           <l.Flex>
             <l.Img
-              height={[spacing.xl, spacing.xxxl, spacing.xxxl]}
+              height={[spacing.xxxl, spacing.xxxxxl, spacing.xxxxxl]}
               src={VideoImg}
             />
             <l.Space width={spacing.ml} />
-            <t.H2 color={colors.red}>Intro to RFC</t.H2>
+            <t.H1 color={colors.darkBlue}>Intro to RFC</t.H1>
           </l.Flex>
         </t.TextButton>
         <Modal

@@ -275,6 +275,7 @@ type HoverStyle = 'opacity' | 'underline' | 'none';
 
 const TextButton = styled(Text)(
   ({
+    border,
     color = colors.red,
     hoverStyle,
     onClick,
@@ -285,7 +286,7 @@ const TextButton = styled(Text)(
     onClick?: () => void;
   }) => ({
     ':hover': {
-      borderBottom: hoverStyle === 'underline' ? borders.red : undefined,
+      borderBottom: hoverStyle === 'underline' ? border : undefined,
       opacity: hoverStyle === 'opacity' ? 1 : undefined,
     },
     borderBottom: hoverStyle === 'underline' ? borders.transparent : undefined,

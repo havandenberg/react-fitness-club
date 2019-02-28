@@ -76,20 +76,15 @@ class EnrolledDivisionCard extends React.Component<
   handleManageClass = (
     event: CalendarEvent,
     programId: string,
+    divisionId: string,
     classInstId?: string,
   ) => {
     const { history } = this.props;
-    const { selectedDivisionId } = this.state;
     if (classInstId) {
-      history.push(
-        `/programs/${programId}/${selectedDivisionId}/${classInstId}`,
-      );
+      history.push(`/programs/${programId}/${divisionId}/${classInstId}`);
     } else {
-      openClass(generateNewClass(event), programId, selectedDivisionId).then(
-        () =>
-          history.push(
-            `/programs/${programId}/${selectedDivisionId}/${classInstId}`,
-          ),
+      openClass(generateNewClass(event), programId, divisionId).then(() =>
+        history.push(`/programs/${programId}/${divisionId}/${classInstId}`),
       );
     }
   };
@@ -142,9 +137,11 @@ class EnrolledDivisionCard extends React.Component<
                   this.handleSelectedDivisionChange(e.currentTarget.value);
                 }}
                 value={selectedDivisionId}>
-                <option value="all">All</option>
+                <option key="all" value="all">
+                  All
+                </option>
                 {program.divisions.map((div: Division) => (
-                  <option key={div.id} value={div.id}>
+                  <option key={`${program.id}-${div.id}`} value={div.id}>
                     {div.name}
                   </option>
                 ))}
@@ -158,9 +155,10 @@ class EnrolledDivisionCard extends React.Component<
         <l.Scroll height={150} overflow="auto">
           {upcomingEvents.map((event: CalendarEvent, index: number) => {
             const classInstId = getClassInstIdFromEvent(event);
-            const classInst =
-              division && getDivisionClassInstById(classInstId, division);
             const eventDivision = getDivisionById(event.divisionId, program);
+            const classInst =
+              eventDivision &&
+              getDivisionClassInstById(classInstId, eventDivision);
             return (
               <l.Flex
                 key={classInstId}
@@ -179,12 +177,13 @@ class EnrolledDivisionCard extends React.Component<
                     <t.HelpText>{eventDivision.name}</t.HelpText>
                   )}
                 </div>
-                {isCoachOf(member.uid, program) ? (
+                {isCoachOf(member.uid, program) && eventDivision ? (
                   <ManageButton
                     onClick={() =>
                       this.handleManageClass(
                         event,
                         program.id,
+                        eventDivision.id,
                         classInst && classInst.id,
                       )
                     }>

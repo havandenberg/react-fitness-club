@@ -122,12 +122,18 @@ class ClassManager extends React.Component<
 
     return (
       <div>
-        <l.FlexCentered mb={spacing.sm}>
-          {!isMobileOnly() && (
-            <l.Img height={spacing.xxxxl} src={logoSrc} mr={spacing.xl} />
-          )}
-          <t.Title center>{name}</t.Title>
-        </l.FlexCentered>
+        <t.Title center pb={spacing.ml}>
+          <l.FlexCentered>
+            {!isMobileOnly() && (
+              <l.Img
+                height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
+                mr={spacing.ml}
+                src={logoSrc}
+              />
+            )}
+            {name}
+          </l.FlexCentered>
+        </t.Title>
         <Divider white />
         <l.Page
           px={[spacing.sm, 0]}
