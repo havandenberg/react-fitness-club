@@ -4,7 +4,6 @@ export interface SpecialEvent extends Event {
   aboutUrl: string;
   classes: ClassInst[];
   description: string;
-  managerIds: string[];
   memberIds: string[];
   id: string;
   posterSrc: string;

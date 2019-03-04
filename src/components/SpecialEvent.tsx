@@ -15,7 +15,6 @@ import {
   getSpecialEventClassInstById,
   openSpecialEventClass,
 } from '../utils/class';
-import { ASSETS_PATH } from '../utils/constants';
 import { isMobile, isTabletOnly, TABLET_UP } from '../utils/screensize';
 import {
   getSpecialEventSessions,
@@ -91,8 +90,8 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps, State> {
             <GalleryImage
               image={{
                 caption: '',
-                src: `${ASSETS_PATH}/programs/Aikido/events/NV-Worcester-2019.png`,
-                thumbnail: `${ASSETS_PATH}/programs/Aikido/events/NV-Worcester-2019.png`,
+                src: specialEvent.posterSrc,
+                thumbnail: specialEvent.posterSrc,
                 thumbnailHeight: 200,
                 thumbnailWidth: 150,
               }}
@@ -149,15 +148,17 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps, State> {
           </l.Space>
           <l.Space height={spacing.ml} width={spacing.ml} />
           <l.FlexColumn mb={[spacing.sm, 0]}>
-            <t.Anchor
-              border={borders.red}
-              color={colors.red}
-              href={specialEvent.aboutUrl}
-              target="_blank">
-              <t.TextButton bold center large nowrap>
-                Event Details
-              </t.TextButton>
-            </t.Anchor>
+            {!R.isEmpty(specialEvent.aboutUrl) && (
+              <t.Anchor
+                border={borders.red}
+                color={colors.red}
+                href={specialEvent.aboutUrl}
+                target="_blank">
+                <t.TextButton bold center large nowrap>
+                  Event Details
+                </t.TextButton>
+              </t.Anchor>
+            )}
             {member &&
               (isMemberSignedUpForEvent ? (
                 <>

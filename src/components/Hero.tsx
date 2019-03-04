@@ -152,7 +152,7 @@ const Hero = ({
           to="/events">
           <l.Flex columnRevOnMobile>
             <span>
-              {isTabletUp() && 'Upcoming '}Events
+              Events
               {nextUpcomingEvent ? ` (${upcomingEvents.length})` : ''}
             </span>
             <l.Img

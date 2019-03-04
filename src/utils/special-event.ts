@@ -90,7 +90,6 @@ export const parseSpecialEvents = (specialEvents: SpecialEvent[]) =>
         },
       })),
       endDate: new Date(specialEvent.endDate),
-      managerIds: JSON.parse(`${specialEvent.managerIds}`),
       memberIds: JSON.parse(`${specialEvent.memberIds}`),
       startDate: new Date(specialEvent.startDate),
     };
