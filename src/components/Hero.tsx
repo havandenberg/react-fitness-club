@@ -79,7 +79,7 @@ const quickItemStyles = {
     marginBottom: 0,
   },
   colors: colors.red,
-  marginBottom: spacing.t,
+  marginBottom: spacing.sm,
   verticalAlign: 'middle',
   [breakpoints.mobile]: {
     marginBottom: 0,
