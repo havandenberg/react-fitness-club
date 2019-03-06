@@ -23,11 +23,15 @@ import {
   getDivisionClassInstById,
   openClass,
 } from '../utils/class';
-import { getDivisionById, isCoachOf } from '../utils/program';
+import {
+  getDivisionById,
+  getEnrolledDivisions,
+  isCoachOf,
+} from '../utils/program';
 import { isTabletUp } from '../utils/screensize';
 import { getButtonProps } from './Form/Button';
 import { SelectInput } from './Form/Input';
-import { ProgramCardWrapper } from './ProgramCard';
+import { ProgramCardWrapper } from './UnenrolledProgramCard';
 
 const ActiveText = styled(t.Text)(
   ({ isGreen }: { isGreen: boolean }) => ({
@@ -47,7 +51,6 @@ const ManageButton = styled('button')(
 );
 
 interface Props {
-  divisionId?: string;
   events: CalendarEvent[];
   isAdmin: boolean;
   program: Program;
@@ -58,18 +61,22 @@ interface State {
   selectedDivisionId: string;
 }
 
-class EnrolledDivisionCard extends React.Component<
+class EnrolledProgramCard extends React.Component<
   Props & RouteComponentProps,
   State
 > {
   constructor(props: Props & RouteComponentProps) {
     super(props);
 
-    const { divisionId, isAdmin, member, program } = this.props;
+    const { member, program } = this.props;
+    const enrolledDivisions = getEnrolledDivisions(program, member.uid);
 
     this.state = {
-      selectedDivisionId:
-        isAdmin || isCoachOf(member.uid, program) ? 'all' : divisionId || '',
+      selectedDivisionId: this.shouldShowAllDivisions()
+        ? 'all'
+        : !R.isEmpty(enrolledDivisions)
+        ? enrolledDivisions[0].id
+        : '',
     };
   }
 
@@ -93,12 +100,19 @@ class EnrolledDivisionCard extends React.Component<
     this.setState({ selectedDivisionId });
   };
 
+  shouldShowAllDivisions = () => {
+    const { isAdmin, member, program } = this.props;
+    return isAdmin || isCoachOf(member.uid, program);
+  };
+
   render() {
-    const { events, isAdmin, program, member } = this.props;
+    const { events, program, member } = this.props;
     const { selectedDivisionId } = this.state;
 
     const maxEvents =
       isTabletUp() && R.equals(selectedDivisionId, 'all') ? 5 : 2;
+
+    const enrolledDivisions = getEnrolledDivisions(program, member.uid);
 
     const upcomingEvents = R.sortBy(
       (event: CalendarEvent) => moment(event.start).unix(),
@@ -106,18 +120,20 @@ class EnrolledDivisionCard extends React.Component<
         (event: CalendarEvent) =>
           R.equals(event.programId, program.id) &&
           (R.equals(selectedDivisionId, 'all')
-            ? true
+            ? this.shouldShowAllDivisions()
+              ? true
+              : R.contains(event.divisionId, R.pluck('id', enrolledDivisions))
             : R.equals(event.divisionId, selectedDivisionId)) &&
           moment().diff(event.start) < 0,
       ),
     ).slice(0, maxEvents);
 
-    const division = selectedDivisionId
-      ? getDivisionById(selectedDivisionId, program)
-      : undefined;
+    const divisionOptions = this.shouldShowAllDivisions()
+      ? program.divisions
+      : enrolledDivisions;
 
     return (
-      <ProgramCardWrapper height={350} width={['100%', '48%']}>
+      <ProgramCardWrapper height={350} width={['100%', '45%', '48%']}>
         <l.Flex alignTop mb={spacing.ml}>
           <l.Img
             src={program.logoSrc}
@@ -126,29 +142,27 @@ class EnrolledDivisionCard extends React.Component<
           />
           <div>
             <t.H3 mt={0}>{program.name}</t.H3>
-            {isAdmin || isCoachOf(member.uid, program) ? (
-              <SelectInput
-                customStyles={{
-                  fontSize: fontSizes.helpText,
-                  height: spacing.xl,
-                  width: 'auto',
-                }}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                  this.handleSelectedDivisionChange(e.currentTarget.value);
-                }}
-                value={selectedDivisionId}>
+            <SelectInput
+              customStyles={{
+                fontSize: fontSizes.helpText,
+                height: spacing.xl,
+                width: 'auto',
+              }}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                this.handleSelectedDivisionChange(e.currentTarget.value);
+              }}
+              value={selectedDivisionId}>
+              {
                 <option key="all" value="all">
                   All
                 </option>
-                {program.divisions.map((div: Division) => (
-                  <option key={`${program.id}-${div.id}`} value={div.id}>
-                    {div.name}
-                  </option>
-                ))}
-              </SelectInput>
-            ) : (
-              division && <t.Text color={colors.gray}>{division.name}</t.Text>
-            )}
+              }
+              {divisionOptions.map((div: Division) => (
+                <option key={`${program.id}-${div.id}`} value={div.id}>
+                  {div.name}
+                </option>
+              ))}
+            </SelectInput>
           </div>
         </l.Flex>
         <t.HelpText mb={spacing.t}>Upcoming classes:</t.HelpText>
@@ -206,4 +220,4 @@ class EnrolledDivisionCard extends React.Component<
   }
 }
 
-export default withRouter(EnrolledDivisionCard);
+export default withRouter(EnrolledProgramCard);

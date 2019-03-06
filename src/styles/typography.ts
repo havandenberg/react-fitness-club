@@ -291,7 +291,7 @@ const TextButton = styled(Text)(
     },
     borderBottom: hoverStyle === 'underline' ? borders.transparent : undefined,
     color,
-    cursor: 'pointer',
+    cursor: onClick ? 'pointer' : 'default',
     opacity: hoverStyle === 'opacity' && onClick ? 0.5 : undefined,
     transition: transitions.default,
   }),

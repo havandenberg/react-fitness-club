@@ -89,6 +89,7 @@ class Dashboard extends React.Component<Props, State> {
   render() {
     const { events, isAdmin, loading, programs, member, members } = this.props;
     const { view } = this.state;
+
     return loading ? (
       <l.FlexCentered my={spacing.xxxxxl}>
         <PulseLoader sizeUnit="px" size={30} color={colors.black} />

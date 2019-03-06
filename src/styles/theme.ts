@@ -38,6 +38,7 @@ export const gradients = {
   blackReverse: `linear-gradient(to top, ${colors.gray} 0, ${
     colors.gray
   } 85%, ${colors.black} 100%)`,
+  darkBlue: `linear-gradient(to bottom, #74A4D6, ${colors.darkBlue})`,
   divider: `linear-gradient(to bottom, ${colors.black} 0, ${
     colors.black
   } 20%, ${colors.gray} 50%, ${colors.black} 80%, ${colors.black} 100%)`,
@@ -56,9 +57,9 @@ export const gradients = {
 export const borders = {
   black: `solid 1px ${colors.black}`,
   blackThick: `solid 2px ${colors.black}`,
-  borderRadius: 6,
   darkBlue: `solid 1px ${colors.darkBlue}`,
   gray: `solid 1px ${colors.gray}`,
+  radius: 6,
   red: `solid 1px ${colors.red}`,
   redThick: `solid 2px ${colors.red}`,
   transparent: `solid 1px transparent`,

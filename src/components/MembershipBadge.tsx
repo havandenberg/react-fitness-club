@@ -36,7 +36,7 @@ export const multipassCost = (
 
 const Badge = styled(l.Space)(
   {
-    borderRadius: borders.borderRadius,
+    borderRadius: borders.radius,
     padding: `${spacing.sm} ${spacing.ml}`,
   },
   ({ background }: { background: string }) => ({

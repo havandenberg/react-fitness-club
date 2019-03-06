@@ -14,7 +14,7 @@ import ProfilePhoto from './ProfilePhoto';
 
 const ProgramWrapper = styled(l.Flex)({
   border: borders.black,
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
   margin: '0 2px',
   padding: spacing.xl,
   [breakpoints.small]: {

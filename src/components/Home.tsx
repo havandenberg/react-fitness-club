@@ -26,6 +26,8 @@ import withScroll from './hoc/withScroll';
 import IntroVideo from './IntroVideo';
 import Newsletter from './Newsletter';
 
+export const INTRO_BUTTON_WIDTH = 182;
+
 const Bold = styled('span')({
   fontWeight: 'bold',
 });
@@ -68,7 +70,7 @@ const Home = () => (
       <IntroVideo />
       <l.Space height={spacing.xl} width={spacing.xxxl} />
       <t.Link to="/signup">
-        <ButtonPrimary>Sign up for classes here!</ButtonPrimary>
+        <ButtonPrimary width={INTRO_BUTTON_WIDTH}>Sign up here</ButtonPrimary>
       </t.Link>
     </l.FlexCentered>
     <l.Space height={[spacing.xl, spacing.xxl]} />

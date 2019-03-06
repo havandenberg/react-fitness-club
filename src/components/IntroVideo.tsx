@@ -9,10 +9,11 @@ import * as Modal from 'react-modal';
 import ModalCloseImg from '../assets/images/modal-close.svg';
 import VideoImg from '../assets/images/video.svg';
 import l from '../styles/layout';
-import { borders, colors, spacing, z } from '../styles/theme';
-import t from '../styles/typography';
+import { borders, colors, gradients, spacing, z } from '../styles/theme';
 import { ASSETS_PATH } from '../utils/constants';
 import { isMobileOnly } from '../utils/screensize';
+import { ButtonPrimary } from './Form/Button';
+import { INTRO_BUTTON_WIDTH } from './Home';
 
 const CloseIcon = styled(l.Space)({
   cursor: 'pointer',
@@ -52,26 +53,23 @@ class IntroVideo extends React.Component<{}, State> {
     const { show } = this.state;
     return (
       <div>
-        <t.TextButton
-          border={borders.darkBlue}
-          color={colors.darkBlue}
-          hoverStyle="underline"
-          onClick={this.openModal}>
+        <ButtonPrimary
+          background={colors.darkBlue}
+          gradient={gradients.darkBlue}
+          onClick={this.openModal}
+          width={INTRO_BUTTON_WIDTH}>
           <l.Flex>
-            <l.Img
-              height={[spacing.xxxl, spacing.xxxxxl, spacing.xxxxxl]}
-              src={VideoImg}
-            />
+            <l.Img height={spacing.ml} src={VideoImg} />
             <l.Space width={spacing.ml} />
-            <t.H1 color={colors.darkBlue}>Intro to RFC</t.H1>
+            Intro to RFC
           </l.Flex>
-        </t.TextButton>
+        </ButtonPrimary>
         <Modal
           style={{
             content: {
               backgroundColor: colors.black,
               border: 0,
-              borderRadius: borders.borderRadius,
+              borderRadius: borders.radius,
               margin: isMobileOnly() ? spacing.s : spacing.xxl,
               outline: 'none',
               overflow: 'visible',

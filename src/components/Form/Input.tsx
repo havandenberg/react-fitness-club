@@ -27,7 +27,7 @@ const inputStyles = {
   },
   background: colors.lightGray,
   border: borders.black,
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
   boxShadow: shadows.box,
   color: colors.black,
   flex: 1,

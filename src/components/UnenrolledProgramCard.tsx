@@ -6,8 +6,12 @@ import l from '../styles/layout';
 import { borders, breakpoints, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
-import { Program } from '../types/program';
-import { enrollInDivision, getDivisionByName } from '../utils/program';
+import { Division, Program } from '../types/program';
+import {
+  enrollInDivision,
+  getDivisionByName,
+  getEnrolledDivisions,
+} from '../utils/program';
 import Form, {
   FormComponentProps,
   FormFieldValidations,
@@ -70,11 +74,18 @@ class Step extends React.Component<
       loading,
       setIsEnrolling,
       resetForm,
+      member,
       program,
       onChange,
       onSubmit,
     } = this.props;
-    const options = R.insert(0, ['-'], R.pluck('name', program.divisions));
+
+    const enrolledDivisions = getEnrolledDivisions(program, member.uid);
+    const unenrolledDivisions = program.divisions.filter(
+      (div: Division) => !R.contains(div.id, R.pluck('id', enrolledDivisions)),
+    );
+    const options = R.insert(0, ['-'], R.pluck('name', unenrolledDivisions));
+
     return (
       <>
         {isEnrolling && (
@@ -130,7 +141,7 @@ class EnrollmentForm extends Form<EnrollmentFields> {}
 export const ProgramCardWrapper = styled(l.Space)(
   {
     border: borders.black,
-    borderRadius: borders.borderRadius,
+    borderRadius: borders.radius,
     marginBottom: spacing.xl,
     padding: spacing.xl,
     [breakpoints.tablet]: {
@@ -166,7 +177,7 @@ class ProgramCard extends React.Component<Props, State> {
     const { member, program } = this.props;
     const { isEnrolling } = this.state;
     return (
-      <ProgramCardWrapper width={['100%', '30%']}>
+      <ProgramCardWrapper width={['100%', '45%', '31%']}>
         <l.Flex alignTop mb={spacing.ml}>
           <l.Img
             src={program.logoSrc}

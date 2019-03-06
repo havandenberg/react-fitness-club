@@ -45,7 +45,7 @@ const CancelSwitchMembership = styled(t.TextButton)({
 const MembershipCard = styled(l.FlexColumn)(
   {
     border: borders.blackThick,
-    borderRadius: borders.borderRadius,
+    borderRadius: borders.radius,
     height: 600,
     padding: spacing.xl,
     transition: transitions.default,

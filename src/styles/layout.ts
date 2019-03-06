@@ -183,6 +183,7 @@ const Img = styled('img')(height, space, width);
 
 export const scrollStyles = (showScrollBar: boolean) => ({
   '::-webkit-scrollbar': {
+    height: showScrollBar ? 18 : 0,
     width: showScrollBar ? 18 : 0,
   },
   '::-webkit-scrollbar-button': {

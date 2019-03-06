@@ -41,7 +41,7 @@ export const getButtonProps: (background: string, gradient: string) => any = (
   },
   alignItems: 'center',
   background,
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
   boxShadow: shadows.box,
   color: colors.white,
   cursor: 'pointer',
@@ -61,7 +61,9 @@ export const getButtonProps: (background: string, gradient: string) => any = (
 });
 
 export const ButtonPrimary = styled('button')(
-  getButtonProps(colors.red, gradients.red),
+  ({ background = colors.red, gradient = gradients.red }) => ({
+    ...getButtonProps(background, gradient),
+  }),
   space,
   width,
 );

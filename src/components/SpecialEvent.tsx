@@ -31,7 +31,7 @@ const SessionButton = styled(t.TextButton)({
 
 const SpecialEventWrapper = styled(l.Space)({
   border: borders.black,
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
   padding: spacing.xl,
   [breakpoints.small]: {
     padding: spacing.ml,

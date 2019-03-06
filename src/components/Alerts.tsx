@@ -22,7 +22,7 @@ const AlertWrapper = styled(l.Flex)({
   alignSelf: 'center',
   background: colors.background,
   border: borders.red,
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
   boxShadow: shadows.box,
   justifySelf: 'center',
   padding: spacing.t,

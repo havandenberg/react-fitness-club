@@ -22,7 +22,7 @@ import { SelectInput, TextInput } from '../../Form/Input';
 import SmallMemberCard from '../../SmallMemberCard';
 
 const MemberListScroll = styled(l.Scroll)({
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
 });
 
 interface Props {

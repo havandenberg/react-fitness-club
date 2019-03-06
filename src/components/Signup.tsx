@@ -28,7 +28,7 @@ import SignupForm from './SignupForm';
 
 const MembershipCard = styled(l.FlexColumn)({
   border: borders.blackThick,
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
   height: 300,
   justifyContent: 'space-between',
   padding: spacing.xl,

@@ -42,8 +42,8 @@ export const enrollInDivision = (
     memberIds: JSON.stringify(R.uniq(division.memberIds.concat(memberId))),
   });
 
-export const getEnrolledDivision = (program: Program, memberId: string) =>
-  program.divisions.find((div: Division) =>
+export const getEnrolledDivisions = (program: Program, memberId: string) =>
+  program.divisions.filter((div: Division) =>
     R.contains(memberId, div.memberIds),
   );
 

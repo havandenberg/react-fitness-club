@@ -15,7 +15,7 @@ import {
   hasDiscount,
   isInactiveMembership,
 } from '../../utils/membership';
-import { getEnrolledDivision, getMembershipProgram } from '../../utils/program';
+import { getMembershipProgram } from '../../utils/program';
 import MembershipBadge from '../MembershipBadge';
 import MembershipForm from './MembershipForm';
 import SwitchMembership from './SwitchMembership';
@@ -87,7 +87,6 @@ class Membership extends React.Component<MembershipProps, State> {
     } = this.state;
 
     const program = getMembershipProgram(member.membership, programs);
-    const division = program && getEnrolledDivision(program, member.uid);
 
     const isInactive = isInactiveMembership(member.membership);
 
@@ -119,7 +118,6 @@ class Membership extends React.Component<MembershipProps, State> {
           }}
           membership={member.membership}
           program={program}
-          divisionId={division && division.id}
           nameLayout="horizontal"
         />
         <l.Space height={spacing.xxxl} />
@@ -138,7 +136,7 @@ class Membership extends React.Component<MembershipProps, State> {
                 ) : (
                   <t.Text large flex={1}>
                     ${monthlyCost}
-                    {hasDiscount(member, program, division && division.id)
+                    {hasDiscount(member, program)
                       ? ` until ${moment(member.membership.signupDate)
                           .add(6, 'months')
                           .format('MM/DD/YYYY')}`
@@ -190,7 +188,6 @@ class Membership extends React.Component<MembershipProps, State> {
                         p: 0,
                       },
                     }}
-                    divisionId={division ? division.id : undefined}
                     membership={member.membership}
                     nameLayout="horizontal"
                     program={program}

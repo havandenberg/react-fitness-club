@@ -21,7 +21,7 @@ import Newsletter from './Newsletter';
 const Tag = styled(l.Space)(
   {
     border: borders.red,
-    borderRadius: borders.borderRadius,
+    borderRadius: borders.radius,
     cursor: 'pointer',
     padding: spacing.t,
   },

@@ -24,7 +24,7 @@ const Name = styled(t.Text)({
 const SmallMemberCardWrapper = styled(l.Flex)(
   {
     border: borders.transparentThick,
-    borderRadius: borders.borderRadius,
+    borderRadius: borders.radius,
     transition: transitions.default,
   },
   ({

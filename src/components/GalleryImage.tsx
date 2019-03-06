@@ -7,7 +7,7 @@ import { borders, breakpoints, spacing } from '../styles/theme';
 import { Image as ImageType } from '../types/gallery';
 
 export const GalleryWrapper = styled('div')({
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
   bottom: 0,
   left: 0,
   opacity: 0,
@@ -19,7 +19,7 @@ export const GalleryWrapper = styled('div')({
 });
 
 export const Image = styled('img')({
-  borderRadius: borders.borderRadius,
+  borderRadius: borders.radius,
   width: '100%',
 });
 

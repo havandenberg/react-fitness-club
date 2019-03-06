@@ -28,7 +28,7 @@ const CheckboxRadioInputContainer = styled('div')(
     alignItems: 'center',
     background: colors.lightGray,
     border: `solid 2px ${colors.gray}`,
-    borderRadius: borders.borderRadius,
+    borderRadius: borders.radius,
     display: 'inline-flex',
     position: 'relative',
     transition: transitions.default,
@@ -191,7 +191,7 @@ const CheckboxRadioInputWithLabelContainer = styled('div')(
   {
     alignItems: 'center',
     background: 'transparent',
-    borderRadius: borders.borderRadius,
+    borderRadius: borders.radius,
     display: 'inline-flex',
     position: 'relative',
     transition: transitions.default,
@@ -236,7 +236,7 @@ const CheckboxRadioInputWithLabelInnerContainer = styled('div')(
   {
     alignItems: 'center',
     background: colors.lightGray,
-    borderRadius: borders.borderRadius,
+    borderRadius: borders.radius,
     borderStyle: 'solid',
     borderWidth: 2,
     display: 'inline-flex',

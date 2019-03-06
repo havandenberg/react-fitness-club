@@ -51,13 +51,13 @@ const LogoWrapper = styled(l.Flex)(
   }),
 );
 
-const PosterLink = styled(l.FlexCentered)({
+const PosterLink = styled(l.Flex)({
   position: 'absolute',
   right: 150,
   top: spacing.xl,
   [breakpoints.mobile]: {
-    right: spacing.sm,
-    top: spacing.xxxxl,
+    left: spacing.ml,
+    top: spacing.sm,
   },
 });
 
@@ -189,7 +189,7 @@ const Hero = ({
         <PosterLink mb={[spacing.ml, 0]}>
           <t.Link to="/events">
             <l.Img
-              height={[secondary ? 75 : isSmall() ? 65 : 75, 100, 150]}
+              height={[secondary ? 100 : isSmall() ? 70 : 100, 100, 150]}
               src={upcomingEvents[0].posterSrc}
             />
           </t.Link>
