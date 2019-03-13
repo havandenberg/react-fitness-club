@@ -130,15 +130,23 @@ class Events extends React.Component<Props, State> {
                 </t.Text>
               ) : (
                 <>
-                  {sortedEvents.map((specialEvent: SpecialEventType) => (
-                    <SpecialEvent
-                      key={specialEvent.id}
-                      events={events}
-                      member={member}
-                      members={members}
-                      specialEvent={specialEvent}
-                    />
-                  ))}
+                  {sortedEvents.map(
+                    (specialEvent: SpecialEventType, index: number) => (
+                      <React.Fragment key={specialEvent.id}>
+                        <SpecialEvent
+                          events={events}
+                          member={member}
+                          members={members}
+                          specialEvent={specialEvent}
+                        />
+                        {index < sortedEvents.length - 1 && (
+                          <l.Space
+                            height={[spacing.xl, spacing.xxxl, spacing.xxxl]}
+                          />
+                        )}
+                      </React.Fragment>
+                    ),
+                  )}
                 </>
               )}
             </>

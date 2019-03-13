@@ -20,7 +20,10 @@ import {
   isTabletUp,
 } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
-import { getUpcomingSpecialEvents } from '../utils/special-event';
+import {
+  getUpcomingSpecialEvents,
+  sortSpecialEventsByDate,
+} from '../utils/special-event';
 import Alerts from './Alerts';
 import SocialIcons from './SocialIcons';
 
@@ -109,11 +112,12 @@ const Hero = ({
   specialEvents: SpecialEvent[];
 } & RouteComponentProps) => {
   const secondary = !R.equals(location.pathname, '/');
-  const upcomingEvents = getUpcomingSpecialEvents(specialEvents);
+  const upcomingEvents = sortSpecialEventsByDate(
+    getUpcomingSpecialEvents(specialEvents),
+  );
   const nextUpcomingEvent = !R.isEmpty(upcomingEvents) && upcomingEvents[0];
   return (
     <HeroWrapper>
-      {/* <HeroBG src={ChainLinkImg} /> */}
       <LogoWrapper
         pb={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}
         pt={[spacing.s, spacing.m]}
