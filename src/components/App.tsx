@@ -13,11 +13,13 @@ import { Alert } from '../types/alert';
 import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Division, Program } from '../types/program';
+import { ShopItem } from '../types/shop';
 import { SpecialEvent } from '../types/special-event';
 import { parseAlerts } from '../utils/alert';
 import {
   checkAuthed,
   listenForAlertsChanges,
+  listenForInventoryChanges,
   listenForMemberChanges,
   listenForProgramChanges,
   listenForSpecialEventsChanges,
@@ -25,6 +27,7 @@ import {
 import { expandRecurringEvents, getEvents } from '../utils/calendar-event';
 import { parseMemberData } from '../utils/member';
 import { isCoachOf, parsePrograms } from '../utils/program';
+import { parseInventory } from '../utils/shop';
 import { parseSpecialEvents } from '../utils/special-event';
 import About from './About';
 import ClassManager from './ClassManager';
@@ -40,6 +43,7 @@ import Login from './Login';
 import Nav from './Nav';
 import Programs from './Programs';
 import Schedule from './Schedule';
+import Shop from './Shop';
 import Signup from './Signup';
 
 const Main = styled('div')({
@@ -56,10 +60,12 @@ interface LoadingMembersKey {
 interface State {
   alerts: Alert[];
   events: CalendarEvent[];
+  inventory: ShopItem[];
   isAdmin: boolean;
   loading: boolean;
   loadingAlerts: boolean;
   loadingEvents: boolean;
+  loadingInventory: boolean;
   loadingMember: boolean;
   loadingMembers: LoadingMembersKey[];
   loadingPrograms: boolean;
@@ -76,10 +82,12 @@ class App extends React.Component<SubscribeProps, State> {
     this.state = {
       alerts: [],
       events: [],
+      inventory: [],
       isAdmin: false,
       loading: true,
       loadingAlerts: true,
       loadingEvents: true,
+      loadingInventory: true,
       loadingMember: true,
       loadingMembers: [],
       loadingPrograms: true,
@@ -104,6 +112,12 @@ class App extends React.Component<SubscribeProps, State> {
       listenForAlertsChanges((alerts: Alert[]) =>
         this.setState(
           { alerts: parseAlerts(alerts), loadingAlerts: false },
+          this.checkFinishedLoading,
+        ),
+      );
+      listenForInventoryChanges((inventory: ShopItem[]) =>
+        this.setState(
+          { inventory: parseInventory(inventory), loadingInventory: false },
           this.checkFinishedLoading,
         ),
       );
@@ -153,6 +167,7 @@ class App extends React.Component<SubscribeProps, State> {
     const {
       loadingAlerts,
       loadingEvents,
+      loadingInventory,
       loadingMember,
       loadingMembers,
       loadingPrograms,
@@ -163,6 +178,7 @@ class App extends React.Component<SubscribeProps, State> {
     const initialLoadingFinished =
       !loadingAlerts &&
       !loadingPrograms &&
+      !loadingInventory &&
       !loadingEvents &&
       !loadingMember &&
       !loadingSpecialEvents;
@@ -255,12 +271,14 @@ class App extends React.Component<SubscribeProps, State> {
     const {
       loadingAlerts,
       loadingEvents,
+      loadingInventory,
       loadingPrograms,
       loadingSpecialEvents,
     } = this.state;
     if (
       !loadingAlerts &&
       !loadingEvents &&
+      !loadingInventory &&
       !loadingPrograms &&
       !loadingSpecialEvents
     ) {
@@ -277,6 +295,12 @@ class App extends React.Component<SubscribeProps, State> {
       this.setState(
         { alerts: parseAlerts(alerts), loadingAlerts: false },
         this.checkUnauthedFinishedLoading,
+      ),
+    );
+    listenForInventoryChanges((inventory: ShopItem[]) =>
+      this.setState(
+        { inventory: parseInventory(inventory), loadingInventory: false },
+        this.checkFinishedLoading,
       ),
     );
     listenForProgramChanges((programs: Program[]) =>
@@ -309,9 +333,11 @@ class App extends React.Component<SubscribeProps, State> {
     const {
       alerts,
       events,
+      inventory,
       isAdmin,
       loading,
       loadingAlerts,
+      loadingInventory,
       loadingMember,
       loadingPrograms,
       loadingSpecialEvents,
@@ -362,6 +388,17 @@ class App extends React.Component<SubscribeProps, State> {
               )}
             />
             <Route path="/gallery" component={Gallery} />
+            <Route
+              path="/shop"
+              render={props => (
+                <Shop
+                  {...props}
+                  loading={loadingInventory}
+                  inventory={inventory}
+                  member={member}
+                />
+              )}
+            />
             <Route
               path="/contact"
               render={props => <Contact {...props} programs={programs} />}

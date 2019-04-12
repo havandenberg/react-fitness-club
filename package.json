@@ -1,5 +1,6 @@
 {
   "name": "react-fitness-club",
+  "license": "ISC",
   "version": "0.2",
   "author": "Halsey Vandenberg",
   "dependencies": {

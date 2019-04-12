@@ -12,11 +12,13 @@ import {
   transitions,
   z,
 } from '../../styles/theme';
+import { Scale } from '../../types/styles';
 
-export const getButtonProps: (background: string, gradient: string) => any = (
-  background,
-  gradient,
-) => ({
+export const getButtonProps: (
+  background: string,
+  gradient: string,
+  size?: Scale,
+) => any = (background, gradient, size = 'big') => ({
   ':before': {
     backgroundImage: gradient,
     borderRadius: 'inherit',
@@ -46,23 +48,23 @@ export const getButtonProps: (background: string, gradient: string) => any = (
   color: colors.white,
   cursor: 'pointer',
   display: 'flex',
-  fontSize: fontSizes.largeText,
+  fontSize: size === 'big' ? fontSizes.largeText : fontSizes.text,
   fontWeight: 500,
   justifyContent: 'center',
-  padding: spacing.m,
+  padding: size === 'big' ? spacing.m : spacing.s,
   position: 'relative',
   textAlign: 'center',
   verticalAlign: 'middle',
   whiteSpace: 'nowrap',
   zIndex: 1,
   [breakpoints.mobile]: {
-    padding: spacing.sm,
+    padding: size === 'big' ? spacing.sm : spacing.s,
   },
 });
 
 export const ButtonPrimary = styled('button')(
-  ({ background = colors.red, gradient = gradients.red }) => ({
-    ...getButtonProps(background, gradient),
+  ({ background = colors.red, gradient = gradients.red, size = 'big' }) => ({
+    ...getButtonProps(background, gradient, size),
   }),
   space,
   width,

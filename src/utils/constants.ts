@@ -3,6 +3,9 @@ export const ASSETS_PATH = 'https://s3.amazonaws.com/react-fitness-club';
 export const FACEBOOK_PATH = 'https://www.facebook.com/REaCT.Nat/';
 export const INSTAGRAM_PATH = 'https://www.instagram.com/react.nation/';
 
+export const SQUADLOCKER_PATH =
+  'https://teamlocker.squadlocker.com/#/lockers/react-fitness-club?_k=75zl50';
+
 export const REACT_PATH = '/programs?id=react';
 export const CAPOEIRA_PATH = '/programs?id=capoeira';
 export const AIKIDO_PATH = '/programs?id=aikido';

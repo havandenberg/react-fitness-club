@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import { ShopItem } from 'src/types/shop';
 import { auth, AuthProvider, getAuthProvider } from '../firebase';
 import { Alert } from '../types/alert';
 import { Member, newMemberDefaults } from '../types/member';
@@ -100,6 +101,19 @@ export const listenForMemberChanges = (
         callback(snapshot.val());
       } else {
         callback();
+      }
+    });
+};
+
+export const listenForInventoryChanges = (
+  callback: (shopItems: ShopItem[]) => void,
+) => {
+  firebase
+    .database()
+    .ref(`inventory`)
+    .on('value', snapshot => {
+      if (snapshot) {
+        callback(snapshot.val());
       }
     });
 };

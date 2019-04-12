@@ -5,6 +5,7 @@ import { width } from 'styled-system';
 import l from '../../styles/layout';
 import { breakpoints, colors, fontSizes, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
+import { StyleValue } from '../../types/styles';
 import { isMobile, isMobileOnly } from '../../utils/screensize';
 import FileInput from './FileInput';
 import { FormFieldValidations, OnChangeHandler } from './index';
@@ -33,7 +34,7 @@ export const InputLabel = styled(t.Text)(
 
 export interface FormItemProps<FormFields, K extends keyof FormFields> {
   autoComplete?: string;
-  flex: string | number | Array<string | number>;
+  flex: StyleValue;
   helpText?: string | string[];
   helpTextValidations?: Array<(value: string, fields: FormFields) => boolean>;
   inputStyles?: React.CSSProperties;
@@ -41,6 +42,7 @@ export interface FormItemProps<FormFields, K extends keyof FormFields> {
   isViewOnly?: boolean;
   isRequired?: boolean;
   placeholder?: string;
+  preview?: string;
   selectOptions?: string[];
   valueName: K;
   viewOnlyText?: string;
@@ -50,13 +52,13 @@ export interface FormRowData<FormFields> {
   isRequired?: boolean;
   items: Array<FormItemProps<FormFields, keyof FormFields>>;
   label?: string;
-  rowWidth?: string | number | Array<string | number>;
+  rowWidth?: StyleValue;
 }
 
 interface FormRowProps<FormFields> extends FormRowData<FormFields> {
   customStyles: {
-    labelWidth?: string | number | Array<string | number>;
-    rowWidth?: string | number | Array<string | number>;
+    labelWidth?: StyleValue;
+    rowWidth?: StyleValue;
   };
   errors: string[];
   fields: FormFields;
@@ -77,6 +79,7 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
     onChange: OnChangeHandler<FormFields>,
   ) => {
     const { fields } = this.props;
+    console.log(fields);
     const { inputType } = item;
     switch (inputType) {
       case 'file':

@@ -16,7 +16,6 @@ export const personalInfoStep: (
 ) => Array<FormRowData<SetupFields>> = authProvider => {
   return [
     {
-      isRequired: true,
       items: [
         {
           flex: '100%',

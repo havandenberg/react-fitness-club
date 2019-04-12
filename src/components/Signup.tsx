@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'react-emotion';
+// import styled from 'react-emotion';
 import { Redirect, RouteComponentProps } from 'react-router';
 import {
   FacebookLoginButton,
@@ -9,8 +9,8 @@ import { PulseLoader } from 'react-spinners';
 import UserImg from '../assets/images/user.svg';
 import l from '../styles/layout';
 import {
-  borders,
-  breakpoints,
+  // borders,
+  // breakpoints,
   colors,
   fontSizes,
   spacing,
@@ -18,24 +18,24 @@ import {
 import t from '../styles/typography';
 import { Member } from '../types/member';
 import { login } from '../utils/auth';
-import { getGenericMembership } from '../utils/membership';
-import { scrollToId } from '../utils/scroll';
+// import { getGenericMembership } from '../utils/membership';
+// import { scrollToId } from '../utils/scroll';
 import Divider from './Divider';
 import { ButtonTertiary } from './Form/Button';
 import withScroll from './hoc/withScroll';
-import MembershipBadge, { multipassCost } from './MembershipBadge';
+// import MembershipBadge, { multipassCost } from './MembershipBadge';
 import SignupForm from './SignupForm';
 
-const MembershipCard = styled(l.FlexColumn)({
-  border: borders.blackThick,
-  borderRadius: borders.radius,
-  height: 300,
-  justifyContent: 'space-between',
-  padding: spacing.xl,
-  [breakpoints.tabletDown]: {
-    padding: spacing.ml,
-  },
-});
+// const MembershipCard = styled(l.FlexColumn)({
+//   border: borders.blackThick,
+//   borderRadius: borders.radius,
+//   height: 300,
+//   justifyContent: 'space-between',
+//   padding: spacing.xl,
+//   [breakpoints.tabletDown]: {
+//     padding: spacing.ml,
+//   },
+// });
 
 interface Props {
   loading: boolean;
@@ -75,7 +75,7 @@ class Signup extends React.Component<RouteComponentProps & Props> {
           px={[spacing.sm, 0]}
           py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
           <l.FlexColumn>
-            <t.Text
+            {/* <t.Text
               center
               large
               mb={spacing.ml}
@@ -142,8 +142,8 @@ class Signup extends React.Component<RouteComponentProps & Props> {
             </t.Text>
             <t.Text color={colors.red} large id="sign-up-here">
               Sign up below:
-            </t.Text>
-            <t.Text large my={spacing.xxl}>
+            </t.Text> */}
+            <t.Text large mb={spacing.xxl}>
               Create a React Fitness Club account with social media.
             </t.Text>
           </l.FlexColumn>

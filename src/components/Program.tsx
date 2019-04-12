@@ -94,7 +94,7 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
                 <t.Link
                   border={borders.red}
                   color={colors.red}
-                  to={`/schedule?programId=${program.id}&divisionId=${
+                  to={`/schedule?categoryId=${program.id}&subCategoryId=${
                     division.id
                   }`}
                   nowrap="true">

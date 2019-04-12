@@ -64,7 +64,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     super(props);
     this.state = {
       calendarView: isMobileOnly()
-        ? BigCalendar.Views.DAY
+        ? BigCalendar.Views.AGENDA
         : BigCalendar.Views.WEEK,
     };
   }
@@ -145,6 +145,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
         style: {
           ...commonStyles,
           background: program.eventBackground,
+          color: program.eventColor,
         },
       };
     }
@@ -275,7 +276,10 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                       </l.Flex>
                     </LegendSet>
                     <LegendSet alignTop>
-                      <l.Space height={spacing.m} mb={spacing.t} />
+                      <l.Flex>
+                        <LegendIcon background={'#DAE22A'} />
+                        <t.HelpText color={colors.black}>Zumba</t.HelpText>
+                      </l.Flex>
                       <l.Flex>
                         <LegendIcon background="#F14042" />
                         <t.HelpText color={colors.black}>React</t.HelpText>

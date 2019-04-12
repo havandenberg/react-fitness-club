@@ -5,6 +5,7 @@ import l from '../styles/layout';
 import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Program } from '../types/program';
+import { StyleSet, StyleValue } from '../types/styles';
 import {
   getDivisionDiscountCost,
   getDivisionDiscountMonths,
@@ -39,9 +40,9 @@ const SmallProgramCard = ({
   showCost,
 }: {
   customStyles?: {
-    nameFontSize?: string | number | Array<string | number>;
-    photoSideLength?: string | number | Array<string | number>;
-    wrapper?: { [key: string]: string | number | Array<string | number> };
+    nameFontSize?: StyleValue;
+    photoSideLength?: StyleValue;
+    wrapper?: StyleSet;
   };
   divisionId?: string;
   nameLayout?: NameLayout;

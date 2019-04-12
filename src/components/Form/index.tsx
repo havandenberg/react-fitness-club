@@ -5,6 +5,7 @@ import { width } from 'styled-system';
 import l from '../../styles/layout';
 import { breakpoints, colors, spacing, transitions } from '../../styles/theme';
 import t from '../../styles/typography';
+import { StyleSet } from '../../types/styles';
 import { isMobile, isMobileOnly } from '../../utils/screensize';
 import { scrollToId } from '../../utils/scroll';
 import { removeInvalidCharacters } from '../../utils/validation';
@@ -58,7 +59,7 @@ export type FormSubmit<FormFields> = (
 ) => void;
 
 export interface FormFieldValidations<FormFields> {
-  [index: string]: (value: string, fields: FormFields) => boolean;
+  [index: string]: (value: any, fields: FormFields) => boolean;
 }
 
 export type FormComponentProps<FormFields> = {
@@ -85,6 +86,7 @@ export interface FormStep<FormFields> {
 }
 
 interface Props<FormFields> {
+  disableScroll?: boolean;
   enableDirectStepNav?: boolean;
   errorMessage: string | React.ReactNode;
   fieldValidations: FormFieldValidations<FormFields>;
@@ -92,10 +94,13 @@ interface Props<FormFields> {
   initialValues: FormFields;
   isEditing: boolean;
   id: string;
+  scrollId?: string;
+  scrollOptions?: StyleSet;
   steps: Array<FormStep<FormFields>>;
   stepProps?: object;
   successMessage: string | React.ReactNode;
   validationErrorMessage: string | React.ReactNode;
+  children?(props: FormComponentProps<FormFields>): JSX.Element;
 }
 
 interface State<FormFields> {
@@ -123,6 +128,7 @@ class Form<FormFields> extends React.Component<
     errorMessage: 'Please try again.',
     fieldChangeValidations: [],
     fieldValidations: [],
+    steps: [],
     successMessage: 'Success!',
     validationErrorMessage:
       'Please correct the fields highlighted below and try again.',
@@ -186,7 +192,11 @@ class Form<FormFields> extends React.Component<
     this.resetScroll();
   };
 
-  handleFail = (error: Error, onFailMessage?: string) => {
+  handleFail = (
+    error: Error,
+    onFailMessage?: string,
+    callback?: () => void,
+  ) => {
     this.setState({
       ...initialState,
       failed: true,
@@ -196,12 +206,15 @@ class Form<FormFields> extends React.Component<
     console.log(error);
   };
 
-  handleSuccess = () =>
-    this.setState({
-      ...initialState,
-      completed: true,
-      fields: this.props.initialValues,
-    });
+  handleSuccess = (callback?: () => void) =>
+    this.setState(
+      {
+        ...initialState,
+        completed: true,
+        fields: this.props.initialValues,
+      },
+      callback,
+    );
 
   handleSubmit = (
     submit: (
@@ -255,7 +268,12 @@ class Form<FormFields> extends React.Component<
     this.setState({ ...initialState, fields: this.props.initialValues });
   };
 
-  resetScroll = () => scrollToId(this.props.id, { offset: -200 });
+  resetScroll = () => {
+    const { disableScroll, id, scrollId, scrollOptions } = this.props;
+    if (!disableScroll) {
+      scrollToId(scrollId || id, scrollOptions || { offset: -200 });
+    }
+  };
 
   setStep = (currentStep: string) => this.setState({ currentStep });
 
@@ -314,6 +332,7 @@ class Form<FormFields> extends React.Component<
 
   render() {
     const {
+      children,
       enableDirectStepNav,
       errorMessage,
       id,
@@ -334,14 +353,34 @@ class Form<FormFields> extends React.Component<
 
     const currentStepData = this.getStepData(currentStep);
 
+    const componentProps = {
+      completed,
+      errors,
+      failed,
+      fields,
+      loading,
+      onBack: this.handleBack,
+      onChange: this.onChange,
+      onForward: this.handleForward,
+      onSubmit: this.handleSubmit,
+      ref: (
+        ref: React.RefObject<
+          React.ComponentType<FormComponentProps<FormFields>>
+        >,
+      ) => (this.stepComponent = ref),
+      resetForm: this.resetForm,
+      validate: this.validate,
+      validateAll: this.validateAll,
+      ...stepProps,
+    };
+
     return (
       <FormWrapper width="100%">
         {steps.length > 1 && (
           <l.FlexCentered
             mb={spacing.xxxl}
             width={['100%', '80%', '100%']}
-            mx="auto"
-          >
+            mx="auto">
             {steps.map((s, index: number) => (
               <React.Fragment key={s.label}>
                 <NavItem
@@ -352,8 +391,7 @@ class Form<FormFields> extends React.Component<
                   onClick={() => enableDirectStepNav && this.setStep(s.label)}
                   width={
                     isMobile() ? `${Math.floor(100 / steps.length)}%` : 'auto'
-                  }
-                >
+                  }>
                   {s.label}
                 </NavItem>
                 {index + 1 < steps.length && !isMobileOnly() && (
@@ -363,25 +401,23 @@ class Form<FormFields> extends React.Component<
             ))}
           </l.FlexCentered>
         )}
-        {completed && !failed && (
+        {completed && !failed && successMessage && (
           <t.Text
             center
             color={colors.green}
             large
-            mb={[spacing.ml, spacing.xl]}
-          >
+            mb={[spacing.ml, spacing.xl]}>
             {successMessage}
           </t.Text>
         )}
-        {!completed && failed && (
+        {!completed && failed && (errorMessage || onFailMessage) && (
           <t.Text
             center
             color={colors.red}
             large
             mb={[spacing.ml, spacing.xl]}
             mx="auto"
-            width="75%"
-          >
+            width="75%">
             {errorMessage || onFailMessage}
           </t.Text>
         )}
@@ -391,28 +427,11 @@ class Form<FormFields> extends React.Component<
               {validationErrorMessage}
             </t.Text>
           )}
-          {currentStepData.FormComponent && (
-            <currentStepData.FormComponent
-              completed={completed}
-              errors={errors}
-              failed={failed}
-              fields={fields}
-              loading={loading}
-              onChange={this.onChange}
-              onBack={this.handleBack}
-              onForward={this.handleForward}
-              onSubmit={this.handleSubmit}
-              resetForm={this.resetForm}
-              validate={this.validate}
-              validateAll={this.validateAll}
-              ref={(
-                ref: React.RefObject<
-                  React.ComponentType<FormComponentProps<FormFields>>
-                >,
-              ) => (this.stepComponent = ref)}
-              {...stepProps}
-            />
-          )}
+          {children
+            ? children(componentProps)
+            : currentStepData.FormComponent && (
+                <currentStepData.FormComponent {...componentProps} />
+              )}
         </div>
       </FormWrapper>
     );

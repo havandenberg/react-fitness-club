@@ -60,12 +60,14 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
   constructor(props: Props & RouteComponentProps) {
     super(props);
 
-    const { category, searchValue, subCategory } = parse(props.location.search);
+    const { categoryId, searchValue, subCategoryId } = parse(
+      props.location.search,
+    );
 
     this.state = {
-      categoryId: category ? `${category}` : 'all',
+      categoryId: categoryId ? `${categoryId}` : 'all',
       searchValue: searchValue ? `${searchValue}` : '',
-      subCategoryId: subCategory ? `${subCategory}` : 'all',
+      subCategoryId: subCategoryId ? `${subCategoryId}` : 'all',
     };
   }
 

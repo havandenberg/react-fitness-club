@@ -1,3 +1,4 @@
+import { ASSETS_PATH } from '../utils/constants';
 import { Membership } from './membership';
 
 export type dobField = 'month' | 'day' | 'year';
@@ -63,7 +64,7 @@ export const newMemberDefaults: Member = {
   nickname: '',
   pastMemberships: [],
   phone: '',
-  profilePhotoUrl: '',
+  profilePhotoUrl: `${ASSETS_PATH}/default-profile.png`,
   squareCustomerId: '',
   state: '',
   streetAddress1: '',

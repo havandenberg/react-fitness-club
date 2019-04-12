@@ -47,9 +47,9 @@ import {
   maxContentWidth,
   spacing,
 } from './theme';
+import { textOptions } from './typography';
 
 // Flex is the basis for other layout components
-
 interface FlexDivProps {
   alignBottom?: boolean;
   alignTop?: boolean;
@@ -179,7 +179,7 @@ const FlexColumnCentered = styled(Flex)({
   justifyContent: 'center',
 });
 
-const Img = styled('img')(height, space, width);
+const Img = styled('img')(height, maxHeight, maxWidth, space, width);
 
 export const scrollStyles = (showScrollBar: boolean) => ({
   '::-webkit-scrollbar': {
@@ -205,6 +205,29 @@ export const scrollStyles = (showScrollBar: boolean) => ({
   },
   overflow: 'scroll',
 });
+
+const Span = styled('span')(
+  alignItems,
+  alignSelf,
+  background,
+  bottom,
+  flex,
+  flexBasis,
+  height,
+  justifyContent,
+  justifySelf,
+  left,
+  maxHeight,
+  minHeight,
+  minWidth,
+  position,
+  right,
+  space,
+  top,
+  width,
+  zIndex,
+  ...textOptions,
+);
 
 const Space = styled('div')(
   alignItems,
@@ -319,4 +342,5 @@ export default {
   ScrollFlex,
   Section,
   Space,
+  Span,
 };

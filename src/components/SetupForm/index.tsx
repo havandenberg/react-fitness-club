@@ -90,7 +90,6 @@ export const setupFieldValidations: FormFieldValidations<SetupFields> = {
       : true,
   memberSignature: (value: string) => !R.isEmpty(value),
   phone: (value: string) => isValidPhone(value),
-  profilePhotoUrl: (value: string) => !R.isEmpty(value),
   state: (value: string) => !R.isEmpty(value) && value !== '-',
   streetAddress1: (value: string) => !R.isEmpty(value),
   zip: (value: string) => isValidZipCode(value),
@@ -186,6 +185,7 @@ class SetupFormComponent extends React.Component<Props> {
   getInitialFormValues: () => SetupFields = () => {
     const { member } = this.props;
     const { dateOfBirth, emergencyContact } = member;
+    console.log(member);
     return {
       initialFive: '',
       initialFour: '',

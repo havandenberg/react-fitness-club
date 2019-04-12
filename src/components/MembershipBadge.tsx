@@ -14,6 +14,7 @@ import {
 import t from '../styles/typography';
 import { Membership } from '../types/membership';
 import { Program } from '../types/program';
+import { StyleSet, StyleValue } from '../types/styles';
 import { isInactiveMembership } from '../utils/membership';
 import { isMobileOnly } from '../utils/screensize';
 import SmallProgramCard from './SmallProgramCard';
@@ -57,11 +58,11 @@ const MembershipBadge = ({
 }: {
   bypassInactive?: boolean;
   customStyles?: {
-    badge?: { [key: string]: string | number | Array<string | number> };
-    badgeText?: { [key: string]: string | number | Array<string | number> };
-    nameFontSize?: string | number | Array<string | number>;
-    photoSideLength?: string | number | Array<string | number>;
-    wrapper?: { [key: string]: string | number | Array<string | number> };
+    badge?: StyleSet;
+    badgeText?: StyleSet;
+    nameFontSize?: StyleValue;
+    photoSideLength?: StyleValue;
+    wrapper?: StyleSet;
   };
   divisionId?: string;
   membership: Membership;

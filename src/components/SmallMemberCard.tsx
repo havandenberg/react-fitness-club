@@ -10,6 +10,7 @@ import {
 } from '../styles/theme';
 import t from '../styles/typography';
 import { Member } from '../types/member';
+import { StyleSet, StyleValue } from '../types/styles';
 import { isTabletUp } from '../utils/screensize';
 import ProfilePhoto from './ProfilePhoto';
 
@@ -78,9 +79,9 @@ const SmallMemberCard = ({
 }: {
   activeType?: ActiveType;
   customStyles?: {
-    nameFontSize?: string | number | Array<string | number>;
-    photoSideLength?: string | number | Array<string | number>;
-    wrapper?: { [key: string]: string | number | Array<string | number> };
+    nameFontSize?: StyleValue;
+    photoSideLength?: StyleValue;
+    wrapper?: StyleSet;
   };
   isActive?: boolean;
   member: Member;

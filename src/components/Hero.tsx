@@ -7,6 +7,7 @@ import EventsImg from '../assets/images/events.svg';
 import LogoImg from '../assets/images/logo.png';
 import NewsletterImg from '../assets/images/newsletter.svg';
 import ScheduleImg from '../assets/images/schedule.svg';
+import ShopImg from '../assets/images/shop.svg';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
@@ -72,7 +73,7 @@ const QuickLinks = styled(l.Flex)({
   top: spacing.xl,
   [breakpoints.mobile]: {
     justifyContent: 'space-between',
-    padding: `${spacing.ml}`,
+    padding: `${spacing.ml} ${spacing.sm}`,
     position: 'static',
   },
 });
@@ -150,7 +151,7 @@ const Hero = ({
           </l.Flex>
         </QuickLink>
         <QuickLink
-          bold={!!nextUpcomingEvent}
+          bold={!!nextUpcomingEvent ? 'true' : 'false'}
           border={borders.red}
           color={colors.red}
           to="/events">
@@ -166,18 +167,33 @@ const Hero = ({
             />
           </l.Flex>
         </QuickLink>
-        <QuickLink border={borders.red} color={colors.red} to="/?id=newsletter">
-          <div onClick={() => scrollToId('newsletter')}>
-            <l.Flex columnRevOnMobile>
-              Newsletter
-              <l.Img
-                height={spacing.ml}
-                ml={[0, spacing.s, spacing.s]}
-                src={NewsletterImg}
-              />
-            </l.Flex>
-          </div>
+        <QuickLink border={borders.red} color={colors.red} to="/shop">
+          <l.Flex columnRevOnMobile>
+            Pro Shop
+            <l.Img
+              height={spacing.ml}
+              ml={[0, spacing.s, spacing.s]}
+              src={ShopImg}
+            />
+          </l.Flex>
         </QuickLink>
+        {isTabletUp() && (
+          <QuickLink
+            border={borders.red}
+            color={colors.red}
+            to="/?id=newsletter">
+            <div onClick={() => scrollToId('newsletter')}>
+              <l.Flex columnRevOnMobile>
+                Newsletter
+                <l.Img
+                  height={spacing.ml}
+                  ml={[0, spacing.s, spacing.s]}
+                  src={NewsletterImg}
+                />
+              </l.Flex>
+            </div>
+          </QuickLink>
+        )}
         {/* <QuickAnchor
           border={borders.red}
           color={colors.red}

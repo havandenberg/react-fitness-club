@@ -16,8 +16,15 @@ export const react = {
   name: 'REaCT',
 };
 
+export const zumba = {
+  description:
+    'Zumba is a fitness program inspired by various rhythms and dancing styles. The routines feature aerobic/fitness interval training with a combination of fast and slow dance moves that tone and sculpt the body. Some popular genres are reggaeton, pop, hip-hop, cumbia, merengue and more! Taught by Daniele.',
+  name: 'Zumba',
+};
+
 export const programContent = {
   aikido,
   capoeira,
   react,
+  zumba,
 };

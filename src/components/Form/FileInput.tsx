@@ -50,7 +50,13 @@ interface State {
 }
 
 class FileInput extends React.Component<Props, State> {
-  state = { file: { preview: '' }, uploadProgress: '0%' };
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      file: { preview: props.fileUrl ? props.fileUrl : '' },
+      uploadProgress: '0%',
+    };
+  }
 
   handleDrop: DropFilesEventHandler = accepted => {
     if (accepted.length === 1) {
@@ -93,24 +99,23 @@ class FileInput extends React.Component<Props, State> {
   render() {
     const { error, fileUrl } = this.props;
     const { file, uploadProgress } = this.state;
-    const previewSrc = R.isEmpty(file.preview) ? fileUrl : file.preview;
+    console.log(fileUrl, file.preview);
+    // const previewSrc = R.isEmpty(file.preview) ? fileUrl : file.preview;
     return (
       <Dropzone
         accept="image/jpeg, image/png"
         multiple={false}
-        onDrop={this.handleDrop}
-      >
+        onDrop={this.handleDrop}>
         {({ getRootProps, getInputProps, isDragActive }) => (
           <DropzoneInner
             {...getRootProps()}
             error={error}
-            isDragActive={isDragActive}
-          >
+            isDragActive={isDragActive}>
             <l.Flex>
               <input {...getInputProps()} />
-              {!R.isEmpty(previewSrc) && (
+              {!R.isEmpty(fileUrl) && (
                 <l.FlexCentered p={spacing.s}>
-                  <ProfilePhoto imageSrc={previewSrc} />
+                  <ProfilePhoto imageSrc={fileUrl} />
                 </l.FlexCentered>
               )}
               <t.Text center mb={spacing.s} width={150}>

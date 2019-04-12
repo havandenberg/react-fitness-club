@@ -184,7 +184,7 @@ const Home = () => (
             </t.Text>
           </l.Flex>
           <t.H2 mb={[spacing.ml, spacing.ml]}>Fitness Programs:</t.H2>
-          <t.Text large mb={[spacing.xxxl, spacing.xxxl]}>
+          <t.Text large>
             We also offer general fitness programs for a range of goals. We hope
             to add more unique fitness programs in the future!
             <l.Space height={spacing.ml} />
@@ -199,6 +199,26 @@ const Home = () => (
             New England. We practice HIIT, strength training, and conditioning
             to prepare for each event.
           </t.Text>
+          <l.Space height={spacing.ml} />
+          <l.Flex alignTop mb={[spacing.xxxl, spacing.xxxl]}>
+            <t.Link to="#">
+              <Logo src={`${ASSETS_PATH}/programs/Zumba/zumba-logo.png`} />
+            </t.Link>
+            <t.Text large>
+              <t.Link
+                border={borders.red}
+                color={colors.red}
+                fontSize={[mobileSizes.largeText, fontSizes.largeText]}
+                to="#">
+                Zumba:
+              </t.Link>{' '}
+              Zumba is a fitness program inspired by various rhythms and dancing
+              styles. The routines feature aerobic/fitness interval training
+              with a combination of fast and slow dance moves that tone and
+              sculpt the body. Some popular genres are reggaeton, pop, hip-hop,
+              cumbia, merengue and more! Taught by Daniele.
+            </t.Text>
+          </l.Flex>
           <t.H2 mb={[spacing.ml, spacing.ml]}>Team-Based Approach:</t.H2>
           <t.Text large mb={[spacing.xxxl, spacing.xxxl]}>
             No one gets there alone. RFC is a community of like-minded, fitness

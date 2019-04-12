@@ -14,6 +14,7 @@ import {
   width,
 } from 'styled-system';
 import ChainLinkImg from '../assets/images/chain-link-bg.png';
+import { StyleSet } from '../types/styles';
 import { scrollStyles } from './layout';
 import {
   borders,
@@ -30,7 +31,7 @@ import {
 
 // Basic typography components
 
-const textOptions = [
+export const textOptions = [
   alignSelf,
   ({ bold }: { bold?: boolean }) => ({
     fontWeight: bold ? 'bold' : undefined,
@@ -107,11 +108,7 @@ export const H1 = styled('h1')(
     padding: 0,
     textShadow: shadows.text,
   },
-  ({
-    fontSize,
-  }: {
-    fontSize: { [key: string]: string | number | Array<string | number> };
-  }) =>
+  ({ fontSize }: { fontSize: StyleSet }) =>
     !fontSize && {
       fontSize: fontSizes.h1,
       [breakpoints.tablet]: {
@@ -131,11 +128,7 @@ export const H2 = styled('h2')(
     margin: 0,
     padding: 0,
   },
-  ({
-    fontSize,
-  }: {
-    fontSize: { [key: string]: string | number | Array<string | number> };
-  }) =>
+  ({ fontSize }: { fontSize: StyleSet }) =>
     !fontSize && {
       fontSize: fontSizes.h2,
       [breakpoints.tablet]: {
@@ -155,11 +148,7 @@ export const H3 = styled('h3')(
     margin: 0,
     padding: 0,
   },
-  ({
-    fontSize,
-  }: {
-    fontSize: { [key: string]: string | number | Array<string | number> };
-  }) =>
+  ({ fontSize }: { fontSize: StyleSet }) =>
     !fontSize && {
       fontSize: fontSizes.h3,
       [breakpoints.tablet]: {
@@ -179,13 +168,7 @@ export const Text = styled('div')(
     letterSpacing: 1,
     lineHeight: 1.4,
   },
-  ({
-    large,
-    fontSize,
-  }: {
-    large?: boolean;
-    fontSize: { [key: string]: string | number | Array<string | number> };
-  }) =>
+  ({ large, fontSize }: { large?: boolean; fontSize: StyleSet }) =>
     !fontSize && {
       fontSize: large ? fontSizes.largeText : fontSizes.text,
       [breakpoints.tablet]: {
@@ -219,13 +202,7 @@ const Anchor = styled('a')(
     },
     borderBottom: borders.transparent,
   }),
-  ({
-    large,
-    fontSize,
-  }: {
-    large?: boolean;
-    fontSize: { [key: string]: string | number | Array<string | number> };
-  }) =>
+  ({ large, fontSize }: { large?: boolean; fontSize: StyleSet }) =>
     !fontSize && {
       fontSize: large ? fontSizes.largeText : fontSizes.text,
       [breakpoints.tablet]: {
@@ -252,13 +229,7 @@ const Link = styled(RouterLink)(
     borderBottom: borders.transparent,
     transition: transitions.default,
   }),
-  ({
-    large,
-    fontSize,
-  }: {
-    large?: boolean;
-    fontSize: { [key: string]: string | number | Array<string | number> };
-  }) =>
+  ({ large, fontSize }: { large?: boolean; fontSize: StyleSet }) =>
     !fontSize && {
       fontSize: large ? fontSizes.largeText : fontSizes.text,
       [breakpoints.tablet]: {
@@ -295,13 +266,7 @@ const TextButton = styled(Text)(
     opacity: hoverStyle === 'opacity' && onClick ? 0.5 : undefined,
     transition: transitions.default,
   }),
-  ({
-    large,
-    fontSize,
-  }: {
-    large?: boolean;
-    fontSize: { [key: string]: string | number | Array<string | number> };
-  }) =>
+  ({ large, fontSize }: { large?: boolean; fontSize: StyleSet }) =>
     !fontSize && {
       fontSize: large ? fontSizes.largeText : fontSizes.text,
       [breakpoints.tablet]: {

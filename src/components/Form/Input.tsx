@@ -1,5 +1,5 @@
 import styled from 'react-emotion';
-import { flex, space, textAlign, width } from 'styled-system';
+import { flex, height, space, textAlign, width } from 'styled-system';
 import { scrollStyles } from '../../styles/layout';
 import {
   borders,
@@ -39,7 +39,6 @@ const inputStyles = {
   transition: transitions.default,
   width: inputWidth,
   [breakpoints.mobile]: {
-    padding: spacing.t,
     width: '100%',
   },
 };
@@ -90,6 +89,7 @@ export const TextArea = styled('textarea')(
     overflowX: 'visible',
   },
   flex,
+  height,
   space,
   textAlign,
   withError,

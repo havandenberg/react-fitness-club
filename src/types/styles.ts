@@ -1,3 +1,8 @@
+export type StyleValue = string | number | Array<string | number>;
+export interface StyleSet {
+  [key: string]: StyleValue;
+}
+
 export type Breakpoint =
   | 'all'
   | 'desktop'

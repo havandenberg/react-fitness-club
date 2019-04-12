@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'react-emotion';
 import l from '../styles/layout';
+import { StyleValue } from '../types/styles';
 
 const ProfileImage = styled('img')({
   borderRadius: '50%',
@@ -11,7 +12,7 @@ const ProfileImage = styled('img')({
 interface Props {
   customStyles?: React.CSSProperties;
   imageSrc: string;
-  sideLength?: string | number | Array<string | number>;
+  sideLength?: StyleValue;
 }
 
 const ProfilePhoto = ({ customStyles, imageSrc, sideLength = 100 }: Props) => (
@@ -20,8 +21,7 @@ const ProfilePhoto = ({ customStyles, imageSrc, sideLength = 100 }: Props) => (
     minHeight={sideLength}
     minWidth={sideLength}
     style={customStyles}
-    width={sideLength}
-  >
+    width={sideLength}>
     <ProfileImage src={imageSrc} />
   </l.Space>
 );
