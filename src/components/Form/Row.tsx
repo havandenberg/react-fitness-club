@@ -79,7 +79,6 @@ class FormRow<FormFields> extends React.Component<FormRowProps<FormFields>> {
     onChange: OnChangeHandler<FormFields>,
   ) => {
     const { fields } = this.props;
-    console.log(fields);
     const { inputType } = item;
     switch (inputType) {
       case 'file':

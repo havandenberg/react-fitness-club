@@ -271,7 +271,7 @@ class OrderReview extends React.Component<
             <l.FlexColumn mx="auto" width={['100%', '90%', '80%']}>
               <t.Text large>
                 If you have any special requests or notes for any of the items
-                in your order such as color or size, add them below.
+                in your order, please add them below.
               </t.Text>
               <l.Space height={spacing.xl} />
               <TextArea

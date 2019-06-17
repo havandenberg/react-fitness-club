@@ -185,7 +185,6 @@ class SetupFormComponent extends React.Component<Props> {
   getInitialFormValues: () => SetupFields = () => {
     const { member } = this.props;
     const { dateOfBirth, emergencyContact } = member;
-    console.log(member);
     return {
       initialFive: '',
       initialFour: '',

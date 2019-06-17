@@ -28,7 +28,6 @@ export const personalInfoStep: (
 ) => Array<FormRowData<EditProfileFields>> = (authProvider, fields) => {
   const data: Array<FormRowData<EditProfileFields>> = [
     {
-      isRequired: true,
       items: [
         {
           flex: '100%',

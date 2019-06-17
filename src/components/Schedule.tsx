@@ -299,7 +299,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                         eventPropGetter={this.getEventProps}
                         localizer={localizer}
                         max={new Date(2013, 1, 1, 22)}
-                        min={new Date(2013, 1, 1, 10)}
+                        min={new Date(2013, 1, 1, 8)}
                         events={
                           events
                             ? this.filterEvents(
