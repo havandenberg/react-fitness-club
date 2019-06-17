@@ -20,6 +20,13 @@ export const coaches = {
     profilePhotoUrl:
       'https://firebasestorage.googleapis.com/v0/b/react-fitness-club.appspot.com/o/members%2FSp4i3d3O70Qpk5xQXMXgoVu76Zr2%2Fkoksal.jpg?alt=media&token=f076c8a4-dbf5-4d66-b56d-0aba9481accc',
   },
+  d36SNzRAKwhRk6DQMUrRCwJxVZ83: {
+    bio: '',
+    id: 'd36SNzRAKwhRk6DQMUrRCwJxVZ83',
+    name: 'Daniele Oliveira',
+    profilePhotoUrl:
+      'https://firebasestorage.googleapis.com/v0/b/react-fitness-club.appspot.com/o/members%2Fd36SNzRAKwhRk6DQMUrRCwJxVZ83%2Fprofile-default.png?alt=media&token=b789ebc2-0f30-4f4a-bad6-4ba392e2728e',
+  },
   r8o9wau2IkgVZuq8PpgECk0yLv22: {
     bio: '',
     id: 'r8o9wau2IkgVZuq8PpgECk0yLv22',
