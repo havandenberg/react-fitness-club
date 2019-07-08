@@ -19,7 +19,7 @@ export const getMembershipProgram = (
   R.find((program: Program) => R.equals(program.id, membership.type), programs);
 
 export const getCoachingPrograms = (programs: Program[], memberId: string) =>
-  programs.filter((prog: Program) => isCoachOf(memberId, prog));
+  programs.filter((prog: Program) => isCoachOfProgram(memberId, prog));
 
 export const getEnrolledPrograms = (programs: Program[], memberId: string) =>
   programs.filter((prog: Program) =>
@@ -50,6 +50,11 @@ export const getEnrolledDivisions = (program: Program, memberId: string) =>
 export const getDivisionRef = (programId: string, divisionId: string) =>
   firebase.database().ref(`programs/${programId}/divisions/${divisionId}`);
 
+export const getDivisionCost = (program: Program, divisionId?: string) => {
+  const division = divisionId && getDivisionById(divisionId, program);
+  return division ? division.cost || program.cost : program.cost;
+};
+
 export const getDivisionById = (divisionId: string, program: Program) =>
   R.find((division: Division) => divisionId === division.id, program.divisions);
 
@@ -59,56 +64,11 @@ export const getDivisionByName = (divisionName: string, program: Program) =>
     program.divisions,
   );
 
-export const getDivisionMonthlyCost = (
-  program: Program,
-  divisionId?: string,
-) => {
-  const division = divisionId && getDivisionById(divisionId, program);
-  return division && division.monthlyCost
-    ? division.monthlyCost
-    : program.monthlyCost;
-};
-
-export const getDivisionDiscountMultiplier = (
-  program: Program,
-  divisionId?: string,
-) => {
-  const division = divisionId && getDivisionById(divisionId, program);
-  return division && division.discountMultiplier
-    ? division.discountMultiplier
-    : program.discountMultiplier
-    ? program.discountMultiplier
-    : 1;
-};
-
-export const getDivisionDiscountCost = (
-  program: Program,
-  divisionId?: string,
-) => {
-  return (
-    getDivisionMonthlyCost(program, divisionId) *
-    (1 - getDivisionDiscountMultiplier(program, divisionId))
-  );
-};
-
-export const getDivisionDiscountMonths = (
-  program: Program,
-  divisionId?: string,
-) => {
-  const division = divisionId && getDivisionById(divisionId, program);
-  return division && division.discountMonths
-    ? division.discountMonths
-    : program.discountMonths
-    ? program.discountMonths
-    : 0;
-};
-
 export const parsePrograms = (programs: Program[]) =>
   Object.keys(programs).map((key: string) => {
     const program = programs[key];
     return {
       ...program,
-      assistantCoachIds: JSON.parse(`${program.assistantCoachIds}`),
       divisions: R.values(program.divisions).map((division: Division) => ({
         ...division,
         classes: division.classes
@@ -129,6 +89,5 @@ export const parsePrograms = (programs: Program[]) =>
     };
   });
 
-export const isCoachOf = (memberId: string, program: Program) =>
-  program.coachId === memberId ||
-  R.contains(memberId, program.assistantCoachIds);
+export const isCoachOfProgram = (memberId: string, program: Program) =>
+  R.contains(memberId, program.coachIds);

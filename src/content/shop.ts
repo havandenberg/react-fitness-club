@@ -70,7 +70,8 @@ export const SHOP_ITEMS = [
   },
   {
     categoryIds: ['rfc', 'clothing'],
-    description: 'Made with recycled polyester fibers from plastic bottles; Two-ply hood; Coverstitching throughout; Set-in sleeves; Rib knit waistband and cuffs; Outside ID: "C" logo at left cuff; Fabric Content - 50% cotton/50% polyester',
+    description:
+      'Made with recycled polyester fibers from plastic bottles; Two-ply hood; Coverstitching throughout; Set-in sleeves; Rib knit waistband and cuffs; Outside ID: "C" logo at left cuff; Fabric Content - 50% cotton/50% polyester',
     id: 'rfc-hoodie',
     imageSrcList: [`${INVENTORY_IMAGES_PATH}/rfc-hoodie-1.png`],
     isSquadLocker: true,
@@ -78,7 +79,8 @@ export const SHOP_ITEMS = [
   },
   {
     categoryIds: ['rfc', 'clothing'],
-    description: 'BODY:5.0 oz.84% Polyster, 16% ELASTANE; MESH: 4.6 oz.92% POLYSTER 8% ELASTANE; HeatGear fabric, with all the benefits of UA Compression, comfortable enough to be wron all day; Stretch-mesh underarm panels deliver strategic ventilition; UPF30+protects your skin from the sun\'s harmful rays; 4-way stretch farbication allows greater mobility & maintain shape; Moisture Transport System wicks sweat awat from the body; Anti- odor technology prevents the growth of odor causing microbes; Mesh panel on back neck with ARMOUR wordmar',
+    description:
+      'BODY:5.0 oz.84% Polyster, 16% ELASTANE; MESH: 4.6 oz.92% POLYSTER 8% ELASTANE; HeatGear fabric, with all the benefits of UA Compression, comfortable enough to be wron all day; Stretch-mesh underarm panels deliver strategic ventilition; UPF30+protects your skin from the sun\'s harmful rays; 4-way stretch farbication allows greater mobility & maintain shape; Moisture Transport System wicks sweat awat from the body; Anti- odor technology prevents the growth of odor causing microbes; Mesh panel on back neck with ARMOUR wordmar',
     id: 'rfc-compression-shirt',
     imageSrcList: [`${INVENTORY_IMAGES_PATH}/rfc-comp-shirt-1.png`],
     isSquadLocker: true,
@@ -86,7 +88,8 @@ export const SHOP_ITEMS = [
   },
   {
     categoryIds: ['rfc', 'clothing'],
-    description: '9"INSEAM; 100% Polyester moisture management/antimicrobial performance fabric; Athletic cut & superior fit - Double needle hem; 2” Covered elastic waistband and drawcord; Badger heat seal logo on left hip',
+    description:
+      '9"INSEAM; 100% Polyester moisture management/antimicrobial performance fabric; Athletic cut & superior fit - Double needle hem; 2” Covered elastic waistband and drawcord; Badger heat seal logo on left hip',
     id: 'rfc-compression-shorts',
     imageSrcList: [`${INVENTORY_IMAGES_PATH}/rfc-shorts-1.png`],
     subCategoryIds: ['clothing'],
@@ -95,7 +98,8 @@ export const SHOP_ITEMS = [
   },
   {
     categoryIds: ['react', 'clothing'],
-    description: '100% Polyester moisture management fabric; Side & underam textured waffle weave panels; Badger sport paneled shoulder for maximum movement; Front pouch pocket with two hook & loop closures at top of pockets; Adult with headset opening; Poly rib cuffs & waistband; Embriodered Badger logo on left sleeve',
+    description:
+      '100% Polyester moisture management fabric; Side & underam textured waffle weave panels; Badger sport paneled shoulder for maximum movement; Front pouch pocket with two hook & loop closures at top of pockets; Adult with headset opening; Poly rib cuffs & waistband; Embriodered Badger logo on left sleeve',
     id: 'react-hoodie',
     imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-hoodie-1.png`],
     isSquadLocker: true,
@@ -103,7 +107,24 @@ export const SHOP_ITEMS = [
   },
   {
     categoryIds: ['react', 'clothing'],
-    description: 'UA Tech™ fabric is quick-drying, ultra-soft & has a more natural feel; Material wicks sweat & dries really fast; NEW FIT: Plus 1.5" in body length, Plus 2" across chest, Plus 2" around bottom opening. Anti-odor technology prevents the growth of odor-causing microbes; Updated set-in sleeves; Center front logo; 100% POLYESTER',
+    description:
+      '100% Polyester moisture management fabric; Side & underam textured waffle weave panels; Badger sport paneled shoulder for maximum movement; Front pouch pocket with two hook & loop closures at top of pockets; Adult with headset opening; Poly rib cuffs & waistband; Embriodered Badger logo on left sleeve',
+    id: 'react-swag-1',
+    imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-swag-tshirt-1.png`],
+    isSquadLocker: true,
+    optionSets: [
+      {
+        id: 'color',
+        name: 'Color',
+        options: ['#54759B'],
+      },
+    ],
+    title: 'REaCT Swag T-shirt 1',
+  },
+  {
+    categoryIds: ['react', 'clothing'],
+    description:
+      'UA Tech™ fabric is quick-drying, ultra-soft & has a more natural feel; Material wicks sweat & dries really fast; NEW FIT: Plus 1.5" in body length, Plus 2" across chest, Plus 2" around bottom opening. Anti-odor technology prevents the growth of odor-causing microbes; Updated set-in sleeves; Center front logo; 100% POLYESTER',
     id: 'react-compression-shirt',
     imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-comp-shirt-1.png`],
     isSquadLocker: true,
@@ -111,7 +132,8 @@ export const SHOP_ITEMS = [
   },
   {
     categoryIds: ['react', 'clothing'],
-    description: '3.8-ounce, 100% cationic polyester interlock; PosiCharge colorfast technology; Removable tag for comfort and relabeling; Elastic waistband; 9-inch inseam; Continuous loop drawcord',
+    description:
+      '3.8-ounce, 100% cationic polyester interlock; PosiCharge colorfast technology; Removable tag for comfort and relabeling; Elastic waistband; 9-inch inseam; Continuous loop drawcord',
     id: 'react-compression-shorts',
     imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-shorts-1.png`],
     title: 'REaCT Training Shorts',

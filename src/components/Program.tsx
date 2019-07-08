@@ -9,7 +9,12 @@ import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
-import { Coach, Division, Program as ProgramType } from '../types/program';
+import {
+  Coach,
+  Division,
+  Program as ProgramType,
+  ProgramContent,
+} from '../types/program';
 import ProfilePhoto from './ProfilePhoto';
 
 const ProgramWrapper = styled(l.Flex)({
@@ -45,10 +50,13 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
   render() {
     const { program } = this.props;
 
-    const content = programContent[program.id];
+    const content = programContent.find(
+      (programCont: ProgramContent) => program.id === programCont.id,
+    );
+
     const programCoachIds = R.filter(
       (coachId: string) => R.contains(coachId, Object.keys(coaches)),
-      [program.coachId].concat(program.assistantCoachIds),
+      program.coachIds,
     );
     const programCoaches = R.map(
       (coachId: string) => coaches[coachId],
@@ -62,9 +70,11 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
             <l.Img src={program.logoSrc} width={spacing.huge} />
             <l.Space width={[spacing.ml, spacing.xxxl, spacing.xxxl]} />
             <div>
-              <t.H2 bold mb={spacing.sm}>
-                {content.name}
-              </t.H2>
+              {content && (
+                <t.H2 bold mb={spacing.sm}>
+                  {content.name}
+                </t.H2>
+              )}
               <l.Flex>
                 {programCoaches.map((coach: Coach, index: number) => (
                   <React.Fragment key={coach.id}>
@@ -109,7 +119,7 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
           width={spacing.xxxxxl}
         />
         <l.FlexColumn width={['100%', '50%', '50%']}>
-          <t.Text mb={spacing.ml}>{content.description}</t.Text>
+          {content && <t.Text mb={spacing.ml}>{content.description}</t.Text>}
           <t.Anchor
             border={borders.red}
             href={program.aboutUrl}
@@ -120,7 +130,7 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
             </t.Text>
           </t.Anchor>
           <t.Text center large>
-            {`$${program.monthlyCost} / month`}
+            {program.cost}
             <l.Break />
             (single program cost)
           </t.Text>

@@ -6,13 +6,8 @@ import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Program } from '../types/program';
 import { StyleSet, StyleValue } from '../types/styles';
-import {
-  getDivisionDiscountCost,
-  getDivisionDiscountMonths,
-  getDivisionMonthlyCost,
-} from '../utils/program';
-import { getDivisionById } from '../utils/program';
-import { isMobileOnly, isSmall, isTabletUp } from '../utils/screensize';
+import { getDivisionById, getDivisionCost } from '../utils/program';
+import { isTabletUp } from '../utils/screensize';
 import { NameLayout } from './MembershipBadge';
 
 const SmallProgramCardWrapper = styled(l.FlexCentered)(
@@ -52,16 +47,7 @@ const SmallProgramCard = ({
 }) => {
   const division = divisionId && getDivisionById(divisionId, program);
   const styles = R.mergeDeepLeft(customStyles, initialStyles);
-  const monthlyCost = getDivisionMonthlyCost(program, division && division.id);
-  const discountCost = getDivisionDiscountCost(
-    program,
-    division && division.id,
-  );
-  const discountMonths = getDivisionDiscountMonths(
-    program,
-    division && division.id,
-  );
-  const hasDiscount = !R.equals(discountCost, monthlyCost);
+  const cost = getDivisionCost(program, division && division.id);
   const NameComponent = R.equals(nameLayout, 'horizontal')
     ? l.Flex
     : l.FlexColumn;
@@ -93,24 +79,7 @@ const SmallProgramCard = ({
           )}
         </l.FlexColumn>
       </NameComponent>
-      {showCost &&
-        (monthlyCost < 0 ? (
-          <t.Text large ml={spacing.xl}>
-            N/A
-          </t.Text>
-        ) : (
-          <l.FlexColumn alignTop={isMobileOnly()} ml={spacing.xl}>
-            <t.Text large>{`$${monthlyCost} / month`}</t.Text>
-            {discountCost && hasDiscount && (
-              <t.Text
-                color={colors.gray}
-                mt={spacing.sm}
-                nowrap={
-                  !isSmall()
-                }>{`$${discountCost} for first ${discountMonths} months`}</t.Text>
-            )}
-          </l.FlexColumn>
-        ))}
+      {showCost && <t.Text>{cost}</t.Text>}
     </SmallProgramCardWrapper>
   );
 };

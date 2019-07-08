@@ -26,7 +26,7 @@ import {
 import {
   getDivisionById,
   getEnrolledDivisions,
-  isCoachOf,
+  isCoachOfProgram,
 } from '../utils/program';
 import { isTabletUp } from '../utils/screensize';
 import { getButtonProps } from './Form/Button';
@@ -102,7 +102,7 @@ class EnrolledProgramCard extends React.Component<
 
   shouldShowAllDivisions = () => {
     const { isAdmin, member, program } = this.props;
-    return isAdmin || isCoachOf(member.uid, program);
+    return isAdmin || isCoachOfProgram(member.uid, program);
   };
 
   render() {
@@ -191,7 +191,7 @@ class EnrolledProgramCard extends React.Component<
                     <t.HelpText>{eventDivision.name}</t.HelpText>
                   )}
                 </div>
-                {isCoachOf(member.uid, program) && eventDivision ? (
+                {isCoachOfProgram(member.uid, program) && eventDivision ? (
                   <ManageButton
                     onClick={() =>
                       this.handleManageClass(

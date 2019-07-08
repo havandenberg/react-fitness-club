@@ -19,8 +19,6 @@ import { getGenericMembership } from '../../utils/membership';
 import {
   enrollInDivision,
   getDivisionById,
-  getDivisionDiscountMonths,
-  getDivisionDiscountMultiplier,
   getProgramById,
 } from '../../utils/program';
 import { isSmall } from '../../utils/screensize';
@@ -229,14 +227,6 @@ class Step extends React.Component<
     const selectedDivision =
       selectedProgram &&
       getDivisionById(fields.selectedDivisionId, selectedProgram);
-    const selectedProgramDiscountMonths =
-      selectedProgram &&
-      (R.isEmpty(fields.selectedMembershipType)
-        ? false
-        : getDivisionDiscountMonths(
-            selectedProgram,
-            selectedDivision ? selectedDivision.id : undefined,
-          ));
 
     const program = getProgramById(fields.membershipType, programs);
 
@@ -282,20 +272,6 @@ class Step extends React.Component<
               <t.H2 py={[0, spacing.sm, spacing.sm]}>Single Program</t.H2>
               <l.Space height={[spacing.ml, spacing.xl]} />
               <t.Text mb={spacing.sm}>Full access to one RFC program:</t.Text>
-              {selectedProgram && selectedProgramDiscountMonths ? (
-                <t.Text mb={spacing.ml}>
-                  First {selectedProgramDiscountMonths} months -{' '}
-                  {getDivisionDiscountMultiplier(
-                    selectedProgram,
-                    selectedDivision && selectedDivision.id,
-                  ) * 100}
-                  % off trial period
-                </t.Text>
-              ) : (
-                <t.Text mb={spacing.ml}>
-                  Discounted trial period at 20% off or more
-                </t.Text>
-              )}
             </l.FlexColumn>
             <l.FlexColumn width="100%">
               {selectedProgram && (
@@ -331,11 +307,7 @@ class Step extends React.Component<
                 {programs.map((prog: Program) => (
                   <option key={prog.id} value={prog.id}>
                     {programSelectIsOpen
-                      ? `${prog.name} (${
-                          prog.monthlyCost < 0
-                            ? 'N/A'
-                            : prog.monthlyCost + '/month'
-                        })`
+                      ? `${prog.name} (${prog.cost})`
                       : prog.name}
                   </option>
                 ))}

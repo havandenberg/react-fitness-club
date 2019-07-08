@@ -13,7 +13,7 @@ import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { FilterPrimaryCategory } from '../types/filter';
 import { Member } from '../types/member';
-import { Division, Program } from '../types/program';
+import { Division, Program, ProgramContent } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
 import {
   generateNewClass,
@@ -24,7 +24,11 @@ import {
   openSpecialEventClass,
 } from '../utils/class';
 import { isCoach } from '../utils/member';
-import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
+import {
+  getDivisionById,
+  getProgramById,
+  isCoachOfProgram,
+} from '../utils/program';
 import { isMobileOnly, isTabletOnly } from '../utils/screensize';
 import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
@@ -175,7 +179,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
             ).then(() => history.push(`/events/${specialEvent.id}/${classId}`));
           }
         }
-      } else if (program && division && isCoachOf(member.uid, program)) {
+      } else if (program && division && isCoachOfProgram(member.uid, program)) {
         if (getDivisionClassInstById(classId, division)) {
           history.push(`/programs/${program.id}/${division.id}/${classId}`);
         } else {
@@ -200,7 +204,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
         })),
       }),
       programs.filter((prog: Program) =>
-        R.contains(prog.id, Object.keys(programContent)),
+        R.find((progCont: ProgramContent) => prog.id === progCont.id, programContent),
       ),
     );
     categories.push({

@@ -9,25 +9,26 @@ export interface Coach {
 
 export interface Division {
   classes: ClassInst[];
-  discountMultiplier?: number;
-  discountMonths?: number;
   id: string;
   memberIds: string[];
-  monthlyCost?: number;
+  cost?: string;
   name: string;
 }
 
 export interface Program {
   aboutUrl: string;
-  assistantCoachIds: string[];
-  coachId: string;
-  discountMultiplier?: number;
-  discountMonths?: number;
+  coachIds: string[];
   divisions: Division[];
   eventBackground: string;
   eventColor: string;
   id: string;
   logoSrc: string;
-  monthlyCost: number;
+  cost: string;
+  name: string;
+}
+
+export interface ProgramContent {
+  description: string;
+  id: string;
   name: string;
 }

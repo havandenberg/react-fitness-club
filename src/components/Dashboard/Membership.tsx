@@ -11,8 +11,7 @@ import { Program } from '../../types/program';
 import { getMemberRef } from '../../utils/member';
 import {
   deactivateMembership,
-  getMemberMonthlyCost,
-  hasDiscount,
+  getMemberCost,
   isInactiveMembership,
 } from '../../utils/membership';
 import { getMembershipProgram } from '../../utils/program';
@@ -90,7 +89,7 @@ class Membership extends React.Component<MembershipProps, State> {
 
     const isInactive = isInactiveMembership(member.membership);
 
-    const monthlyCost = getMemberMonthlyCost(member, program);
+    const cost = getMemberCost(member, program);
 
     if (R.isEmpty(member.membership.type)) {
       return <MembershipForm events {...this.props} />;
@@ -129,18 +128,13 @@ class Membership extends React.Component<MembershipProps, State> {
                   Monthly Cost:
                 </t.Text>
                 <l.Space width={[spacing.ml, spacing.xxxl, spacing.xxxl]} />
-                {monthlyCost < 0 ? (
+                {cost < 0 ? (
                   <t.Text large flex={1}>
                     N/A
                   </t.Text>
                 ) : (
                   <t.Text large flex={1}>
-                    ${monthlyCost}
-                    {hasDiscount(member, program)
-                      ? ` until ${moment(member.membership.signupDate)
-                          .add(6, 'months')
-                          .format('MM/DD/YYYY')}`
-                      : ''}
+                    ${cost}
                   </t.Text>
                 )}
               </l.Flex>
@@ -194,7 +188,7 @@ class Membership extends React.Component<MembershipProps, State> {
                   />
                   <l.Space height={spacing.s} width={spacing.sm} />
                   <t.Text nowrap>
-                    (${getMemberMonthlyCost(member, program)} / month)
+                    (${getMemberCost(member, program)} / month)
                   </t.Text>
                 </l.Flex>
               </t.TextButton>

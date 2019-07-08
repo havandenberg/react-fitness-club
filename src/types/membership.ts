@@ -7,11 +7,15 @@ export type MembershipType =
   | 'cancelled'
   | 'coach'
   | 'multipass'
-  | 'react'
-  | 'capoeira'
-  | 'aikido'
-  | 'student'
   | 'sponsored'
+  | 'student'
+  | 'aikido'
+  | 'capoeira'
+  | 'qigong-meditation'
+  | 'react-mma'
+  | 'react-skillz'
+  | 'taekwondo'
+  | 'zumba'
   | '';
 
 export interface Membership {

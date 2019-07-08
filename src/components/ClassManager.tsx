@@ -18,7 +18,7 @@ import {
   toggleAttendingSpecialEventClass,
 } from '../utils/class';
 import { isCoach } from '../utils/member';
-import { getDivisionById, getProgramById, isCoachOf } from '../utils/program';
+import { getDivisionById, getProgramById, isCoachOfProgram } from '../utils/program';
 import { isMobile, isMobileOnly } from '../utils/screensize';
 import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
@@ -96,7 +96,7 @@ class ClassManager extends React.Component<
     if (
       !member ||
       !classInst ||
-      !((program && isCoachOf(member.uid, program)) || isCoach(member))
+      !((program && isCoachOfProgram(member.uid, program)) || isCoach(member))
     ) {
       return <Redirect to="/" />;
     }

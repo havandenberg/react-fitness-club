@@ -26,7 +26,7 @@ import {
 } from '../utils/auth';
 import { expandRecurringEvents, getEvents } from '../utils/calendar-event';
 import { parseMemberData } from '../utils/member';
-import { isCoachOf, parsePrograms } from '../utils/program';
+import { isCoachOfProgram, parsePrograms } from '../utils/program';
 import { parseInventory } from '../utils/shop';
 import { parseSpecialEvents } from '../utils/special-event';
 import About from './About';
@@ -203,7 +203,7 @@ class App extends React.Component<SubscribeProps, State> {
             );
           } else {
             const programsWithCoachAuth = programs.filter((program: Program) =>
-              isCoachOf(member.uid, program),
+              isCoachOfProgram(member.uid, program),
             );
             if (!R.isEmpty(programsWithCoachAuth)) {
               const members = R.uniq(
