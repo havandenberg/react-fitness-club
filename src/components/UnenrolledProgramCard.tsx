@@ -126,6 +126,7 @@ class Step extends React.Component<
           }
           forwardText={isEnrolling ? 'Confirm' : 'Enroll'}
           loading={loading}
+          size="small"
         />
       </>
     );
@@ -145,11 +146,9 @@ export const ProgramCardWrapper = styled(l.Space)(
     marginBottom: spacing.xl,
     padding: spacing.xl,
     [breakpoints.tablet]: {
-      marginBottom: spacing.xl,
       padding: spacing.ml,
     },
     [breakpoints.mobile]: {
-      marginBottom: 0,
       padding: spacing.ml,
     },
   },
@@ -177,13 +176,15 @@ class ProgramCard extends React.Component<Props, State> {
     const { member, program } = this.props;
     const { isEnrolling } = this.state;
     return (
-      <ProgramCardWrapper width={['100%', '45%', '31%']}>
+      <ProgramCardWrapper>
         <l.Flex alignTop mb={spacing.ml}>
-          <l.Img
-            src={program.logoSrc}
-            height={spacing.xxxl}
-            mr={[spacing.ml, spacing.ml, spacing.xl]}
-          />
+          {!R.isEmpty(program.logoSrc) && (
+            <l.Img
+              src={program.logoSrc}
+              width={spacing.xxxxxl}
+              mr={[spacing.ml, spacing.ml, spacing.xl]}
+            />
+          )}
           <div>
             <t.Text bold large mb={spacing.ml}>
               {program.name}

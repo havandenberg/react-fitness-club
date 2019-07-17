@@ -25,6 +25,7 @@ export interface Program {
   logoSrc: string;
   cost: string;
   name: string;
+  noMembershipRequired?: boolean;
 }
 
 export interface ProgramContent {

@@ -1,5 +1,6 @@
 import * as R from 'ramda';
 import * as React from 'react';
+import { isMobileOnly, isTabletOnly } from 'src/utils/screensize';
 import l from '../../styles/layout';
 import { colors, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
@@ -8,9 +9,9 @@ import { Member } from '../../types/member';
 import { MULTI_PROGRAM_MEMBERSHIPS } from '../../types/membership';
 import { Program } from '../../types/program';
 import { isInactiveMembership } from '../../utils/membership';
-import { getEnrolledPrograms } from '../../utils/program';
-import { isMobileOnly, isTabletOnly } from '../../utils/screensize';
+import { getEnrolledPrograms, getMembershipProgram } from '../../utils/program';
 import EnrolledProgramCard from '../EnrolledProgramCard';
+import Grid from '../Grid';
 import withScroll from '../hoc/withScroll';
 import UnenrolledProgramCard from '../UnenrolledProgramCard';
 
@@ -24,10 +25,23 @@ interface Props {
 class Programs extends React.Component<Props> {
   render() {
     const { events, isAdmin, programs, member } = this.props;
-    const enrolledPrograms: Program[] = getEnrolledPrograms(
-      programs,
-      member.uid,
+
+    const isMultiProgramMembership = R.contains(
+      member.membership.type,
+      MULTI_PROGRAM_MEMBERSHIPS,
     );
+    const membershipProgram = getMembershipProgram(member.membership, programs);
+    const enrolledPrograms = getEnrolledPrograms(programs, member.uid);
+    const filteredEnrolledPrograms: Program[] = isMultiProgramMembership
+      ? enrolledPrograms
+      : membershipProgram
+      ? [
+          membershipProgram,
+          ...enrolledPrograms.filter(
+            (prog: Program) => prog.noMembershipRequired,
+          ),
+        ]
+      : [];
 
     if (isInactiveMembership(member.membership)) {
       return (
@@ -42,50 +56,45 @@ class Programs extends React.Component<Props> {
     return (
       <div>
         <t.H2 mb={spacing.xxl}>Enrolled Programs:</t.H2>
-        <l.Flex columnOnMobile isWrap>
-          {enrolledPrograms.map((prog: Program, index: number) => {
-            const showSpacer = isMobileOnly()
-              ? index < enrolledPrograms.length - 1
-              : index % 2 < 1;
-            return (
-              prog && (
-                <React.Fragment key={`enrolled-${prog.id}`}>
-                  <EnrolledProgramCard
-                    events={events}
-                    isAdmin={isAdmin}
-                    program={prog}
-                    member={member}
-                  />
-                  {showSpacer && (
-                    <l.Space height={spacing.xl} width={spacing.xl} />
-                  )}
-                </React.Fragment>
-              )
-            );
-          })}
-        </l.Flex>
-        {R.contains(member.membership.type, MULTI_PROGRAM_MEMBERSHIPS) && (
-          <>
-            <t.H2 my={spacing.xxl}>All Programs:</t.H2>
-            <l.Flex columnOnMobile isWrap>
-              {programs.map((prog: Program, index: number) => {
-                const showSpacer = isMobileOnly()
-                  ? index < programs.length - 1
-                  : isTabletOnly()
-                  ? index % 2 < 1
-                  : index % 3 < 2;
-                return (
-                  <React.Fragment key={`all-${prog.id}`}>
-                    <UnenrolledProgramCard program={prog} member={member} />
-                    {showSpacer && (
-                      <l.Space height={spacing.xl} width={spacing.xl} />
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </l.Flex>
-          </>
-        )}
+        <Grid
+          alignTop
+          id="shop-grid"
+          itemSpacing={spacing.ml}
+          itemWidth={['100%', '44%', '45%']}
+          maxColumns={isMobileOnly() ? 1 : 2}>
+          {filteredEnrolledPrograms.map((prog: Program) => (
+            <EnrolledProgramCard
+              events={events}
+              isAdmin={isAdmin}
+              key={`unenrolled-${prog.id}`}
+              program={prog}
+              member={member}
+            />
+          ))}
+        </Grid>
+        <t.H2 my={spacing.xxl}>
+          {`${isMultiProgramMembership ? 'All' : 'Available'}`} Programs:
+        </t.H2>
+        <Grid
+          alignTop
+          id="shop-grid"
+          itemSpacing={spacing.ml}
+          itemWidth={['100%', '44%', '28%']}
+          maxColumns={isMobileOnly() ? 1 : isTabletOnly() ? 2 : 3}>
+          {programs
+            .filter(
+              (prog: Program) =>
+                !R.contains(prog.id, R.pluck('id', enrolledPrograms)) &&
+                (isMultiProgramMembership ? true : prog.noMembershipRequired),
+            )
+            .map((prog: Program) => (
+              <UnenrolledProgramCard
+                key={`enrolled-${prog.id}`}
+                program={prog}
+                member={member}
+              />
+            ))}
+        </Grid>
       </div>
     );
   }

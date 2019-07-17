@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PulseLoader } from 'react-spinners';
 import l from '../../styles/layout';
 import { colors, spacing } from '../../styles/theme';
+import { Scale } from '../../types/styles';
 import { isSmall } from '../../utils/screensize';
 import { ButtonPrimary, ButtonSecondary } from './Button';
 
@@ -11,6 +12,7 @@ const FormActions = ({
   forwardText = 'Continue',
   handleBack,
   handleForward,
+  size = 'big',
 }: {
   backText?: string;
   loading?: boolean;
@@ -24,6 +26,7 @@ const FormActions = ({
         resetForm: () => void,
         data: any,
       ) => void);
+  size?: Scale;
 }) => (
   <l.FlexCentered mt={spacing.xl}>
     {loading ? (
@@ -34,12 +37,12 @@ const FormActions = ({
           <ButtonSecondary
             mr={isSmall() ? spacing.ml : spacing.xl}
             onClick={handleBack}
-            type="button"
-          >
+            size={size}
+            type="button">
             {backText || 'Back'}
           </ButtonSecondary>
         )}
-        <ButtonPrimary onClick={handleForward} type="submit">
+        <ButtonPrimary onClick={handleForward} size={size} type="submit">
           {forwardText}
         </ButtonPrimary>
       </l.FlexCentered>

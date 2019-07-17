@@ -1,6 +1,6 @@
 const TABLET_WIDTH = 768;
 const MOBILE_WIDTH = 699;
-const SMALL_WIDTH = 321;
+const SMALL_WIDTH = 325;
 
 export const DESKTOP = 'desktop';
 export const MOBILE = 'mobile';

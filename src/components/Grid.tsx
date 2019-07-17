@@ -7,7 +7,7 @@ interface Props {
   alignBottom?: boolean;
   alignTop?: boolean;
   children: React.ReactNode;
-  customStyles: StyleSet;
+  customStyles?: StyleSet;
   id: string;
   itemWidth: StyleValue;
   itemSpacing?: StyleValue;
@@ -37,12 +37,11 @@ const Grid = ({
       </l.Space>
     ))}
     {/* generates a spacer for each column up to maxColumns to ensure even spacing */}
-    {R.times(
-      index => (
-        <div className="item-width" key={`${id}-space-${index}`} />
-      ),
-      maxColumns,
-    )}
+    {children &&
+      R.times(
+        index => <l.Space key={`${id}-space-${index}`} width={itemWidth} />,
+        Object.keys(children).length % maxColumns,
+      )}
   </l.Flex>
 );
 

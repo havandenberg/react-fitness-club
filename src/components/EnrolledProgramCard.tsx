@@ -28,10 +28,12 @@ import {
   getEnrolledDivisions,
   isCoachOfProgram,
 } from '../utils/program';
-import { isTabletUp } from '../utils/screensize';
+import { isMobileOnly } from '../utils/screensize';
 import { getButtonProps } from './Form/Button';
 import { SelectInput } from './Form/Input';
 import { ProgramCardWrapper } from './UnenrolledProgramCard';
+
+const MAX_EVENTS = 5;
 
 const ActiveText = styled(t.Text)(
   ({ isGreen }: { isGreen: boolean }) => ({
@@ -91,7 +93,11 @@ class EnrolledProgramCard extends React.Component<
       history.push(`/programs/${programId}/${divisionId}/${classInstId}`);
     } else {
       openClass(generateNewClass(event), programId, divisionId).then(() =>
-        history.push(`/programs/${programId}/${divisionId}/${classInstId}`),
+        history.push(
+          `/programs/${programId}/${divisionId}/${getClassInstIdFromEvent(
+            event,
+          )}`,
+        ),
       );
     }
   };
@@ -109,9 +115,6 @@ class EnrolledProgramCard extends React.Component<
     const { events, program, member } = this.props;
     const { selectedDivisionId } = this.state;
 
-    const maxEvents =
-      isTabletUp() && R.equals(selectedDivisionId, 'all') ? 5 : 2;
-
     const enrolledDivisions = getEnrolledDivisions(program, member.uid);
 
     const upcomingEvents = R.sortBy(
@@ -126,37 +129,41 @@ class EnrolledProgramCard extends React.Component<
             : R.equals(event.divisionId, selectedDivisionId)) &&
           moment().diff(event.start) < 0,
       ),
-    ).slice(0, maxEvents);
+    ).slice(0, MAX_EVENTS);
 
     const divisionOptions = this.shouldShowAllDivisions()
       ? program.divisions
       : enrolledDivisions;
 
     return (
-      <ProgramCardWrapper height={350} width={['100%', '45%', '48%']}>
+      <ProgramCardWrapper height={350}>
         <l.Flex alignTop mb={spacing.ml}>
           <l.Img
             src={program.logoSrc}
-            height={spacing.xxxl}
+            width={spacing.xxxxxl}
             mr={[spacing.ml, spacing.ml, spacing.xl]}
           />
           <div>
-            <t.H3 mt={0}>{program.name}</t.H3>
+            <t.H3 mb={spacing.t} mt={0}>
+              {program.name}
+            </t.H3>
             <SelectInput
               customStyles={{
                 fontSize: fontSizes.helpText,
-                height: spacing.xl,
+                height: isMobileOnly() ? 'auto' : spacing.xl,
+                padding: spacing.t,
                 width: 'auto',
               }}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                 this.handleSelectedDivisionChange(e.currentTarget.value);
               }}
               value={selectedDivisionId}>
-              {
-                <option key="all" value="all">
-                  All
-                </option>
-              }
+              {divisionOptions.length > 1 &&
+                !R.equals(divisionOptions[0].id, 'all') && (
+                  <option key="all" value="all">
+                    All
+                  </option>
+                )}
               {divisionOptions.map((div: Division) => (
                 <option key={`${program.id}-${div.id}`} value={div.id}>
                   {div.name}
@@ -175,7 +182,7 @@ class EnrolledProgramCard extends React.Component<
               getDivisionClassInstById(classInstId, eventDivision);
             return (
               <l.Flex
-                key={classInstId}
+                key={`${event.programId}-${event.divisionId}-${classInstId}`}
                 mb={index < upcomingEvents.length - 1 ? spacing.sm : undefined}
                 spaceBetween>
                 <div>
@@ -187,9 +194,11 @@ class EnrolledProgramCard extends React.Component<
                     )}>
                     {formatDescriptiveDate(event)}
                   </ActiveText>
-                  {R.equals(selectedDivisionId, 'all') && eventDivision && (
-                    <t.HelpText>{eventDivision.name}</t.HelpText>
-                  )}
+                  {R.equals(selectedDivisionId, 'all') &&
+                    divisionOptions.length > 1 &&
+                    eventDivision && (
+                      <t.HelpText>{eventDivision.name}</t.HelpText>
+                    )}
                 </div>
                 {isCoachOfProgram(member.uid, program) && eventDivision ? (
                   <ManageButton
