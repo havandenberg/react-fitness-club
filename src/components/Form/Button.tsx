@@ -5,6 +5,7 @@ import {
   borders,
   breakpoints,
   colors,
+  fonts,
   fontSizes,
   gradients,
   shadows,
@@ -48,6 +49,7 @@ export const getButtonProps: (
   color: colors.white,
   cursor: 'pointer',
   display: 'flex',
+  fontFamily: fonts.poppinsMedium,
   fontSize: size === 'big' ? fontSizes.largeText : fontSizes.text,
   fontWeight: 500,
   justifyContent: 'center',
@@ -71,19 +73,33 @@ export const ButtonPrimary = styled('button')(
 );
 
 export const LinkPrimary = styled(Link)(
-  getButtonProps(colors.red, gradients.red),
+  ({ background = colors.red, gradient = gradients.red, size = 'big' }) => ({
+    ...getButtonProps(background, gradient, size),
+  }),
   space,
   width,
 );
 
 export const ButtonSecondary = styled('button')(
-  getButtonProps(colors.black, gradients.black),
+  ({
+    background = colors.black,
+    gradient = gradients.black,
+    size = 'small',
+  }) => ({
+    ...getButtonProps(background, gradient, size),
+  }),
   space,
   width,
 );
 
 export const LinkSecondary = styled(Link)(
-  getButtonProps(colors.black, gradients.black),
+  ({
+    background = colors.black,
+    gradient = gradients.black,
+    size = 'small',
+  }) => ({
+    ...getButtonProps(background, gradient, size),
+  }),
   space,
   width,
 );

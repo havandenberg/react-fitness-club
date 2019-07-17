@@ -17,7 +17,7 @@ import { ButtonPrimary } from '../Form/Button';
 import { TextInput } from '../Form/Input';
 import ItemOptionSet from './ItemOptionSet';
 
-const CloseButton = styled(l.Img)({
+export const CloseButton = styled(l.Img)({
   cursor: 'pointer',
   height: spacing.ml,
   position: 'absolute',

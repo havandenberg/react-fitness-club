@@ -1,20 +1,30 @@
+import {
+  clearAllBodyScrollLocks,
+  disableBodyScroll,
+  enableBodyScroll,
+} from 'body-scroll-lock';
 import * as moment from 'moment';
 import * as R from 'ramda';
 import * as React from 'react';
 import BigCalendar, { View } from 'react-big-calendar';
 import styled from 'react-emotion';
+import * as ReactModal from 'react-modal';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
+import ExpandImg from '../assets/images/expand.svg';
+import ModalCloseImg from '../assets/images/modal-close-dark.svg';
 import ScheduleImg from '../assets/images/schedule.svg';
+import ShrinkImg from '../assets/images/shrink.svg';
 import { programContent } from '../content/programs';
 import l from '../styles/layout';
-import { breakpoints, colors, gradients, spacing } from '../styles/theme';
+import { colors, gradients, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { FilterPrimaryCategory } from '../types/filter';
 import { Member } from '../types/member';
 import { Division, Program, ProgramContent } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
+import { formatDescriptiveDate } from '../utils/calendar-event';
 import {
   generateNewClass,
   getClassInstIdFromEvent,
@@ -33,22 +43,19 @@ import { isMobileOnly, isTabletOnly } from '../utils/screensize';
 import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
 import FilterBar, { FilterProps } from './FilterBar';
+import { ButtonPrimary, LinkPrimary } from './Form/Button';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
+import { CloseButton } from './Shop/Item';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
 const LegendIcon = styled(l.Space)({
   borderRadius: 2,
   height: spacing.sm,
+  marginLeft: spacing.sm,
   marginRight: spacing.s,
   width: spacing.sm,
-});
-
-const LegendSet = styled(l.FlexColumn)({
-  [breakpoints.tablet]: {
-    flexDirection: 'row',
-  },
 });
 
 interface Props {
@@ -61,17 +68,40 @@ interface Props {
 
 interface State {
   calendarView: View;
+  expandCalendar: boolean;
+  selectedEvent?: CalendarEvent;
+  showEventDetails: boolean;
 }
 
 class Schedule extends React.Component<Props & RouteComponentProps, State> {
+  targetElement: HTMLElement | null = null;
   constructor(props: Props & RouteComponentProps) {
     super(props);
     this.state = {
       calendarView: isMobileOnly()
         ? BigCalendar.Views.AGENDA
         : BigCalendar.Views.WEEK,
+      expandCalendar: false,
+      selectedEvent: undefined,
+      showEventDetails: false,
     };
   }
+
+  componentDidMount() {
+    this.targetElement = document.querySelector('#top');
+  }
+
+  componentWillUnmount() {
+    clearAllBodyScrollLocks();
+  }
+
+  closeModal = () => {
+    this.setState({ selectedEvent: undefined, showEventDetails: false });
+  };
+
+  showModal = (selectedEvent: CalendarEvent) => {
+    this.setState({ selectedEvent, showEventDetails: true });
+  };
 
   filterEvents = (
     searchValue: string,
@@ -156,12 +186,10 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     return {};
   };
 
-  handleSelectEvent = (
-    event: CalendarEvent,
-    program?: Program,
-    division?: Division,
-  ) => {
-    const { history, member, specialEvents } = this.props;
+  handleGoToEventClass = (event: CalendarEvent) => {
+    const { history, member, programs, specialEvents } = this.props;
+    const program = getProgramById(event.programId, programs);
+    const division = program && getDivisionById(event.divisionId, program);
     if (member) {
       const classId = getClassInstIdFromEvent(event);
       if (isCoach(member) && R.equals(event.divisionId, 'events')) {
@@ -191,9 +219,21 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     }
   };
 
+  toggleExpandCalendar = () => {
+    this.setState({ expandCalendar: !this.state.expandCalendar });
+  };
+
   render() {
-    const { events, loading, programs } = this.props;
-    const { calendarView } = this.state;
+    const { events, loading, member, programs } = this.props;
+    const {
+      calendarView,
+      expandCalendar,
+      selectedEvent,
+      showEventDetails,
+    } = this.state;
+
+    const calendarHeight = expandCalendar ? 1800 : 900;
+
     const categories: FilterPrimaryCategory[] = R.map(
       (program: Program) => ({
         id: program.id,
@@ -204,13 +244,19 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
         })),
       }),
       programs.filter((prog: Program) =>
-        R.find((progCont: ProgramContent) => prog.id === progCont.id, programContent),
+        R.find(
+          (progCont: ProgramContent) => prog.id === progCont.id,
+          programContent,
+        ),
       ),
     );
     categories.push({
       id: 'events',
       name: 'Special Events',
     });
+
+    const selectedProgram =
+      selectedEvent && getProgramById(selectedEvent.programId, programs);
 
     return (
       <div>
@@ -244,96 +290,172 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                 searchLabel="Search Events:"
                 scrollEndId="#calendar-end"
                 legend={
-                  <l.Flex mb={[spacing.ml, 0]}>
-                    <LegendSet alignTop mr={spacing.ml}>
-                      <l.Flex mb={spacing.t} mr={[0, spacing.ml, 0]}>
-                        <LegendIcon background={gradients.multipass} />
-                        <t.HelpText color={colors.black}>
-                          Multi-Program
-                        </t.HelpText>
-                      </l.Flex>
-                      <l.Flex>
-                        <LegendIcon
-                          background={
-                            isTabletOnly() ? colors.purple : '#0274BF'
-                          }
-                        />
-                        <t.HelpText color={colors.black}>
-                          {isTabletOnly() ? 'Special Events' : 'Aikido'}
-                        </t.HelpText>
-                      </l.Flex>
-                    </LegendSet>
-                    <LegendSet alignTop mr={spacing.ml}>
-                      <l.Flex mb={spacing.t} mr={[0, spacing.ml, 0]}>
-                        <LegendIcon
-                          background={
-                            isTabletOnly() ? '#0274BF' : colors.purple
-                          }
-                        />
-                        <t.HelpText color={colors.black}>
-                          {isTabletOnly() ? 'Aikido' : 'Special Events'}
-                        </t.HelpText>
-                      </l.Flex>
-                      <l.Flex>
-                        <LegendIcon background="#0A7861" />
-                        <t.HelpText color={colors.black}>Capoeira</t.HelpText>
-                      </l.Flex>
-                    </LegendSet>
-                    <LegendSet alignTop>
-                      <l.Flex>
-                        <LegendIcon background={'#DAE22A'} />
-                        <t.HelpText color={colors.black}>Zumba</t.HelpText>
-                      </l.Flex>
-                      <l.Flex>
-                        <LegendIcon background="#F14042" />
-                        <t.HelpText color={colors.black}>React</t.HelpText>
-                      </l.Flex>
-                    </LegendSet>
+                  <t.TextButton
+                    mt={spacing.m}
+                    onClick={this.toggleExpandCalendar}>
+                    <l.Img
+                      height={spacing.xxl}
+                      src={expandCalendar ? ShrinkImg : ExpandImg}
+                    />
+                  </t.TextButton>
+                }
+                legendOnBottom
+                lowerLegend={
+                  <l.Flex isWrap mb={[spacing.ml, 0]}>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background={gradients.multipass} />
+                      <t.HelpText color={colors.black}>
+                        Multi-Program
+                      </t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon
+                        background={isTabletOnly() ? colors.purple : '#0274BF'}
+                      />
+                      <t.HelpText color={colors.black}>
+                        {isTabletOnly() ? 'Special Events' : 'Aikido'}
+                      </t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon
+                        background={isTabletOnly() ? '#0274BF' : colors.purple}
+                      />
+                      <t.HelpText color={colors.black}>
+                        {isTabletOnly() ? 'Aikido' : 'Special Events'}
+                      </t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#0A7861" />
+                      <t.HelpText color={colors.black}>Capoeira</t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background={'#DAE22A'} />
+                      <t.HelpText color={colors.black}>Zumba</t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#F14042" />
+                      <t.HelpText color={colors.black}>REaCT MMA</t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#242424" />
+                      <t.HelpText color={colors.black}>REaCT Skillz</t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#46B388" />
+                      <t.HelpText color={colors.black}>
+                        Qigong Meditation
+                      </t.HelpText>
+                    </l.Flex>
                   </l.Flex>
                 }>
                 {({ searchValue, categoryId, subCategoryId }: FilterProps) => {
                   return (
-                    <l.Space height={900}>
-                      <BigCalendar
-                        defaultView={
-                          isMobileOnly()
-                            ? BigCalendar.Views.DAY
-                            : BigCalendar.Views.WEEK
-                        }
-                        eventPropGetter={this.getEventProps}
-                        localizer={localizer}
-                        max={new Date(2013, 1, 1, 22)}
-                        min={new Date(2013, 1, 1, 8)}
-                        events={
-                          events
-                            ? this.filterEvents(
-                                searchValue,
-                                categoryId,
-                                subCategoryId,
-                              )
-                            : []
-                        }
-                        onSelectEvent={(event: CalendarEvent) => {
-                          const prog = getProgramById(
-                            event.programId,
-                            programs,
-                          );
-                          const divId =
-                            prog && getDivisionById(event.divisionId, prog);
-                          if (
-                            (prog && divId) ||
-                            R.equals(event.divisionId, 'events')
-                          ) {
-                            this.handleSelectEvent(event, prog, divId);
+                    <div>
+                      <l.Space height={calendarHeight}>
+                        <BigCalendar
+                          eventPropGetter={this.getEventProps}
+                          localizer={localizer}
+                          max={new Date(2013, 1, 1, 21)}
+                          min={new Date(2013, 1, 1, 8)}
+                          scrollToTime={new Date(2013, 1, 1, 10)}
+                          events={
+                            events
+                              ? this.filterEvents(
+                                  searchValue,
+                                  categoryId,
+                                  subCategoryId,
+                                )
+                              : []
+                          }
+                          onSelectEvent={(event: CalendarEvent) =>
+                            this.showModal(event)
+                          }
+                          onView={(view: View) =>
+                            this.setState({ calendarView: view })
+                          }
+                          popup
+                          step={30}
+                          view={calendarView}
+                        />
+                      </l.Space>
+                      <ReactModal
+                        isOpen={showEventDetails}
+                        onAfterOpen={() => {
+                          if (this.targetElement) {
+                            disableBodyScroll(this.targetElement);
                           }
                         }}
-                        onView={(view: View) =>
-                          this.setState({ calendarView: view })
-                        }
-                        popup
-                        view={calendarView}
-                      />
-                    </l.Space>
+                        onAfterClose={() => {
+                          if (this.targetElement) {
+                            enableBodyScroll(this.targetElement);
+                          }
+                        }}
+                        onRequestClose={this.closeModal}
+                        style={{
+                          content: {
+                            background: colors.background,
+                            bottom: 'auto',
+                            margin: '0 auto',
+                            maxWidth: 550,
+                            overflowY: 'auto',
+                          },
+                          overlay: {
+                            zIndex: 1000,
+                          },
+                        }}>
+                        {selectedEvent && (
+                          <l.Space position="relative">
+                            {selectedProgram && (
+                              <l.FlexCentered>
+                                <l.Img
+                                  src={selectedProgram.logoSrc}
+                                  height={spacing.huge}
+                                />
+                              </l.FlexCentered>
+                            )}
+                            <t.H1 center mt={spacing.xl}>
+                              {selectedEvent.title}
+                            </t.H1>
+                            <t.Text center mt={spacing.sm}>
+                              {formatDescriptiveDate(selectedEvent)}
+                            </t.Text>
+                            <l.FlexCentered mb={spacing.m} mt={spacing.xl}>
+                              {selectedProgram && (
+                                <LinkPrimary
+                                  to={`/programs?id=${selectedProgram.id}`}
+                                  size="small"
+                                  width={130}>
+                                  View Program
+                                </LinkPrimary>
+                              )}
+                              {member &&
+                                isCoach(member) &&
+                                (selectedProgram
+                                  ? isCoachOfProgram(
+                                      member.uid,
+                                      selectedProgram,
+                                    )
+                                  : true) && (
+                                  <l.Space ml={spacing.ml}>
+                                    <ButtonPrimary
+                                      onClick={() =>
+                                        this.handleGoToEventClass(selectedEvent)
+                                      }
+                                      size="small"
+                                      width={130}>
+                                      Manage
+                                    </ButtonPrimary>
+                                  </l.Space>
+                                )}
+                            </l.FlexCentered>
+                            <CloseButton
+                              onClick={this.closeModal}
+                              src={ModalCloseImg}
+                            />
+                          </l.Space>
+                        )}
+                      </ReactModal>
+                    </div>
                   );
                 }}
               </FilterBar>
