@@ -57,9 +57,12 @@ class Events extends React.Component<Props, State> {
 
     const upcomingEvents = getUpcomingSpecialEvents(specialEvents);
     const pastEvents = getPastSpecialEvents(specialEvents);
-    const sortedEvents = sortSpecialEventsByDate(
+    let sortedEvents = sortSpecialEventsByDate(
       showPastEvents ? pastEvents : upcomingEvents,
     );
+    if (showPastEvents) {
+      sortedEvents = sortedEvents.reverse();
+    }
 
     return (
       <div>

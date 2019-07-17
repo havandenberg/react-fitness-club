@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
@@ -85,7 +86,7 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps, State> {
         <t.Text bold large mb={spacing.ml}>
           {specialEvent.name}
         </t.Text>
-        <l.Flex columnOnMobile spaceBetween>
+        <l.Flex alignTop columnOnMobile spaceBetween>
           <l.FlexColumn width={['100%', '35%']}>
             <GalleryImage
               image={{
@@ -160,6 +161,7 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps, State> {
               </t.Anchor>
             )}
             {member &&
+              moment().diff(specialEvent.startDate) < 0 &&
               (isMemberSignedUpForEvent ? (
                 <>
                   <t.Text color={colors.green} center mt={spacing.xl}>
