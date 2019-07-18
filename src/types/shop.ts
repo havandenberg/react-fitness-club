@@ -1,7 +1,13 @@
+export interface ItemOption {
+  imageSrc?: string;
+  name?: string;
+  value: string;
+}
+
 export interface ItemOptionSet {
-  options: string[];
-  name: string;
   id: string;
+  name: string;
+  options: ItemOption[];
 }
 
 export interface ShopItem {
@@ -11,7 +17,6 @@ export interface ShopItem {
   hide?: boolean;
   id: string;
   imageSrcList: string[];
-  isSquadLocker?: boolean;
   stockCount?: number;
   subCategoryIds?: string[];
   title: string;
@@ -22,7 +27,7 @@ export interface ShopItem {
 
 export interface OrderItemOption {
   id: string;
-  value: string;
+  selectedOption: ItemOption;
 }
 
 export interface ShopOrderItem extends ShopItem {

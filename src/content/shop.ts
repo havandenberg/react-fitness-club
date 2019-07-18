@@ -19,14 +19,14 @@ export const SHOP_CATEGORIES = [
     id: 'react',
     name: 'REaCT',
   },
-  {
-    id: 'aikido',
-    name: 'Aikido',
-  },
-  {
-    id: 'capoeira',
-    name: 'Capoeira',
-  },
+  // {
+  //   id: 'aikido',
+  //   name: 'Aikido',
+  // },
+  // {
+  //   id: 'capoeira',
+  //   name: 'Capoeira',
+  // },
   // {
   //   id: 'training-weapons',
   //   name: 'Training Weapons',
@@ -71,24 +71,6 @@ export const SHOP_ITEMS = [
   {
     categoryIds: ['rfc', 'clothing'],
     description:
-      'Made with recycled polyester fibers from plastic bottles; Two-ply hood; Coverstitching throughout; Set-in sleeves; Rib knit waistband and cuffs; Outside ID: "C" logo at left cuff; Fabric Content - 50% cotton/50% polyester',
-    id: 'rfc-hoodie',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/rfc-hoodie-1.png`],
-    isSquadLocker: true,
-    title: 'RFC Hoodie',
-  },
-  {
-    categoryIds: ['rfc', 'clothing'],
-    description:
-      'BODY:5.0 oz.84% Polyster, 16% ELASTANE; MESH: 4.6 oz.92% POLYSTER 8% ELASTANE; HeatGear fabric, with all the benefits of UA Compression, comfortable enough to be wron all day; Stretch-mesh underarm panels deliver strategic ventilition; UPF30+protects your skin from the sun\'s harmful rays; 4-way stretch farbication allows greater mobility & maintain shape; Moisture Transport System wicks sweat awat from the body; Anti- odor technology prevents the growth of odor causing microbes; Mesh panel on back neck with ARMOUR wordmar',
-    id: 'rfc-compression-shirt',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/rfc-comp-shirt-1.png`],
-    isSquadLocker: true,
-    title: 'RFC Short Sleeve Compression Shirt',
-  },
-  {
-    categoryIds: ['rfc', 'clothing'],
-    description:
       '9"INSEAM; 100% Polyester moisture management/antimicrobial performance fabric; Athletic cut & superior fit - Double needle hem; 2” Covered elastic waistband and drawcord; Badger heat seal logo on left hip',
     id: 'rfc-compression-shorts',
     imageSrcList: [`${INVENTORY_IMAGES_PATH}/rfc-shorts-1.png`],
@@ -100,35 +82,57 @@ export const SHOP_ITEMS = [
     categoryIds: ['react', 'clothing'],
     description:
       '100% Polyester moisture management fabric; Side & underam textured waffle weave panels; Badger sport paneled shoulder for maximum movement; Front pouch pocket with two hook & loop closures at top of pockets; Adult with headset opening; Poly rib cuffs & waistband; Embriodered Badger logo on left sleeve',
-    id: 'react-hoodie',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-hoodie-1.png`],
-    isSquadLocker: true,
-    title: 'REaCT Hoodie',
-  },
-  {
-    categoryIds: ['react', 'clothing'],
-    description:
-      '100% Polyester moisture management fabric; Side & underam textured waffle weave panels; Badger sport paneled shoulder for maximum movement; Front pouch pocket with two hook & loop closures at top of pockets; Adult with headset opening; Poly rib cuffs & waistband; Embriodered Badger logo on left sleeve',
     id: 'react-swag-1',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-swag-tshirt-1.png`],
-    isSquadLocker: true,
+    imageSrcList: [],
     optionSets: [
       {
         id: 'color',
         name: 'Color',
-        options: ['#54759B'],
+        options: [
+          {
+            imageSrc: `${INVENTORY_IMAGES_PATH}/react-swag-tshirt-1/light-blue.jpg`,
+            name: 'Light Blue',
+            value: '#54759B',
+          },
+          {
+            imageSrc: `${INVENTORY_IMAGES_PATH}/react-swag-tshirt-1/light-green.jpg`,
+            name: 'Light Green',
+            value: '#D6C7A8',
+          },
+        ],
+      },
+      {
+        id: 'size',
+        name: 'Size',
+        options: [
+          {
+            value: 'men\'s S',
+          },
+          {
+            value: 'men\'s M',
+          },
+          {
+            value: 'men\'s L',
+          },
+          {
+            value: 'men\'s XL',
+          },
+          {
+            value: 'women\'s S',
+          },
+          {
+            value: 'women\'s M',
+          },
+          {
+            value: 'women\'s L',
+          },
+          {
+            value: 'women\'s XL',
+          },
+        ],
       },
     ],
     title: 'REaCT Swag T-shirt 1',
-  },
-  {
-    categoryIds: ['react', 'clothing'],
-    description:
-      'UA Tech™ fabric is quick-drying, ultra-soft & has a more natural feel; Material wicks sweat & dries really fast; NEW FIT: Plus 1.5" in body length, Plus 2" across chest, Plus 2" around bottom opening. Anti-odor technology prevents the growth of odor-causing microbes; Updated set-in sleeves; Center front logo; 100% POLYESTER',
-    id: 'react-compression-shirt',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-comp-shirt-1.png`],
-    isSquadLocker: true,
-    title: 'RFC Short Sleeve Compression Shirt',
   },
   {
     categoryIds: ['react', 'clothing'],
@@ -187,7 +191,23 @@ export const SHOP_ITEMS = [
       {
         id: 'color',
         name: 'Color',
-        options: ['red', 'blue', 'black', 'white', 'green'],
+        options: [
+          {
+            value: 'red',
+          },
+          {
+            value: 'blue',
+          },
+          {
+            value: 'black',
+          },
+          {
+            value: 'white',
+          },
+          {
+            value: 'green',
+          },
+        ],
       },
     ],
     subCategoryIds: ['training-gear'],
@@ -202,12 +222,38 @@ export const SHOP_ITEMS = [
       {
         id: 'color',
         name: 'Color',
-        options: ['black', 'pink', 'green'],
+        options: [
+          {
+            value: 'black',
+          },
+          {
+            value: 'pink',
+          },
+          {
+            value: 'green',
+          },
+        ],
       },
       {
         id: 'size',
         name: 'Size',
-        options: ['8 oz', '10 oz', '12 oz', '14 oz', '16 oz', '18oz'],
+        options: [
+          {
+            value: '8 oz',
+          },
+          {
+            value: '10 oz',
+          },
+          {
+            value: '12 oz',
+          },
+          {
+            value: '14 oz',
+          },
+          {
+            value: '16 oz',
+          },
+        ],
       },
     ],
     subCategoryIds: ['training-gear'],

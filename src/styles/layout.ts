@@ -166,6 +166,12 @@ const Center = styled('div')(
   space,
 );
 
+const CursorPointerWrapper = styled('div')(
+  ({ showPointer }: { showPointer?: boolean }) => ({
+    cursor: showPointer ? 'default' : 'pointer',
+  }),
+);
+
 const FlexCentered = styled(Flex)({
   justifyContent: 'center',
 });
@@ -183,8 +189,8 @@ const Img = styled('img')(height, maxHeight, maxWidth, space, width);
 
 export const scrollStyles = (showScrollBar: boolean) => ({
   '::-webkit-scrollbar': {
-    height: showScrollBar ? 18 : 0,
-    width: showScrollBar ? 18 : 0,
+    height: showScrollBar ? 14 : 0,
+    width: showScrollBar ? 14 : 0,
   },
   '::-webkit-scrollbar-button': {
     display: 'none',
@@ -203,7 +209,7 @@ export const scrollStyles = (showScrollBar: boolean) => ({
     border: showScrollBar ? '6px solid rgba(0, 0, 0, 0)' : 0,
     height: showScrollBar ? spacing.t : 0,
   },
-  overflow: 'scroll',
+  overflow: 'auto',
 });
 
 const Span = styled('span')(
@@ -329,6 +335,7 @@ export default {
   Break,
   Caption,
   Center,
+  CursorPointerWrapper,
   Flex,
   FlexCentered,
   FlexColumn,

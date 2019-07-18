@@ -2,13 +2,12 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { isMobileOnly } from 'src/utils/screensize';
-import PlaceholderImg from '../../assets/images/item-placeholder.jpg';
 import RemoveImg from '../../assets/images/remove.svg';
 import l from '../../styles/layout';
 import { borders, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import { OrderItemOption, ShopItem, ShopOrderItem } from '../../types/shop';
-import { calculateItemTotal } from '../../utils/shop';
+import { calculateItemTotal, getActiveImageSrc } from '../../utils/shop';
 import { TextInput } from '../Form/Input';
 import { getOptionComponent } from './ItemOptionSet';
 
@@ -48,18 +47,13 @@ class OrderReviewItem extends React.Component<Props> {
   render() {
     const { item, showDetails } = this.props;
 
-    const primaryImgSrc =
-      item.imageSrcList &&
-      !R.isEmpty(item.imageSrcList) &&
-      item.imageSrcList[0];
-
     return (
       <ItemWrapper py={[spacing.ml, spacing.m, spacing.m]}>
         <ImageWrapper
           mr={[spacing.ml, spacing.xl, spacing.xl]}
           onClick={() => showDetails(item)}>
           <l.Img
-            src={primaryImgSrc ? primaryImgSrc : PlaceholderImg}
+            src={getActiveImageSrc(item, item.selectedOptions)}
             width={80}
           />
         </ImageWrapper>
@@ -73,13 +67,20 @@ class OrderReviewItem extends React.Component<Props> {
               </ImageWrapper>
               {!R.isEmpty(item.selectedOptions) && (
                 <l.Flex mt={spacing.sm}>
-                  {item.selectedOptions.map(
-                    (option: OrderItemOption, idx: number) => (
+                  {item.selectedOptions
+                    .filter(
+                      (option: OrderItemOption) =>
+                        !R.equals(option.id, 'image'),
+                    )
+                    .map((option: OrderItemOption, idx: number) => (
                       <l.Space key={idx} mr={spacing.sm}>
-                        {getOptionComponent(option.id, option.value, false)}
+                        {getOptionComponent(
+                          option.id,
+                          option.selectedOption,
+                          false,
+                        )}
                       </l.Space>
-                    ),
-                  )}
+                    ))}
                 </l.Flex>
               )}
             </div>

@@ -1,21 +1,21 @@
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
-import PlaceholderImg from '../../assets/images/item-placeholder.jpg';
 import ModalCloseImg from '../../assets/images/modal-close-dark.svg';
 import l from '../../styles/layout';
-import { breakpoints, colors, gradients, spacing } from '../../styles/theme';
+import { breakpoints, colors, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import {
+  ItemOption,
   ItemOptionSet as ItemOptionSetType,
   OrderItemOption,
   ShopItem as ShopItemType,
 } from '../../types/shop';
-import { SQUADLOCKER_PATH } from '../../utils/constants';
-import { isMobileOnly, isTabletUp } from '../../utils/screensize';
+import { isMobileOnly, isSmall } from '../../utils/screensize';
+import { getActiveImageSrc, getItemImageSrcList } from '../../utils/shop';
 import { ButtonPrimary } from '../Form/Button';
 import { TextInput } from '../Form/Input';
-import ItemOptionSet from './ItemOptionSet';
+import ItemOptionSet, { getOptionComponent } from './ItemOptionSet';
 
 export const CloseButton = styled(l.Img)({
   cursor: 'pointer',
@@ -56,6 +56,8 @@ interface Props {
 }
 
 interface State {
+  hoverOptionSrc: string | null;
+  lastSelectedOptionSrc: string | null;
   quantity: number | '';
   selectedOptions: OrderItemOption[];
 }
@@ -70,10 +72,12 @@ class ShopItem extends React.Component<Props, State> {
         : item.optionSets
         ? item.optionSets.map((optionSet: ItemOptionSetType) => ({
             id: optionSet.id,
-            value: optionSet.options[0],
+            selectedOption: optionSet.options[0],
           }))
         : [];
     this.state = {
+      hoverOptionSrc: null,
+      lastSelectedOptionSrc: null,
       quantity: quantityInCart ? quantityInCart : 1,
       selectedOptions,
     };
@@ -102,19 +106,23 @@ class ShopItem extends React.Component<Props, State> {
     }
   };
 
-  handleOptionChange = (id: string, newValue: string) => {
-    const { selectedOptions } = this.state;
+  handleOptionChange = (id: string, newValue: ItemOption) => {
+    const { lastSelectedOptionSrc, selectedOptions } = this.state;
     const selectedOption = selectedOptions.find(
       (orderOption: OrderItemOption) => R.equals(orderOption.id, id),
     );
     const newOptions = selectedOption
       ? selectedOptions.map((orderOption: OrderItemOption) =>
           R.equals(orderOption.id, id)
-            ? { ...orderOption, value: newValue }
+            ? { ...orderOption, selectedOption: newValue }
             : orderOption,
         )
-      : [...selectedOptions, { id, value: newValue }];
+      : [...selectedOptions, { id, selectedOption: newValue }];
+    console.log(newOptions);
     this.setState({
+      lastSelectedOptionSrc: newValue.imageSrc
+        ? newValue.imageSrc
+        : lastSelectedOptionSrc,
       selectedOptions: newOptions,
     });
   };
@@ -130,6 +138,10 @@ class ShopItem extends React.Component<Props, State> {
     }
   };
 
+  setHoverOptionSrc = (hoverOptionSrc: string | null) => {
+    this.setState({ hoverOptionSrc });
+  };
+
   render() {
     const {
       closeModal,
@@ -139,44 +151,82 @@ class ShopItem extends React.Component<Props, State> {
       showDetail,
       showDetails,
     } = this.props;
-    const { quantity, selectedOptions } = this.state;
+    const {
+      hoverOptionSrc,
+      lastSelectedOptionSrc,
+      quantity,
+      selectedOptions,
+    } = this.state;
 
-    const primaryImgSrc =
-      item.imageSrcList &&
-      !R.isEmpty(item.imageSrcList) &&
-      item.imageSrcList[0];
+    const activeImgSrc = getActiveImageSrc(
+      item,
+      selectedOptions,
+      lastSelectedOptionSrc,
+      hoverOptionSrc,
+    );
 
     const isDirty =
       !R.equals(quantity, quantityInCart) ||
       !R.equals(selectedOptions, selectedOptionsInCart);
 
+    const ItemComponent = showDetail ? l.Scroll : l.Space;
+
+    const imageSrcList = getItemImageSrcList(item);
+
     return (
-      <l.ScrollFlex
-        flexDirection="column"
-        showScrollBar={false}
+      <ItemComponent
         height="100%"
         mb={showDetail ? 0 : spacing.xxxl}
         position="relative"
         width="100%">
-        <ImageWrapper
-          onClick={showDetail ? undefined : () => showDetails(item)}
-          width="100%">
-          <l.Img
-            maxHeight={300}
+        <ImageWrapper height={isSmall() ? 125 : [150, 300, 300]}>
+          <l.CursorPointerWrapper showPointer={showDetail}>
+            <l.Img
+              cursor={showDetail ? 'default' : 'pointer'}
+              maxHeight={isSmall() ? 125 : [150, 300, 300]}
+              mb={spacing.s}
+              onClick={showDetail ? undefined : () => showDetails(item)}
+              src={activeImgSrc}
+              width={showDetail ? undefined : '100%'}
+            />
+          </l.CursorPointerWrapper>
+        </ImageWrapper>
+        {imageSrcList.length > 1 && (
+          <l.ScrollFlex
             mb={spacing.ml}
-            src={primaryImgSrc ? primaryImgSrc : PlaceholderImg}
-            width={[showDetail ? 'auto' : '100%']}
-          />
-          <t.Text center large>
+            mx="auto"
+            width={
+              showDetail
+                ? isSmall()
+                  ? 180
+                  : [220, 450, 450]
+                : isSmall()
+                ? 125
+                : [150, 200, 280]
+            }>
+            {imageSrcList.map((imageSrc: string, index: number) => (
+              <React.Fragment key={index}>
+                {getOptionComponent(
+                  'image',
+                  { imageSrc, value: imageSrc },
+                  false,
+                  this.handleOptionChange,
+                  this.setHoverOptionSrc,
+                )}
+              </React.Fragment>
+            ))}
+          </l.ScrollFlex>
+        )}
+        <l.CursorPointerWrapper showPointer={showDetail}>
+          <t.Text
+            center
+            large
+            onClick={showDetail ? undefined : () => showDetails(item)}>
             {item.title}
           </t.Text>
-        </ImageWrapper>
-        <l.FlexCentered
-          flexDirection={showDetail ? 'row' : 'column'}
-          width="100%">
-          <l.Space
-            mr={item.optionSets && showDetail ? spacing.xxxl : 0}
-            mt={item.optionSets ? spacing.ml : 0}>
+        </l.CursorPointerWrapper>
+        <l.FlexColumn>
+          <l.Space mt={item.optionSets ? spacing.ml : 0}>
             {item.optionSets &&
               item.optionSets.map(
                 (optionSet: ItemOptionSetType, idx: number) => {
@@ -186,8 +236,10 @@ class ShopItem extends React.Component<Props, State> {
                   return (
                     <React.Fragment key={optionSet.id}>
                       <ItemOptionSet
+                        fullWidth={showDetail}
                         option={optionSet}
                         selectedOption={selectedOption}
+                        setHoverOptionSrc={this.setHoverOptionSrc}
                         updateOption={this.handleOptionChange}
                       />
                       {idx < item.optionSets.length - 1 && (
@@ -207,76 +259,69 @@ class ShopItem extends React.Component<Props, State> {
           ) : (
             <div>
               <l.FlexCentered alignTop my={spacing.ml}>
-                <l.Space mr={!item.isSquadLocker ? spacing.xl : undefined}>
+                <l.Space mr={spacing.xl}>
                   <t.HelpText mb={spacing.s}>Price:</t.HelpText>
                   <t.Text large mb={spacing.t}>
                     ${item.unitCost * (parseInt(`${quantity}`, 10) || 1)}
                   </t.Text>
                 </l.Space>
-                {!item.isSquadLocker && (
-                  <div>
-                    <t.HelpText mb={spacing.t}>Quantity:</t.HelpText>
-                    <QuantityInput
-                      textAlign="center"
-                      onBlur={this.handleBlur}
-                      onChange={this.handleQuantityChange}
-                      p={spacing.t}
-                      type="number"
-                      value={R.equals(quantity, NaN) ? '' : quantity}
-                      width={[spacing.xl, spacing.xxxxl, spacing.xxxxl]}
-                    />
-                  </div>
-                )}
+                <div>
+                  <t.HelpText mb={spacing.t}>Quantity:</t.HelpText>
+                  <QuantityInput
+                    textAlign="center"
+                    onBlur={this.handleBlur}
+                    onChange={this.handleQuantityChange}
+                    p={spacing.t}
+                    type="number"
+                    value={R.equals(quantity, NaN) ? '' : quantity}
+                    width={[spacing.xl, spacing.xxxxl, spacing.xxxxl]}
+                  />
+                </div>
               </l.FlexCentered>
-              {item.isSquadLocker && (
-                <l.FlexCentered>
-                  <t.Anchor href={SQUADLOCKER_PATH} target="_blank">
-                    <ButtonPrimary
-                      background={colors.green}
-                      gradient={gradients.green}
-                      size="small"
-                      type="button">
-                      {isTabletUp() ? 'Shop on ' : ''}SquadLocker
-                    </ButtonPrimary>
-                  </t.Anchor>
-                </l.FlexCentered>
-              )}
-              {!item.isSquadLocker && (
-                <l.FlexCentered columnOnMobile>
-                  {quantityInCart && (
-                    <>
-                      <t.Text bold color={colors.red}>
-                        In Cart: {quantityInCart}
-                      </t.Text>
-                      <l.Space height={spacing.sm} width={spacing.xl} />
-                    </>
-                  )}
-                  <ButtonPrimary
-                    onClick={() => {
-                      if ((quantityInCart && isDirty) || !quantityInCart) {
-                        this.props.updateItem(item, quantity, selectedOptions);
-                      } else if (quantityInCart && !isDirty) {
-                        this.props.updateItem(item, 0, selectedOptions);
-                        this.setState({ quantity: 1 });
-                      }
-                    }}
-                    type="button"
-                    size="small"
-                    width={105}>
-                    {quantityInCart
-                      ? isDirty
-                        ? 'Update'
-                        : 'Remove'
-                      : 'Add to Cart'}
-                  </ButtonPrimary>
-                </l.FlexCentered>
-              )}
+              <l.FlexCentered columnOnMobile>
+                {quantityInCart && (
+                  <>
+                    <t.Text bold color={colors.red} textAlign="right">
+                      In Cart: {quantityInCart}
+                    </t.Text>
+                    <l.Space
+                      height={spacing.sm}
+                      width={[spacing.sm, spacing.m, spacing.l]}
+                    />
+                  </>
+                )}
+                <ButtonPrimary
+                  onClick={() => {
+                    if ((quantityInCart && isDirty) || !quantityInCart) {
+                      this.props.updateItem(item, quantity, selectedOptions);
+                    } else if (quantityInCart && !isDirty) {
+                      this.props.updateItem(item, 0, selectedOptions);
+                      this.setState({ quantity: 1 });
+                    }
+                  }}
+                  type="button"
+                  size="small"
+                  width={105}>
+                  {quantityInCart
+                    ? isDirty
+                      ? 'Update'
+                      : 'Remove'
+                    : 'Add to Cart'}
+                </ButtonPrimary>
+              </l.FlexCentered>
             </div>
           )}
-        </l.FlexCentered>
-        {showDetail && <t.Text mt={spacing.xl}>{item.description}</t.Text>}
+        </l.FlexColumn>
+        {showDetail && !R.isEmpty(item.description) && (
+          <>
+            <t.Text mb={spacing.ml} mt={spacing.xl}>
+              Item details:
+            </t.Text>
+            <t.Text>{item.description}</t.Text>
+          </>
+        )}
         {closeModal && <CloseButton onClick={closeModal} src={ModalCloseImg} />}
-      </l.ScrollFlex>
+      </ItemComponent>
     );
   }
 }

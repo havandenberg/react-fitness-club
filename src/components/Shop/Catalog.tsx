@@ -109,7 +109,7 @@ class ShopCatalog extends React.Component<
   };
 
   render() {
-    const { fields, inventory, showModal, toggleShowOrderReview } = this.props;
+    const { fields, showModal, toggleShowOrderReview } = this.props;
 
     const sortedCategories = R.sortBy(
       (category: FilterPrimaryCategory) => category.name,
@@ -127,7 +127,8 @@ class ShopCatalog extends React.Component<
                 <t.Text
                   color={colors.red}
                   mr={spacing.m}
-                  mt={[spacing.sm, 0, 0]}>
+                  mt={[spacing.sm, 0, 0]}
+                  textAlign="right">
                   {fields.items.length} item{fields.items.length > 1 ? 's' : ''}{' '}
                   for ${calculateOrderTotal(fields.items)}
                 </t.Text>
@@ -158,7 +159,7 @@ class ShopCatalog extends React.Component<
                   <l.Flex spaceBetween={isMobileOnly()} width="100%">
                     <t.H2>Catalog Items</t.H2>
                     <l.Space width={spacing.xl} />
-                    <t.Text flex={1}>{inventory.length} items</t.Text>
+                    <t.Text flex={1}>{filteredInventory.length} items</t.Text>
                   </l.Flex>
                 </l.Flex>
                 <Grid

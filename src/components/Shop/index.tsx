@@ -8,7 +8,7 @@ import * as React from 'react';
 import * as ReactModal from 'react-modal';
 import { PulseLoader } from 'react-spinners';
 import ShopImg from '../../assets/images/shop.svg';
-import l, { scrollStyles } from '../../styles/layout';
+import l from '../../styles/layout';
 import { colors, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import { Member } from '../../types/member';
@@ -167,8 +167,6 @@ class Shop extends React.Component<Props, State> {
                             background: colors.background,
                             margin: '0 auto',
                             maxWidth: 550,
-                            overflowY: 'auto',
-                            ...scrollStyles(false),
                           },
                           overlay: { zIndex: 1000 },
                         }}>
