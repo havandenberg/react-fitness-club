@@ -139,13 +139,15 @@ export const login = (
   provider: AuthProvider,
   email?: string,
   password?: string,
+  onFail: (error: Error, msg?: string) => void = (error: Error) =>
+    console.log(error),
 ) => {
   const authProvider = getAuthProvider(provider);
 
   if (provider !== 'email' && authProvider) {
     auth.signInWithPopup(authProvider);
   } else if (email && password) {
-    auth.signInWithEmailAndPassword(email, password);
+    auth.signInWithEmailAndPassword(email, password).catch(onFail);
   }
 };
 

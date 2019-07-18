@@ -1,8 +1,8 @@
 import * as R from 'ramda';
 import * as React from 'react';
-import { auth } from '../firebase';
 import l from '../styles/layout';
 import { spacing } from '../styles/theme';
+import { login } from '../utils/auth';
 import { isValidEmail } from '../utils/validation';
 import Form, {
   FormComponentProps,
@@ -59,12 +59,7 @@ class Step extends React.Component<FormComponentProps<LoginFields>> {
     resetForm: () => void,
     data: any,
   ) => {
-    auth
-      .signInWithEmailAndPassword(data.email, data.password)
-      .then(onSuccess)
-      .catch((error: Error) => {
-        onFail(error, error.message);
-      });
+    login('email', data.email, data.password, onFail);
   };
 
   render() {

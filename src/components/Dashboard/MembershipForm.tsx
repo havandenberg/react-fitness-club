@@ -1,6 +1,7 @@
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
+import { programContent } from '../../content/programs';
 import l from '../../styles/layout';
 import {
   borders,
@@ -12,7 +13,7 @@ import {
 import t from '../../styles/typography';
 import { CalendarEvent } from '../../types/calendar-event';
 import { MembershipType } from '../../types/membership';
-import { Division, Program } from '../../types/program';
+import { Division, ProgramContent } from '../../types/program';
 import { getMemberRef } from '../../utils/member';
 import { getGenericMembership } from '../../utils/membership';
 import {
@@ -27,7 +28,7 @@ import Form, {
   FormFieldValidations,
   FormStep,
 } from '../Form';
-import { ButtonPrimary, ButtonSecondary } from '../Form/Button';
+import { ButtonPrimary } from '../Form/Button';
 import { SelectInput } from '../Form/Input';
 import { FormItemProps } from '../Form/Row';
 import MembershipBadge, { multipassCost } from '../MembershipBadge';
@@ -43,7 +44,7 @@ const MembershipCard = styled(l.FlexColumn)(
   {
     border: borders.blackThick,
     borderRadius: borders.radius,
-    height: 550,
+    height: 600,
     padding: spacing.xl,
     transition: transitions.default,
     width: '50%',
@@ -287,7 +288,7 @@ class Step extends React.Component<
                 value={fields.selectedMembershipType}
                 width="100%">
                 <option value="">-</option>
-                {programs.map((prog: Program) => (
+                {programContent.map((prog: ProgramContent) => (
                   <option key={prog.id} value={prog.id}>
                     {prog.name}
                   </option>
@@ -318,7 +319,7 @@ class Step extends React.Component<
               )}
             </l.FlexColumn>
             <l.Space height={spacing.ml} />
-            <ButtonSecondary
+            <ButtonPrimary
               onClick={() => {
                 if (R.equals(fields.membershipType, 'multipass')) {
                   onChange(
@@ -335,7 +336,7 @@ class Step extends React.Component<
               type="button"
               size="big">
               Select
-            </ButtonSecondary>
+            </ButtonPrimary>
           </MembershipCard>
           <l.Space height={spacing.xl} width={spacing.xl} />
           <MembershipCard
@@ -357,7 +358,7 @@ class Step extends React.Component<
                 You will be able to enroll in programs at the next step
               </t.Text>
             </l.FlexColumn>
-            <ButtonSecondary
+            <ButtonPrimary
               onClick={() => {
                 onChange('membershipType', 'multipass', () => {
                   validate();
@@ -367,7 +368,7 @@ class Step extends React.Component<
               type="button"
               size="big">
               Select
-            </ButtonSecondary>
+            </ButtonPrimary>
           </MembershipCard>
         </l.Flex>
         <l.FlexColumn
@@ -418,9 +419,17 @@ class Step extends React.Component<
                       : spacing.xl
                   }
                 />
-                <ButtonPrimary onClick={this.handleSubmit}>
-                  Confirm Membership
-                </ButtonPrimary>
+                {R.equals(fields.membershipType, member.membership.type) ? (
+                  <l.FlexCentered>
+                    <t.Text color={colors.red}>
+                      You already have this membership!
+                    </t.Text>
+                  </l.FlexCentered>
+                ) : (
+                  <ButtonPrimary onClick={this.handleSubmit}>
+                    Confirm Membership
+                  </ButtonPrimary>
+                )}
               </l.FlexColumnCentered>
             </>
           )}

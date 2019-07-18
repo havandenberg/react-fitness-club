@@ -197,12 +197,15 @@ class Form<FormFields> extends React.Component<
     onFailMessage?: string,
     callback?: () => void,
   ) => {
-    this.setState({
-      ...initialState,
-      failed: true,
-      fields: this.props.initialValues,
-      onFailMessage,
-    });
+    this.setState(
+      {
+        ...initialState,
+        failed: true,
+        fields: this.props.initialValues,
+        onFailMessage,
+      },
+      callback,
+    );
     console.log(error);
   };
 
