@@ -17,7 +17,7 @@ import ScheduleImg from '../assets/images/schedule.svg';
 import ShrinkImg from '../assets/images/shrink.svg';
 import { programContent } from '../content/programs';
 import l from '../styles/layout';
-import { colors, gradients, spacing } from '../styles/theme';
+import { colors, fontSizes, gradients, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { FilterPrimaryCategory } from '../types/filter';
@@ -39,7 +39,7 @@ import {
   getProgramById,
   isCoachOfProgram,
 } from '../utils/program';
-import { isMobileOnly, isTabletOnly } from '../utils/screensize';
+import { isMobile, isMobileOnly, isTabletOnly } from '../utils/screensize';
 import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
 import FilterBar, { FilterProps } from './FilterBar';
@@ -155,7 +155,11 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     };
 
     if (R.equals(this.state.calendarView, BigCalendar.Views.AGENDA)) {
-      return {};
+      return {
+        style: {
+          fontSize: isMobile() ? fontSizes.helpText : fontSizes.text,
+        },
+      };
     }
 
     if (isOpenMat) {
