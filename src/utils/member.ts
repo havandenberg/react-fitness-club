@@ -29,7 +29,7 @@ export const isCoach = (member: Member) =>
 
 // MANUAL UPDATE MEMBERS
 
-const ENABLE_UPDATE_MEMBERS = true;
+const ENABLE_UPDATE_MEMBERS = false;
 
 const getMemberUpdates = (member: Member) => ({});
 

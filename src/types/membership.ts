@@ -19,6 +19,7 @@ export type MembershipType =
   | '';
 
 export interface Membership {
+  cost?: string;
   inactivePeriods: InactivePeriod[];
   signupDate: Date | '';
   type: MembershipType;

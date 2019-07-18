@@ -26,6 +26,7 @@ export const deactivateMembership = (member: Member) => {
 export const getGenericMembership: (
   type: MembershipType,
 ) => Membership = type => ({
+  cost: '',
   inactivePeriods: [],
   signupDate: '',
   type,
@@ -38,7 +39,7 @@ export const getMemberCost = (
 ) => {
   switch (member.membership.type) {
     case 'multipass':
-      return multipass.monthlyCost;
+      return multipass.cost;
     case 'coach':
     case 'student':
     case 'sponsored':
@@ -46,9 +47,12 @@ export const getMemberCost = (
       return 0;
     default:
       if (program) {
+        if (member.membership.cost && !R.isEmpty(member.membership.cost)) {
+          return member.membership.cost;
+        }
         return getDivisionCost(program, divisionId);
       }
-      return 0;
+      return '';
   }
 };
 

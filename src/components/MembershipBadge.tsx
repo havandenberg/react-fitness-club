@@ -26,11 +26,7 @@ export const multipassCost = (
     alignTop={isMobileOnly()}
     ml={isMobileOnly() ? spacing.ml : undefined}>
     <t.Text large mb={spacing.sm}>
-      ${multipass.monthlyCost} / month
-    </t.Text>
-    <t.Text color={colors.gray}>
-      ${multipass.monthlyCost * (1 - multipass.discountMultiplier)} for first{' '}
-      {multipass.discountMonths} months
+      {multipass.cost}
     </t.Text>
   </l.FlexColumn>
 );

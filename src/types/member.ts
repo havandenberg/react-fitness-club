@@ -57,6 +57,7 @@ export const newMemberDefaults: Member = {
   lastName: '',
   medicalConditions: '',
   membership: {
+    cost: '',
     inactivePeriods: [],
     signupDate: '',
     type: '',

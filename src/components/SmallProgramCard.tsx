@@ -67,7 +67,8 @@ const SmallProgramCard = ({
             bold
             large
             fontSize={styles.nameFontSize}
-            maxWidth={isTabletUp() ? 200 : undefined}>
+            maxWidth={isTabletUp() ? 200 : undefined}
+            nowrap>
             {program.name}
           </t.Text>
           {division && (
@@ -79,7 +80,7 @@ const SmallProgramCard = ({
           )}
         </l.FlexColumn>
       </NameComponent>
-      {showCost && <t.Text>{cost}</t.Text>}
+      {showCost && <t.Text ml={spacing.xl}>{cost}</t.Text>}
     </SmallProgramCardWrapper>
   );
 };

@@ -1,7 +1,6 @@
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
-import { multipass } from '../../content/memberships';
 import l from '../../styles/layout';
 import {
   borders,
@@ -44,7 +43,7 @@ const MembershipCard = styled(l.FlexColumn)(
   {
     border: borders.blackThick,
     borderRadius: borders.radius,
-    height: 600,
+    height: 550,
     padding: spacing.xl,
     transition: transitions.default,
     width: '50%',
@@ -52,7 +51,7 @@ const MembershipCard = styled(l.FlexColumn)(
       padding: spacing.ml,
     },
     [breakpoints.mobile]: {
-      height: 550,
+      height: 450,
       width: '100%',
     },
     [breakpoints.small]: {
@@ -113,18 +112,9 @@ interface MembershipFormProps extends MembershipProps {
   cancelSwitchMembership?: () => void;
 }
 
-interface State {
-  programSelectIsOpen: boolean;
-}
-
 class Step extends React.Component<
-  FormComponentProps<MembershipFields> & MembershipFormProps,
-  State
+  FormComponentProps<MembershipFields> & MembershipFormProps
 > {
-  state = {
-    programSelectIsOpen: false,
-  };
-
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const {
@@ -204,10 +194,6 @@ class Step extends React.Component<
     }
   };
 
-  toggleProgramSelectOpen = (programSelectIsOpen: boolean) => {
-    this.setState({ programSelectIsOpen });
-  };
-
   render() {
     const {
       cancelSwitchMembership,
@@ -218,7 +204,6 @@ class Step extends React.Component<
       programs,
       validate,
     } = this.props;
-    const { programSelectIsOpen } = this.state;
 
     const selectedProgram = getProgramById(
       fields.selectedMembershipType,
@@ -296,19 +281,15 @@ class Step extends React.Component<
                     e.currentTarget.value,
                     () => {
                       onChange('selectedDivisionId', '');
-                      this.toggleProgramSelectOpen(false);
                     },
                   );
                 }}
-                onClick={() => this.toggleProgramSelectOpen(true)}
                 value={fields.selectedMembershipType}
                 width="100%">
                 <option value="">-</option>
                 {programs.map((prog: Program) => (
                   <option key={prog.id} value={prog.id}>
-                    {programSelectIsOpen
-                      ? `${prog.name} (${prog.cost})`
-                      : prog.name}
+                    {prog.name}
                   </option>
                 ))}
               </SelectInput>
@@ -351,7 +332,8 @@ class Step extends React.Component<
                   this.setSelectedProgram();
                 }
               }}
-              type="button">
+              type="button"
+              size="big">
               Select
             </ButtonSecondary>
           </MembershipCard>
@@ -368,10 +350,6 @@ class Step extends React.Component<
               <t.Text mb={spacing.sm}>
                 2 free day passes per month included
               </t.Text>
-              <t.Text>
-                First {multipass.discountMonths} months -{' '}
-                {multipass.discountMultiplier * 100}% off trial period
-              </t.Text>
             </l.FlexColumn>
             {multipassCost}
             <l.FlexColumn>
@@ -386,7 +364,8 @@ class Step extends React.Component<
                 });
                 scrollToId('confirm-section', { offset: -100 });
               }}
-              type="button">
+              type="button"
+              size="big">
               Select
             </ButtonSecondary>
           </MembershipCard>
@@ -405,7 +384,7 @@ class Step extends React.Component<
           <t.Text center large mb={spacing.sm}>
             At the moment online payments are not available, so for now all
             transactions must be completed at the studio. Please bring your
-            first payment to your first class.
+            first payment to your next class after your free intro.
           </t.Text>
           <t.Text center large mb={spacing.xxxl}>
             We accept all major forms of payment.

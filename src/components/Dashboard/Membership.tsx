@@ -125,18 +125,12 @@ class Membership extends React.Component<MembershipProps, State> {
             <>
               <l.Flex mb={spacing.sm} width="100%">
                 <t.Text large flex={1} textAlign="right">
-                  Monthly Cost:
+                  Program cost:
                 </t.Text>
                 <l.Space width={[spacing.ml, spacing.xxxl, spacing.xxxl]} />
-                {cost < 0 ? (
-                  <t.Text large flex={1}>
-                    N/A
-                  </t.Text>
-                ) : (
-                  <t.Text large flex={1}>
-                    ${cost}
-                  </t.Text>
-                )}
+                <t.Text large flex={1}>
+                  {cost}
+                </t.Text>
               </l.Flex>
               <l.Flex mb={spacing.sm} width="100%">
                 <t.Text large flex={1} textAlign="right">
@@ -187,9 +181,7 @@ class Membership extends React.Component<MembershipProps, State> {
                     program={program}
                   />
                   <l.Space height={spacing.s} width={spacing.sm} />
-                  <t.Text nowrap>
-                    (${getMemberCost(member, program)} / month)
-                  </t.Text>
+                  <t.Text nowrap>{getMemberCost(member, program)}</t.Text>
                 </l.Flex>
               </t.TextButton>
             </>
