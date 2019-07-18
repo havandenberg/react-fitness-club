@@ -11,7 +11,7 @@ import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import { Program as ProgramType, ProgramContent } from '../types/program';
 import { getGenericMembership } from '../utils/membership';
-import { isMobileOnly, isTabletUp } from '../utils/screensize';
+import { isDesktop, isMobileOnly, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import Divider from './Divider';
 import withScroll from './hoc/withScroll';
@@ -74,15 +74,22 @@ const Programs = ({
               py={spacing.sm}
               spaceBetween>
               <t.H3
-                pt={[spacing.t, 0, 0]}
+                py={[spacing.sm, 0, 0]}
                 mr={[0, spacing.sm, spacing.sm]}
                 nowrap>
                 Martial Arts & Fitness Programs
               </t.H3>
               <t.Link border={borders.red} color={colors.red} to="/signup">
                 <l.Flex pb={spacing.t}>
-                  {isTabletUp() ? 'Get a' : 'A'}ll-program access with
-                  {isTabletUp() && ' our'}
+                  <t.Text
+                    color={colors.red}
+                    fontSize={[
+                      fontSizes.text,
+                      fontSizes.helpText,
+                      fontSizes.text,
+                    ]}>
+                    {isDesktop() ? 'Get a' : 'A'}ll-program access with our
+                  </t.Text>
                   <l.Space width={spacing.s} />
                   <MembershipBadge
                     customStyles={{

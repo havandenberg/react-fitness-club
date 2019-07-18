@@ -9,26 +9,27 @@ export const aikido = {
 
 export const capoeira = {
   description:
-    'African-Brazilian martial art that incorporates acrobatics, dance, music, and songs in a rhythmic dialogue of body, mind, and spirit. Taught by Professor Morcego. Ages 8+.',
+    'African-Brazilian martial art that incorporates acrobatics, dance, music, and songs in a rhythmic dialogue of body, mind, and spirit. Taught by Professor Morcego.',
   id: 'capoeira',
   name: 'Capoeira Luanda',
 };
 
 export const qigongMeditation = {
-  description: '',
+  description: 'Medical Qigong\n\'Invisible Needle\'\nAcupuncture\nReiki',
   id: 'qigong-meditation',
   name: 'Qigong Meditation',
 };
 
 export const reactMma = {
   description:
-    'A mixed martial arts system with 3 phases of training: stand up, take downs, and grappling. Taught by Coach Ryan. Ages 8+.',
+    'A mixed martial arts system with 3 phases of training: stand up, take downs, and grappling. Taught by Coach Ryan. Ages 14+.',
   id: 'react-mma',
   name: 'REaCT MMA',
 };
 
 export const reactSkillz = {
-  description: '',
+  description:
+    'Our REaCT Skillz program is focused on teaching children ages 3 - 14 focus, self-discipline, self-confidence, better grades, self-control, leadership, resilience, better behavior at home and school. All of our drills and warmups are age specific which leads to faster and more lasting progress. We ensure this is a safe place for your children to come together, share a common experience and cooperate and collaborate more with less squabbling and fighting. This is a place where your children can build their character by practicing respect, humility, honesty, determination, compassion, resilience, service and collaboration, all with a growth mindset.',
   id: 'react-skillz',
   name: 'REaCT Skillz',
 };
@@ -52,4 +53,5 @@ export const programContent: ProgramContent[] = [
   capoeira,
   aikido,
   zumba,
+  qigongMeditation,
 ];

@@ -22,7 +22,7 @@ const ProgramWrapper = styled(l.Flex)({
   borderRadius: borders.radius,
   margin: '0 2px',
   padding: spacing.xl,
-  [breakpoints.small]: {
+  [breakpoints.mobile]: {
     padding: spacing.ml,
   },
 });
@@ -67,7 +67,10 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
       <ProgramWrapper alignTop columnOnMobile id={program.id}>
         <l.FlexColumn width={['100%', '50%', '50%']}>
           <l.Flex alignTop mb={spacing.ml} width="100%">
-            <l.Img src={program.logoSrc} width={spacing.huge} />
+            <l.Img
+              src={program.logoSrc}
+              width={[spacing.xxxxxl, spacing.huge, spacing.huge]}
+            />
             <l.Space width={[spacing.ml, spacing.xxxl, spacing.xxxl]} />
             <div>
               {content && (
@@ -99,8 +102,13 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
               Divisions:
             </t.Text>
             {program.divisions.map((division: Division) => (
-              <l.Flex key={division.id} spaceBetween width="100%">
-                <t.Text mb={spacing.s}>{division.name}</t.Text>
+              <l.Flex
+                columnOnMobile
+                key={division.id}
+                mb={[spacing.s, 0, 0]}
+                spaceBetween
+                width="100%">
+                <t.Text mb={[0, spacing.s, spacing.s]}>{division.name}</t.Text>
                 <t.Link
                   border={borders.red}
                   color={colors.red}
@@ -120,20 +128,19 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
         />
         <l.FlexColumn width={['100%', '50%', '50%']}>
           {content && <t.Text mb={spacing.ml}>{content.description}</t.Text>}
+          {!R.isEmpty(program.cost) && (
+            <t.Text center mb={spacing.ml}>
+              {program.cost}
+            </t.Text>
+          )}
           <t.Anchor
             border={borders.red}
             href={program.aboutUrl}
-            mb={spacing.ml}
             target="_blank">
             <t.Text center color={colors.red} large>
               Learn more about {program.name}
             </t.Text>
           </t.Anchor>
-          <t.Text center large>
-            {program.cost}
-            <l.Break />
-            (single program cost)
-          </t.Text>
         </l.FlexColumn>
       </ProgramWrapper>
     );
