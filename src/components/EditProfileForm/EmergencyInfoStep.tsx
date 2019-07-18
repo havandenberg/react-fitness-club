@@ -247,8 +247,7 @@ class EmergencyInfoStep extends React.Component<
         <l.Space
           position={['static', 'static', 'absolute']}
           right={0}
-          top={-110}
-        >
+          top={-110}>
           <FormActions
             forwardText="Save"
             handleForward={this.handleSubmit}
