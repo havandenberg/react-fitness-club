@@ -193,9 +193,9 @@ class MemberList extends React.Component<Props, State> {
                     mobileSizes.text,
                     fontSizes.text,
                   ],
-                  photoSideLength: [spacing.xxxl, spacing.xxxl, spacing.xxxxl],
+                  photoSideLength: [spacing.xl, spacing.xl, spacing.xxl],
                   wrapper: {
-                    p: spacing.s,
+                    p: spacing.t,
                   },
                 }}
                 member={member}

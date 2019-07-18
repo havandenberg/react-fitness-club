@@ -56,7 +56,10 @@ class Admin extends React.Component<Props, State> {
           selectedMemberId={selectedMember ? selectedMember.uid : undefined}
         />
         <l.Space height={spacing.ml} />
-        <l.FlexColumn flex={1} width={isMobileOnly() ? '100%' : undefined}>
+        <l.FlexColumn
+          flex={1}
+          ml={[0, spacing.xxxl, spacing.xxxxxl]}
+          width={isMobileOnly() ? '100%' : undefined}>
           <l.Flex
             alignTop
             mb={spacing.xxxl}
@@ -76,12 +79,10 @@ class Admin extends React.Component<Props, State> {
               Program Info
             </NavItem>
           </l.Flex>
-          <l.FlexCentered>
-            {view === 'profile' && <Profile isAdmin member={selectedMember} />}
-            {view === 'programs' && (
-              <ProgramInfo member={selectedMember} programs={programs} />
-            )}
-          </l.FlexCentered>
+          {view === 'profile' && <Profile isAdmin member={selectedMember} />}
+          {view === 'programs' && (
+            <ProgramInfo member={selectedMember} programs={programs} />
+          )}
         </l.FlexColumn>
       </l.Flex>
     );

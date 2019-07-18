@@ -35,30 +35,29 @@ const Profile = (props: Props) => {
       flexDirection={
         isMobileOnly() || (isMobile() && isAdmin) ? 'column' : 'row'
       }
-      mb={[spacing.ml, spacing.sm]}
-    >
+      mb={[spacing.ml, spacing.sm]}>
       <t.Text bold large mb={[spacing.s, 0]} width={['100%', LABEL_WIDTH]}>
         {label}
       </t.Text>
       <t.Text
         large
         overflowX
-        maxWidth={isAdmin ? (isDesktop() ? 400 : 350) : undefined}
-      >
+        maxWidth={isAdmin ? (isDesktop() ? 400 : 350) : undefined}>
         {value}
       </t.Text>
     </l.Flex>
   );
   return (
     <l.Flex
-      alignTop={!isMobile() && !!setView}
-      flexDirection={isMobile() || !setView ? 'column' : 'row'}
-      alignItems={isMobile() || !setView ? 'center' : 'flex-start'}
-    >
-      <ProfilePhoto
-        sideLength={[150, 175, 200]}
-        imageSrc={member.profilePhotoUrl}
-      />
+      alignTop={isTabletUp()}
+      flexDirection={isMobile() || isAdmin ? 'column' : 'row'}
+      width={isAdmin ? '100%' : undefined}>
+      <l.FlexCentered alignSelf={isAdmin ? 'center' : undefined}>
+        <ProfilePhoto
+          sideLength={[150, 175, 200]}
+          imageSrc={member.profilePhotoUrl}
+        />
+      </l.FlexCentered>
       <l.Space height={spacing.xxxl} width={spacing.xxxxxl} />
       <ProfileInfo>
         <ProfileField
@@ -83,8 +82,7 @@ const Profile = (props: Props) => {
           large
           maxWidth={isTabletUp() ? 550 : undefined}
           mb={spacing.xl}
-          overflowX
-        >
+          overflowX>
           {member.allergies}
         </t.Text>
         <t.Text bold large mb={[spacing.s, spacing.sm]}>
@@ -94,8 +92,7 @@ const Profile = (props: Props) => {
           large
           maxWidth={isTabletUp() ? 550 : undefined}
           mb={spacing.xl}
-          overflowX
-        >
+          overflowX>
           {member.medicalConditions}
         </t.Text>
         <t.Text bold large mb={[spacing.ml, spacing.sm]}>

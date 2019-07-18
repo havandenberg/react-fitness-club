@@ -98,7 +98,6 @@ const SmallMemberCard = ({
     />
     <l.Space width={[spacing.sm, spacing.ml, spacing.ml]} />
     <Name
-      bold
       className="name"
       fontSize={customStyles.nameFontSize}
       isWrap
