@@ -75,76 +75,16 @@ class Signup extends React.Component<RouteComponentProps & Props> {
           px={[spacing.sm, 0]}
           py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
           <l.FlexColumn>
-            {/* <t.Text
+            <t.Text
               center
               large
-              mb={spacing.ml}
+              mb={spacing.xxl}
               width={['100%', '100%', '80%']}>
-              To sign up for React Fitness Club, create an account using one of
-              the options below and complete the setup form.
+              To sign up for any of our programs, create a React Fitness Club
+              account using one of the options below.
             </t.Text>
-            <t.TextButton
-              border={borders.red}
-              color={colors.red}
-              large
-              mb={spacing.ml}
-              onClick={() => scrollToId('sign-up-here')}>
-              Sign up here
-            </t.TextButton>
-            <t.Text center large mb={spacing.ml}>
-              Then you will be able to choose a membership and enroll in
-              programs.
-            </t.Text>
-            <t.Text center large>
-              We offer the following membership options:
-            </t.Text>
-            <l.FlexCentered columnRevOnMobile my={spacing.xxxl} width="100%">
-              <MembershipCard>
-                <div>
-                  <t.Text bold center large mt={spacing.sm}>
-                    Single Program Membership
-                  </t.Text>
-                  <l.Space height={spacing.xxxxl} />
-                  <t.Text center color={colors.gray}>
-                    Full access to one RFC program
-                  </t.Text>
-                </div>
-                <l.Space height={spacing.sm} />
-                <t.Link
-                  border={borders.red}
-                  center="true"
-                  color={colors.red}
-                  large="true"
-                  mb={spacing.ml}
-                  to="/programs">
-                  Click here for program pricing
-                </t.Link>
-              </MembershipCard>
-              <l.Space height={spacing.xxxl} width={spacing.xxxl} />
-              <MembershipCard>
-                <MembershipBadge
-                  membership={getGenericMembership('multipass')}
-                />
-                <l.Space height={spacing.sm} />
-                <t.Text center color={colors.gray}>
-                  Unlimited access to all RFC programs
-                </t.Text>
-                <l.Space height={spacing.s} />
-                <t.Text center color={colors.gray}>
-                  2 free day passes per month included
-                </t.Text>
-                <l.Space height={spacing.sm} />
-                {multipassCost}
-              </MembershipCard>
-            </l.FlexCentered>
-            <t.Text center large mb={spacing.xxl}>
-              Day passes are also available at the door for $10 / day.
-            </t.Text>
-            <t.Text color={colors.red} large id="sign-up-here">
-              Sign up below:
-            </t.Text> */}
             <t.Text large mb={spacing.xxl}>
-              Create a React Fitness Club account with social media.
+              Create an account with social media.
             </t.Text>
           </l.FlexColumn>
           <l.FlexCentered columnOnMobile>

@@ -127,7 +127,6 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
               <l.Flex
                 columnOnMobile={legendOnBottom}
                 columnRevOnMobile={!legendOnBottom}
-                mb={spacing.m}
                 spaceBetween
                 width="100%">
                 <l.Flex
@@ -195,7 +194,7 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
                 </l.Flex>
                 {legend}
               </l.Flex>
-              {lowerLegend}
+              {lowerLegend && <l.Space mt={spacing.m}>{lowerLegend}</l.Space>}
             </FilterBarWrapper>
           </div>
         </Sticky>

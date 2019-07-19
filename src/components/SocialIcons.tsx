@@ -48,13 +48,14 @@ const SocialIcons = ({
   small?: boolean;
 }) => (
   <SocialIconsWrapper
+    columnOnMobile={showLabels}
     showLabels={showLabels}
     spaceBetween={isMobile() && showLabels}>
     <t.Anchor href={FACEBOOK_PATH} mb={[0, spacing.ml, 0]} target="_blank">
       <SocialIcon small={small} src={fbIcon} />
       {showLabels && <SocialLabel>ReactFitnessClub</SocialLabel>}
     </t.Anchor>
-    <l.Space ml={[spacing.s, spacing.m]} />
+    <l.Space mb={spacing.m} ml={[spacing.s, spacing.m]} />
     {showLabels && <l.Space ml={[0, spacing.ml]} />}
     <t.Anchor href={INSTAGRAM_PATH} target="_blank">
       <SocialIcon small={small} src={igIcon} />

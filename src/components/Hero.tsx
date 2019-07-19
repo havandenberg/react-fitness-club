@@ -135,7 +135,7 @@ const Hero = ({
           }
           pt={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}>
           <t.Subtitle center>
-            Multi-Style Martial Arts Training & Fitness Club
+            Multi-Style Martial Arts & Fitness Club
           </t.Subtitle>
         </l.FlexCentered>
       )}
@@ -151,7 +151,7 @@ const Hero = ({
           </l.Flex>
         </QuickLink>
         <QuickLink
-          bold={!!nextUpcomingEvent ? 'true' : 'false'}
+          bold={!!nextUpcomingEvent ? 'true' : undefined}
           border={borders.red}
           color={colors.red}
           to="/events">

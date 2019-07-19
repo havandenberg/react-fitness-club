@@ -52,7 +52,7 @@ const MembershipCard = styled(l.FlexColumn)(
       padding: spacing.ml,
     },
     [breakpoints.mobile]: {
-      height: 450,
+      height: 500,
       width: '100%',
     },
     [breakpoints.small]: {

@@ -69,7 +69,8 @@ const Programs = ({
             <l.Flex
               background={colors.background}
               columnRevOnMobile
-              py={spacing.sm}
+              mb={spacing.xl}
+              mt={spacing.sm}
               spaceBetween>
               <t.H3
                 py={[spacing.sm, 0, 0]}

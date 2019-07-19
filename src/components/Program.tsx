@@ -15,6 +15,7 @@ import {
   Program as ProgramType,
   ProgramContent,
 } from '../types/program';
+import { LinkPrimary } from './Form/Button';
 import ProfilePhoto from './ProfilePhoto';
 
 const ProgramWrapper = styled(l.Flex)({
@@ -133,14 +134,19 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
               {program.cost}
             </t.Text>
           )}
-          <t.Anchor
-            border={borders.red}
-            href={program.aboutUrl}
-            target="_blank">
-            <t.Text center color={colors.red} large>
-              Learn more about {program.name}
-            </t.Text>
-          </t.Anchor>
+          {!R.isEmpty(program.aboutUrl) && (
+            <t.Anchor
+              border={borders.red}
+              href={program.aboutUrl}
+              target="_blank">
+              <t.Text center color={colors.red} large>
+                Learn more about {program.name}
+              </t.Text>
+            </t.Anchor>
+          )}
+          <LinkPrimary size="small" to="/signup">
+            Sign up
+          </LinkPrimary>
         </l.FlexColumn>
       </ProgramWrapper>
     );
