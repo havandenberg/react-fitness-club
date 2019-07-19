@@ -2,6 +2,10 @@ import * as React from 'react';
 import styled from 'react-emotion';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
 import * as Sticky from 'react-stickynode';
+import ContactImg from '../assets/images/contact';
+import GalleryImg from '../assets/images/gallery';
+import ProgramsImg from '../assets/images/programs';
+import StarImg from '../assets/images/star';
 import MemberImg from '../assets/images/user';
 import l from '../styles/layout';
 import {
@@ -19,27 +23,43 @@ import t from '../styles/typography';
 import { Member } from '../types/member';
 import { Program } from '../types/program';
 import { logout } from '../utils/auth';
-import { isMobile, isTabletUp } from '../utils/screensize';
+import { isDesktop, isMobile, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 import MemberMenu from './MemberMenu';
 
 interface Item {
   name: string;
   path: string;
+  Icon?: any;
 }
 
-const navItems = [
-  { name: 'Home', path: '/' },
-  // { name: 'About', path: '/about' },
-  { name: 'Programs', path: '/programs' },
-  { name: 'Gallery', path: '/gallery' },
-  { name: 'Contact', path: '/contact' },
+const navItems: Item[] = [
+  {
+    Icon: StarImg,
+    name: 'Mission',
+    path: '/mission',
+  },
+  {
+    Icon: ProgramsImg,
+    name: 'Programs',
+    path: '/programs',
+  },
+  {
+    Icon: GalleryImg,
+    name: 'Gallery',
+    path: '/gallery',
+  },
+  {
+    Icon: ContactImg,
+    name: 'Contact',
+    path: '/contact',
+  },
 ];
 
 const ActiveIndicator = styled('div')(
   {
-    bottom: 6,
-    height: 6,
+    bottom: 3,
+    height: 4,
     left: '50%',
     position: 'absolute',
     transform: 'translateX(-50%)',
@@ -74,16 +94,10 @@ const NavItemWrapper = styled(l.Flex)({
   },
 });
 
-const NavText = styled(t.Text)({
-  '.active-nav &': {
-    color: colors.red,
-  },
-  color: colors.white,
+const NavTextWrapper = styled(l.FlexCentered)({
   height: `calc(${navHeight} + 18px)`,
-  paddingTop: spacing.s,
-  textAlign: 'center',
-  transition: transitions.default,
-  width: spacing.huge,
+  marginTop: `-${spacing.s}`,
+  width: 150,
   [breakpoints.tablet]: {
     width: 100,
   },
@@ -93,30 +107,52 @@ const NavText = styled(t.Text)({
     width: 90,
   },
   [breakpoints.small]: {
-    fontSize: fontSizes.small,
     width: 75,
   },
 });
 
+const NavTextBase = styled(t.Text)({
+  transition: transitions.default,
+  [breakpoints.small]: {
+    fontSize: fontSizes.small,
+  },
+});
+
+const NavText = styled(NavTextBase)({
+  '.active-nav &': {
+    color: colors.red,
+  },
+  color: colors.white,
+  textAlign: 'center',
+});
+
 const NavItem = ({
   active,
+  item,
   onMouseEnter,
   onMouseLeave,
-  text,
-  to,
 }: {
   active: boolean;
+  item: Item;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
-  text: string;
-  to: string;
 }) => (
   <NavItemWrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-    <NavLink activeClassName="active-nav" exact to={to}>
-      <l.Space className={active && 'active-nav'} position="relative">
+    <NavLink activeClassName="active-nav" exact to={item.path}>
+      <NavTextWrapper
+        className={active ? 'active-nav' : ''}
+        position="relative">
         <ActiveIndicator active={active} />
-        <NavText>{text}</NavText>
-      </l.Space>
+        {isDesktop() && item.Icon && (
+          <l.Space mr={[0, spacing.sm, spacing.sm]}>
+            <item.Icon
+              color={active ? colors.red : colors.white}
+              side={spacing.ml}
+            />
+          </l.Space>
+        )}
+        <NavText mb={spacing.s}>{item.name}</NavText>
+      </NavTextWrapper>
     </NavLink>
   </NavItemWrapper>
 );
@@ -175,14 +211,24 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
         onMouseLeave={this.toggleMemberHover(false)}
         pointer
         position="relative"
-        width={[spacing.xl, 60, 80]}
+        width={[spacing.xl, 100, 110]}
         zIndex={z.high}>
         <t.Link to="/login">
-          <MemberIcon>
-            <MemberImg
-              color={member || memberHover ? colors.red : colors.white}
-            />
-          </MemberIcon>
+          <l.Flex>
+            <MemberIcon>
+              <MemberImg
+                color={member || memberHover ? colors.red : colors.white}
+              />
+            </MemberIcon>
+            {isDesktop() && (
+              <NavTextBase
+                color={member || memberHover ? colors.red : colors.white}
+                mr={spacing.m}
+                mt={spacing.t}>
+                Portal
+              </NavTextBase>
+            )}
+          </l.Flex>
         </t.Link>
         {!isMobile() && member && memberHover && (
           <MemberMenu
@@ -205,8 +251,9 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
                 <t.Text
                   bold
                   color={colors.white}
+                  mb={['4px', 0]}
                   ml={[0, spacing.sm]}
-                  my={[spacing.s, 0]}
+                  mt={['6px', 0]}
                   nowrap>
                   REACT FITNESS CLUB
                 </t.Text>
@@ -220,10 +267,9 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
                   <NavItem
                     active={active}
                     key={item.name}
+                    item={item}
                     onMouseEnter={() => this.onMouseEnter(i)}
                     onMouseLeave={this.onMouseLeave}
-                    text={item.name}
-                    to={item.path}
                   />
                 );
               })}

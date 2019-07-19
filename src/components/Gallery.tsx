@@ -4,7 +4,7 @@ import styled from 'react-emotion';
 import GridGallery from 'react-grid-gallery';
 import * as Sticky from 'react-stickynode';
 import CloseImg from '../assets/images/close.svg';
-import GalleryImg from '../assets/images/gallery.svg';
+import GalleryImg from '../assets/images/gallery';
 import galleryImages, { galleryCategories } from '../content/gallery';
 import l from '../styles/layout';
 import { borders, colors, spacing, z } from '../styles/theme';
@@ -135,11 +135,9 @@ class Gallery extends React.Component<{}, State> {
       <div>
         <t.Title center pb={spacing.ml}>
           <l.FlexCentered>
-            <l.Img
-              height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
-              mr={spacing.ml}
-              src={GalleryImg}
-            />
+            <l.Space mr={spacing.ml}>
+              <GalleryImg side={[spacing.xxl, spacing.xxl, spacing.xxxxl]} />
+            </l.Space>
             Gallery
           </l.FlexCentered>
         </t.Title>
@@ -177,13 +175,16 @@ class Gallery extends React.Component<{}, State> {
                     innerZ={z.mid}
                     top={isDesktop() ? 143 : 186}
                     bottomBoundary="#gallery-end">
-                    <l.Flex background={colors.background} isWrap>
+                    <l.Flex
+                      background={colors.background}
+                      pt={spacing.t}
+                      isWrap>
                       {sortedTags.map((tag: string, index: number) => (
                         <React.Fragment key={tag}>
                           <Tag
                             active={R.contains(tag, selectedTags)}
                             onClick={() => this.handleSelectTag(tag)}
-                            mb={spacing.sm}>
+                            mb={spacing.s}>
                             {tag}
                           </Tag>
                           {index < sortedTags.length - 1 && (

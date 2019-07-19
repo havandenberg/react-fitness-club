@@ -117,7 +117,7 @@ const Footer = ({ member }: { member?: Member }) => (
         spaceBetween={!isTabletUp()}
         width={['100%', 'auto']}>
         <l.Space mr={[spacing.xl, spacing.huge]}>
-          <FooterLink disabled text="About" to="/about" />
+          <FooterLink text="Mission" to="/mission" />
           <l.Space height={spacing.l} />
           <FooterLink text="Programs" to="/programs" />
           <l.Space height={spacing.l} />

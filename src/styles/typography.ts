@@ -166,7 +166,7 @@ export const Text = styled('div')(
     color: colors.black,
     fontFamily: fonts.poppinsMedium,
     letterSpacing: 1,
-    lineHeight: 1.4,
+    lineHeight: 1.8,
   },
   ({ large, fontSize }: { large?: boolean; fontSize: StyleSet }) =>
     !fontSize && {

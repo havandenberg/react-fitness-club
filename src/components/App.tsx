@@ -29,7 +29,6 @@ import { parseMemberData } from '../utils/member';
 import { isCoachOfProgram, parsePrograms } from '../utils/program';
 import { parseInventory } from '../utils/shop';
 import { parseSpecialEvents } from '../utils/special-event';
-import About from './About';
 import ClassManager from './ClassManager';
 import Contact from './Contact';
 import Dashboard from './Dashboard';
@@ -40,6 +39,7 @@ import Hero from './Hero';
 import withSubscribe, { SubscribeProps } from './hoc/withSubscribe';
 import Home from './Home';
 import Login from './Login';
+import Mission from './Mission';
 import Nav from './Nav';
 import Programs from './Programs';
 import Schedule from './Schedule';
@@ -358,7 +358,7 @@ class App extends React.Component<SubscribeProps, State> {
           />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
+            <Route path="/mission" component={Mission} />
             <Route
               exact
               path="/events"

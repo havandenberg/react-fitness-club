@@ -105,7 +105,7 @@ export const tabletSizes = {
 };
 
 export const mobileSizes = {
-  h1: '28px',
+  h1: '24px',
   h2: '20px',
   h3: '20px',
   helpText: '10px',

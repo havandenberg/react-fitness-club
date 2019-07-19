@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PulseLoader } from 'react-spinners';
 import * as Sticky from 'react-stickynode';
 import { getProgramById } from 'src/utils/program';
-import ProgramsImg from '../assets/images/programs.svg';
+import ProgramsImg from '../assets/images/programs';
 import { programContent } from '../content/programs';
 import l from '../styles/layout';
 import { borders, colors, fontSizes, spacing, z } from '../styles/theme';
@@ -42,11 +42,9 @@ const Programs = ({
   <div>
     <t.Title center pb={spacing.ml}>
       <l.FlexCentered>
-        <l.Img
-          height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
-          mr={spacing.ml}
-          src={ProgramsImg}
-        />
+        <l.Space mr={spacing.ml}>
+          <ProgramsImg side={[spacing.xxl, spacing.xxl, spacing.xxxxl]} />
+        </l.Space>
         Programs
       </l.FlexCentered>
     </t.Title>

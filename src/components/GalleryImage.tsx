@@ -5,6 +5,7 @@ import { space } from 'styled-system';
 import l from '../styles/layout';
 import { borders, breakpoints, spacing } from '../styles/theme';
 import { Image as ImageType } from '../types/gallery';
+import { isTabletUp } from '../utils/screensize';
 
 export const GalleryWrapper = styled('div')({
   borderRadius: borders.radius,
@@ -54,7 +55,7 @@ const GalleryImage = ({ customStyles, image }: Props) => (
       />
     </GalleryWrapper>
     <Image src={image.src} />
-    {image.caption && (
+    {image.caption && isTabletUp() && (
       <l.Space display="inline-block" mb={[spacing.ml, 0]} mt={spacing.m}>
         <l.Caption>{image.caption}</l.Caption>
       </l.Space>

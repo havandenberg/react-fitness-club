@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'react-emotion';
-import ContactImg from '../assets/images/contact.svg';
-import StarImg from '../assets/images/star.svg';
+import ContactImg from '../assets/images/contact';
+import StarImg from '../assets/images/star';
 import l from '../styles/layout';
 import { borders, colors, fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
@@ -13,7 +13,6 @@ import ContactForm from './ContactForm';
 import Divider from './Divider';
 import GalleryImage from './GalleryImage';
 import withScroll from './hoc/withScroll';
-import { Star } from './Home';
 import SocialIcons from './SocialIcons';
 
 const ContactText = styled(t.Text)({
@@ -28,11 +27,9 @@ const Contact = ({ programs }: { programs: Program[] }) => (
   <div>
     <t.Title center pb={spacing.ml}>
       <l.FlexCentered>
-        <l.Img
-          height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
-          mr={spacing.ml}
-          src={ContactImg}
-        />
+        <l.Space mr={spacing.ml}>
+          <ContactImg side={[spacing.xxl, spacing.xxl, spacing.xxxxl]} />
+        </l.Space>
         Contact
       </l.FlexCentered>
     </t.Title>
@@ -90,7 +87,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
         </ContactText>
       </l.Flex>
       <l.FlexCentered my={spacing.xxxl}>
-        <Star src={StarImg} />
+        <StarImg />
       </l.FlexCentered>
       <t.Text center large my={spacing.xl}>
         To contact us with any questions about our schedule or programs,
