@@ -9,10 +9,10 @@ import { Program } from '../../../types/program';
 import { getMemberFullName } from '../../../utils/member';
 import { isMobile, isMobileOnly } from '../../../utils/screensize';
 import Profile from '../Profile';
-import AdminInfo from './AdminInfo';
 import MemberList from './MemberList';
+import MembershipInfo from './MembershipInfo';
 
-type AdminView = 'programs' | 'profile';
+type MembershipView = 'profile' | 'membership';
 
 interface Props {
   isAdmin: boolean;
@@ -23,7 +23,7 @@ interface Props {
 
 interface State {
   selectedMember: Member;
-  view: AdminView;
+  view: MembershipView;
 }
 
 class Admin extends React.Component<Props, State> {
@@ -40,7 +40,7 @@ class Admin extends React.Component<Props, State> {
     this.setState({ selectedMember });
   };
 
-  setView = (view: AdminView) => {
+  setView = (view: MembershipView) => {
     return () => this.setState({ view });
   };
 
@@ -78,15 +78,15 @@ class Admin extends React.Component<Props, State> {
               </NavItem>
               <l.Space width={[spacing.xl, spacing.xl, spacing.xxxxxl]} />
               <NavItem
-                active={view === 'programs'}
-                onClick={this.setView('programs')}>
+                active={view === 'membership'}
+                onClick={this.setView('membership')}>
                 Membership
               </NavItem>
             </l.Flex>
           </l.Flex>
           {view === 'profile' && <Profile isAdmin member={selectedMember} />}
-          {view === 'programs' && (
-            <AdminInfo member={selectedMember} programs={programs} />
+          {view === 'membership' && (
+            <MembershipInfo member={selectedMember} programs={programs} />
           )}
         </l.FlexColumn>
       </l.Flex>

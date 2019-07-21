@@ -2,7 +2,6 @@ import * as moment from 'moment';
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
-import { ClassInst } from 'src/types/class';
 import l from '../../../styles/layout';
 import {
   breakpoints,
@@ -12,6 +11,7 @@ import {
   spacing,
 } from '../../../styles/theme';
 import t from '../../../styles/typography';
+import { ClassInst } from '../../../types/class';
 import { Member } from '../../../types/member';
 import { Division, Program } from '../../../types/program';
 import {

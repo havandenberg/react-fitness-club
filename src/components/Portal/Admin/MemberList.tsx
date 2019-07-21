@@ -1,6 +1,7 @@
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
+import CloseImg from '../../../assets/images/close.svg';
 import l from '../../../styles/layout';
 import {
   borders,
@@ -18,6 +19,7 @@ import {
   getEnrolledPrograms,
   getProgramById,
 } from '../../../utils/program';
+import { ClearButton } from '../../FilterBar';
 import { SelectInput, TextInput } from '../../Form/Input';
 import SmallMemberCard from '../../SmallMemberCard';
 
@@ -40,11 +42,17 @@ interface State {
   searchValue: string;
 }
 
+const initialFiltersState = {
+  divisionId: 'all',
+  programId: 'all',
+  searchValue: '',
+};
+
 class MemberList extends React.Component<Props, State> {
-  state = {
-    divisionId: 'all',
-    programId: 'all',
-    searchValue: '',
+  state = initialFiltersState;
+
+  clearFilters = () => {
+    this.setState(initialFiltersState);
   };
 
   handleFilterChange = (field: string) => (
@@ -138,7 +146,16 @@ class MemberList extends React.Component<Props, State> {
       : getCoachingPrograms(programs, memberId);
     return (
       <l.Space width={['100%', 250, 325]}>
-        <t.HelpText mb={spacing.t}>Search members:</t.HelpText>
+        <l.Flex mb={spacing.t} spaceBetween width="100%">
+          <t.HelpText>Search members:</t.HelpText>
+          {!R.equals(this.state, initialFiltersState) && (
+            <ClearButton
+              height={spacing.ml}
+              onClick={this.clearFilters}
+              src={CloseImg}
+            />
+          )}
+        </l.Flex>
         <TextInput
           mb={spacing.sm}
           onChange={this.handleSearchChange}

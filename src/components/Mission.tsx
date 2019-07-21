@@ -90,7 +90,7 @@ const Mission = () => (
               />
             </l.FlexCentered>
           )}
-          <t.H1 mb={[spacing.ml, spacing.ml]}>Team-Based Training</t.H1>
+          <t.H1 mb={[spacing.ml, spacing.ml]}>Team-Based Fitness</t.H1>
           <t.Text large mb={[spacing.xl]}>
             At RFC there is always "someone in your corner", supporting your{' '}
             <l.Blue>personal, professional, and physical fitness goals</l.Blue>{' '}
