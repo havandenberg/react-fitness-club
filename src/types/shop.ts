@@ -36,6 +36,7 @@ export interface ShopOrderItem extends ShopItem {
 }
 
 export interface ShopOrder {
+  agreeToTerms: boolean;
   comments: string;
   customerEmail: string;
   customerFirstName: string;

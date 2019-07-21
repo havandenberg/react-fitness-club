@@ -86,8 +86,8 @@ export const fonts = {
 };
 
 export const fontSizes = {
-  h1: '28px',
-  h2: '24px',
+  h1: '32px',
+  h2: '28px',
   h3: '24px',
   helpText: '12px',
   largeText: '20px',
@@ -118,6 +118,7 @@ export const mobileSizes = {
 export const shadows = {
   box: '0 10px 6px -6px #777',
   text: '1px 2px 3px rgba(0,0,0,0.3)',
+  textLight: '1px 1px 1px rgba(0,0,0,0.2)',
 };
 
 export const spacing = {

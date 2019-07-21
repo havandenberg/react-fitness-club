@@ -8,6 +8,7 @@ import {
   BackgroundProps,
   borderColor,
   bottom,
+  boxShadow,
   color,
   flex,
   flexBasis,
@@ -87,6 +88,7 @@ const Flex = styled('div')<
   alignSelf,
   background,
   borderColor,
+  boxShadow,
   flex,
   flexDirection,
   height,
@@ -217,6 +219,7 @@ const Span = styled('span')(
   alignSelf,
   background,
   bottom,
+  boxShadow,
   flex,
   flexBasis,
   height,
@@ -240,6 +243,7 @@ const Space = styled('div')(
   alignSelf,
   background,
   bottom,
+  boxShadow,
   flex,
   flexBasis,
   height,
@@ -326,11 +330,22 @@ const Page = styled(Space)({
   },
 });
 
+const Blue = styled('span')({
+  color: colors.darkBlue,
+  fontWeight: 'bold',
+});
+
+const Bold = styled('span')({
+  fontWeight: 'bold',
+});
+
 const Red = styled('span')({
   color: colors.red,
 });
 
 export default {
+  Blue,
+  Bold,
   BorderLine,
   Break,
   Caption,

@@ -9,6 +9,11 @@ export const getMemberRef = (memberId: string) =>
 export const getMemberName = (member: Member) =>
   member.nickname || `${member.firstName} ${member.lastName}`;
 
+export const getMemberFullName = (member: Member) =>
+  `${member.firstName} ${member.lastName}${
+    R.isEmpty(member.nickname) ? '' : ' (' + member.nickname + ')'
+  }`;
+
 export const parseMemberData = (member: Member) => {
   const membership: Membership = {
     ...member.membership,

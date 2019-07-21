@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'react-emotion';
 import BulletImg from '../assets/images/bullet.svg';
+import ProgramsImg from '../assets/images/programs';
+import QuestionMarkWhiteImg from '../assets/images/question-mark-white.svg';
 import StarImg from '../assets/images/star';
 import l from '../styles/layout';
 import {
@@ -20,10 +22,6 @@ import IntroVideo from './IntroVideo';
 import Newsletter from './Newsletter';
 
 export const INTRO_BUTTON_WIDTH = 182;
-
-const Bold = styled('span')({
-  fontWeight: 'bold',
-});
 
 export const Bullet = styled('img')(
   ({ secondary }: { secondary?: boolean }) => ({
@@ -70,13 +68,14 @@ const Home = () => (
           mx="auto"
           textAlign="justify"
           width={['100%', '80%']}>
-          React Fitness Club is a multi-style <Bold>martial arts</Bold> and{' '}
-          <Bold>fitness</Bold> club. Each of our programs aims to support the
-          path to individual <Bold>physical and mental success</Bold> as a human
-          being. Through martial arts and <Bold>team-based</Bold> fitness
-          training and activities, we provide resources and coach our students
-          to improve their <Bold>strength, endurance, and mobility</Bold>, as
-          well as cultivate <Bold>positive mental habits</Bold> in all areas of
+          React Fitness Club is a multi-style{' '}
+          <l.Blue>martial arts & fitness</l.Blue> club. Each of our programs
+          aims to support the path to individual{' '}
+          <l.Blue>physical and mental success</l.Blue> as a human being. Through
+          martial arts and <l.Blue>team-based</l.Blue> fitness training and
+          activities, we provide resources and coach our students to improve
+          their <l.Blue>strength, endurance, and mobility</l.Blue>, as well as
+          cultivate <l.Blue>positive mental habits</l.Blue> in all areas of
           life.{' '}
         </t.Text>
         <StarImg />
@@ -84,6 +83,7 @@ const Home = () => (
       <l.FlexCentered my={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
         <t.Link
           border={borders.red}
+          center
           color={colors.red}
           fontSize={[fontSizes.largeText, fontSizes.h2]}
           to={'/signup'}>
@@ -119,18 +119,44 @@ const Home = () => (
       </l.FlexCentered>
       <l.FlexCentered
         columnOnMobile
+        mt={[0, spacing.huge]}
         mb={100}
         mx="auto"
         spaceBetween
         width="100%">
-        <LinkPrimary to="/mission" width={['100%', 281]}>
+        <LinkPrimary to="/mission" width={['100%', 'auto']}>
+          {isTabletUp() && (
+            <>
+              <StarImg color={colors.white} side={spacing.xl} />
+              &nbsp;&nbsp;&nbsp;
+            </>
+          )}
           More about our mission
         </LinkPrimary>
         <l.Space
           height={[spacing.xl, 0]}
           width={[0, spacing.xxl, spacing.xxxxxl]}
         />
-        <LinkPrimary to="/programs" width={['100%', 281]}>
+        <LinkPrimary to="/faqs" width={['100%', 'auto']}>
+          {isTabletUp() && (
+            <>
+              <l.Img height={spacing.xl} src={QuestionMarkWhiteImg} />
+              &nbsp;&nbsp;&nbsp;
+            </>
+          )}
+          FAQs
+        </LinkPrimary>
+        <l.Space
+          height={[spacing.xl, 0]}
+          width={[0, spacing.xxl, spacing.xxxxxl]}
+        />
+        <LinkPrimary to="/programs" width={['100%', 'auto']}>
+          {isTabletUp() && (
+            <>
+              <ProgramsImg color={colors.white} side={spacing.xl} />
+              &nbsp;&nbsp;&nbsp;
+            </>
+          )}
           Check out our programs
         </LinkPrimary>
       </l.FlexCentered>

@@ -10,10 +10,14 @@ import {
 import { CheckboxRadioInputType, Scale } from '../../types/styles';
 
 const getColor = (
-  disabled: boolean | undefined,
-  hover: boolean,
-  type: CheckboxRadioInputType | undefined,
+  disabled?: boolean,
+  hover?: boolean,
+  type?: CheckboxRadioInputType,
+  error?: boolean,
 ) => {
+  if (error) {
+    return colors.red;
+  }
   if (type === 'checkbox') {
     return 'inherit';
   }
@@ -35,31 +39,33 @@ const CheckboxRadioInputContainer = styled('div')(
   },
   ({
     disabled,
+    error,
     scale,
     type,
   }: {
     disabled: boolean | undefined;
+    error?: boolean;
     scale: Scale;
     type: CheckboxRadioInputType;
   }) => ({
     '& .checkmark-radio': {
       background: getColor(disabled, false, type),
-      borderColor: getColor(disabled, false, undefined),
+      borderColor: getColor(disabled, false, type),
     },
     '& .checkmark-radio-outer': {
-      borderColor: getColor(disabled, false, undefined),
+      borderColor: getColor(disabled, false, type, error),
     },
     ':hover': {
       '& .checkmark-radio': {
-        background: getColor(disabled, true, type),
-        borderColor: getColor(disabled, true, undefined),
+        background: getColor(disabled, true),
+        borderColor: getColor(disabled, true, type),
       },
       '& .checkmark-radio-outer': {
-        borderColor: getColor(disabled, true, undefined),
+        borderColor: getColor(disabled, true, type, error),
       },
-      borderColor: getColor(disabled, true, undefined),
+      borderColor: getColor(disabled, true, type, error),
     },
-    borderColor: getColor(disabled, false, undefined),
+    borderColor: getColor(disabled, false, type, error),
     borderRadius: type === 'radio' ? '50%' : 4,
     height: scale === 'big' ? 35 : 23,
     width: scale === 'big' ? 35 : 23,
@@ -141,6 +147,7 @@ const CheckmarkRadioInner = (props: CheckboxRadioInnerProps) => (
 interface CheckboxRadioInputProps {
   checked: boolean;
   disabled?: boolean;
+  error?: boolean;
   type: CheckboxRadioInputType;
   size: Scale;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -151,8 +158,7 @@ export const CheckboxRadioInput = (props: CheckboxRadioInputProps) => (
     className="checkmark-radio-outer"
     disabled={props.disabled}
     scale={props.size}
-    type={props.type}
-  >
+    type={props.type}>
     <CheckmarkRadioInner
       size={props.size}
       checked={props.checked}
@@ -171,7 +177,11 @@ const getWithLabelBorderColor = (
   disabled?: boolean,
   hover?: boolean,
   inner?: boolean,
+  error?: boolean,
 ) => {
+  if (error) {
+    return colors.red;
+  }
   if (disabled) {
     return colors.lightGray;
   }
@@ -199,20 +209,28 @@ const CheckboxRadioInputWithLabelContainer = styled('div')(
   ({
     checked,
     disabled,
+    error,
     showBorder,
     type,
   }: {
     checked: boolean;
-    disabled: boolean | undefined;
+    disabled?: boolean;
+    error?: boolean;
     showBorder?: boolean;
     type: CheckboxRadioInputType;
   }) => ({
     '& .checkmark-radio': {
       background: getColor(disabled, false, type),
-      borderColor: getColor(disabled, false, undefined),
+      borderColor: getColor(disabled, false, type),
     },
     '& .checkmark-radio-outer': {
-      borderColor: getWithLabelBorderColor(checked, disabled, false, true),
+      borderColor: getWithLabelBorderColor(
+        checked,
+        disabled,
+        false,
+        true,
+        error,
+      ),
       borderRadius: type === 'radio' ? '50%' : 4,
     },
     ':hover': {
@@ -221,12 +239,30 @@ const CheckboxRadioInputWithLabelContainer = styled('div')(
         borderColor: getWithLabelBorderColor(checked, disabled, true, true),
       },
       '& .checkmark-radio-outer': {
-        borderColor: getWithLabelBorderColor(checked, disabled, true, true),
+        borderColor: getWithLabelBorderColor(
+          checked,
+          disabled,
+          true,
+          true,
+          error,
+        ),
       },
-      borderColor: getWithLabelBorderColor(checked, disabled, true),
+      borderColor: getWithLabelBorderColor(
+        checked,
+        disabled,
+        true,
+        false,
+        error,
+      ),
     },
     border: showBorder ? `solid 2px ${colors.gray}` : 0,
-    borderColor: getWithLabelBorderColor(checked, disabled),
+    borderColor: getWithLabelBorderColor(
+      checked,
+      disabled,
+      false,
+      false,
+      error,
+    ),
     color: disabled ? colors.gray : colors.black,
     padding: showBorder ? spacing.m : 0,
   }),
@@ -253,7 +289,8 @@ const CheckboxRadioInputText = styled('div')(
   {
     transition: transitions.default,
   },
-  ({ scale }: { scale?: Scale }) => ({
+  ({ error, scale }: { error?: boolean; scale?: Scale }) => ({
+    color: error ? colors.red : undefined,
     fontFamily: 'Poppins-Medium',
     fontSize: scale === 'small' ? fontSizes.text : undefined,
     marginLeft: scale === 'big' ? spacing.m : spacing.t,
@@ -263,6 +300,7 @@ const CheckboxRadioInputText = styled('div')(
 interface CheckboxRadioInputWithLabelProps {
   checked: boolean;
   disabled?: boolean;
+  error?: boolean;
   name?: string;
   showBorder?: boolean;
   text: string;
@@ -274,6 +312,7 @@ interface CheckboxRadioInputWithLabelProps {
 export const CheckboxRadioInputWithLabel = ({
   checked,
   disabled,
+  error,
   showBorder,
   type,
   name,
@@ -284,16 +323,17 @@ export const CheckboxRadioInputWithLabel = ({
   <CheckboxRadioInputWithLabelContainer
     checked={checked}
     disabled={disabled}
+    error={error}
     showBorder={showBorder}
-    type={type}
-  >
+    type={type}>
     <CheckboxRadioInputWithLabelInnerContainer
       className="checkmark-radio-outer"
-      scale={scale}
-    >
+      scale={scale}>
       <CheckmarkRadioInner size={scale} checked={checked} type={type} />
     </CheckboxRadioInputWithLabelInnerContainer>
-    <CheckboxRadioInputText scale={scale}>{text}</CheckboxRadioInputText>
+    <CheckboxRadioInputText error={error} scale={scale}>
+      {text}
+    </CheckboxRadioInputText>
     <Input
       disabled={disabled}
       name={name}

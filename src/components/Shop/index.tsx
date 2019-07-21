@@ -29,6 +29,7 @@ import ShopItem from './Item';
 import OrderReview from './OrderReview';
 
 const orderFieldValidations: FormFieldValidations<ShopOrder> = {
+  agreeToTerms: (value: boolean) => value,
   customerEmail: (value: string) => isValidEmail(value),
   customerFirstName: (value: string) => !R.isEmpty(value),
   customerLastName: (value: string) => !R.isEmpty(value),
@@ -83,6 +84,7 @@ class Shop extends React.Component<Props, State> {
     const { itemDetail, showOrderReview } = this.state;
 
     const initialValues = {
+      agreeToTerms: false,
       comments: '',
       customerEmail: member ? member.email : '',
       customerFirstName: member ? member.firstName : '',
@@ -121,8 +123,7 @@ class Shop extends React.Component<Props, State> {
               initialValues={initialValues}
               isEditing
               fieldValidations={orderFieldValidations}
-              scrollId="customer-info"
-              scrollOptions={{ offset: -150 }}
+              scrollId="payment-and-shipping"
               successMessage=""
               validationErrorMessage="">
               {props => {

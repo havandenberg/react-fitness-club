@@ -217,15 +217,15 @@ class SetupFormComponent extends React.Component<Props> {
         <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
           <t.Text
             center={isMobile()}
-            fontSize={[mobileSizes.h2, fontSizes.h2]}
+            fontSize={[mobileSizes.h3, fontSizes.h3]}
             italic>
             Welcome to React Fitness Club, {member.firstName}!
           </t.Text>
         </l.FlexCentered>
         <l.FlexCentered mb={[spacing.xl, spacing.xxxl]}>
           <t.Text center={isMobile()}>
-            Complete the account setup form below to proceed to your personal
-            dashboard.
+            Complete the account setup form below to proceed to your member
+            portal.
           </t.Text>
         </l.FlexCentered>
         <SetupForm

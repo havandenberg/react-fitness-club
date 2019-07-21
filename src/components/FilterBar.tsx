@@ -119,14 +119,11 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
           top="#nav-end"
           bottomBoundary={scrollEndId}>
           <div id="filter-bar-end">
-            <FilterBarWrapper
-              alignTop
-              pb={spacing.ml}
-              pt={spacing.s}
-              width="100%">
+            <FilterBarWrapper alignTop pt={spacing.s} width="100%">
               <l.Flex
                 columnOnMobile={legendOnBottom}
                 columnRevOnMobile={!legendOnBottom}
+                pb={spacing.m}
                 spaceBetween
                 width="100%">
                 <l.Flex
@@ -194,7 +191,7 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
                 </l.Flex>
                 {legend}
               </l.Flex>
-              {lowerLegend && <l.Space mt={spacing.m}>{lowerLegend}</l.Space>}
+              {lowerLegend}
             </FilterBarWrapper>
           </div>
         </Sticky>

@@ -4,6 +4,7 @@ import l from '../../styles/layout';
 import { spacing } from '../../styles/theme';
 import t from '../../styles/typography';
 import { Member } from '../../types/member';
+import { getMemberFullName } from '../../utils/member';
 import {
   isDesktop,
   isMobile,
@@ -60,12 +61,7 @@ const Profile = (props: Props) => {
       </l.FlexCentered>
       <l.Space height={spacing.xxxl} width={spacing.xxxxxl} />
       <ProfileInfo>
-        <ProfileField
-          label="Name:"
-          value={`${member.firstName} ${member.lastName}${
-            member.nickname ? ' (' + member.nickname + ')' : ''
-          }`}
-        />
+        <ProfileField label="Name:" value={getMemberFullName(member)} />
         <ProfileField label="Email:" value={member.email} />
         <ProfileField label="Phone:" value={member.phone} />
         <ProfileField

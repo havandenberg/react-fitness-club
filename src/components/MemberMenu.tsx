@@ -53,7 +53,7 @@ const MemberMenu = (props: Props) => {
   return (
     <MemberMenuWrapper alignBottom>
       <t.Link
-        to="/dashboard"
+        to="/portal"
         color={colors.white}
         mb={hasMembership ? spacing.m : spacing.s}>
         <Item>

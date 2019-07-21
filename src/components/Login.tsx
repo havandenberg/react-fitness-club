@@ -41,7 +41,7 @@ class Login extends React.Component<RouteComponentProps & Props, State> {
     const { forgotPassword } = this.state;
 
     if (member) {
-      return <Redirect to="/dashboard" />;
+      return <Redirect to="/portal" />;
     }
 
     if (loading) {

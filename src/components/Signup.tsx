@@ -47,7 +47,7 @@ class Signup extends React.Component<RouteComponentProps & Props> {
     const { loading, member } = this.props;
 
     if (member) {
-      return <Redirect to="/dashboard" />;
+      return <Redirect to="/portal" />;
     }
 
     if (loading) {

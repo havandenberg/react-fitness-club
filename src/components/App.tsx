@@ -31,8 +31,8 @@ import { parseInventory } from '../utils/shop';
 import { parseSpecialEvents } from '../utils/special-event';
 import ClassManager from './ClassManager';
 import Contact from './Contact';
-import Dashboard from './Dashboard';
 import Events from './Events';
+import FAQs from './FAQs';
 import Footer from './Footer';
 import Gallery from './Gallery';
 import Hero from './Hero';
@@ -41,6 +41,7 @@ import Home from './Home';
 import Login from './Login';
 import Mission from './Mission';
 import Nav from './Nav';
+import Portal from './Portal';
 import Programs from './Programs';
 import Schedule from './Schedule';
 import Shop from './Shop';
@@ -399,6 +400,7 @@ class App extends React.Component<SubscribeProps, State> {
                 />
               )}
             />
+            <Route path="/faqs" component={FAQs} />
             <Route
               path="/contact"
               render={props => <Contact {...props} programs={programs} />}
@@ -417,9 +419,9 @@ class App extends React.Component<SubscribeProps, State> {
               )}
             />
             <Route
-              path="/dashboard"
+              path="/portal"
               render={props => (
-                <Dashboard
+                <Portal
                   {...props}
                   events={events}
                   isAdmin={isAdmin}

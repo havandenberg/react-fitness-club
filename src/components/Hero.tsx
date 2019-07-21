@@ -6,6 +6,7 @@ import ChainLinkImg from '../assets/images/chain-link-bg.png';
 import EventsImg from '../assets/images/events.svg';
 import LogoImg from '../assets/images/logo.png';
 import NewsletterImg from '../assets/images/newsletter.svg';
+import QuestionMarkImg from '../assets/images/question-mark.svg';
 import ScheduleImg from '../assets/images/schedule.svg';
 import ShopImg from '../assets/images/shop.svg';
 import l from '../styles/layout';
@@ -71,6 +72,9 @@ const QuickLinks = styled(l.Flex)({
   position: 'absolute',
   right: spacing.ml,
   top: spacing.xl,
+  [breakpoints.tablet]: {
+    top: spacing.ml,
+  },
   [breakpoints.mobile]: {
     justifyContent: 'space-between',
     padding: `${spacing.ml} ${spacing.sm}`,
@@ -85,6 +89,9 @@ const quickItemStyles = {
   colors: colors.red,
   marginBottom: spacing.sm,
   verticalAlign: 'middle',
+  [breakpoints.tablet]: {
+    marginBottom: spacing.s,
+  },
   [breakpoints.mobile]: {
     marginBottom: 0,
   },
@@ -174,6 +181,16 @@ const Hero = ({
               height={spacing.ml}
               ml={[0, spacing.s, spacing.s]}
               src={ShopImg}
+            />
+          </l.Flex>
+        </QuickLink>
+        <QuickLink border={borders.red} color={colors.red} to="/faqs">
+          <l.Flex columnRevOnMobile>
+            FAQs
+            <l.Img
+              height={spacing.ml}
+              ml={[0, spacing.s, spacing.s]}
+              src={QuestionMarkImg}
             />
           </l.Flex>
         </QuickLink>

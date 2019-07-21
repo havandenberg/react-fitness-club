@@ -106,7 +106,7 @@ export const H1 = styled('h1')(
     fontFamily: fonts.poppinsSemiBold,
     margin: 0,
     padding: 0,
-    textShadow: shadows.text,
+    textShadow: shadows.textLight,
   },
   ({ fontSize }: { fontSize: StyleSet }) =>
     !fontSize && {
@@ -180,6 +180,16 @@ export const Text = styled('div')(
     },
   ...textOptions,
 );
+
+export const LargeText = styled(Text)({
+  fontSize: fontSizes.largeText,
+  [breakpoints.tablet]: {
+    fontSize: tabletSizes.largeText,
+  },
+  [breakpoints.mobile]: {
+    fontSize: mobileSizes.largeText,
+  },
+});
 
 const Anchor = styled('a')(
   {
@@ -308,6 +318,7 @@ export default {
   H3,
   HelpSpan,
   HelpText,
+  LargeText,
   Link,
   Subtitle,
   Text,

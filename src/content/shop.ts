@@ -44,42 +44,6 @@ export const SHOP_ITEMS = [
   // Active
   {
     categoryIds: ['react', 'clothing'],
-    description: 'Main REaCT class shirt',
-    id: 'react-class-uniform-shirt',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-tshirt-1.jpg`],
-    title: 'REaCT Class Uniform T-Shirt',
-  },
-  {
-    categoryIds: ['basic-training', 'react'],
-    id: 'medical-tape',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/tape-1.jpg`],
-    title: 'Sport Tape',
-    unitName: 'roll',
-  },
-  {
-    categoryIds: ['basic-training', 'react'],
-    id: 'mouthguard-case',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/mouthguard-case-1.jpg`],
-    title: 'Mouthguard + Case',
-  },
-  {
-    categoryIds: ['react', 'basic-training'],
-    id: 'cup-jockstrap',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/cup-jockstrap-1.jpg`],
-    title: 'Cup + Jockstrap',
-  },
-  {
-    categoryIds: ['rfc', 'clothing'],
-    description:
-      '9"INSEAM; 100% Polyester moisture management/antimicrobial performance fabric; Athletic cut & superior fit - Double needle hem; 2” Covered elastic waistband and drawcord; Badger heat seal logo on left hip',
-    id: 'rfc-compression-shorts',
-    imageSrcList: [`${INVENTORY_IMAGES_PATH}/rfc-shorts-1.png`],
-    subCategoryIds: ['clothing'],
-    title: 'RFC Training Shorts',
-    unitName: 'pair',
-  },
-  {
-    categoryIds: ['react', 'clothing'],
     description:
       '100% Polyester moisture management fabric; Side & underam textured waffle weave panels; Badger sport paneled shoulder for maximum movement; Front pouch pocket with two hook & loop closures at top of pockets; Adult with headset opening; Poly rib cuffs & waistband; Embriodered Badger logo on left sleeve',
     id: 'react-swag-1',
@@ -133,6 +97,42 @@ export const SHOP_ITEMS = [
       },
     ],
     title: 'REaCT Swag T-shirt 1',
+  },
+  {
+    categoryIds: ['react', 'clothing'],
+    description: 'Main REaCT class shirt',
+    id: 'react-class-uniform-shirt',
+    imageSrcList: [`${INVENTORY_IMAGES_PATH}/react-tshirt-1.jpg`],
+    title: 'REaCT Class Uniform T-Shirt',
+  },
+  {
+    categoryIds: ['basic-training', 'react'],
+    id: 'medical-tape',
+    imageSrcList: [`${INVENTORY_IMAGES_PATH}/tape-1.jpg`],
+    title: 'Sport Tape',
+    unitName: 'roll',
+  },
+  {
+    categoryIds: ['basic-training', 'react'],
+    id: 'mouthguard-case',
+    imageSrcList: [`${INVENTORY_IMAGES_PATH}/mouthguard-case-1.jpg`],
+    title: 'Mouthguard + Case',
+  },
+  {
+    categoryIds: ['react', 'basic-training'],
+    id: 'cup-jockstrap',
+    imageSrcList: [`${INVENTORY_IMAGES_PATH}/cup-jockstrap-1.jpg`],
+    title: 'Cup + Jockstrap',
+  },
+  {
+    categoryIds: ['rfc', 'clothing'],
+    description:
+      '9"INSEAM; 100% Polyester moisture management/antimicrobial performance fabric; Athletic cut & superior fit - Double needle hem; 2” Covered elastic waistband and drawcord; Badger heat seal logo on left hip',
+    id: 'rfc-compression-shorts',
+    imageSrcList: [`${INVENTORY_IMAGES_PATH}/rfc-shorts-1.png`],
+    subCategoryIds: ['clothing'],
+    title: 'RFC Training Shorts',
+    unitName: 'pair',
   },
   {
     categoryIds: ['react', 'clothing'],

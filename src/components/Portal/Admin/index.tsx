@@ -1,14 +1,16 @@
 import * as R from 'ramda';
 import * as React from 'react';
+import { NavItem } from '..';
 import l from '../../../styles/layout';
-import { spacing } from '../../../styles/theme';
+import { colors, spacing } from '../../../styles/theme';
+import t from '../../../styles/typography';
 import { Member } from '../../../types/member';
 import { Program } from '../../../types/program';
+import { getMemberFullName } from '../../../utils/member';
 import { isMobile, isMobileOnly } from '../../../utils/screensize';
-import { NavItem } from '../../Dashboard';
 import Profile from '../Profile';
+import AdminInfo from './AdminInfo';
 import MemberList from './MemberList';
-import ProgramInfo from './ProgramInfo';
 
 type AdminView = 'programs' | 'profile';
 
@@ -61,27 +63,30 @@ class Admin extends React.Component<Props, State> {
           ml={[0, spacing.xxxl, spacing.xxxxxl]}
           width={isMobileOnly() ? '100%' : undefined}>
           <l.Flex
-            alignTop
+            flexDirection={isMobile() ? 'column' : 'row'}
             mb={spacing.xxxl}
-            justifyContent={isMobile() ? 'space-around' : 'center'}
-            width={['100%', 'auto', 'auto']}>
-            <NavItem
-              active={R.contains(view, ['profile', 'edit-profile'])}
-              large
-              onClick={this.setView('profile')}>
-              Profile
-            </NavItem>
-            <l.Space width={[0, spacing.xxxxxl]} />
-            <NavItem
-              active={view === 'programs'}
-              large
-              onClick={this.setView('programs')}>
-              Program Info
-            </NavItem>
+            spaceBetween
+            width="100%">
+            <t.Text bold color={colors.red} mb={[spacing.sm, spacing.sm, 0]}>
+              {getMemberFullName(selectedMember)}
+            </t.Text>
+            <l.Flex>
+              <NavItem
+                active={R.contains(view, ['profile', 'edit-profile'])}
+                onClick={this.setView('profile')}>
+                Profile
+              </NavItem>
+              <l.Space width={[spacing.xl, spacing.xl, spacing.xxxxxl]} />
+              <NavItem
+                active={view === 'programs'}
+                onClick={this.setView('programs')}>
+                Membership
+              </NavItem>
+            </l.Flex>
           </l.Flex>
           {view === 'profile' && <Profile isAdmin member={selectedMember} />}
           {view === 'programs' && (
-            <ProgramInfo member={selectedMember} programs={programs} />
+            <AdminInfo member={selectedMember} programs={programs} />
           )}
         </l.FlexColumn>
       </l.Flex>

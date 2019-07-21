@@ -150,15 +150,17 @@ const TinyBadge = styled(Badge)({
 
 const TinyBadgeWithText = ({
   background,
+  color = colors.white,
   text,
 }: {
   background: string;
+  color?: string;
   text?: string;
 }) => (
   <l.Flex>
     {text && (
       <>
-        <t.Text color={colors.white} fontSize={fontSizes.helpText} nowrap>
+        <t.Text color={color} fontSize={fontSizes.helpText} nowrap>
           {text}
         </t.Text>
         <l.Space width={spacing.sm} />
@@ -172,15 +174,21 @@ export const TinyMembershipBadge = ({
   membership,
   program,
   showText,
+  textColor,
 }: {
   membership: Membership;
   program?: Program;
   showText?: boolean;
+  textColor?: string;
 }) => {
+  if (R.isEmpty(membership.type)) {
+    return <t.Text bold>'-'</t.Text>;
+  }
   if (isInactiveMembership(membership)) {
     return (
       <TinyBadgeWithText
         background={gradients.gray}
+        color={textColor}
         text={showText ? 'Inactive' : undefined}
       />
     );
@@ -196,7 +204,7 @@ export const TinyMembershipBadge = ({
         {showText && (
           <>
             <l.Space width={spacing.sm} />
-            <t.Text color={colors.white} fontSize={fontSizes.helpText}>
+            <t.Text color={textColor} fontSize={fontSizes.helpText}>
               {program.name}
             </t.Text>
           </>
@@ -209,6 +217,7 @@ export const TinyMembershipBadge = ({
       return (
         <TinyBadgeWithText
           background={gradients.multipass}
+          color={textColor}
           text={showText ? 'Multi-Pass' : undefined}
         />
       );
@@ -216,6 +225,7 @@ export const TinyMembershipBadge = ({
       return (
         <TinyBadgeWithText
           background={gradients.red}
+          color={textColor}
           text={showText ? 'Coach' : undefined}
         />
       );
@@ -223,6 +233,7 @@ export const TinyMembershipBadge = ({
       return (
         <TinyBadgeWithText
           background={gradients.sponsoredGreen}
+          color={textColor}
           text={showText ? 'Sponsored' : undefined}
         />
       );
@@ -230,6 +241,7 @@ export const TinyMembershipBadge = ({
       return (
         <TinyBadgeWithText
           background={gradients.gold}
+          color={textColor}
           text={showText ? 'Student' : undefined}
         />
       );

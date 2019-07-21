@@ -135,14 +135,17 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
             </t.Text>
           )}
           {!R.isEmpty(program.aboutUrl) && (
-            <t.Anchor
-              border={borders.red}
-              href={program.aboutUrl}
-              target="_blank">
-              <t.Text center color={colors.red} large>
-                Learn more about {program.name}
-              </t.Text>
-            </t.Anchor>
+            <>
+              <t.Anchor
+                border={borders.red}
+                href={program.aboutUrl}
+                target="_blank">
+                <t.Text center color={colors.red} large>
+                  Learn more about {program.name}
+                </t.Text>
+              </t.Anchor>
+              <l.Space height={spacing.m} />
+            </>
           )}
           <LinkPrimary size="small" to="/signup">
             Sign up

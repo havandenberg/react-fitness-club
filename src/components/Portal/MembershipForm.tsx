@@ -1,6 +1,8 @@
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
+import { border, height, position } from 'styled-system';
+import { multipass } from '../../content/memberships';
 import { programContent } from '../../content/programs';
 import l from '../../styles/layout';
 import {
@@ -31,7 +33,7 @@ import Form, {
 import { ButtonPrimary } from '../Form/Button';
 import { SelectInput } from '../Form/Input';
 import { FormItemProps } from '../Form/Row';
-import MembershipBadge, { multipassCost } from '../MembershipBadge';
+import MembershipBadge from '../MembershipBadge';
 import SmallProgramCard from '../SmallProgramCard';
 import { MembershipProps } from './Membership';
 
@@ -40,7 +42,7 @@ const CancelSwitchMembership = styled(t.TextButton)({
   marginTop: spacing.t,
 });
 
-const MembershipCard = styled(l.FlexColumn)(
+export const MembershipCard = styled(l.FlexColumn)(
   {
     border: borders.blackThick,
     borderRadius: borders.radius,
@@ -62,6 +64,9 @@ const MembershipCard = styled(l.FlexColumn)(
   ({ isActive }: { isActive?: boolean }) => ({
     borderColor: isActive ? colors.red : colors.black,
   }),
+  border,
+  height,
+  position,
 );
 
 interface MembershipFields {
@@ -352,7 +357,9 @@ class Step extends React.Component<
                 2 free day passes per month included
               </t.Text>
             </l.FlexColumn>
-            {multipassCost}
+            <t.Text large mb={spacing.sm}>
+              {multipass.cost}
+            </t.Text>
             <l.FlexColumn>
               <t.Text center mb={spacing.sm}>
                 You will be able to enroll in programs at the next step

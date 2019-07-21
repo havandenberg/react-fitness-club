@@ -3,8 +3,10 @@ import * as moment from 'moment';
 import * as R from 'ramda';
 import { CalendarEvent } from '../types/calendar-event';
 import { ClassInst } from '../types/class';
-import { Division } from '../types/program';
+import { Division, Program } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
+import { formatDescriptiveDate } from './calendar-event';
+import { getDivisionById, getProgramById } from './program';
 
 export const openClass = (
   classInst: ClassInst,
@@ -115,9 +117,55 @@ export const toggleAttendingSpecialEventClass = (
   }
 };
 
-export const getClassesAttended = (division: Division, memberId: string) =>
+export const getClassFormattedDescription = (
+  classInst: ClassInst,
+  programs: Program[],
+) => {
+  console.log(classInst);
+  const program = getProgramById(classInst.date.programId, programs);
+  const division =
+    program && getDivisionById(classInst.date.divisionId, program);
+  return `${program ? program.name : classInst.date.programId}${
+    division ? ' - ' + division.name : classInst.date.divisionId
+  }: ${formatDescriptiveDate(classInst.date)}`;
+};
+
+export const getClassesAttended: (
+  programs: Program[],
+  memberId: string,
+) => any = (programs: Program[], memberId: string) =>
   R.sortBy(
-    (classInst: ClassInst) => classInst.date.start.getTime() / 1000,
+    (classInst: ClassInst) => -classInst.date.start.getTime() / 1000,
+    R.flatten(
+      R.map(
+        (program: Program) => getProgramClassesAttended(program, memberId),
+        programs,
+      ),
+    ),
+  );
+
+export const getProgramClassesAttended: (
+  program: Program,
+  memberId: string,
+) => any = (program: Program, memberId: string) => {
+  const classesAttended: any = R.flatten(
+    R.map(
+      (division: Division) => getDivisionClassesAttended(division, memberId),
+      program.divisions,
+    ),
+  );
+  return R.sortBy(
+    (classInst: ClassInst) => -classInst.date.start.getTime() / 1000,
+    classesAttended,
+  );
+};
+
+export const getDivisionClassesAttended = (
+  division: Division,
+  memberId: string,
+) =>
+  R.sortBy(
+    (classInst: ClassInst) => -classInst.date.start.getTime() / 1000,
     division.classes.filter((classInst: ClassInst) =>
       R.contains(memberId, classInst.attendanceIds),
     ),

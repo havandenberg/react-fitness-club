@@ -15,6 +15,7 @@ import { calculateOrderTotal, getOrderItemsString } from '../../utils/shop';
 import { FormComponentProps } from '../Form';
 import FormActions from '../Form/Actions';
 import { ButtonPrimary } from '../Form/Button';
+import { CheckboxRadioInputWithLabel } from '../Form/CheckboxRadio';
 import { TextArea, TextInput } from '../Form/Input';
 import OrderReviewItem from './OrderReviewItem';
 
@@ -39,8 +40,10 @@ class OrderReview extends React.Component<
       customerEmail,
       customerFirstName,
       customerLastName,
+      errors,
       items,
     } = data;
+    console.log(errors);
     if (process.env.REACT_APP_EMAILJS_KEY) {
       emailjs
         .send(
@@ -56,26 +59,50 @@ class OrderReview extends React.Component<
           },
           process.env.REACT_APP_EMAILJS_KEY,
         )
-        .then(() => {
-          emailjs
-            .send(
-              'react_fitness_club',
-              'rfc_order_summary',
-              {
-                comments: R.isEmpty(comments) ? comments : 'No comments',
-                customer_email: customerEmail,
-                customer_first_name: customerFirstName,
-                customer_name: `${customerFirstName} ${customerLastName}`,
-                items: getOrderItemsString(items),
-                order_total: `$${calculateOrderTotal(items).toFixed(2)}`,
-              },
-              process.env.REACT_APP_EMAILJS_KEY,
-            )
-            .then(() => {
-              localStorage.removeItem('cart-items');
-              onSuccess(() => scrollToId('order-success', { offset: -150 }));
-            }, onFail);
-        }, onFail);
+        .then(
+          () => {
+            emailjs
+              .send(
+                'react_fitness_club',
+                'rfc_order_summary',
+                {
+                  comments: R.isEmpty(comments) ? comments : 'No comments',
+                  customer_email: customerEmail,
+                  customer_first_name: customerFirstName,
+                  customer_name: `${customerFirstName} ${customerLastName}`,
+                  items: getOrderItemsString(items),
+                  order_total: `$${calculateOrderTotal(items).toFixed(2)}`,
+                },
+                process.env.REACT_APP_EMAILJS_KEY,
+              )
+              .then(
+                () => {
+                  localStorage.removeItem('cart-items');
+                  onSuccess(() =>
+                    scrollToId('order-success', { offset: -150 }),
+                  );
+                },
+                (error: Error) => {
+                  onFail(error);
+                  scrollToId(
+                    R.contains('agreeToTerms', errors)
+                      ? 'agree-to-terms'
+                      : 'customer-info',
+                    { offset: -150 },
+                  );
+                },
+              );
+          },
+          (error: Error) => {
+            onFail(error);
+            scrollToId(
+              R.contains('agreeToTerms', errors)
+                ? 'agree-to-terms'
+                : 'customer-info',
+              { offset: -150 },
+            );
+          },
+        );
     } else {
       console.log('Invalid emailjs key');
     }
@@ -126,6 +153,7 @@ class OrderReview extends React.Component<
       failed,
       fields,
       loading,
+      onChange,
       onSubmit,
       resetForm,
       toggleShowOrderReview,
@@ -276,7 +304,7 @@ class OrderReview extends React.Component<
               <l.Space height={spacing.xl} />
               <TextArea
                 error={R.contains('comments', errors)}
-                height={100}
+                height={300}
                 onChange={this.handleUpdate('comments')}
                 p={spacing.s}
                 value={fields.comments}
@@ -284,9 +312,14 @@ class OrderReview extends React.Component<
               />
             </l.FlexColumn>
             <l.Space height={spacing.xxxxxl} />
-            <t.H2>
+            <t.H2 id="payment-and-shipping">
               Payment & Shipping<l.Red>*</l.Red>:
             </t.H2>
+            {!R.isEmpty(errors) && (
+              <t.Text center color={colors.red} mt={spacing.xl}>
+                Please correct the fields highlighted below and try again.
+              </t.Text>
+            )}
             <l.Space height={spacing.xl} />
             <t.Text large mx="auto" width={['100%', '90%', '80%']}>
               We will receive your order and contact you with any questions and
@@ -297,22 +330,28 @@ class OrderReview extends React.Component<
               <l.Space height={spacing.ml} />
               173 Grove St, Worcester MA, 01605.
               <l.Space height={spacing.ml} />
-              <l.Span bold>
+              <l.Blue>
                 Payment must be completed upon pickup at the studio.
-              </l.Span>
+              </l.Blue>
               <l.Space height={spacing.ml} />
               You will receive a copy of the order to your email once you submit
               it.
             </t.Text>
+            <l.FlexCentered mt={spacing.xl}>
+              <CheckboxRadioInputWithLabel
+                checked={fields.agreeToTerms}
+                error={R.contains('agreeToTerms', errors)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange('agreeToTerms', e.currentTarget.checked);
+                }}
+                text="I agree to the above terms"
+                type="checkbox"
+              />
+            </l.FlexCentered>
             <l.Space height={spacing.xxxxxl} />
-            <t.H2 id="customer-info">
+            <t.H2>
               Customer Information<l.Red>*</l.Red>:
             </t.H2>
-            {!R.isEmpty(errors) && (
-              <t.Text center color={colors.red} mt={spacing.xl}>
-                Please correct the fields highlighted below and try again.
-              </t.Text>
-            )}
             {!completed && failed && (
               <t.Text
                 center

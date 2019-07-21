@@ -22,6 +22,7 @@ import Admin from './Admin';
 import Membership from './Membership';
 import Profile from './Profile';
 import Programs from './Programs';
+import Welcome from './Welcome';
 
 export const NavItem = styled(t.Text)(
   ({ active, disabled }: { active?: boolean; disabled?: boolean }) => ({
@@ -35,12 +36,13 @@ export const NavItem = styled(t.Text)(
   }),
 );
 
-export type DashboardView =
+export type PortalView =
   | 'profile'
   | 'edit-profile'
   | 'programs'
   | 'admin'
-  | 'membership';
+  | 'membership'
+  | 'welcome';
 
 interface Props {
   events: CalendarEvent[];
@@ -52,17 +54,17 @@ interface Props {
 }
 
 interface State {
-  view: DashboardView;
+  view: PortalView;
 }
 
-class Dashboard extends React.Component<Props, State> {
+class Portal extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
     this.state = {
       view:
         props.member && R.isEmpty(props.member.membership.type)
-          ? 'membership'
+          ? 'welcome'
           : 'programs',
     };
   }
@@ -72,18 +74,14 @@ class Dashboard extends React.Component<Props, State> {
     if (!prevProps.member && !!member) {
       this.setState({
         view:
-          member && R.isEmpty(member.membership.type)
-            ? 'membership'
-            : 'programs',
+          member && R.isEmpty(member.membership.type) ? 'welcome' : 'programs',
       });
     }
   }
 
-  setView = (view: DashboardView) => {
-    return () => {
-      this.setState({ view });
-      scrollToId('dashboard-top');
-    };
+  setView = (view: PortalView) => {
+    this.setState({ view });
+    scrollToId('portal-top');
   };
 
   render() {
@@ -95,7 +93,7 @@ class Dashboard extends React.Component<Props, State> {
         <PulseLoader sizeUnit="px" size={30} color={colors.black} />
       </l.FlexCentered>
     ) : member ? (
-      <l.Space id="dashboard-top" position="relative">
+      <l.Space id="portal-top" position="relative">
         <t.Title center pb={spacing.ml}>
           <l.FlexCentered>
             <l.Img
@@ -103,7 +101,7 @@ class Dashboard extends React.Component<Props, State> {
               mr={spacing.ml}
               src={UserImg}
             />
-            Dashboard
+            Portal
           </l.FlexCentered>
         </t.Title>
         <Divider white />
@@ -116,7 +114,7 @@ class Dashboard extends React.Component<Props, State> {
                 enabled={isTabletUp()}
                 innerZ={z.high}
                 top="#nav-end"
-                bottomBoundary="#dashboard-end">
+                bottomBoundary="#portal-end">
                 <l.FlexCentered
                   background={colors.background}
                   columnOnMobile
@@ -127,7 +125,7 @@ class Dashboard extends React.Component<Props, State> {
                         <NavItem
                           active={view === 'programs'}
                           large
-                          onClick={this.setView('programs')}>
+                          onClick={() => this.setView('programs')}>
                           Programs
                         </NavItem>
                         <l.Space width={spacing.xxxxxl} />
@@ -136,7 +134,7 @@ class Dashboard extends React.Component<Props, State> {
                     <NavItem
                       active={R.contains(view, ['profile', 'edit-profile'])}
                       large
-                      onClick={this.setView('profile')}>
+                      onClick={() => this.setView('profile')}>
                       Profile
                     </NavItem>
                     {!isMobileOnly() && <l.Space width={[0, spacing.xxxxxl]} />}
@@ -146,14 +144,14 @@ class Dashboard extends React.Component<Props, State> {
                       <NavItem
                         active={view === 'admin'}
                         large
-                        onClick={this.setView('admin')}>
+                        onClick={() => this.setView('admin')}>
                         Admin
                       </NavItem>
                     ) : (
                       <NavItem
                         active={R.contains(view, ['membership'])}
                         large
-                        onClick={this.setView('membership')}>
+                        onClick={() => this.setView('membership')}>
                         Membership
                       </NavItem>
                     )}
@@ -175,13 +173,13 @@ class Dashboard extends React.Component<Props, State> {
             <>
               {view === 'profile' && (
                 <Profile
-                  setView={this.setView('edit-profile')}
+                  setView={() => this.setView('edit-profile')}
                   member={member}
                 />
               )}
               {view === 'edit-profile' && (
                 <EditProfile
-                  setView={this.setView('profile')}
+                  setView={() => this.setView('profile')}
                   member={member}
                 />
               )}
@@ -206,7 +204,13 @@ class Dashboard extends React.Component<Props, State> {
                   events={events}
                   member={member}
                   programs={programs}
-                  setProgramView={this.setView('programs')}
+                  setProgramView={() => this.setView('programs')}
+                />
+              )}
+              {view === 'welcome' && (
+                <Welcome
+                  member={member}
+                  setView={(vw: PortalView) => this.setView(vw)}
                 />
               )}
             </>
@@ -214,7 +218,7 @@ class Dashboard extends React.Component<Props, State> {
             <SetupForm member={member} />
           )}
         </l.Page>
-        <l.Space id="dashboard-end" height={100} />
+        <l.Space id="portal-end" height={100} />
       </l.Space>
     ) : (
       <Redirect to="/" />
@@ -222,4 +226,4 @@ class Dashboard extends React.Component<Props, State> {
   }
 }
 
-export default withScroll(Dashboard);
+export default withScroll(Portal);

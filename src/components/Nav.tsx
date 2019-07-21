@@ -211,7 +211,7 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
         onMouseLeave={this.toggleMemberHover(false)}
         pointer
         position="relative"
-        width={[spacing.xl, 100, 110]}
+        width={[spacing.xl, spacing.xxxl, 110]}
         zIndex={z.high}>
         <t.Link to="/login">
           <l.Flex>
