@@ -8,9 +8,9 @@ import styled from 'react-emotion';
 import * as ReactModal from 'react-modal';
 import { PulseLoader } from 'react-spinners';
 import * as Sticky from 'react-stickynode';
-import { multipass } from '..//content/memberships';
 import ModalCloseImg from '../assets/images/modal-close-dark.svg';
 import ProgramsImg from '../assets/images/programs';
+// import { multipass } from '../content/memberships';
 import { programContent } from '../content/programs';
 import l from '../styles/layout';
 import {
@@ -263,10 +263,14 @@ class Programs extends React.Component<Props, State> {
               </t.Text>
               <t.Text>2 free day passes per month included.</t.Text>
             </l.FlexColumn>
-            <t.Text large my={spacing.xl}>
+            {/* <t.Text large mt={spacing.xl}>
               {multipass.cost}
-            </t.Text>
-            <LinkPrimary to="/signup" type="button" size="small">
+            </t.Text> */}
+            <LinkPrimary
+              mt={spacing.xl}
+              to="/signup"
+              type="button"
+              size="small">
               Sign up
             </LinkPrimary>
             <CloseButton onClick={this.closeModal} src={ModalCloseImg} />

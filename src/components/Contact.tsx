@@ -43,12 +43,6 @@ const Contact = ({ programs }: { programs: Program[] }) => (
         mb={[0, spacing.xxxl]}
         mx="auto"
         spaceBetween>
-        <l.Space mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
-          <ContactText mb={spacing.ml}>
-            Follow us on social media:&nbsp;
-          </ContactText>
-          <SocialIcons showLabels />
-        </l.Space>
         <ContactText mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
           Call us:
           <l.Break />
@@ -85,6 +79,12 @@ const Contact = ({ programs }: { programs: Program[] }) => (
             </t.Text>
           </t.Anchor>
         </ContactText>
+        <l.Space mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
+          <ContactText mb={spacing.ml}>
+            Follow us on social media:&nbsp;
+          </ContactText>
+          <SocialIcons showLabels />
+        </l.Space>
       </l.Flex>
       <l.FlexCentered my={spacing.xxxl}>
         <StarImg />

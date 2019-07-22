@@ -129,11 +129,11 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
         />
         <l.FlexColumn width={['100%', '50%', '50%']}>
           {content && <t.Text mb={spacing.ml}>{content.description}</t.Text>}
-          {!R.isEmpty(program.cost) && (
+          {/* {!R.isEmpty(program.cost) && (
             <t.Text center mb={spacing.ml}>
               {program.cost}
             </t.Text>
-          )}
+          )} */}
           {!R.isEmpty(program.aboutUrl) && (
             <>
               <t.Anchor
