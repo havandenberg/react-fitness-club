@@ -13,8 +13,6 @@ import {
   z,
 } from '../styles/theme';
 import t from '../styles/typography';
-import { Member } from '../types/member';
-import { logout } from '../utils/auth';
 import {
   isDesktop,
   isMobile,
@@ -49,24 +47,6 @@ const FooterLinkText = styled(t.Text)(
   }),
 );
 
-// const FooterAnchor = ({
-//   color,
-//   disabled,
-//   text,
-//   href,
-// }: {
-//   color?: string;
-//   disabled?: boolean;
-//   text: string;
-//   href: string;
-// }) => (
-//   <t.Anchor href={disabled ? '' : href} target="_blank">
-//     <FooterLinkText color={color} disabled={disabled}>
-//       {text}
-//     </FooterLinkText>
-//   </t.Anchor>
-// );
-
 const FooterLink = ({
   disabled,
   color,
@@ -100,7 +80,7 @@ const PhoneAnchor = styled(t.Text)({
   transition: transitions.default,
 });
 
-const Footer = ({ member }: { member?: Member }) => (
+const Footer = () => (
   <div>
     <DividerWrapper>
       <Divider white />
@@ -110,12 +90,14 @@ const Footer = ({ member }: { member?: Member }) => (
       columnRevOnMobile
       px={[spacing.xl, spacing.xxxl, spacing.huge]}
       py={[spacing.xl, spacing.xxxl, spacing.xxxxxl]}
-      spaceBetween>
+      spaceBetween
+    >
       <l.Flex
         alignTop
         grow={1}
         spaceBetween={!isTabletUp()}
-        width={['100%', 'auto']}>
+        width={['100%', 'auto']}
+      >
         <l.Space mr={[spacing.xl, spacing.huge]}>
           <FooterLink text="Mission" to="/mission" />
           <l.Space height={spacing.l} />
@@ -133,38 +115,24 @@ const Footer = ({ member }: { member?: Member }) => (
           <FooterLink text="Pro Shop" to="/shop" />
           <l.Space height={spacing.l} />
           <FooterLink text="Contact" to="/contact" />
-          {/* <l.Space height={spacing.l} />
-          <FooterAnchor
-            href="https://www.gofundme.com/react-fitness-club-alumni-floor"
-            text="Donate"
-          /> */}
-          <l.Space height={spacing.l} />
-          {member ? (
-            <t.TextButton
-              color={colors.red}
-              large
-              hoverStyle="none"
-              onClick={logout}>
-              Logout
-            </t.TextButton>
-          ) : (
-            <FooterLink color={colors.red} text="Login" to="/login" />
-          )}
         </l.Space>
       </l.Flex>
       <l.FlexColumn
         alignBottom={isTabletUp()}
         mb={[spacing.xxl, 0]}
-        width={['100%', 'auto']}>
+        width={['100%', 'auto']}
+      >
         <t.Link
           to="/contact?id=studio-location"
           mb={spacing.l}
-          onClick={() => scrollToId('studio-location')}>
+          onClick={() => scrollToId('studio-location')}
+        >
           <PhoneAnchor
             color={colors.white}
             large
-            textAlign={isMobile() ? 'center' : 'right'}>
-            173 Grove St, 2nd Floor
+            textAlign={isMobile() ? 'center' : 'right'}
+          >
+            173 Grove St, Ste 3
             <l.Break />
             Worcester, MA 01605
           </PhoneAnchor>
@@ -181,7 +149,8 @@ const Footer = ({ member }: { member?: Member }) => (
       columnRevOnMobile
       px={[spacing.sm, spacing.xl]}
       py={spacing.xl}
-      spaceBetween>
+      spaceBetween
+    >
       <t.Title center={isSmall()} color={colors.white} nowrap={!isSmall()}>
         REACT FITNESS CLUB
       </t.Title>
@@ -190,7 +159,8 @@ const Footer = ({ member }: { member?: Member }) => (
           color={colors.white}
           mb={[spacing.m]}
           textAlign={isTabletUp() ? 'right' : 'center'}
-          width="100%">
+          width="100%"
+        >
           Copyright © {new Date().getFullYear()}
           <l.Break breakpoint={SMALL} />
           <l.Break breakpoint={TABLET} /> React Fitness Club
@@ -199,7 +169,8 @@ const Footer = ({ member }: { member?: Member }) => (
         <t.Text
           color={colors.white}
           textAlign={isTabletUp() ? 'right' : 'center'}
-          width="100%">
+          width="100%"
+        >
           Developed by
           <l.Break breakpoint={TABLET} /> Halsey Vandenberg
         </t.Text>

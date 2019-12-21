@@ -1,5 +1,4 @@
 import { ASSETS_PATH } from '../utils/constants';
-import { Membership } from './membership';
 
 export type dobField = 'month' | 'day' | 'year';
 
@@ -26,12 +25,9 @@ export interface Member {
   isLiabilityWaiverSigned: boolean;
   lastName: string;
   medicalConditions: string;
-  membership: Membership;
   nickname: string;
-  pastMemberships: Membership[];
   phone: string;
   profilePhotoUrl: string;
-  squareCustomerId: string;
   state: string;
   streetAddress1: string;
   streetAddress2: string;
@@ -56,17 +52,9 @@ export const newMemberDefaults: Member = {
   isLiabilityWaiverSigned: false,
   lastName: '',
   medicalConditions: '',
-  membership: {
-    cost: '',
-    inactivePeriods: [],
-    signupDate: '',
-    type: '',
-  },
   nickname: '',
-  pastMemberships: [],
   phone: '',
   profilePhotoUrl: `${ASSETS_PATH}/default-profile.png`,
-  squareCustomerId: '',
   state: '',
   streetAddress1: '',
   streetAddress2: '',

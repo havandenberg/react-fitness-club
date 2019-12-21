@@ -36,13 +36,15 @@ const Contact = ({ programs }: { programs: Program[] }) => (
     <Divider white />
     <l.Page
       px={[spacing.sm, 0]}
-      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+    >
       <l.Flex
         alignTop
         columnOnMobile
         mb={[0, spacing.xxxl]}
         mx="auto"
-        spaceBetween>
+        spaceBetween
+      >
         <ContactText mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
           Call us:
           <l.Break />
@@ -50,12 +52,14 @@ const Contact = ({ programs }: { programs: Program[] }) => (
           <t.Anchor
             border={borders.red}
             href="tel:17743171269"
-            width={['100%', 'auto']}>
+            width={['100%', 'auto']}
+          >
             <t.Text
               center={isMobile()}
               color={colors.red}
               fontSize={[fontSizes.largeText, fontSizes.largeText]}
-              width={['100%', 'auto']}>
+              width={['100%', 'auto']}
+            >
               774-317-1267
             </t.Text>
           </t.Anchor>
@@ -67,13 +71,15 @@ const Contact = ({ programs }: { programs: Program[] }) => (
           <t.Anchor
             border={borders.red}
             onClick={() => scrollToId('studio-location', { offset: -40 })}
-            width={['100%', 'auto']}>
+            width={['100%', 'auto']}
+          >
             <t.Text
               center={isMobile()}
               color={colors.red}
               fontSize={[fontSizes.largeText, fontSizes.largeText]}
-              width={['100%', 'auto']}>
-              173 Grove St, 2nd Floor
+              width={['100%', 'auto']}
+            >
+              173 Grove St, Ste 3
               <l.Break />
               Worcester, MA 01605
             </t.Text>
@@ -92,24 +98,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
       <t.Text center large my={spacing.xl}>
         To contact us with any questions about our schedule or programs,
         <l.Break breakpoint={DESKTOP} />
-        &nbsp;please&nbsp;
-        <t.Anchor border={borders.red} href="tel:17743171269">
-          <t.Text color={colors.red} large>
-            call us
-          </t.Text>
-        </t.Anchor>
-        &nbsp;directly or use the form below.
-      </t.Text>
-      <t.Text center large mb={spacing.xxxl}>
-        To sign up for any RFC program directly,{' '}
-        <t.Link
-          border={borders.red}
-          color={colors.red}
-          large="true"
-          to="/signup">
-          click here
-        </t.Link>{' '}
-        to begin program signup.
+        &nbsp;please use the form below.
       </t.Text>
       <ContactForm programs={programs} />
       <l.Space id="studio-location" height={[spacing.xxxl, spacing.xxxxxl]} />
@@ -117,7 +106,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
         The React Fitness Club Studio is located at:
       </t.Subtitle>
       <t.H2 center color={colors.red} mb={[spacing.xl, spacing.xl]}>
-        173 Grove St, 2nd Floor
+        173 Grove St, Ste 3
         <l.Break />
         Worcester, MA 10605
       </t.H2>
@@ -154,7 +143,8 @@ const Contact = ({ programs }: { programs: Program[] }) => (
       </l.Flex>
       <t.Anchor
         href="https://www.google.com/maps/place/React+Fitness+Club/@42.2793643,-71.8049137,15z/data=!4m2!3m1!1s0x0:0x9046b19a3d697bcc?ved=2ahUKEwjSvtKd5PfeAhXEx4MKHc9mAekQ_BIwEHoECAYQCA"
-        target="_blank">
+        target="_blank"
+      >
         <MapImage src={`${ASSETS_PATH}/studio/map.png`} />
       </t.Anchor>
     </l.Page>

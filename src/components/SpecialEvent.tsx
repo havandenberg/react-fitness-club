@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
@@ -7,24 +6,11 @@ import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
-import { Member } from '../types/member';
 import { SpecialEvent as SpecialEventType } from '../types/special-event';
 import { formatDescriptiveDate } from '../utils/calendar-event';
-import {
-  generateNewClass,
-  getClassInstIdFromEvent,
-  getSpecialEventClassInstById,
-  openSpecialEventClass,
-} from '../utils/class';
-import { isMobile, isTabletOnly, TABLET_UP } from '../utils/screensize';
-import {
-  getSpecialEventSessions,
-  removeSignup,
-  signUpForSpecialEvent,
-} from '../utils/special-event';
-import { ButtonPrimary } from './Form/Button';
+import { isTabletOnly } from '../utils/screensize';
+import { getSpecialEventSessions } from '../utils/special-event';
 import GalleryImage from './GalleryImage';
-import SmallMemberCard from './SmallMemberCard';
 
 const SessionButton = styled(t.TextButton)({
   display: 'inline-block',
@@ -41,45 +27,13 @@ const SpecialEventWrapper = styled(l.Space)({
 
 interface Props {
   events: CalendarEvent[];
-  member?: Member;
-  members?: Member[];
   specialEvent: SpecialEventType;
 }
 
-interface State {
-  showMembers: boolean;
-}
-
-class SpecialEvent extends React.Component<Props & RouteComponentProps, State> {
-  state = {
-    showMembers: false,
-  };
-
-  getSessionProps = (session: CalendarEvent) => {
-    const { specialEvent } = this.props;
-    const classInstId = getClassInstIdFromEvent(session);
-    return {
-      color: colors.red,
-      to: `/events/${specialEvent.id}/${classInstId}`,
-    };
-  };
-
-  toggleShowMembers = () => {
-    this.setState({ showMembers: !this.state.showMembers });
-  };
-
+class SpecialEvent extends React.Component<Props & RouteComponentProps> {
   render() {
-    const { events, history, member, members, specialEvent } = this.props;
-    const { showMembers } = this.state;
-
+    const { events, specialEvent } = this.props;
     const sessions = getSpecialEventSessions(specialEvent, events);
-    const isMemberSignedUpForEvent =
-      member && R.contains(member.uid, specialEvent.memberIds);
-    const membersSignedUp = members
-      ? members.filter((mem: Member) =>
-          R.contains(mem.uid, specialEvent.memberIds),
-        )
-      : [];
 
     return (
       <SpecialEventWrapper>
@@ -108,35 +62,9 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps, State> {
             </t.Text>
             <div>
               {sessions.map((session: CalendarEvent, index: number) => {
-                const classInstId = getClassInstIdFromEvent(session);
-                const classInst = getSpecialEventClassInstById(
-                  classInstId,
-                  specialEvent,
-                );
                 return (
                   <React.Fragment key={session.id}>
-                    <SessionButton
-                      color={members ? colors.red : colors.black}
-                      onClick={
-                        members
-                          ? () => {
-                              if (classInst) {
-                                history.push(
-                                  `/events/${specialEvent.id}/${classInstId}`,
-                                );
-                              } else {
-                                openSpecialEventClass(
-                                  generateNewClass(session),
-                                  specialEvent.id,
-                                ).then(() =>
-                                  history.push(
-                                    `/events/${specialEvent.id}/${classInstId}`,
-                                  ),
-                                );
-                              }
-                            }
-                          : undefined
-                      }>
+                    <SessionButton color={colors.black}>
                       {formatDescriptiveDate(session)}
                     </SessionButton>
                     {index < sessions.length - 1 && (
@@ -154,82 +82,17 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps, State> {
                 border={borders.red}
                 color={colors.red}
                 href={specialEvent.aboutUrl}
-                target="_blank">
+                target="_blank"
+              >
                 <t.TextButton bold center large nowrap>
                   Event Details
                 </t.TextButton>
               </t.Anchor>
             )}
-            {member &&
-              moment().diff(specialEvent.startDate) < 0 &&
-              (isMemberSignedUpForEvent ? (
-                <>
-                  <t.Text color={colors.green} center mt={spacing.xl}>
-                    You are <l.Break breakpoint={TABLET_UP} />
-                    signed up!
-                  </t.Text>
-                  <t.TextButton
-                    center
-                    mt={spacing.ml}
-                    onClick={() => removeSignup(member.uid, specialEvent)}>
-                    Undo
-                  </t.TextButton>
-                </>
-              ) : (
-                <ButtonPrimary
-                  mt={spacing.xl}
-                  onClick={() =>
-                    member && signUpForSpecialEvent(member.uid, specialEvent)
-                  }>
-                  Sign up
-                </ButtonPrimary>
-              ))}
           </l.FlexColumn>
         </l.Flex>
         {isTabletOnly() && (
           <t.Text mt={spacing.ml}>{specialEvent.description}</t.Text>
-        )}
-        {members && (
-          <>
-            <l.FlexCentered>
-              <t.TextButton
-                hoverStyle="underline"
-                large
-                mt={spacing.ml}
-                onClick={this.toggleShowMembers}>
-                {showMembers ? 'Hide members' : 'Show members'} (
-                {membersSignedUp.length})
-              </t.TextButton>
-            </l.FlexCentered>
-            {showMembers && !R.isEmpty(membersSignedUp) && (
-              <l.Flex
-                isWrap
-                justifyContent={isMobile() ? 'center' : 'flex-start'}
-                mt={[spacing.xl, spacing.ml]}>
-                {R.sortBy((mem: Member) => mem.lastName.toLowerCase())(
-                  membersSignedUp,
-                ).map((mem: Member, index: number) => (
-                  <React.Fragment key={index}>
-                    <SmallMemberCard
-                      customStyles={{
-                        photoSideLength: spacing.xxxl,
-                        wrapper: {
-                          borderColor: colors.gray,
-                          mb: spacing.sm,
-                          p: spacing.sm,
-                        },
-                      }}
-                      isActive
-                      member={mem}
-                    />
-                    {index < members.length - 1 && (
-                      <l.Space width={spacing.ml} />
-                    )}
-                  </React.Fragment>
-                ))}
-              </l.Flex>
-            )}
-          </>
         )}
       </SpecialEventWrapper>
     );

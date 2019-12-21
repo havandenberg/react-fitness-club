@@ -28,8 +28,6 @@ import {
 import l from '../../styles/layout';
 import { borders, breakpoints, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
-import { getMemberRef } from '../../utils/member';
-import { scrollToId } from '../../utils/scroll';
 import { isUnderEighteen } from '../../utils/validation';
 import { FormComponentProps } from '../Form';
 import FormActions from '../Form/Actions';
@@ -156,19 +154,22 @@ class LiabilityWaiverStep extends React.Component<
               ...liabilityStyles.signatureRow,
               borderBottom: borders.black,
               marginBottom: spacing.ml,
-            }}>
+            }}
+          >
             <Text
               style={{
                 ...liabilityStyles.signatureLabelLeft,
                 ...liabilityStyles.signature,
-              }}>
+              }}
+            >
               {fields.memberSignature}
             </Text>
             <Text
               style={{
                 ...liabilityStyles.signatureLabelRight,
                 ...liabilityStyles.signature,
-              }}>
+              }}
+            >
               {new Date().toLocaleDateString('en-US')}
             </Text>
           </View>
@@ -191,14 +192,16 @@ class LiabilityWaiverStep extends React.Component<
                 style={{
                   ...liabilityStyles.signatureLabelLeft,
                   ...liabilityStyles.signature,
-                }}>
+                }}
+              >
                 {fields.memberParentSignature}
               </Text>
               <Text
                 style={{
                   ...liabilityStyles.signatureLabelRight,
                   ...liabilityStyles.signature,
-                }}>
+                }}
+              >
                 {new Date().toLocaleDateString('en-US')}
               </Text>
             </View>
@@ -238,15 +241,7 @@ class LiabilityWaiverStep extends React.Component<
               ),
             );
           }
-          getMemberRef(currentUser.uid)
-            .update(processFormValues(data))
-            .then(() => {
-              onSuccess();
-              scrollToId('top');
-            })
-            .catch((error: Error) => {
-              onFail(error);
-            });
+          console.log(processFormValues(data));
         }
       },
     );

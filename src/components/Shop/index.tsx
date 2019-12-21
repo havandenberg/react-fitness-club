@@ -11,7 +11,6 @@ import ShopImg from '../../assets/images/shop.svg';
 import l from '../../styles/layout';
 import { colors, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
-import { Member } from '../../types/member';
 import {
   OrderItemOption,
   ShopItem as ShopItemType,
@@ -40,7 +39,6 @@ class OrderForm extends Form<ShopOrder> {}
 interface Props {
   loading: boolean;
   inventory: ShopItemType[];
-  member?: Member;
 }
 
 interface State {
@@ -80,15 +78,15 @@ class Shop extends React.Component<Props, State> {
   };
 
   render() {
-    const { inventory, loading, member } = this.props;
+    const { inventory, loading } = this.props;
     const { itemDetail, showOrderReview } = this.state;
 
     const initialValues = {
       agreeToTerms: false,
       comments: '',
-      customerEmail: member ? member.email : '',
-      customerFirstName: member ? member.firstName : '',
-      customerLastName: member ? member.lastName : '',
+      customerEmail: '',
+      customerFirstName: '',
+      customerLastName: '',
       date: new Date(),
       items: JSON.parse(localStorage.getItem('cart-items') || '[]'),
     };
@@ -108,7 +106,8 @@ class Shop extends React.Component<Props, State> {
         <Divider white />
         <l.Page
           px={[spacing.sm, 0]}
-          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+        >
           {loading ? (
             <l.FlexCentered>
               <l.FlexColumn>
@@ -125,7 +124,8 @@ class Shop extends React.Component<Props, State> {
               fieldValidations={orderFieldValidations}
               scrollId="payment-and-shipping"
               successMessage=""
-              validationErrorMessage="">
+              validationErrorMessage=""
+            >
               {props => {
                 const itemInCart =
                   !R.isNil(itemDetail) &&
@@ -137,7 +137,6 @@ class Shop extends React.Component<Props, State> {
                     {showOrderReview ? (
                       <OrderReview
                         {...props}
-                        member={member}
                         showModal={this.showModal}
                         toggleShowOrderReview={this.toggleShowOrderReview}
                       />
@@ -170,7 +169,8 @@ class Shop extends React.Component<Props, State> {
                             maxWidth: 550,
                           },
                           overlay: { zIndex: 1000 },
-                        }}>
+                        }}
+                      >
                         <ShopItem
                           key={itemDetail.id}
                           item={itemDetail}

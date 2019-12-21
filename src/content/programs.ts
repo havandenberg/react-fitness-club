@@ -35,24 +35,9 @@ export const reactSkillz = {
   name: 'REaCT Skillz',
 };
 
-export const taekwondo = {
-  description: '',
-  id: 'taekwondo',
-  name: 'Taekwondo',
-};
-
-export const zumba = {
-  description:
-    'Zumba is a fitness program inspired by various rhythms and dancing styles. The routines feature aerobic/fitness interval training with a combination of fast and slow dance moves that tone and sculpt the body. Some popular genres are reggaeton, pop, hip-hop, cumbia, merengue and more! Taught by Daniele.',
-  id: 'zumba',
-  name: 'Zumba',
-};
-
 export const programContent: ProgramContent[] = [
-  reactSkillz,
   reactMma,
   capoeira,
   aikido,
-  zumba,
   qigongMeditation,
 ];

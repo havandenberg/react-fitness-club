@@ -21,29 +21,14 @@ import { colors, fontSizes, gradients, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { FilterPrimaryCategory } from '../types/filter';
-import { Member } from '../types/member';
 import { Division, Program, ProgramContent } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
 import { formatDescriptiveDate } from '../utils/calendar-event';
-import {
-  generateNewClass,
-  getClassInstIdFromEvent,
-  getDivisionClassInstById,
-  getSpecialEventClassInstById,
-  openClass,
-  openSpecialEventClass,
-} from '../utils/class';
-import { isCoach } from '../utils/member';
-import {
-  getDivisionById,
-  getProgramById,
-  isCoachOfProgram,
-} from '../utils/program';
+import { getProgramById } from '../utils/program';
 import { isMobile, isMobileOnly, isTabletOnly } from '../utils/screensize';
-import { getSpecialEventById } from '../utils/special-event';
 import Divider from './Divider';
 import FilterBar, { FilterProps } from './FilterBar';
-import { ButtonPrimary, LinkPrimary } from './Form/Button';
+import { LinkPrimary } from './Form/Button';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
 import { CloseButton } from './Shop/Item';
@@ -63,7 +48,6 @@ interface Props {
   specialEvents: SpecialEvent[];
   loading: boolean;
   programs: Program[];
-  member?: Member;
 }
 
 interface State {
@@ -190,45 +174,12 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     return {};
   };
 
-  handleGoToEventClass = (event: CalendarEvent) => {
-    const { history, member, programs, specialEvents } = this.props;
-    const program = getProgramById(event.programId, programs);
-    const division = program && getDivisionById(event.divisionId, program);
-    if (member) {
-      const classId = getClassInstIdFromEvent(event);
-      if (isCoach(member) && R.equals(event.divisionId, 'events')) {
-        const specialEvent = getSpecialEventById(
-          event.specialEventId,
-          specialEvents,
-        );
-        if (specialEvent) {
-          if (getSpecialEventClassInstById(classId, specialEvent)) {
-            history.push(`/events/${specialEvent.id}/${classId}`);
-          } else {
-            openSpecialEventClass(
-              generateNewClass(event),
-              specialEvent.id,
-            ).then(() => history.push(`/events/${specialEvent.id}/${classId}`));
-          }
-        }
-      } else if (program && division && isCoachOfProgram(member.uid, program)) {
-        if (getDivisionClassInstById(classId, division)) {
-          history.push(`/programs/${program.id}/${division.id}/${classId}`);
-        } else {
-          openClass(generateNewClass(event), program.id, division.id).then(() =>
-            history.push(`/programs/${program.id}/${division.id}/${classId}`),
-          );
-        }
-      }
-    }
-  };
-
   toggleExpandCalendar = () => {
     this.setState({ expandCalendar: !this.state.expandCalendar });
   };
 
   render() {
-    const { events, loading, member, programs } = this.props;
+    const { events, loading, programs } = this.props;
     const {
       calendarView,
       expandCalendar,
@@ -277,7 +228,8 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
         <Divider white />
         <l.Page
           px={[spacing.sm, 0]}
-          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+        >
           {loading ? (
             <l.FlexCentered>
               <l.FlexColumn>
@@ -296,7 +248,8 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                 legend={
                   <t.TextButton
                     mt={spacing.m}
-                    onClick={this.toggleExpandCalendar}>
+                    onClick={this.toggleExpandCalendar}
+                  >
                     <l.Img
                       height={spacing.xxl}
                       src={expandCalendar ? ShrinkImg : ExpandImg}
@@ -351,7 +304,8 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                       </t.HelpText>
                     </l.Flex>
                   </l.Flex>
-                }>
+                }
+              >
                 {({ searchValue, categoryId, subCategoryId }: FilterProps) => {
                   return (
                     <div>
@@ -406,7 +360,8 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                           overlay: {
                             zIndex: 1000,
                           },
-                        }}>
+                        }}
+                      >
                         {selectedEvent && (
                           <l.Space position="relative">
                             {selectedProgram && (
@@ -428,29 +383,11 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                                 <LinkPrimary
                                   to={`/programs?id=${selectedProgram.id}`}
                                   size="small"
-                                  width={130}>
+                                  width={130}
+                                >
                                   View Program
                                 </LinkPrimary>
                               )}
-                              {member &&
-                                isCoach(member) &&
-                                (selectedProgram
-                                  ? isCoachOfProgram(
-                                      member.uid,
-                                      selectedProgram,
-                                    )
-                                  : true) && (
-                                  <l.Space ml={spacing.ml}>
-                                    <ButtonPrimary
-                                      onClick={() =>
-                                        this.handleGoToEventClass(selectedEvent)
-                                      }
-                                      size="small"
-                                      width={130}>
-                                      Manage
-                                    </ButtonPrimary>
-                                  </l.Space>
-                                )}
                             </l.FlexCentered>
                             <CloseButton
                               onClick={this.closeModal}

@@ -1,13 +1,12 @@
 import * as React from 'react';
 import NewsletterImg from '../assets/images/newsletter.svg';
 import l from '../styles/layout';
-import { colors, inputWidth, spacing } from '../styles/theme';
+import { inputWidth, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import Divider from './Divider';
 import Form, { FormComponentProps, FormStep } from './Form';
 import FormActions from './Form/Actions';
 import FormRow, { FormItemProps } from './Form/Row';
-import withSubscribe, { SubscribeProps } from './hoc/withSubscribe';
 
 interface NewsletterFields {
   email: string;
@@ -17,9 +16,10 @@ const initialValues = {
   email: '',
 };
 
-const formItems: Array<
-  FormItemProps<NewsletterFields, keyof NewsletterFields>
-> = [
+const formItems: Array<FormItemProps<
+  NewsletterFields,
+  keyof NewsletterFields
+>> = [
   {
     flex: 1,
     inputStyles: { textAlign: 'center' },
@@ -29,19 +29,14 @@ const formItems: Array<
   },
 ];
 
-class Step extends React.Component<
-  FormComponentProps<NewsletterFields> & SubscribeProps
-> {
+class Step extends React.Component<FormComponentProps<NewsletterFields>> {
   handleSubmit = (
     onSuccess: () => void,
     onFail: (error: Error) => void,
     resetForm: () => void,
     data: any,
   ) => {
-    this.props.subscribe({
-      EMAIL: data.email,
-      SOURCE: 'web-newsletter-signup',
-    });
+    console.log(data);
     resetForm();
   };
 
@@ -75,9 +70,8 @@ const formData: Array<FormStep<NewsletterFields>> = [
 
 class NewsletterForm extends Form<NewsletterFields> {}
 
-class Newsletter extends React.Component<SubscribeProps> {
+class Newsletter extends React.Component {
   render() {
-    const { status, subscribe } = this.props;
     return (
       <l.Space id="newsletter" position="relative">
         <Divider white showHeavyBags />
@@ -91,10 +85,11 @@ class Newsletter extends React.Component<SubscribeProps> {
           large
           mb={spacing.xl}
           mx="auto"
-          width={['100%', '60%']}>
+          width={['100%', '60%']}
+        >
           Enter your email here to sign up for our monthly newsletter!
         </t.Text>
-        {status === 'success' && (
+        {/* {status === 'success' && (
           <t.Text center color={colors.green} large mb={spacing.ml}>
             Success!
           </t.Text>
@@ -103,14 +98,13 @@ class Newsletter extends React.Component<SubscribeProps> {
           <t.Text center color={colors.red} mb={spacing.ml}>
             Invalid email or already subscribed, please try again.
           </t.Text>
-        )}
+        )} */}
         <l.Flex mx="auto" width={['95%', '65%', inputWidth]}>
           <NewsletterForm
             id="newsletter-form"
             initialValues={initialValues}
             isEditing
             steps={formData}
-            stepProps={{ status, subscribe }}
             validationErrorMessage="Please enter a valid email."
           />
         </l.Flex>
@@ -119,4 +113,4 @@ class Newsletter extends React.Component<SubscribeProps> {
   }
 }
 
-export default withSubscribe(Newsletter);
+export default Newsletter;

@@ -8,9 +8,9 @@ import styled from 'react-emotion';
 import * as ReactModal from 'react-modal';
 import { PulseLoader } from 'react-spinners';
 import * as Sticky from 'react-stickynode';
+import { border, fontSize, height, position, space } from 'styled-system';
 import ModalCloseImg from '../assets/images/modal-close-dark.svg';
 import ProgramsImg from '../assets/images/programs';
-// import { multipass } from '../content/memberships';
 import { programContent } from '../content/programs';
 import l from '../styles/layout';
 import {
@@ -18,26 +18,63 @@ import {
   breakpoints,
   colors,
   fontSizes,
+  gradients,
   spacing,
+  transitions,
   z,
 } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
-import { Member } from '../types/member';
 import { Program as ProgramType, ProgramContent } from '../types/program';
-import { getGenericMembership } from '../utils/membership';
 import { getProgramById } from '../utils/program';
 import { isMobileOnly, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import Divider from './Divider';
 import { LinkPrimary } from './Form/Button';
 import withScroll from './hoc/withScroll';
-import MembershipBadge from './MembershipBadge';
 import Newsletter from './Newsletter';
-import { MembershipCard } from './Portal/MembershipForm';
 import Program from './Program';
 import { CloseButton } from './Shop/Item';
 import SmallProgramCard from './SmallProgramCard';
+
+const Badge = styled(l.Space)(
+  {
+    borderRadius: borders.radius,
+    padding: `${spacing.sm} ${spacing.ml}`,
+  },
+  ({ background }: { background: string }) => ({
+    background,
+  }),
+  fontSize,
+  space,
+);
+
+const MembershipCard = styled(l.FlexColumn)(
+  {
+    border: borders.blackThick,
+    borderRadius: borders.radius,
+    height: 600,
+    padding: spacing.xl,
+    transition: transitions.default,
+    width: '50%',
+    [breakpoints.tablet]: {
+      padding: spacing.ml,
+    },
+    [breakpoints.mobile]: {
+      height: 500,
+      width: '100%',
+    },
+    [breakpoints.small]: {
+      padding: spacing.sm,
+    },
+  },
+  ({ isActive }: { isActive?: boolean }) => ({
+    borderColor: isActive ? colors.red : colors.black,
+  }),
+  border,
+  height,
+  position,
+);
 
 const scrollOptions = {
   offset: isMobileOnly() ? -80 : -204,
@@ -60,8 +97,6 @@ const MultipassCard = styled(MembershipCard)({
 interface Props {
   events: CalendarEvent[];
   loadingPrograms: boolean;
-  member?: Member;
-  members?: Member[];
   programs: ProgramType[];
 }
 
@@ -88,7 +123,7 @@ class Programs extends React.Component<Props, State> {
   openModal = () => this.setState({ showMultipassModal: true });
 
   render() {
-    const { events, loadingPrograms, member, members, programs } = this.props;
+    const { events, loadingPrograms, programs } = this.props;
     const { showMultipassModal } = this.state;
     return (
       <div>
@@ -103,7 +138,8 @@ class Programs extends React.Component<Props, State> {
         <Divider white />
         <l.Page
           px={[spacing.sm, 0]}
-          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+        >
           {loadingPrograms ? (
             <l.FlexCentered>
               <l.FlexColumn>
@@ -117,23 +153,27 @@ class Programs extends React.Component<Props, State> {
                 enabled={isTabletUp()}
                 innerZ={z.high}
                 top="#nav-end"
-                bottomBoundary="#programs-end">
+                bottomBoundary="#programs-end"
+              >
                 <l.Flex
                   background={colors.background}
                   columnOnMobile
                   pb={spacing.m}
                   pt={spacing.sm}
-                  spaceBetween>
+                  spaceBetween
+                >
                   <t.H3
                     py={[spacing.sm, 0, 0]}
                     mr={[0, spacing.sm, spacing.sm]}
-                    nowrap>
+                    nowrap
+                  >
                     Martial Arts & Fitness Programs
                   </t.H3>
                   <t.TextButton
                     border={borders.red}
                     color={colors.red}
-                    onClick={this.openModal}>
+                    onClick={this.openModal}
+                  >
                     <l.Flex pb={spacing.t}>
                       <t.Text
                         color={colors.red}
@@ -143,31 +183,29 @@ class Programs extends React.Component<Props, State> {
                           fontSizes.text,
                         ]}
                         mr={spacing.sm}
-                        textAlign="right">
+                        textAlign="right"
+                      >
                         Get unlimited program access with our
                       </t.Text>
                       <l.Space width={spacing.s} />
-                      <MembershipBadge
-                        customStyles={{
-                          badge: {
-                            mr: isMobileOnly() ? spacing.m : 0,
-                            p: [spacing.s, spacing.s],
-                          },
-                          badgeText: {
-                            fontSize: [
-                              fontSizes.helpText,
-                              fontSizes.helpText,
-                              fontSizes.helpText,
-                            ],
-                            fontWeight: 'normal',
-                          },
-                          wrapper: {
-                            mb: 0,
-                            p: 0,
-                          },
-                        }}
-                        membership={getGenericMembership('multipass')}
-                      />
+                      <Badge
+                        background={gradients.multipass}
+                        mr={isMobileOnly() ? spacing.m : 0}
+                        p={[spacing.s, spacing.s]}
+                      >
+                        <t.H2
+                          color={colors.white}
+                          fontSize={[
+                            fontSizes.helpText,
+                            fontSizes.helpText,
+                            fontSizes.helpText,
+                          ]}
+                          fontWeight="normal"
+                          nowrap
+                        >
+                          Multi-Pass
+                        </t.H2>
+                      </Badge>
                     </l.Flex>
                   </t.TextButton>
                 </l.Flex>
@@ -213,12 +251,7 @@ class Programs extends React.Component<Props, State> {
                 return (
                   program && (
                     <React.Fragment key={program.id}>
-                      <Program
-                        events={events}
-                        program={program}
-                        member={member}
-                        members={members}
-                      />
+                      <Program events={events} program={program} />
                       {index < programs.length - 1 && (
                         <l.Space height={spacing.xxxl} />
                       )}
@@ -253,24 +286,27 @@ class Programs extends React.Component<Props, State> {
               maxWidth: 550,
             },
             overlay: { zIndex: 1000 },
-          }}>
+          }}
+        >
           <MultipassCard spaceBetween>
             <l.FlexColumn>
-              <MembershipBadge membership={getGenericMembership('multipass')} />
+              <Badge background={gradients.multipass}>
+                <t.H2 color={colors.white} nowrap>
+                  Multi-Pass
+                </t.H2>
+              </Badge>
               <l.Space height={[spacing.ml, spacing.xl]} />
               <t.Text mb={spacing.sm}>
                 Unlimited access to all RFC programs!
               </t.Text>
               <t.Text>2 free day passes per month included.</t.Text>
             </l.FlexColumn>
-            {/* <t.Text large mt={spacing.xl}>
-              {multipass.cost}
-            </t.Text> */}
             <LinkPrimary
               mt={spacing.xl}
               to="/signup"
               type="button"
-              size="small">
+              size="small"
+            >
               Sign up
             </LinkPrimary>
             <CloseButton onClick={this.closeModal} src={ModalCloseImg} />

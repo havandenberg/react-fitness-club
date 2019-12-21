@@ -16,7 +16,7 @@ import t from '../styles/typography';
 import { isMobile, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 import FeaturedLinks from './FeaturedLinks';
-import { ButtonPrimary, LinkPrimary } from './Form/Button';
+import { LinkPrimary } from './Form/Button';
 import withScroll from './hoc/withScroll';
 import IntroVideo from './IntroVideo';
 import Newsletter from './Newsletter';
@@ -35,30 +35,15 @@ const Home = () => (
   <div>
     <Divider white />
     <l.Space height={spacing.xl} />
-    <t.Text center italic large mx="auto" width={['95%', '85%', '75%']}>
-      Our{' '}
-      <t.Link
-        border={borders.red}
-        color={colors.red}
-        large="true"
-        to="/contact?id=studio-location">
-        brand new studio in Worcester, MA
-      </t.Link>{' '}
-      is now open for training.
-    </t.Text>
-    <l.Space height={spacing.xl} />
-    <l.FlexCentered columnOnMobile>
+    <l.FlexCentered>
       <IntroVideo />
-      <l.Space height={spacing.xl} width={spacing.xxxl} />
-      <t.Link to="/signup">
-        <ButtonPrimary width={INTRO_BUTTON_WIDTH}>Sign up here</ButtonPrimary>
-      </t.Link>
     </l.FlexCentered>
     <l.Space height={[spacing.xl, spacing.xxl]} />
     <FeaturedLinks />
     <l.Page
       px={[spacing.sm, 0]}
-      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+    >
       <l.Flex columnOnMobile spaceBetween>
         {isTabletUp() && <StarImg />}
         <t.Text
@@ -67,7 +52,8 @@ const Home = () => (
           mb={[spacing.xl, 0]}
           mx="auto"
           textAlign="justify"
-          width={['100%', '80%']}>
+          width={['100%', '80%']}
+        >
           React Fitness Club is a multi-style{' '}
           <l.Blue>martial arts & fitness</l.Blue> club. Each of our programs
           aims to support the path to individual{' '}
@@ -86,14 +72,16 @@ const Home = () => (
           center
           color={colors.red}
           fontSize={[fontSizes.largeText, fontSizes.h2]}
-          to={'/signup'}>
+          to={'/signup'}
+        >
           Join the club that gets you further!
         </t.Link>
       </l.FlexCentered>
       <l.FlexCentered
         mb={[spacing.ml, spacing.xxxl]}
         mx="auto"
-        width={['100%', '100%', '70%']}>
+        width={['100%', '100%', '70%']}
+      >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
           Free 45 minute intro classes for any program
@@ -102,7 +90,8 @@ const Home = () => (
       <l.FlexCentered
         mb={[spacing.ml, spacing.xxxl]}
         mx="auto"
-        width={['100%', '100%', '70%']}>
+        width={['100%', '100%', '70%']}
+      >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
           All ages training from 3+
@@ -111,7 +100,8 @@ const Home = () => (
       <l.FlexCentered
         mb={[spacing.xxxl, spacing.xxxxxl]}
         mx="auto"
-        width={['100%', '100%', '70%']}>
+        width={['100%', '100%', '70%']}
+      >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
           No martial arts or fitness experience necessary
@@ -123,7 +113,8 @@ const Home = () => (
         mb={100}
         mx="auto"
         spaceBetween
-        width="100%">
+        width="100%"
+      >
         <LinkPrimary to="/mission" width={['100%', 'auto']}>
           {isTabletUp() && (
             <>

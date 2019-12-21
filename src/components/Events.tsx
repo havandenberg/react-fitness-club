@@ -8,9 +8,7 @@ import l from '../styles/layout';
 import { borders, colors, fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
-import { Member } from '../types/member';
 import { SpecialEvent as SpecialEventType } from '../types/special-event';
-import { getMemberName } from '../utils/member';
 import { isMobileOnly } from '../utils/screensize';
 import {
   getPastSpecialEvents,
@@ -27,8 +25,6 @@ const EventsCount = styled('span')(fontSize);
 interface Props {
   events: CalendarEvent[];
   loadingSpecialEvents: boolean;
-  member?: Member;
-  members?: Member[];
   specialEvents: SpecialEventType[];
 }
 
@@ -46,13 +42,7 @@ class Events extends React.Component<Props, State> {
   };
 
   render() {
-    const {
-      events,
-      loadingSpecialEvents,
-      member,
-      members,
-      specialEvents,
-    } = this.props;
+    const { events, loadingSpecialEvents, specialEvents } = this.props;
     const { showPastEvents } = this.state;
 
     const upcomingEvents = getUpcomingSpecialEvents(specialEvents);
@@ -79,7 +69,8 @@ class Events extends React.Component<Props, State> {
         <Divider white />
         <l.Page
           px={[spacing.sm, 0]}
-          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+        >
           {loadingSpecialEvents ? (
             <l.FlexCentered>
               <l.FlexColumn>
@@ -106,26 +97,12 @@ class Events extends React.Component<Props, State> {
                     hoverStyle="underline"
                     mt={spacing.s}
                     nowrap
-                    onClick={() => this.setShowPastEvents(!showPastEvents)}>
+                    onClick={() => this.setShowPastEvents(!showPastEvents)}
+                  >
                     {showPastEvents ? 'Upcoming' : 'Past'} Events
                     {showPastEvents && <span> ({upcomingEvents.length})</span>}
                   </t.TextButton>
                 </l.Flex>
-                <t.Text italic textAlign="right">
-                  {member ? (
-                    `Signing up as ${getMemberName(member)}`
-                  ) : (
-                    <span>
-                      <t.Link
-                        border={borders.red}
-                        color={colors.red}
-                        to="/login">
-                        Log in{' '}
-                      </t.Link>
-                      to sign up directly for events
-                    </span>
-                  )}
-                </t.Text>
               </l.Flex>
               {R.isEmpty(sortedEvents) ? (
                 <t.Text center large my={spacing.xxxxxl}>
@@ -138,8 +115,6 @@ class Events extends React.Component<Props, State> {
                       <React.Fragment key={specialEvent.id}>
                         <SpecialEvent
                           events={events}
-                          member={member}
-                          members={members}
                           specialEvent={specialEvent}
                         />
                         {index < sortedEvents.length - 1 && (

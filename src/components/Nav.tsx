@@ -6,7 +6,6 @@ import ContactImg from '../assets/images/contact';
 import GalleryImg from '../assets/images/gallery';
 import ProgramsImg from '../assets/images/programs';
 import StarImg from '../assets/images/star';
-import MemberImg from '../assets/images/user';
 import l from '../styles/layout';
 import {
   breakpoints,
@@ -20,12 +19,8 @@ import {
   z,
 } from '../styles/theme';
 import t from '../styles/typography';
-import { Member } from '../types/member';
-import { Program } from '../types/program';
-import { logout } from '../utils/auth';
-import { isDesktop, isMobile, isTabletUp } from '../utils/screensize';
+import { isDesktop } from '../utils/screensize';
 import Divider from './Divider';
-import MemberMenu from './MemberMenu';
 
 interface Item {
   name: string;
@@ -141,7 +136,8 @@ const NavItem = ({
     <NavLink activeClassName="active-nav" exact to={item.path}>
       <NavTextWrapper
         className={active ? 'active-nav' : ''}
-        position="relative">
+        position="relative"
+      >
         <ActiveIndicator active={active} />
         {isDesktop() && item.Icon && (
           <l.Space mr={[0, spacing.sm, spacing.sm]}>
@@ -157,31 +153,16 @@ const NavItem = ({
   </NavItemWrapper>
 );
 
-const MemberIcon = styled('div')({
-  height: spacing.ml,
-  transform: `translateY(${spacing.t})`,
-  [breakpoints.mobile]: {
-    transform: `translateY(-${spacing.t})`,
-  },
-});
-
-interface Props {
-  member?: Member;
-  programs: Program[];
-}
-
 interface State {
   hoverItem: number;
-  memberHover: boolean;
 }
 
-class Nav extends React.Component<RouteComponentProps & Props, State> {
-  constructor(props: RouteComponentProps & Props) {
+class Nav extends React.Component<RouteComponentProps, State> {
+  constructor(props: RouteComponentProps) {
     super(props);
 
     this.state = {
       hoverItem: -1,
-      memberHover: false,
     };
   }
 
@@ -193,54 +174,9 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
     this.setState({ hoverItem: -1 });
   };
 
-  toggleMemberHover = (memberHover: boolean) => {
-    return () => {
-      this.setState({ memberHover });
-    };
-  };
-
   render() {
-    const { location, member, programs } = this.props;
-    const { hoverItem, memberHover } = this.state;
-
-    const memberMenuComponent = (
-      <l.FlexCentered
-        height={[spacing.xl, spacing.xl, parseInt(navHeight, 10) + 34]}
-        onClick={this.toggleMemberHover(!memberHover)}
-        onMouseEnter={this.toggleMemberHover(true)}
-        onMouseLeave={this.toggleMemberHover(false)}
-        pointer
-        position="relative"
-        width={[spacing.xl, spacing.xxxl, 110]}
-        zIndex={z.high}>
-        <t.Link to="/login">
-          <l.Flex>
-            <MemberIcon>
-              <MemberImg
-                color={member || memberHover ? colors.red : colors.white}
-              />
-            </MemberIcon>
-            {isDesktop() && (
-              <NavTextBase
-                color={member || memberHover ? colors.red : colors.white}
-                mr={spacing.m}
-                mt={spacing.t}>
-                Portal
-              </NavTextBase>
-            )}
-          </l.Flex>
-        </t.Link>
-        {!isMobile() && member && memberHover && (
-          <MemberMenu
-            logout={() => {
-              this.setState({ memberHover: false }, logout);
-            }}
-            member={member}
-            programs={programs}
-          />
-        )}
-      </l.FlexCentered>
-    );
+    const { location } = this.props;
+    const { hoverItem } = this.state;
 
     return (
       <div id="nav-end">
@@ -254,7 +190,8 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
                   mb={['4px', 0]}
                   ml={[0, spacing.sm]}
                   mt={['6px', 0]}
-                  nowrap>
+                  nowrap
+                >
                   REACT FITNESS CLUB
                 </t.Text>
               </l.Flex>
@@ -273,13 +210,8 @@ class Nav extends React.Component<RouteComponentProps & Props, State> {
                   />
                 );
               })}
-              {isTabletUp() && memberMenuComponent}
+              <l.Space width={spacing.xxxl} />
             </l.Flex>
-            {!isTabletUp() && (
-              <l.Space position="absolute" top={spacing.t} right={spacing.t}>
-                {memberMenuComponent}
-              </l.Space>
-            )}
           </NavWrapper>
           <Divider />
         </Sticky>

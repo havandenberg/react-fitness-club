@@ -14,7 +14,6 @@ import Form, {
 import FormActions from './Form/Actions';
 import { CheckboxRadioInputWithLabel } from './Form/CheckboxRadio';
 import FormRow, { FormRowData } from './Form/Row';
-import withSubscribe, { SubscribeProps } from './hoc/withSubscribe';
 
 interface ContactFields {
   addToNewsletter: boolean;
@@ -112,16 +111,13 @@ interface Props {
   programs: Program[];
 }
 
-class Step extends React.Component<
-  Props & FormComponentProps<ContactFields> & SubscribeProps
-> {
+class Step extends React.Component<Props & FormComponentProps<ContactFields>> {
   handleSubmit = (
     onSuccess: () => void,
     onFail: (error: Error) => void,
     resetForm: () => void,
     data: any,
   ) => {
-    const { subscribe } = this.props;
     const {
       addToNewsletter,
       email,
@@ -146,17 +142,7 @@ class Step extends React.Component<
           },
           process.env.REACT_APP_EMAILJS_KEY,
         )
-        .then(() => {
-          onSuccess();
-          if (addToNewsletter) {
-            subscribe({
-              EMAIL: email,
-              FNAME: firstName,
-              LNAME: lastName,
-              SOURCE: 'web-contact-form',
-            });
-          }
-        }, onFail);
+        .then(onSuccess, onFail);
     } else {
       console.log('Invalid emailjs key');
     }
@@ -231,9 +217,9 @@ const formData: Array<FormStep<ContactFields>> = [
 
 class ContactForm extends Form<ContactFields> {}
 
-class ContactFormComponent extends React.Component<Props & SubscribeProps> {
+class ContactFormComponent extends React.Component<Props> {
   render() {
-    const { programs, status, subscribe } = this.props;
+    const { programs } = this.props;
     return (
       <l.Flex mx="auto" width={['100%', '90%', '80%']}>
         <ContactForm
@@ -244,7 +230,8 @@ class ContactFormComponent extends React.Component<Props & SubscribeProps> {
               <t.Anchor
                 border={borders.red}
                 color={colors.red}
-                href="mailto:reactfitnessclub@gmail.com">
+                href="mailto:reactfitnessclub@gmail.com"
+              >
                 reactfitnessclub@gmail.com
               </t.Anchor>
             </t.Text>
@@ -254,7 +241,7 @@ class ContactFormComponent extends React.Component<Props & SubscribeProps> {
           isEditing
           fieldValidations={contactFieldValidations}
           steps={formData}
-          stepProps={{ programs, status, subscribe }}
+          stepProps={{ programs }}
           successMessage="Success! One of our coaches will contact you as soon as possible with a response."
         />
       </l.Flex>
@@ -262,4 +249,4 @@ class ContactFormComponent extends React.Component<Props & SubscribeProps> {
   }
 }
 
-export default withSubscribe(ContactFormComponent);
+export default ContactFormComponent;

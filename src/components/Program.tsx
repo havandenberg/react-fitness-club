@@ -2,7 +2,6 @@ import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { coaches } from 'src/content/coaches';
 import { programContent } from '../content/programs';
 import l from '../styles/layout';
 import { borders, breakpoints, colors, spacing } from '../styles/theme';
@@ -10,13 +9,11 @@ import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { Member } from '../types/member';
 import {
-  Coach,
   Division,
   Program as ProgramType,
   ProgramContent,
 } from '../types/program';
 import { LinkPrimary } from './Form/Button';
-import ProfilePhoto from './ProfilePhoto';
 
 const ProgramWrapper = styled(l.Flex)({
   border: borders.black,
@@ -55,15 +52,6 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
       (programCont: ProgramContent) => program.id === programCont.id,
     );
 
-    const programCoachIds = R.filter(
-      (coachId: string) => R.contains(coachId, Object.keys(coaches)),
-      program.coachIds,
-    );
-    const programCoaches = R.map(
-      (coachId: string) => coaches[coachId],
-      programCoachIds,
-    );
-
     return (
       <ProgramWrapper alignTop columnOnMobile id={program.id}>
         <l.FlexColumn width={['100%', '50%', '50%']}>
@@ -73,30 +61,11 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
               width={[spacing.xxxxxl, spacing.huge, spacing.huge]}
             />
             <l.Space width={[spacing.ml, spacing.xxxl, spacing.xxxl]} />
-            <div>
-              {content && (
-                <t.H2 bold mb={spacing.sm}>
-                  {content.name}
-                </t.H2>
-              )}
-              <l.Flex>
-                {programCoaches.map((coach: Coach, index: number) => (
-                  <React.Fragment key={coach.id}>
-                    <l.FlexColumn width={spacing.xxxl}>
-                      <ProfilePhoto
-                        imageSrc={coach.profilePhotoUrl}
-                        sideLength={spacing.xxxl}
-                      />
-                      <l.Space height={spacing.s} />
-                      <t.HelpText>{coach.name}</t.HelpText>
-                    </l.FlexColumn>
-                    {index < programCoaches.length - 1 && (
-                      <l.Space width={spacing.ml} />
-                    )}
-                  </React.Fragment>
-                ))}
-              </l.Flex>
-            </div>
+            {content && (
+              <t.H2 bold mb={spacing.sm}>
+                {content.name}
+              </t.H2>
+            )}
           </l.Flex>
           <l.FlexColumn alignTop width="100%">
             <t.Text large mb={spacing.ml}>
@@ -108,15 +77,15 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
                 key={division.id}
                 mb={[spacing.s, 0, 0]}
                 spaceBetween
-                width="100%">
+                width="100%"
+              >
                 <t.Text mb={[0, spacing.s, spacing.s]}>{division.name}</t.Text>
                 <t.Link
                   border={borders.red}
                   color={colors.red}
-                  to={`/schedule?categoryId=${program.id}&subCategoryId=${
-                    division.id
-                  }`}
-                  nowrap="true">
+                  to={`/schedule?categoryId=${program.id}&subCategoryId=${division.id}`}
+                  nowrap="true"
+                >
                   View Schedule
                 </t.Link>
               </l.Flex>
@@ -139,7 +108,8 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
               <t.Anchor
                 border={borders.red}
                 href={program.aboutUrl}
-                target="_blank">
+                target="_blank"
+              >
                 <t.Text center color={colors.red} large>
                   Learn more about {program.name}
                 </t.Text>

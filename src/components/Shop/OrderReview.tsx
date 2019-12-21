@@ -6,7 +6,6 @@ import ShopWhiteImg from '../../assets/images/shop-white.svg';
 import l from '../../styles/layout';
 import { borders, breakpoints, colors, spacing, z } from '../../styles/theme';
 import t from '../../styles/typography';
-import { Member } from '../../types/member';
 import { ShopOrder, ShopOrderItem } from '../../types/shop';
 import { isTabletUp } from '../../utils/screensize';
 import { scrollToId } from '../../utils/scroll';
@@ -19,7 +18,6 @@ import { TextArea, TextInput } from '../Form/Input';
 import OrderReviewItem from './OrderReviewItem';
 
 interface Props {
-  member?: Member;
   toggleShowOrderReview: () => void;
   showModal: (itemDetail: ShopOrderItem) => void;
 }
@@ -33,7 +31,6 @@ class OrderReview extends React.Component<
     resetForm: () => void,
     data: any,
   ) => {
-    const { member } = this.props;
     const {
       comments,
       customerEmail,
@@ -51,7 +48,6 @@ class OrderReview extends React.Component<
           {
             comments: R.isEmpty(comments) ? comments : 'No comments',
             from_name: `${customerFirstName} ${customerLastName}`,
-            has_account: !!member,
             items: getOrderItemsString(items),
             order_total: `$${calculateOrderTotal(items).toFixed(2)}`,
             reply_to: customerEmail,
@@ -166,7 +162,8 @@ class OrderReview extends React.Component<
             center
             color={colors.green}
             large
-            mb={[spacing.ml, spacing.xl]}>
+            mb={[spacing.ml, spacing.xl]}
+          >
             Success! Thank you for your order.
             <l.Space height={spacing.sm} />
             We will email you when your order is available for pickup.
@@ -177,7 +174,8 @@ class OrderReview extends React.Component<
               border={borders.green}
               color={colors.green}
               href="mailto:reactfitnessclub@gmail.com"
-              large>
+              large
+            >
               reactfitnessclub@gmail.com
             </t.Anchor>{' '}
             or give us a call at{' '}
@@ -185,7 +183,8 @@ class OrderReview extends React.Component<
               border={borders.green}
               color={colors.green}
               href="tel:7743171267"
-              large>
+              large
+            >
               774-317-1267
             </t.Anchor>
             .
@@ -197,7 +196,8 @@ class OrderReview extends React.Component<
             onClick={() => {
               resetForm();
               toggleShowOrderReview();
-            }}>
+            }}
+          >
             <l.Img height={spacing.xl} mr={spacing.sm} src={ShopWhiteImg} />
             Back to Shop
           </ButtonPrimary>
@@ -211,19 +211,22 @@ class OrderReview extends React.Component<
           enabled={isTabletUp()}
           innerZ={z.high}
           top="#nav-end"
-          bottomBoundary="#review-end">
+          bottomBoundary="#review-end"
+        >
           <l.Flex
             background={colors.background}
             columnOnMobile
             pb={spacing.ml}
-            spaceBetween>
+            spaceBetween
+          >
             <t.H1 mt={spacing.s}>Order Review</t.H1>
             <l.Flex mt={[spacing.ml, 0, 0]}>
               {!R.isEmpty(fields.items) && (
                 <t.Text
                   color={colors.red}
                   mr={spacing.m}
-                  mt={[0, spacing.m, spacing.m]}>
+                  mt={[0, spacing.m, spacing.m]}
+                >
                   {fields.items.length} item{fields.items.length > 1 ? 's' : ''}{' '}
                   <l.Break breakpoint={breakpoints.mobile} />
                   for ${calculateOrderTotal(fields.items)}
@@ -233,7 +236,8 @@ class OrderReview extends React.Component<
                 size="small"
                 type="button"
                 mt={[0, spacing.m, spacing.m]}
-                onClick={toggleShowOrderReview}>
+                onClick={toggleShowOrderReview}
+              >
                 <l.Img height={spacing.xl} mr={spacing.sm} src={ShopWhiteImg} />
                 Shop
               </ButtonPrimary>
@@ -264,7 +268,8 @@ class OrderReview extends React.Component<
                 center
                 color={colors.red}
                 large
-                mb={[spacing.ml, spacing.xl]}>
+                mb={[spacing.ml, spacing.xl]}
+              >
                 You have no items in your cart.
               </t.Text>
             </l.FlexColumn>
@@ -283,7 +288,8 @@ class OrderReview extends React.Component<
             <l.Flex
               justifyContent={['center', 'flex-end', 'flex-end']}
               mt={[spacing.ml, spacing.xl, spacing.xl]}
-              width="100%">
+              width="100%"
+            >
               <t.Text large mr={spacing.xl}>
                 Order Total:
               </t.Text>
@@ -357,13 +363,15 @@ class OrderReview extends React.Component<
                 color={colors.red}
                 mt={spacing.xl}
                 mx="auto"
-                width="75%">
+                width="75%"
+              >
                 An error has occurred. Please try again later or email us
                 directly at{' '}
                 <t.Anchor
                   border={borders.red}
                   color={colors.red}
-                  href="mailto:reactfitnessclub@gmail.com">
+                  href="mailto:reactfitnessclub@gmail.com"
+                >
                   reactfitnessclub@gmail.com
                 </t.Anchor>
               </t.Text>

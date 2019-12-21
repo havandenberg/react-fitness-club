@@ -6,9 +6,10 @@ import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Program } from '../types/program';
 import { StyleSet, StyleValue } from '../types/styles';
-import { getDivisionById, getDivisionCost } from '../utils/program';
+import { getDivisionById } from '../utils/program';
 import { isTabletUp } from '../utils/screensize';
-import { NameLayout } from './MembershipBadge';
+
+type NameLayout = 'horizontal' | 'vertical';
 
 const SmallProgramCardWrapper = styled(l.FlexCentered)(
   ({ onClick }: { onClick?: () => void }) => ({
@@ -32,7 +33,6 @@ const SmallProgramCard = ({
   nameLayout = 'vertical',
   onClick,
   program,
-  showCost,
 }: {
   customStyles?: {
     nameFontSize?: StyleValue;
@@ -43,11 +43,9 @@ const SmallProgramCard = ({
   nameLayout?: NameLayout;
   onClick?: () => void;
   program: Program;
-  showCost?: boolean;
 }) => {
   const division = divisionId && getDivisionById(divisionId, program);
   const styles = R.mergeDeepLeft(customStyles, initialStyles);
-  const cost = getDivisionCost(program, division && division.id);
   const NameComponent = R.equals(nameLayout, 'horizontal')
     ? l.Flex
     : l.FlexColumn;
@@ -68,19 +66,20 @@ const SmallProgramCard = ({
             large
             fontSize={styles.nameFontSize}
             maxWidth={isTabletUp() ? 200 : undefined}
-            nowrap>
+            nowrap
+          >
             {program.name}
           </t.Text>
           {division && (
             <t.Text
               color={colors.gray}
-              maxWidth={isTabletUp() ? 200 : undefined}>
+              maxWidth={isTabletUp() ? 200 : undefined}
+            >
               {division.name}
             </t.Text>
           )}
         </l.FlexColumn>
       </NameComponent>
-      {showCost && <t.Text ml={spacing.xl}>{cost}</t.Text>}
     </SmallProgramCardWrapper>
   );
 };
