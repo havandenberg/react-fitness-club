@@ -65,7 +65,7 @@ class Portal extends React.Component<Props, State> {
       view:
         props.member && R.isEmpty(props.member.membership.type)
           ? 'welcome'
-          : 'programs',
+          : 'welcome',
     };
   }
 
@@ -74,7 +74,7 @@ class Portal extends React.Component<Props, State> {
     if (!prevProps.member && !!member) {
       this.setState({
         view:
-          member && R.isEmpty(member.membership.type) ? 'welcome' : 'programs',
+          member && R.isEmpty(member.membership.type) ? 'welcome' : 'welcome',
       });
     }
   }

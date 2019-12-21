@@ -1,4 +1,3 @@
-// import * as emailjs from 'emailjs-com';
 import * as emailjs from 'emailjs-com';
 import * as R from 'ramda';
 import * as React from 'react';

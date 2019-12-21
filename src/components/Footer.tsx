@@ -128,6 +128,10 @@ const Footer = ({ member }: { member?: Member }) => (
         <l.Space mr={[spacing.xl, spacing.xxxl]}>
           <FooterLink text="Schedule" to="/schedule" />
           <l.Space height={spacing.l} />
+          <FooterLink text="FAQs" to="/faqs" />
+          <l.Space height={spacing.l} />
+          <FooterLink text="Pro Shop" to="/shop" />
+          <l.Space height={spacing.l} />
           <FooterLink text="Contact" to="/contact" />
           {/* <l.Space height={spacing.l} />
           <FooterAnchor

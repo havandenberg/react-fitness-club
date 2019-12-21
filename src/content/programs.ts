@@ -15,7 +15,8 @@ export const capoeira = {
 };
 
 export const qigongMeditation = {
-  description: 'Medical Qigong\n\'Invisible Needle\'\nAcupuncture\nReiki',
+  description:
+    'A holistic system of coordinated body-posture and movement, breathing, and meditation[2] used for the purposes of health, spirituality, and martial-arts training. With roots in Chinese medicine, philosophy, and martial arts, qigong is traditionally viewed as a practice to cultivate and balance qi, translated as "life energy".',
   id: 'qigong-meditation',
   name: 'Qigong Meditation',
 };
