@@ -13,7 +13,6 @@ import {
   Program as ProgramType,
   ProgramContent,
 } from '../types/program';
-import { LinkPrimary } from './Form/Button';
 
 const ProgramWrapper = styled(l.Flex)({
   border: borders.black,
@@ -68,8 +67,33 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
             )}
           </l.Flex>
           <l.FlexColumn alignTop width="100%">
+            {content &&
+              content.instructors.map(instructor => (
+                <l.FlexColumn alignTop key={instructor.name}>
+                  <l.Flex mb={spacing.l}>
+                    {instructor.photoSrc && (
+                      <>
+                        <l.Img
+                          height={spacing.huge}
+                          src={instructor.photoSrc}
+                        />
+                        <l.Space width={spacing.xl} />
+                      </>
+                    )}
+                    <t.Text>{instructor.name}</t.Text>
+                  </l.Flex>
+                  {instructor.bio && (
+                    <>
+                      <t.Text fontSize="12px">{instructor.bio}</t.Text>
+                      <l.Space height={spacing.l} />
+                    </>
+                  )}
+                </l.FlexColumn>
+              ))}
+          </l.FlexColumn>
+          <l.FlexColumn alignTop width="100%">
             <t.Text large mb={spacing.ml}>
-              Divisions:
+              Schedule:
             </t.Text>
             {program.divisions.map((division: Division) => (
               <l.Flex
@@ -96,30 +120,22 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
           height={[spacing.ml, spacing.xxxxxl, spacing.xxxxxl]}
           width={spacing.xxxxxl}
         />
-        <l.FlexColumn width={['100%', '50%', '50%']}>
-          {content && <t.Text mb={spacing.ml}>{content.description}</t.Text>}
-          {/* {!R.isEmpty(program.cost) && (
-            <t.Text center mb={spacing.ml}>
-              {program.cost}
-            </t.Text>
-          )} */}
+        <l.FlexColumn alignTop width={['100%', '50%', '50%']}>
+          {content && content.description}
           {!R.isEmpty(program.aboutUrl) && (
-            <>
+            <l.FlexCentered width="100%">
               <t.Anchor
                 border={borders.red}
                 href={program.aboutUrl}
                 target="_blank"
               >
-                <t.Text center color={colors.red} large>
+                <t.Text color={colors.red} large>
                   Learn more about {program.name}
                 </t.Text>
               </t.Anchor>
               <l.Space height={spacing.m} />
-            </>
+            </l.FlexCentered>
           )}
-          <LinkPrimary size="small" to="/signup">
-            Sign up
-          </LinkPrimary>
         </l.FlexColumn>
       </ProgramWrapper>
     );

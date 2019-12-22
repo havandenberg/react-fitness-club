@@ -71,7 +71,7 @@ const getPersonalInfoData: (
         flex: '100%',
         inputType: 'select',
         selectOptions: ['General interest'].concat(
-          programs.map((program: Program) => program.id),
+          programs.map((program: Program) => program.name),
         ),
         valueName: 'program',
       },

@@ -9,6 +9,7 @@ import {
   borderColor,
   bottom,
   boxShadow,
+  BoxShadowProps,
   color,
   flex,
   flexBasis,
@@ -69,6 +70,7 @@ const Flex = styled('div')<
   AlignItemsProps &
     AlignSelfProps &
     BackgroundProps &
+    BoxShadowProps &
     HeightProps &
     JustifyContentProps &
     JustifySelfProps &

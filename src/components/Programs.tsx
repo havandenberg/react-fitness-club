@@ -30,7 +30,6 @@ import { getProgramById } from '../utils/program';
 import { isMobileOnly, isTabletUp } from '../utils/screensize';
 import { scrollToId } from '../utils/scroll';
 import Divider from './Divider';
-import { LinkPrimary } from './Form/Button';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
 import Program from './Program';
@@ -158,7 +157,7 @@ class Programs extends React.Component<Props, State> {
                 <l.Flex
                   background={colors.background}
                   columnOnMobile
-                  pb={spacing.m}
+                  pb={spacing.sm}
                   pt={spacing.sm}
                   spaceBetween
                 >
@@ -187,7 +186,6 @@ class Programs extends React.Component<Props, State> {
                       >
                         Get unlimited program access with our
                       </t.Text>
-                      <l.Space width={spacing.s} />
                       <Badge
                         background={gradients.multipass}
                         mr={isMobileOnly() ? spacing.m : 0}
@@ -209,7 +207,10 @@ class Programs extends React.Component<Props, State> {
                     </l.Flex>
                   </t.TextButton>
                 </l.Flex>
-                <l.ScrollFlex background={colors.background}>
+                <l.ScrollFlex
+                  background={colors.background}
+                  boxShadow="0 5px 5px -5px"
+                >
                   {programContent.map((prog: ProgramContent, index: number) => {
                     const program = getProgramById(prog.id, programs);
                     return (
@@ -301,14 +302,6 @@ class Programs extends React.Component<Props, State> {
               </t.Text>
               <t.Text>2 free day passes per month included.</t.Text>
             </l.FlexColumn>
-            <LinkPrimary
-              mt={spacing.xl}
-              to="/signup"
-              type="button"
-              size="small"
-            >
-              Sign up
-            </LinkPrimary>
             <CloseButton onClick={this.closeModal} src={ModalCloseImg} />
           </MultipassCard>
         </ReactModal>

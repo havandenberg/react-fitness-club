@@ -58,22 +58,19 @@ interface State {
 }
 
 class App extends React.Component<{}, State> {
-  constructor({}) {
-    super({});
-    this.state = {
-      alerts: [],
-      events: [],
-      inventory: [],
-      loading: true,
-      loadingAlerts: true,
-      loadingEvents: true,
-      loadingInventory: true,
-      loadingPrograms: true,
-      loadingSpecialEvents: true,
-      programs: [],
-      specialEvents: [],
-    };
-  }
+  state = {
+    alerts: [],
+    events: [],
+    inventory: [],
+    loading: true,
+    loadingAlerts: true,
+    loadingEvents: true,
+    loadingInventory: true,
+    loadingPrograms: true,
+    loadingSpecialEvents: true,
+    programs: [],
+    specialEvents: [],
+  };
 
   componentDidMount() {
     listenForAlertsChanges((alerts: Alert[]) =>

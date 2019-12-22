@@ -286,16 +286,12 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                       <t.HelpText color={colors.black}>Capoeira</t.HelpText>
                     </l.Flex>
                     <l.Flex mb={spacing.sm}>
-                      <LegendIcon background={'#DAE22A'} />
-                      <t.HelpText color={colors.black}>Zumba</t.HelpText>
+                      <LegendIcon background="#DAE22A" />
+                      <t.HelpText color={colors.black}>Yoga</t.HelpText>
                     </l.Flex>
                     <l.Flex mb={spacing.sm}>
                       <LegendIcon background="#F14042" />
                       <t.HelpText color={colors.black}>REaCT MMA</t.HelpText>
-                    </l.Flex>
-                    <l.Flex mb={spacing.sm}>
-                      <LegendIcon background="#242424" />
-                      <t.HelpText color={colors.black}>REaCT Skillz</t.HelpText>
                     </l.Flex>
                     <l.Flex mb={spacing.sm}>
                       <LegendIcon background="#46B388" />
@@ -314,7 +310,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                           eventPropGetter={this.getEventProps}
                           localizer={localizer}
                           max={new Date(2013, 1, 1, 21)}
-                          min={new Date(2013, 1, 1, 8)}
+                          min={new Date(2013, 1, 1, 6)}
                           scrollToTime={new Date(2013, 1, 1, 10)}
                           events={
                             events

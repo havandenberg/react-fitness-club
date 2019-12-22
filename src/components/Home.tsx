@@ -94,7 +94,7 @@ const Home = () => (
       >
         <Bullet src={BulletImg} />
         <t.Text fontSize={[mobileSizes.h3, fontSizes.h3]} width="100%">
-          All ages training from 3+
+          All ages training from 6+
         </t.Text>
       </l.FlexCentered>
       <l.FlexCentered
