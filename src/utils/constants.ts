@@ -6,6 +6,7 @@ export const INSTAGRAM_PATH = 'https://www.instagram.com/reactfitnessclub/';
 export const REACT_PATH = '/programs?id=react';
 export const CAPOEIRA_PATH = '/programs?id=capoeira';
 export const AIKIDO_PATH = '/programs?id=aikido';
+export const YOGA_PATH = '/programs?id=yoga';
 
 export const daysCountInMonths = [
   31,

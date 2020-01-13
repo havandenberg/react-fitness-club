@@ -16,7 +16,7 @@ import t from '../styles/typography';
 import { isMobile, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 import FeaturedLinks from './FeaturedLinks';
-import { LinkPrimary } from './Form/Button';
+import { ButtonPrimary, LinkPrimary } from './Form/Button';
 import withScroll from './hoc/withScroll';
 import IntroVideo from './IntroVideo';
 import Newsletter from './Newsletter';
@@ -37,6 +37,10 @@ const Home = () => (
     <l.Space height={spacing.xl} />
     <l.FlexCentered>
       <IntroVideo />
+      <l.Space height={spacing.xl} width={spacing.xxxl} />
+      <t.Link to="/contact">
+        <ButtonPrimary width={INTRO_BUTTON_WIDTH}>Member signup</ButtonPrimary>
+      </t.Link>
     </l.FlexCentered>
     <l.Space height={[spacing.xl, spacing.xxl]} />
     <FeaturedLinks />
@@ -44,6 +48,17 @@ const Home = () => (
       px={[spacing.sm, 0]}
       py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
     >
+      <l.FlexCentered mb={spacing.xl}>
+        <t.Link
+          border={borders.red}
+          center
+          color={colors.red}
+          large
+          to={'/programs'}
+        >
+          ...and more!
+        </t.Link>
+      </l.FlexCentered>
       <l.Flex columnOnMobile spaceBetween>
         {isTabletUp() && <StarImg />}
         <t.Text

@@ -36,6 +36,7 @@ import Nav from './Nav';
 import Programs from './Programs';
 import Schedule from './Schedule';
 import Shop from './Shop';
+// import Signup from './Signup';
 
 const Main = styled('div')({
   background: colors.background,

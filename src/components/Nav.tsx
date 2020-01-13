@@ -56,7 +56,7 @@ const navItems: Item[] = [
     Icon: UserImg,
     isExternal: true,
     name: 'Portal',
-    path: 'https://rfc.kicksite.net/login',
+    path: 'https://rfc.kicksite.net/',
   },
 ];
 

@@ -46,15 +46,15 @@ const VolumeIcon = styled(ControlIcon)({
 
 const Image = styled('img')({ height: '100%', width: '100%' });
 
-const Label = styled(t.H1)(
+const Label = styled(l.Flex)(
   {
     color: colors.white,
     font: fonts.poppinsMedium,
     position: 'absolute',
     zIndex: z.low,
     [breakpoints.tabletDown]: {
+      justifyContent: 'center',
       left: '50%',
-      textAlign: 'center',
       top: '50%',
       transform: 'translateX(-50%) translateY(-50%)',
       width: '100%',
@@ -121,6 +121,7 @@ interface FeaturedVideoProps {
     right?: string;
     top?: string;
   };
+  logoSrc: string;
   to?: string;
   videoSource: string;
 }
@@ -184,16 +185,29 @@ class Quadrant extends React.Component<FeaturedVideoProps, FeaturedVideoState> {
   };
 
   render() {
-    const { to, imageSource, label, labelProps, videoSource } = this.props;
+    const {
+      to,
+      imageSource,
+      label,
+      labelProps,
+      logoSrc,
+      videoSource,
+    } = this.props;
     const { isMuted, isPlaying } = this.state;
     return (
       <QuadrantWrapper
         to={to || ''}
         onMouseEnter={() => this.onHover('enter')}
-        onMouseLeave={() => this.onHover('leave')}>
+        onMouseLeave={() => this.onHover('leave')}
+      >
         <Image src={imageSource} />
         <Overlay isPlaying={isPlaying} />
-        {(!isMobile() || !isPlaying) && <Label {...labelProps}>{label}</Label>}
+        {(!isMobile() || !isPlaying) && (
+          <Label {...labelProps}>
+            <l.Img height={spacing.xxl} mr={spacing.ml} src={logoSrc} />
+            <t.H1 color={colors.white}>{label}</t.H1>
+          </Label>
+        )}
         {isMobile() && (
           <PlayIcon onClick={this.togglePlaying}>
             <Image src={isPlaying ? PauseImg : PlayImg} />
@@ -211,7 +225,8 @@ class Quadrant extends React.Component<FeaturedVideoProps, FeaturedVideoState> {
             muted={isMuted}
             preload="true"
             ref={this.vid}
-            width="100%">
+            width="100%"
+          >
             <source src={videoSource} type="video/mp4" />
           </video>
         </VideoWrapper>
@@ -228,6 +243,7 @@ const FeaturedLinks = () => (
         imageSource={`${ASSETS_PATH}/featured/photos/react-featured.png`}
         label="REaCT Mixed Martial Arts"
         labelProps={{ top: spacing.xl, left: spacing.xl }}
+        logoSrc={`${ASSETS_PATH}/programs/REaCT/react-logo.png`}
         videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-1.mp4`}
       />
       <Quadrant
@@ -235,6 +251,7 @@ const FeaturedLinks = () => (
         imageSource={`${ASSETS_PATH}/featured/photos/capoeira-featured.png`}
         label="Capoeira Luanda"
         labelProps={{ top: spacing.xl, right: spacing.xl }}
+        logoSrc={`${ASSETS_PATH}/programs/Capoeira/capoeira-logo.png`}
         videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-2.mp4`}
       />
     </l.Flex>
@@ -244,12 +261,14 @@ const FeaturedLinks = () => (
         imageSource={`${ASSETS_PATH}/featured/photos/aikido-featured.jpg`}
         label="Aikido"
         labelProps={{ bottom: spacing.xl, left: spacing.xl }}
+        logoSrc={`${ASSETS_PATH}/programs/Aikido/aikido-logo.png`}
         videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-3.mp4`}
       />
       <Quadrant
         imageSource={`${ASSETS_PATH}/featured/photos/ocr-featured.png`}
         label="Obstacle Course Racing"
         labelProps={{ bottom: spacing.xl, right: spacing.xxxxl }}
+        logoSrc={`${ASSETS_PATH}/programs/OCR/ocr.svg`}
         videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-4.mp4`}
       />
     </l.Flex>
