@@ -1,7 +1,7 @@
 import * as React from 'react';
 import NewsletterImg from '../assets/images/newsletter.svg';
 import l from '../styles/layout';
-import { inputWidth, spacing } from '../styles/theme';
+import { colors, inputWidth, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import Divider from './Divider';
 import Form, { FormComponentProps, FormStep } from './Form';
@@ -37,7 +37,8 @@ class Step extends React.Component<FormComponentProps<NewsletterFields>> {
     data: any,
   ) => {
     console.log(data);
-    resetForm();
+    onFail(new Error('Please try again later'));
+    // resetForm();
   };
 
   render() {
@@ -89,7 +90,7 @@ class Newsletter extends React.Component {
         >
           Enter your email here to sign up for our monthly newsletter!
         </t.Text>
-        {/* {status === 'success' && (
+        {status === 'success' && (
           <t.Text center color={colors.green} large mb={spacing.ml}>
             Success!
           </t.Text>
@@ -98,7 +99,7 @@ class Newsletter extends React.Component {
           <t.Text center color={colors.red} mb={spacing.ml}>
             Invalid email or already subscribed, please try again.
           </t.Text>
-        )} */}
+        )}
         <l.Flex mx="auto" width={['95%', '65%', inputWidth]}>
           <NewsletterForm
             id="newsletter-form"

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import UserImg from '../assets/images/user.svg';
+import UserImg from '../assets/images/user';
 import l from '../styles/layout';
 import { spacing } from '../styles/theme';
 import t from '../styles/typography';
@@ -15,11 +15,9 @@ class Signup extends React.Component<RouteComponentProps> {
       <div>
         <t.Title center pb={spacing.ml}>
           <l.FlexCentered>
-            <l.Img
-              height={[spacing.xxl, spacing.xxl, spacing.xxxxl]}
-              mr={spacing.ml}
-              src={UserImg}
-            />
+            <l.Space mr={spacing.ml}>
+              <UserImg side={[spacing.xxl, spacing.xxl, spacing.xxxxl]} />
+            </l.Space>
             RFC Sign Up
           </l.FlexCentered>
         </t.Title>

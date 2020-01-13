@@ -144,7 +144,8 @@ class Gallery extends React.Component<{}, State> {
         <Divider white />
         <l.Page
           px={[spacing.sm, 0]}
-          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+          py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+        >
           <FilterBar
             categories={sortedCategories}
             categoryLabel="Category:"
@@ -159,14 +160,16 @@ class Gallery extends React.Component<{}, State> {
                   scrollToId('gallery-top', {
                     offset: isDesktop() ? -183 : -226,
                   });
-                }}>
+                }}
+              >
                 {showTags ? 'Hide' : 'Show'} tags
               </t.TextButton>
             }
             legendOnBottom
             subCategoryLabel="Subcategory:"
             searchLabel="Search Gallery:"
-            scrollEndId="#gallery-end">
+            scrollEndId="#gallery-end"
+          >
             {({ searchValue, categoryId, subCategoryId }) => (
               <div>
                 {showTags && (
@@ -174,17 +177,22 @@ class Gallery extends React.Component<{}, State> {
                     enabled={isTabletUp()}
                     innerZ={z.mid}
                     top={isDesktop() ? 143 : 186}
-                    bottomBoundary="#gallery-end">
+                    bottomBoundary="#gallery-end"
+                  >
                     <l.Flex
                       background={colors.background}
+                      boxShadow="0 5px 5px -5px"
                       pt={spacing.t}
-                      isWrap>
+                      isWrap
+                      width="100%"
+                    >
                       {sortedTags.map((tag: string, index: number) => (
                         <React.Fragment key={tag}>
                           <Tag
                             active={R.contains(tag, selectedTags)}
                             onClick={() => this.handleSelectTag(tag)}
-                            mb={spacing.s}>
+                            mb={spacing.s}
+                          >
                             {tag}
                           </Tag>
                           {index < sortedTags.length - 1 && (
@@ -204,7 +212,7 @@ class Gallery extends React.Component<{}, State> {
                     </l.Flex>
                   </Sticky>
                 )}
-                <l.GalleryWrapper id="gallery-top">
+                <l.GalleryWrapper id="gallery-top" pt={spacing.m}>
                   <GridGallery
                     enableImageSelection={false}
                     images={this.filterImages(

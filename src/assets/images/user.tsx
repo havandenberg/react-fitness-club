@@ -1,7 +1,15 @@
 import * as React from 'react';
 import { transitions } from '../../styles/theme';
+import { StyleValue } from '../../types/styles';
+import { getValueFromBreakpointArray } from '../../utils/screensize';
 
-const UserImg = ({ color }: { color: string }) => (
+const UserImg = ({
+  color = '#F14042',
+  side = '512px',
+}: {
+  color?: string;
+  side?: StyleValue;
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -11,8 +19,8 @@ const UserImg = ({ color }: { color: string }) => (
     viewBox="0 0 258.75 258.75"
     enableBackground="new 0 0 258.75 258.75"
     xmlSpace="preserve"
-    width="100%"
-    height="100%"
+    width={getValueFromBreakpointArray(side)}
+    height={getValueFromBreakpointArray(side)}
   >
     <g>
       <circle

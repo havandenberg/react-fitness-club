@@ -13,8 +13,10 @@ import {
   Program as ProgramType,
   ProgramContent,
 } from '../types/program';
+import { isMobileOnly, isTabletUp } from '../utils/screensize';
+import { scrollToId } from '../utils/scroll';
 
-const ProgramWrapper = styled(l.Flex)({
+const ProgramWrapper = styled(l.Space)({
   border: borders.black,
   borderRadius: borders.radius,
   margin: '0 2px',
@@ -51,13 +53,43 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
       (programCont: ProgramContent) => program.id === programCont.id,
     );
 
+    const schedule = (
+      <l.FlexColumn alignTop>
+        <t.Text bold={isMobileOnly()} large mb={spacing.ml}>
+          Schedule:
+        </t.Text>
+        {program.divisions.map((division: Division) => (
+          <l.Flex key={division.id} mb={spacing.s} spaceBetween width="100%">
+            <t.Text
+              onClick={() =>
+                scrollToId(division.id, {
+                  offset: -210,
+                })
+              }
+            >
+              {division.name}
+            </t.Text>
+            <l.Space width={spacing.l} />
+            <t.Link
+              border={borders.red}
+              color={colors.red}
+              to={`/schedule?categoryId=${program.id}&subCategoryId=${division.id}`}
+              nowrap="true"
+            >
+              View Schedule
+            </t.Link>
+          </l.Flex>
+        ))}
+      </l.FlexColumn>
+    );
+
     return (
-      <ProgramWrapper alignTop columnOnMobile id={program.id}>
-        <l.FlexColumn width={['100%', '50%', '50%']}>
-          <l.Flex alignTop mb={spacing.ml} width="100%">
+      <ProgramWrapper id={program.id}>
+        <l.Flex alignTop columnOnMobile mb={[spacing.xl, 0, 0]} spaceBetween>
+          <l.Flex alignTop mr={spacing.xxxxxl}>
             <l.Img
               src={program.logoSrc}
-              width={[spacing.xxxxxl, spacing.huge, spacing.huge]}
+              height={[spacing.xxxxxl, spacing.huge, spacing.huge]}
             />
             <l.Space width={[spacing.ml, spacing.xxxl, spacing.xxxl]} />
             {content && (
@@ -66,77 +98,72 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
               </t.H2>
             )}
           </l.Flex>
-          <l.FlexColumn alignTop width="100%">
-            {content &&
-              content.instructors.map(instructor => (
-                <l.FlexColumn alignTop key={instructor.name}>
-                  <l.Flex mb={spacing.l}>
-                    {instructor.photoSrc && (
-                      <>
-                        <l.Img
-                          height={spacing.huge}
-                          src={instructor.photoSrc}
-                        />
-                        <l.Space width={spacing.xl} />
-                      </>
-                    )}
-                    <t.Text>{instructor.name}</t.Text>
-                  </l.Flex>
-                  {instructor.bio && (
-                    <>
-                      <t.Text fontSize="12px">{instructor.bio}</t.Text>
-                      <l.Space height={spacing.l} />
-                    </>
-                  )}
-                </l.FlexColumn>
-              ))}
-          </l.FlexColumn>
-          <l.FlexColumn alignTop width="100%">
-            <t.Text large mb={spacing.ml}>
-              Schedule:
+          {isTabletUp() && schedule}
+        </l.Flex>
+        <l.Section maxWidth={600} width="100%">
+          {isMobileOnly() && schedule}
+          <l.FlexColumn alignTop my={spacing.xl}>
+            <t.Text bold={isMobileOnly()} large mb={spacing.m}>
+              Program Description:
             </t.Text>
-            {program.divisions.map((division: Division) => (
-              <l.Flex
-                columnOnMobile
-                key={division.id}
-                mb={[spacing.s, 0, 0]}
-                spaceBetween
-                width="100%"
-              >
-                <t.Text mb={[0, spacing.s, spacing.s]}>{division.name}</t.Text>
-                <t.Link
+            {content && content.description}
+            {!R.isEmpty(program.aboutUrl) && (
+              <l.FlexCentered width="100%">
+                <t.Anchor
                   border={borders.red}
-                  color={colors.red}
-                  to={`/schedule?categoryId=${program.id}&subCategoryId=${division.id}`}
-                  nowrap="true"
+                  href={program.aboutUrl}
+                  target="_blank"
                 >
-                  View Schedule
-                </t.Link>
-              </l.Flex>
-            ))}
+                  <t.Text color={colors.red} large>
+                    Learn more about {program.name}
+                  </t.Text>
+                </t.Anchor>
+                <l.Space height={spacing.m} />
+              </l.FlexCentered>
+            )}
           </l.FlexColumn>
-        </l.FlexColumn>
-        <l.Space
-          height={[spacing.ml, spacing.xxxxxl, spacing.xxxxxl]}
-          width={spacing.xxxxxl}
-        />
-        <l.FlexColumn alignTop width={['100%', '50%', '50%']}>
-          {content && content.description}
-          {!R.isEmpty(program.aboutUrl) && (
-            <l.FlexCentered width="100%">
-              <t.Anchor
-                border={borders.red}
-                href={program.aboutUrl}
-                target="_blank"
-              >
-                <t.Text color={colors.red} large>
-                  Learn more about {program.name}
-                </t.Text>
-              </t.Anchor>
-              <l.Space height={spacing.m} />
-            </l.FlexCentered>
+          {content && content.instructors && !R.isEmpty(content.instructors) && (
+            <>
+              <t.Text bold={isMobileOnly()} large mb={spacing.m}>
+                Instructor{content.instructors.length > 1 ? 's' : ''}:
+              </t.Text>
+              {content.instructors.map(instructor => (
+                <l.Flex
+                  alignTop
+                  columnOnMobile
+                  key={instructor.name}
+                  id={instructor.name}
+                  mb={spacing.xxxl}
+                >
+                  <l.Flex spaceBetween>
+                    {isMobileOnly() && instructor.logoSrc && (
+                      <l.Img height={spacing.xxxxxl} src={instructor.logoSrc} />
+                    )}
+                    {instructor.photoSrc && (
+                      <l.Space mr={spacing.xl}>
+                        <l.Img width={spacing.huge} src={instructor.photoSrc} />
+                      </l.Space>
+                    )}
+                  </l.Flex>
+                  <l.Space>
+                    <l.Flex my={spacing.s} spaceBetween>
+                      <t.Text>{instructor.name}</t.Text>
+                      {isTabletUp() && instructor.logoSrc && (
+                        <l.Img
+                          height={spacing.xxxxxl}
+                          src={instructor.logoSrc}
+                        />
+                      )}
+                    </l.Flex>
+                    {instructor.bio && (
+                      <t.Text fontSize="12px">{instructor.bio}</t.Text>
+                    )}
+                  </l.Space>
+                </l.Flex>
+              ))}
+            </>
           )}
-        </l.FlexColumn>
+        </l.Section>
       </ProgramWrapper>
     );
   }

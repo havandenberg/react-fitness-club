@@ -72,7 +72,7 @@ const Home = () => (
           center
           color={colors.red}
           fontSize={[fontSizes.largeText, fontSizes.h2]}
-          to={'/signup'}
+          to={'/contact'}
         >
           Join the club that gets you further!
         </t.Link>

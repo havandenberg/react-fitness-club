@@ -156,7 +156,7 @@ class Programs extends React.Component<Props, State> {
               >
                 <l.Flex
                   background={colors.background}
-                  columnOnMobile
+                  columnRevOnMobile
                   pb={spacing.sm}
                   pt={spacing.sm}
                   spaceBetween
@@ -173,7 +173,12 @@ class Programs extends React.Component<Props, State> {
                     color={colors.red}
                     onClick={this.openModal}
                   >
-                    <l.Flex pb={spacing.t}>
+                    <l.Flex
+                      justifyContent={
+                        isMobileOnly() ? 'space-between' : undefined
+                      }
+                      pb={spacing.t}
+                    >
                       <t.Text
                         color={colors.red}
                         fontSize={[

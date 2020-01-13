@@ -3,6 +3,8 @@ import l from '../styles/layout';
 import { borders, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { ProgramContent } from '../types/program';
+import { ASSETS_PATH } from '../utils/constants';
+import { scrollToId } from '../utils/scroll';
 import * as instructors from './instructors';
 
 export const aikido = {
@@ -59,9 +61,21 @@ export const yoga = {
       <t.Text mb={spacing.ml}>
         RFC offers 3 different types of yoga as part of our yoga package:
       </t.Text>
-      <t.Text bold mb={spacing.ml}>
-        DDPYoga (with Heather)
-      </t.Text>
+      <l.Flex mb={spacing.ml}>
+        <l.Img
+          height={spacing.xxl}
+          src={`${ASSETS_PATH}/programs/Yoga/namaslay.png`}
+        />
+        <t.Text bold id="ddpy" ml={spacing.m}>
+          DDPYoga (
+          <l.Span
+            onClick={() => scrollToId('Heather Berkowitz', { offset: -210 })}
+          >
+            with Heather
+          </l.Span>
+          )
+        </t.Text>
+      </l.Flex>
       <t.Text mb={spacing.ml}>
         DDPYoga combines traditional yoga positions with calisthenics like
         squats and push ups, sports rehab therapy principles, and dynamic
@@ -82,24 +96,43 @@ export const yoga = {
           </t.Text>
         </t.Anchor>
       </l.FlexCentered>
-      <t.Text bold my={spacing.ml}>
-        Yoga for Climbers & Martial Artists (with Brett)
-      </t.Text>
+      <l.Flex my={spacing.ml}>
+        <l.Img
+          height={spacing.xxl}
+          src={`${ASSETS_PATH}/programs/Yoga/climbers.png`}
+        />
+        <t.Text bold id="climbers" ml={spacing.m}>
+          Yoga for Climbers & Martial Artists (
+          <l.Span onClick={() => scrollToId('Brett Maguire', { offset: -210 })}>
+            with Brett
+          </l.Span>
+          )
+        </t.Text>
+      </l.Flex>
       <t.Text mb={spacing.ml}>
         Sometimes the best way to grow in one activity is through training a
         different discipline. Yoga, climbing, and martial arts are three
         practices that enhance the others, intersecting in the development of
         body awareness, the cultivation of a steady mind, and the need for calm
-        breathing. Designed specifically for climbers, this class incorporates
-        practices from yoga, Qigong, exercise science, and meditation. Poses
-        will be offered with explanations and modifications for practitioners of
-        all levels. Climbers and martial artists can expect to improve balance,
-        gain core strength, and increase flexibility and range of motion through
-        regular practice.
+        breathing. This class incorporates practices from yoga, Qigong, exercise
+        science, and meditation. Poses will be offered with explanations and
+        modifications for practitioners of all levels. Climbers and martial
+        artists can expect to improve balance, gain core strength, and increase
+        flexibility and range of motion through regular practice.
       </t.Text>
-      <t.Text bold mb={spacing.ml}>
-        Ashtanga Power Yoga (with Brett)
-      </t.Text>
+      <l.Flex mb={spacing.ml}>
+        <l.Img
+          height={spacing.xxl}
+          src={`${ASSETS_PATH}/programs/Yoga/climbers.png`}
+        />
+        <t.Text bold id="ashtanga" ml={spacing.m}>
+          Ashtanga Power Yoga (
+          <l.Span onClick={() => scrollToId('Brett Maguire', { offset: -210 })}>
+            with Brett
+          </l.Span>
+          )
+        </t.Text>
+      </l.Flex>
       <t.Text mb={spacing.ml}>
         Ashtanga is the bouldering of yoga: it is challenging, rigorous, and
         offers a lifetime of practice and growth. The emphasis is on linking
@@ -130,6 +163,50 @@ export const reactMma = {
   name: 'REaCT MMA',
 };
 
+export const ocrTeam = {
+  description: (
+    <>
+      <t.Text mb={spacing.ml}>
+        Looking for an extra challenge? Join our OCR Team! Tough Mudders,
+        Spartan Races - you name it, we run it! This program is dedicated to
+        training and upkeep for obstacle course races, consisting of one
+        scheduled short (~1-2 miles) training run and one longer run (2+ miles)
+        per week.
+      </t.Text>
+      <t.Text mb={spacing.ml}>
+        If you are just getting started running and this seems like something
+        cool but way outside your ability level, don't worry! Come to our short
+        runs and we will start building strength and techniques from day 1. This
+        is a Team program. No one crosses the finish line alone! Check out our
+        events page for the next upcoming obstacle course race we are attending!
+        If you are within 2 months of an event, we recommend coming to both
+        trainings each week.
+      </t.Text>
+      <t.Text mb={spacing.ml}>
+        Want to run another course that we haven't picked up yet? Let us know!
+        Chances are one of the team will be interesting in joining you. No
+        matter which events our team members are training for, our coaches will
+        help you get as ready as possible and provide support through the finish
+        line.
+      </t.Text>
+      <t.Text mb={spacing.ml}>
+        All training courses start at RFC unless otherwise stated in the
+        calendar event in the <t.Link to="/schedule">schedule</t.Link>.
+      </t.Text>
+      <t.Text mb={spacing.ml}>
+        <t.Anchor href="https://www.mudrunguide.com/" target="_blank">
+          Here's a link
+        </t.Anchor>{' '}
+        to some info about OCR Training where we find most of our events if you
+        want to learn more about the sport!
+      </t.Text>
+    </>
+  ),
+  id: 'ocr-team',
+  instructors: [],
+  name: 'Obstacle Course Racing',
+};
+
 export const reactSkillz = {
   description:
     'Our REaCT Skillz program is focused on teaching children ages 3 - 14 focus, self-discipline, self-confidence, better grades, self-control, leadership, resilience, better behavior at home and school. All of our drills and warmups are age specific which leads to faster and more lasting progress. We ensure this is a safe place for your children to come together, share a common experience and cooperate and collaborate more with less squabbling and fighting. This is a place where your children can build their character by practicing respect, humility, honesty, determination, compassion, resilience, service and collaboration, all with a growth mindset.',
@@ -138,9 +215,10 @@ export const reactSkillz = {
 };
 
 export const programContent: ProgramContent[] = [
-  reactMma,
-  capoeira,
   aikido,
-  yoga,
+  capoeira,
+  ocrTeam,
   qigongMeditation,
+  reactMma,
+  yoga,
 ];

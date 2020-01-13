@@ -1,3 +1,4 @@
+import { equals } from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -6,6 +7,7 @@ import ContactImg from '../assets/images/contact';
 import GalleryImg from '../assets/images/gallery';
 import ProgramsImg from '../assets/images/programs';
 import StarImg from '../assets/images/star';
+import UserImg from '../assets/images/user';
 import l from '../styles/layout';
 import {
   breakpoints,
@@ -23,9 +25,10 @@ import { isDesktop } from '../utils/screensize';
 import Divider from './Divider';
 
 interface Item {
+  Icon?: any;
+  isExternal?: boolean;
   name: string;
   path: string;
-  Icon?: any;
 }
 
 const navItems: Item[] = [
@@ -48,6 +51,12 @@ const navItems: Item[] = [
     Icon: ContactImg,
     name: 'Contact',
     path: '/contact',
+  },
+  {
+    Icon: UserImg,
+    isExternal: true,
+    name: 'Portal',
+    path: 'https://rfc.kicksite.net/login',
   },
 ];
 
@@ -131,27 +140,35 @@ const NavItem = ({
   item: Item;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
-}) => (
-  <NavItemWrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-    <NavLink activeClassName="active-nav" exact to={item.path}>
-      <NavTextWrapper
-        className={active ? 'active-nav' : ''}
-        position="relative"
-      >
-        <ActiveIndicator active={active} />
-        {isDesktop() && item.Icon && (
-          <l.Space mr={[0, spacing.sm, spacing.sm]}>
-            <item.Icon
-              color={active ? colors.red : colors.white}
-              side={spacing.ml}
-            />
-          </l.Space>
-        )}
-        <NavText mb={spacing.s}>{item.name}</NavText>
-      </NavTextWrapper>
-    </NavLink>
-  </NavItemWrapper>
-);
+}) => {
+  const linkInner = (
+    <NavTextWrapper className={active ? 'active-nav' : ''} position="relative">
+      {!equals('Portal', item.name) && <ActiveIndicator active={active} />}
+      {isDesktop() && item.Icon && (
+        <l.Space mr={[0, spacing.sm, spacing.sm]}>
+          <item.Icon
+            color={active ? colors.red : colors.white}
+            side={spacing.ml}
+          />
+        </l.Space>
+      )}
+      <NavText mb={spacing.s}>{item.name}</NavText>
+    </NavTextWrapper>
+  );
+  return (
+    <NavItemWrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      {item.isExternal ? (
+        <a className={active ? 'active-nav' : ''} href={item.path}>
+          {linkInner}
+        </a>
+      ) : (
+        <NavLink activeClassName="active-nav" exact to={item.path}>
+          {linkInner}
+        </NavLink>
+      )}
+    </NavItemWrapper>
+  );
+};
 
 interface State {
   hoverItem: number;
@@ -210,7 +227,6 @@ class Nav extends React.Component<RouteComponentProps, State> {
                   />
                 );
               })}
-              <l.Space width={spacing.xxxl} />
             </l.Flex>
           </NavWrapper>
           <Divider />

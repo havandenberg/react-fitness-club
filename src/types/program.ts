@@ -6,6 +6,7 @@ export interface Division {
 export interface Instructor {
   bio?: React.ReactNode;
   name: string;
+  logoSrc?: string;
   photoSrc?: string;
 }
 

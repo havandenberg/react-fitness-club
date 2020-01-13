@@ -213,6 +213,9 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
     const selectedProgram =
       selectedEvent && getProgramById(selectedEvent.programId, programs);
 
+    const desc = selectedEvent && selectedEvent.description.split('::');
+    const eventDescription = desc && (desc.length > 1 ? desc[1] : desc[0]);
+
     return (
       <div>
         <t.Title center pb={spacing.ml}>
@@ -258,7 +261,12 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                 }
                 legendOnBottom
                 lowerLegend={
-                  <l.Flex isWrap mb={[spacing.ml, 0]}>
+                  <l.Flex
+                    boxShadow="0 5px 5px -5px"
+                    isWrap
+                    mb={[spacing.ml, 0]}
+                    width="100%"
+                  >
                     <l.Flex mb={spacing.sm}>
                       <LegendIcon background={gradients.multipass} />
                       <t.HelpText color={colors.black}>
@@ -299,13 +307,19 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                         Qigong Meditation
                       </t.HelpText>
                     </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#FF8700" />
+                      <t.HelpText color={colors.black}>
+                        Obstacle Course Racing
+                      </t.HelpText>
+                    </l.Flex>
                   </l.Flex>
                 }
               >
                 {({ searchValue, categoryId, subCategoryId }: FilterProps) => {
                   return (
                     <div>
-                      <l.Space height={calendarHeight}>
+                      <l.Space height={calendarHeight} pt={spacing.m}>
                         <BigCalendar
                           eventPropGetter={this.getEventProps}
                           localizer={localizer}
@@ -374,6 +388,14 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                             <t.Text center mt={spacing.sm}>
                               {formatDescriptiveDate(selectedEvent)}
                             </t.Text>
+                            {!R.isEmpty(eventDescription) && (
+                              <>
+                                <t.Text mt={spacing.sm}>Class Notes:</t.Text>
+                                <t.Text mt={spacing.sm}>
+                                  {eventDescription}
+                                </t.Text>
+                              </>
+                            )}
                             <l.FlexCentered mb={spacing.m} mt={spacing.xl}>
                               {selectedProgram && (
                                 <LinkPrimary
@@ -381,7 +403,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                                   size="small"
                                   width={130}
                                 >
-                                  View Program
+                                  Program Info
                                 </LinkPrimary>
                               )}
                             </l.FlexCentered>

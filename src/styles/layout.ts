@@ -283,7 +283,9 @@ const Section = styled('div')(
     margin: '0 auto',
     width: '90%',
   },
+  maxWidth,
   space,
+  width,
 );
 
 const GalleryWrapper = styled(Space)({

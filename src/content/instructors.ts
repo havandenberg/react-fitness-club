@@ -3,6 +3,7 @@ import HeatherImg from '../assets/images/instructors/heather.png';
 import JohnImg from '../assets/images/instructors/john.jpg';
 import KoksalImg from '../assets/images/instructors/koksal.jpg';
 import MorcegoImg from '../assets/images/instructors/morcego.jpg';
+import { ASSETS_PATH } from '../utils/constants';
 
 export const john = {
   name: 'Coach John Ryan',
@@ -24,6 +25,7 @@ export const koksal = {
 export const brett = {
   bio:
     'Brett Maguire is a trad climber, yogi, and professional classical musician. He is a Kripalu-certified yoga instructor (RYT 200) and has practiced Ashtanga yoga daily for the past five years. A CRG member since 2011, Brett climbs regularly at Crow Hill, Farley, Rumney, Cannon, and Cathedral. He is passionate about helping others find ease and joy in their bodies through the tools of yoga and meditation.',
+  logoSrc: `${ASSETS_PATH}/programs/Yoga/climbers.png`,
   name: 'Brett Maguire',
   photoSrc: BrettImg,
 };
@@ -31,6 +33,7 @@ export const brett = {
 export const heather = {
   bio:
     'I started DDPY in 2012, after a series of bad car accidents left me feeling sore and achy all the time. The results were nearly immediate: within just a few weeks, my hips weren’t as sore and my back wasn’t as stiff. Since then, I’ve seen tremendous improvements in my balance, strength, and flexibility. DDPY has helped me explore the mind-body connection. When I feel strong in my body, I feel strong in my mind – and vice-versa. I enjoy challenging myself to see what I can do next, whether it’s an inversion, a tricky position, or a workout that seems particularly tough. My goal is to help you find the same mental and physical strength to “namaslay” everything and own your life!',
+  logoSrc: `${ASSETS_PATH}/programs/Yoga/namaslay.png`,
   name: 'Heather Berkowitz',
   photoSrc: HeatherImg,
 };
