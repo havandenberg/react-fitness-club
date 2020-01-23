@@ -336,7 +336,7 @@ const Page = styled(Space)({
 
 const Frame = styled('iframe')(
   {
-    frameBorder: 0,
+    border: 0,
     height: '100%',
     width: '100%',
   },

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import NewsletterImg from '../assets/images/newsletter.svg';
 import l from '../styles/layout';
-import { colors, inputWidth, spacing } from '../styles/theme';
+import { colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import Divider from './Divider';
 
@@ -32,7 +32,7 @@ const Newsletter = () => (
         Invalid email or already subscribed, please try again.
       </t.Text>
     )}
-    <l.Flex mx="auto" width={['95%', '65%', inputWidth]}>
+    <l.Flex height={250} mx="auto" width={['95%', 400]}>
       <l.Frame src="https://rfc.kicksite.net/bizbuilders/lead_capture_forms/eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoibGNmXzEzMSJ9.P5eWd3Oy19Ails0djOLIf2YywfDmr_sGIb1MhZyvEkM" />
     </l.Flex>
   </l.Space>

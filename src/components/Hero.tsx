@@ -142,7 +142,7 @@ const Hero = ({
           }
           pt={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}>
           <t.Subtitle center>
-            Multi-Style Martial Arts & Fitness Club
+            Worcester Martial Arts & Fitness Club
           </t.Subtitle>
         </l.FlexCentered>
       )}

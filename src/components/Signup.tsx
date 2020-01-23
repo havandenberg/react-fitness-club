@@ -224,7 +224,7 @@ const Signup = () => (
           To receive an email with all of our program pricing options, please
           enter your name and email below:
         </t.Text>
-        <l.Space height={400} mb={spacing.xxxxxl} mx="auto" width={400}>
+        <l.Space height={250} mb={spacing.xxxxxl} mx="auto" width={400}>
           <l.Frame src="https://rfc.kicksite.net/bizbuilders/lead_capture_forms/eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoibGNmXzEyNyJ9.zvVqiPPdSM5WHrmeH9QYX-rvsmM3-XYFEBWKrdYPHEQ" />
         </l.Space>
         <l.FlexCentered>
