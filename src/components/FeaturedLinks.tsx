@@ -238,56 +238,62 @@ class Quadrant extends React.Component<FeaturedVideoProps, FeaturedVideoState> {
   }
 }
 
+const labelPropsList = [
+  { top: spacing.xl, left: spacing.xl },
+  { top: spacing.xl, right: spacing.xl },
+  { bottom: spacing.xl, left: spacing.xl },
+  { bottom: spacing.xl, right: spacing.xxxxl },
+];
+
 const FeaturedLinks = () => (
   <l.Space mx={[0, spacing.ml]}>
     <l.Flex isWrap>
       {shuffle([
-        <Quadrant
-          key="react"
-          to={REACT_PATH}
-          imageSource={`${ASSETS_PATH}/featured/photos/react-featured.png`}
-          label="REaCT Mixed Martial Arts"
-          labelProps={{ top: spacing.xl, left: spacing.xl }}
-          logoSrc={`${ASSETS_PATH}/programs/REaCT/react-logo.png`}
-          videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-1.mp4`}
-        />,
-        <Quadrant
-          key="capoeira"
-          to={CAPOEIRA_PATH}
-          imageSource={`${ASSETS_PATH}/featured/photos/capoeira-featured.png`}
-          label="Capoeira Luanda"
-          labelProps={{ top: spacing.xl, right: spacing.xl }}
-          logoSrc={`${ASSETS_PATH}/programs/Capoeira/capoeira-logo.png`}
-          videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-2.mp4`}
-        />,
-        <Quadrant
-          key="aikido"
-          to={AIKIDO_PATH}
-          imageSource={`${ASSETS_PATH}/featured/photos/aikido-featured.jpg`}
-          label="Aikido"
-          labelProps={{ bottom: spacing.xl, left: spacing.xl }}
-          logoSrc={`${ASSETS_PATH}/programs/Aikido/aikido-logo.png`}
-          videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-3.mp4`}
-        />,
-        <Quadrant
-          key="ocr-team"
-          to={OCR_PATH}
-          imageSource={`${ASSETS_PATH}/featured/photos/ocr-featured.png`}
-          label="Obstacle Course Racing"
-          labelProps={{ bottom: spacing.xl, right: spacing.xxxxl }}
-          logoSrc={`${ASSETS_PATH}/programs/OCR/ocr.svg`}
-          videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-4.mp4`}
-        />,
-        <Quadrant
-          key="ddpy"
-          to={DDPY_PATH}
-          imageSource={`${ASSETS_PATH}/programs/Yoga/ddpy-featured.png`}
-          label="DDPYoga"
-          labelProps={{ bottom: spacing.xl, right: spacing.xxxxl }}
-          logoSrc={`${ASSETS_PATH}/programs/Yoga/namaslay.png`}
-          videoSource={`${ASSETS_PATH}/programs/Yoga/ddpy-featured.mp4`}
-        />,
-      ]).slice(0, 4)}
+        {
+          imageSource: `${ASSETS_PATH}/featured/photos/react-featured.png`,
+          key: 'react',
+          label: 'REaCT Mixed Martial Arts',
+          logoSrc: `${ASSETS_PATH}/programs/REaCT/react-logo.png`,
+          to: REACT_PATH,
+          videoSource: `${ASSETS_PATH}/featured/videos/featured-vid-1.mp4`,
+        },
+        {
+          imageSource: `${ASSETS_PATH}/featured/photos/capoeira-featured.png`,
+          key: 'capoeira',
+          label: 'Capoeira Luanda',
+          logoSrc: `${ASSETS_PATH}/programs/Capoeira/capoeira-logo.png`,
+          to: CAPOEIRA_PATH,
+          videoSource: `${ASSETS_PATH}/featured/videos/featured-vid-2.mp4`,
+        },
+        {
+          imageSource: `${ASSETS_PATH}/featured/photos/aikido-featured.jpg`,
+          key: 'aikido',
+          label: 'Aikido',
+          logoSrc: `${ASSETS_PATH}/programs/Aikido/aikido-logo.png`,
+          to: AIKIDO_PATH,
+          videoSource: `${ASSETS_PATH}/featured/videos/featured-vid-3.mp4`,
+        },
+        {
+          imageSource: `${ASSETS_PATH}/featured/photos/ocr-featured.png`,
+          key: 'ocr-team',
+          label: 'Obstacle Course Racing',
+          logoSrc: `${ASSETS_PATH}/programs/OCR/ocr.svg`,
+          to: OCR_PATH,
+          videoSource: `${ASSETS_PATH}/featured/videos/featured-vid-4.mp4`,
+        },
+        {
+          imageSource: `${ASSETS_PATH}/programs/Yoga/ddpy-featured.png`,
+          key: 'ddpy',
+          label: 'DDPYoga',
+          logoSrc: `${ASSETS_PATH}/programs/Yoga/namaslay.png`,
+          to: DDPY_PATH,
+          videoSource: `${ASSETS_PATH}/programs/Yoga/ddpy-featured.mp4`,
+        },
+      ])
+        .slice(0, 4)
+        .map((props, idx) => (
+          <Quadrant {...props} labelProps={labelPropsList[idx]} />
+        ))}
     </l.Flex>
   </l.Space>
 );
