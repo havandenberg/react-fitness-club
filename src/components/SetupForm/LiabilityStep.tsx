@@ -8,7 +8,6 @@ import {
 } from '@react-pdf/renderer';
 import { blobToBase64String } from 'blob-util';
 import * as emailjs from 'emailjs-com';
-import * as firebase from 'firebase';
 import * as R from 'ramda';
 import * as React from 'react';
 import styled from 'react-emotion';
@@ -28,12 +27,13 @@ import {
 import l from '../../styles/layout';
 import { borders, breakpoints, spacing } from '../../styles/theme';
 import t from '../../styles/typography';
+import { scrollToId } from '../../utils/scroll';
 import { isUnderEighteen } from '../../utils/validation';
 import { FormComponentProps } from '../Form';
 import FormActions from '../Form/Actions';
 import { CheckboxRadioInputWithLabel } from '../Form/CheckboxRadio';
 import { TextInput } from '../Form/Input';
-import { processFormValues, SetupFields } from './';
+import { SetupFields } from './';
 
 export const LIABILITY_WAIVER = 'Liability Waiver';
 
@@ -214,7 +214,6 @@ class LiabilityWaiverStep extends React.Component<
   handleSubmit = (blob: Blob) => (e: React.FormEvent) => {
     e.preventDefault();
     const { fields, onSubmit } = this.props;
-    const { currentUser } = firebase.auth();
     onSubmit(
       (
         onSuccess: () => void,
@@ -222,27 +221,38 @@ class LiabilityWaiverStep extends React.Component<
         resetForm: () => void,
         data: any,
       ) => {
-        if (currentUser) {
-          const fileRef = firebase
-            .storage()
-            .ref(`members/${currentUser.uid}/liability-waiver.pdf`);
-          fileRef.put(blob);
-          if (fields.sendLiabilityCopy) {
-            blobToBase64String(blob).then(dataURL =>
-              emailjs.send(
-                'react_fitness_club',
-                'rfc_liability_form',
-                {
-                  content: dataURL.substring(dataURL.indexOf(',') + 1),
-                  email: fields.email,
-                  from_name: `${fields.nickname || fields.firstName}`,
-                },
-                process.env.REACT_APP_EMAILJS_KEY,
-              ),
-            );
-          }
-          console.log(processFormValues(data));
+        if (fields.sendLiabilityCopy) {
+          blobToBase64String(blob).then(dataURL =>
+            emailjs.send(
+              'react_fitness_club',
+              'rfc_liability_form',
+              {
+                content: dataURL.substring(dataURL.indexOf(',') + 1),
+                email: fields.email,
+                first_name: fields.firstName,
+                from_name: `${fields.nickname || fields.firstName}`,
+                last_name: fields.lastName,
+              },
+              process.env.REACT_APP_EMAILJS_KEY,
+            ),
+          );
         }
+        blobToBase64String(blob).then(dataURL =>
+          emailjs
+            .send(
+              'react_fitness_club',
+              'rfc_member_signup',
+              { ...data, waiver: dataURL.substring(dataURL.indexOf(',') + 1) },
+              process.env.REACT_APP_EMAILJS_KEY,
+            )
+            .then(() => {
+              onSuccess();
+              scrollToId('signup', { offset: -100 });
+            })
+            .catch((error: Error) => {
+              onFail(error);
+            }),
+        );
       },
     );
   };

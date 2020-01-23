@@ -65,7 +65,7 @@ class FileInput extends React.Component<Props, State> {
       if (currentUser) {
         const storageRef = firebase
           .storage()
-          .ref(`members/${currentUser.uid}/${file.name}`);
+          .ref(`profile-photos/${currentUser.uid}/${file.name}`);
         const uploadTask = storageRef.put(file);
         uploadTask.on(
           'state_changed',

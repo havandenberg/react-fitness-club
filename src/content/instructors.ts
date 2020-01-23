@@ -11,6 +11,8 @@ export const john = {
 };
 
 export const morcego = {
+  bio:
+    'Professor Morcego, born Alexandro Silveira in Salvador Bahia, has been training capoeira since age 7.  Morcego   recently moved to the United States to continue his mission of sharing Brazilian culture and the art of capoeira with the world. Professor Morcego has performed in Hamilton, Bermuda visited the island at the weekend to support charity Project Change: Bermuda, which provides reconstructive surgery for people living in poverty around the world, Houston, New York, Framingham, Boston, and all over the country.  He provides workshops and performances for schools, groups, adult education, and individuals. In addition, Professor Morcego enjoys the music of capoeira and has written many original songs that attest to his talent in all areas of the art. Here is one of Morcego\'s songs, "Birimbau Chamou Voce."',
   name: 'Professor Morcego',
   photoSrc: MorcegoImg,
 };

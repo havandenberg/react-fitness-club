@@ -1,5 +1,3 @@
-import { ASSETS_PATH } from '../utils/constants';
-
 export type dobField = 'month' | 'day' | 'year';
 
 export interface DateOfBirth {
@@ -21,17 +19,13 @@ export interface Member {
     relationship: string;
   };
   firstName: string;
-  isAccountSetupComplete: boolean;
-  isLiabilityWaiverSigned: boolean;
   lastName: string;
   medicalConditions: string;
   nickname: string;
   phone: string;
-  profilePhotoUrl: string;
   state: string;
   streetAddress1: string;
   streetAddress2: string;
-  uid: string;
   zip: string;
 }
 
@@ -48,16 +42,12 @@ export const newMemberDefaults: Member = {
     relationship: '',
   },
   firstName: '',
-  isAccountSetupComplete: false,
-  isLiabilityWaiverSigned: false,
   lastName: '',
   medicalConditions: '',
   nickname: '',
   phone: '',
-  profilePhotoUrl: `${ASSETS_PATH}/default-profile.png`,
   state: '',
   streetAddress1: '',
   streetAddress2: '',
-  uid: '',
   zip: '',
 };

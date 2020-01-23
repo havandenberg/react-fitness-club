@@ -31,8 +31,16 @@ export const aikido = {
 export const capoeira = {
   description: (
     <t.Text mb={spacing.ml}>
-      African-Brazilian martial art that incorporates acrobatics, dance, music,
-      and songs in a rhythmic dialogue of body, mind, and spirit.
+      Capoeira is an African-Brazilian martial art that incorporates acrobatics,
+      dance, music, and songs in a rhythmic dialogue of body, mind, and spirit.
+      It is a communal game in which two opponents play each other inside the
+      roda (a circle), formed by the other players who create rhythm for the
+      game by clapping, singing and playing the berimbaus (African-Brazilian
+      traditional instruments, considered the soul of Capoeira) and other key
+      instruments. The two opponents compete with each other using capoeira
+      movements, camouflaging the self defense kicks and moves with playful
+      acrobatics and dance-like moves spontaneously creating strategy to fool
+      their partner and catch them off guard.
     </t.Text>
   ),
   id: 'capoeira',
@@ -96,7 +104,7 @@ export const yoga = {
           </t.Text>
         </t.Anchor>
       </l.FlexCentered>
-      <l.Flex my={spacing.ml}>
+      <l.Flex mb={spacing.ml} mt={spacing.xl}>
         <l.Img
           height={spacing.xxl}
           src={`${ASSETS_PATH}/programs/Yoga/climbers.png`}
@@ -109,7 +117,7 @@ export const yoga = {
           )
         </t.Text>
       </l.Flex>
-      <t.Text mb={spacing.ml}>
+      <t.Text mb={spacing.xl}>
         Sometimes the best way to grow in one activity is through training a
         different discipline. Yoga, climbing, and martial arts are three
         practices that enhance the others, intersecting in the development of
@@ -133,7 +141,7 @@ export const yoga = {
           )
         </t.Text>
       </l.Flex>
-      <t.Text mb={spacing.ml}>
+      <t.Text mb={spacing.xl}>
         Ashtanga is the bouldering of yoga: it is challenging, rigorous, and
         offers a lifetime of practice and growth. The emphasis is on linking
         movement with breath, following a regular sequence of poses so that
@@ -174,13 +182,13 @@ export const ocrTeam = {
         per week.
       </t.Text>
       <t.Text mb={spacing.ml}>
-        If you are just getting started running and this seems like something
-        cool but way outside your ability level, don't worry! Come to our short
-        runs and we will start building strength and techniques from day 1. This
-        is a Team program. No one crosses the finish line alone! Check out our
-        events page for the next upcoming obstacle course race we are attending!
-        If you are within 2 months of an event, we recommend coming to both
-        trainings each week.
+        If you are just getting started running and obstacle courses seem cool
+        (they are 😉) but way outside your ability/fitness level, don't worry!
+        Come to one of our short runs to get started and we will start building
+        basic strength and techniques at your pace. This is a Team program - no
+        one crosses the finish line alone! Check out our events page for the
+        next upcoming obstacle course race we are attending! If you are within 2
+        months of an event, we recommend coming to both trainings each week.
       </t.Text>
       <t.Text mb={spacing.ml}>
         Want to run another course that we haven't picked up yet? Let us know!
@@ -191,10 +199,19 @@ export const ocrTeam = {
       </t.Text>
       <t.Text mb={spacing.ml}>
         All training courses start at RFC unless otherwise stated in the
-        calendar event in the <t.Link to="/schedule">schedule</t.Link>.
+        calendar event in the{' '}
+        <t.Link border={borders.red} color={colors.red} to="/schedule">
+          schedule
+        </t.Link>
+        .
       </t.Text>
       <t.Text mb={spacing.ml}>
-        <t.Anchor href="https://www.mudrunguide.com/" target="_blank">
+        <t.Anchor
+          border={borders.red}
+          color={colors.red}
+          href="https://www.mudrunguide.com/"
+          target="_blank"
+        >
           Here's a link
         </t.Anchor>{' '}
         to some info about OCR Training where we find most of our events if you

@@ -54,9 +54,8 @@ const navItems: Item[] = [
   },
   {
     Icon: UserImg,
-    isExternal: true,
-    name: 'Portal',
-    path: 'https://rfc.kicksite.net/',
+    name: 'Members',
+    path: '/signup',
   },
 ];
 
@@ -143,7 +142,7 @@ const NavItem = ({
 }) => {
   const linkInner = (
     <NavTextWrapper className={active ? 'active-nav' : ''} position="relative">
-      {!equals('Portal', item.name) && <ActiveIndicator active={active} />}
+      {!equals('Members', item.name) && <ActiveIndicator active={active} />}
       {isDesktop() && item.Icon && (
         <l.Space mr={[0, spacing.sm, spacing.sm]}>
           <item.Icon

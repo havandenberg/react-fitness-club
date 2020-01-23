@@ -33,10 +33,11 @@ import Hero from './Hero';
 import Home from './Home';
 import Mission from './Mission';
 import Nav from './Nav';
+import NewSignup from './NewSignup';
 import Programs from './Programs';
 import Schedule from './Schedule';
 import Shop from './Shop';
-// import Signup from './Signup';
+import Signup from './Signup';
 
 const Main = styled('div')({
   background: colors.background,
@@ -211,7 +212,8 @@ class App extends React.Component<{}, State> {
                 />
               )}
             />
-            {/* <Route path="/signup" component={Signup} /> */}
+            <Route path="/signup/new" component={NewSignup} />
+            <Route path="/signup" component={Signup} />
             <Redirect to="/" />
           </Switch>
           <Footer />

@@ -3,6 +3,7 @@ import styled from 'react-emotion';
 import BulletImg from '../assets/images/bullet.svg';
 import ProgramsImg from '../assets/images/programs';
 import QuestionMarkWhiteImg from '../assets/images/question-mark-white.svg';
+import SignupImg from '../assets/images/signup';
 import StarImg from '../assets/images/star';
 import l from '../styles/layout';
 import {
@@ -21,7 +22,7 @@ import withScroll from './hoc/withScroll';
 import IntroVideo from './IntroVideo';
 import Newsletter from './Newsletter';
 
-export const INTRO_BUTTON_WIDTH = 182;
+export const INTRO_BUTTON_WIDTH = 230;
 
 export const Bullet = styled('img')(
   ({ secondary }: { secondary?: boolean }) => ({
@@ -38,8 +39,14 @@ const Home = () => (
     <l.FlexCentered>
       <IntroVideo />
       <l.Space height={spacing.xl} width={spacing.xxxl} />
-      <t.Link to="/contact">
-        <ButtonPrimary width={INTRO_BUTTON_WIDTH}>Member signup</ButtonPrimary>
+      <t.Link to="/signup">
+        <ButtonPrimary width={INTRO_BUTTON_WIDTH}>
+          <l.Flex>
+            <SignupImg side={spacing.l} color={colors.white} />
+            <l.Space width={spacing.m} />
+            Member signup
+          </l.Flex>
+        </ButtonPrimary>
       </t.Link>
     </l.FlexCentered>
     <l.Space height={[spacing.xl, spacing.xxl]} />
@@ -48,7 +55,7 @@ const Home = () => (
       px={[spacing.sm, 0]}
       py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
     >
-      <l.FlexCentered mb={spacing.xl}>
+      <l.FlexCentered mb={spacing.xxxl}>
         <t.Link
           border={borders.red}
           center
@@ -59,7 +66,7 @@ const Home = () => (
           ...and more!
         </t.Link>
       </l.FlexCentered>
-      <l.Flex columnOnMobile spaceBetween>
+      <l.Flex columnOnMobile mb={spacing.xl} spaceBetween>
         {isTabletUp() && <StarImg />}
         <t.Text
           center={!isMobile()}
@@ -81,19 +88,9 @@ const Home = () => (
         </t.Text>
         <StarImg />
       </l.Flex>
-      <l.FlexCentered my={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
-        <t.Link
-          border={borders.red}
-          center
-          color={colors.red}
-          fontSize={[fontSizes.largeText, fontSizes.h2]}
-          to={'/contact'}
-        >
-          Join the club that gets you further!
-        </t.Link>
-      </l.FlexCentered>
       <l.FlexCentered
         mb={[spacing.ml, spacing.xxxl]}
+        mt={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
         mx="auto"
         width={['100%', '100%', '70%']}
       >
@@ -124,8 +121,7 @@ const Home = () => (
       </l.FlexCentered>
       <l.FlexCentered
         columnOnMobile
-        mt={[0, spacing.huge]}
-        mb={100}
+        my={[spacing.xxxl, spacing.huge]}
         mx="auto"
         spaceBetween
         width="100%"
@@ -165,6 +161,17 @@ const Home = () => (
           )}
           Check out our programs
         </LinkPrimary>
+      </l.FlexCentered>
+      <l.FlexCentered mb={100}>
+        <t.Link
+          border={borders.red}
+          center
+          color={colors.red}
+          fontSize={[fontSizes.largeText, fontSizes.h2]}
+          to={'/signup'}
+        >
+          Join the club that gets you further!
+        </t.Link>
       </l.FlexCentered>
     </l.Page>
     <Newsletter />

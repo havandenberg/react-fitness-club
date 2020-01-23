@@ -20,8 +20,11 @@ import {
   AIKIDO_PATH,
   ASSETS_PATH,
   CAPOEIRA_PATH,
+  DDPY_PATH,
+  OCR_PATH,
   REACT_PATH,
 } from '../utils/constants';
+import { shuffle } from '../utils/helpers';
 import { isMobile } from '../utils/screensize';
 
 type ENTER = 'enter';
@@ -237,40 +240,54 @@ class Quadrant extends React.Component<FeaturedVideoProps, FeaturedVideoState> {
 
 const FeaturedLinks = () => (
   <l.Space mx={[0, spacing.ml]}>
-    <l.Flex columnOnMobile>
-      <Quadrant
-        to={REACT_PATH}
-        imageSource={`${ASSETS_PATH}/featured/photos/react-featured.png`}
-        label="REaCT Mixed Martial Arts"
-        labelProps={{ top: spacing.xl, left: spacing.xl }}
-        logoSrc={`${ASSETS_PATH}/programs/REaCT/react-logo.png`}
-        videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-1.mp4`}
-      />
-      <Quadrant
-        to={CAPOEIRA_PATH}
-        imageSource={`${ASSETS_PATH}/featured/photos/capoeira-featured.png`}
-        label="Capoeira Luanda"
-        labelProps={{ top: spacing.xl, right: spacing.xl }}
-        logoSrc={`${ASSETS_PATH}/programs/Capoeira/capoeira-logo.png`}
-        videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-2.mp4`}
-      />
-    </l.Flex>
-    <l.Flex columnOnMobile>
-      <Quadrant
-        to={AIKIDO_PATH}
-        imageSource={`${ASSETS_PATH}/featured/photos/aikido-featured.jpg`}
-        label="Aikido"
-        labelProps={{ bottom: spacing.xl, left: spacing.xl }}
-        logoSrc={`${ASSETS_PATH}/programs/Aikido/aikido-logo.png`}
-        videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-3.mp4`}
-      />
-      <Quadrant
-        imageSource={`${ASSETS_PATH}/featured/photos/ocr-featured.png`}
-        label="Obstacle Course Racing"
-        labelProps={{ bottom: spacing.xl, right: spacing.xxxxl }}
-        logoSrc={`${ASSETS_PATH}/programs/OCR/ocr.svg`}
-        videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-4.mp4`}
-      />
+    <l.Flex isWrap>
+      {shuffle([
+        <Quadrant
+          key="react"
+          to={REACT_PATH}
+          imageSource={`${ASSETS_PATH}/featured/photos/react-featured.png`}
+          label="REaCT Mixed Martial Arts"
+          labelProps={{ top: spacing.xl, left: spacing.xl }}
+          logoSrc={`${ASSETS_PATH}/programs/REaCT/react-logo.png`}
+          videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-1.mp4`}
+        />,
+        <Quadrant
+          key="capoeira"
+          to={CAPOEIRA_PATH}
+          imageSource={`${ASSETS_PATH}/featured/photos/capoeira-featured.png`}
+          label="Capoeira Luanda"
+          labelProps={{ top: spacing.xl, right: spacing.xl }}
+          logoSrc={`${ASSETS_PATH}/programs/Capoeira/capoeira-logo.png`}
+          videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-2.mp4`}
+        />,
+        <Quadrant
+          key="aikido"
+          to={AIKIDO_PATH}
+          imageSource={`${ASSETS_PATH}/featured/photos/aikido-featured.jpg`}
+          label="Aikido"
+          labelProps={{ bottom: spacing.xl, left: spacing.xl }}
+          logoSrc={`${ASSETS_PATH}/programs/Aikido/aikido-logo.png`}
+          videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-3.mp4`}
+        />,
+        <Quadrant
+          key="ocr-team"
+          to={OCR_PATH}
+          imageSource={`${ASSETS_PATH}/featured/photos/ocr-featured.png`}
+          label="Obstacle Course Racing"
+          labelProps={{ bottom: spacing.xl, right: spacing.xxxxl }}
+          logoSrc={`${ASSETS_PATH}/programs/OCR/ocr.svg`}
+          videoSource={`${ASSETS_PATH}/featured/videos/featured-vid-4.mp4`}
+        />,
+        <Quadrant
+          key="ddpy"
+          to={DDPY_PATH}
+          imageSource={`${ASSETS_PATH}/programs/Yoga/ddpy-featured.png`}
+          label="DDPYoga"
+          labelProps={{ bottom: spacing.xl, right: spacing.xxxxl }}
+          logoSrc={`${ASSETS_PATH}/programs/Yoga/namaslay.png`}
+          videoSource={`${ASSETS_PATH}/programs/Yoga/ddpy-featured.mp4`}
+        />,
+      ]).slice(0, 4)}
     </l.Flex>
   </l.Space>
 );

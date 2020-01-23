@@ -22,7 +22,7 @@ import EmergencyInfoStep, {
 import LiabilityWaiverStep, { LIABILITY_WAIVER } from './LiabilityStep';
 import PersonalInfoStep, {
   PERSONAL_INFO,
-  personalInfoStep,
+  personalInfoStepData,
 } from './PersonalInfoStep';
 
 export interface SetupFields {
@@ -49,7 +49,6 @@ export interface SetupFields {
   memberParentSignature: string;
   memberSignature: string;
   nickname: string;
-  profilePhotoUrl: string;
   phone: string;
   sendLiabilityCopy: boolean;
   state: string;
@@ -112,7 +111,7 @@ const formData: Array<FormStep<SetupFields>> = [
   {
     FormComponent: PersonalInfoStep,
     label: PERSONAL_INFO,
-    rowItems: personalInfoStep(''),
+    rowItems: personalInfoStepData,
   },
   {
     FormComponent: EmergencyInfoStep,
@@ -141,41 +140,6 @@ const formData: Array<FormStep<SetupFields>> = [
 ];
 
 class SetupForm extends Form<SetupFields> {}
-
-export const processFormValues = (member: SetupFields) => ({
-  ...R.pick(
-    [
-      'allergies',
-      'city',
-      'email',
-      'firstName',
-      'lastName',
-      'medicalConditions',
-      'nickname',
-      'profilePhotoUrl',
-      'phone',
-      'state',
-      'streetAddress1',
-      'streetAddress2',
-      'zip',
-    ],
-    member,
-  ),
-  dateOfBirth: {
-    day: member.dobDay,
-    month: member.dobMonth,
-    year: member.dobYear,
-  },
-  emergencyContact: {
-    email: member.eEmail,
-    firstName: member.eFirstName,
-    lastName: member.eLastName,
-    phone: member.ePhone,
-    relationship: member.eRelationship,
-  },
-  isAccountSetupComplete: true,
-  isLiabilityWaiverSigned: true,
-});
 
 interface Props {
   member: Member;
@@ -211,7 +175,6 @@ class SetupFormComponent extends React.Component<Props> {
   };
 
   render() {
-    const { member } = this.props;
     return (
       <div>
         <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
@@ -220,7 +183,7 @@ class SetupFormComponent extends React.Component<Props> {
             fontSize={[mobileSizes.h3, fontSizes.h3]}
             italic
           >
-            Welcome to React Fitness Club, {member.firstName}!
+            Welcome to React Fitness Club!
           </t.Text>
         </l.FlexCentered>
         <l.FlexCentered mb={[spacing.xl, spacing.xxxl]}>

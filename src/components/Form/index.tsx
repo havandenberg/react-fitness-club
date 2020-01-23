@@ -221,8 +221,8 @@ class Form<FormFields> extends React.Component<
 
   handleSubmit = (
     submit: (
-      onSuccess: () => void,
-      onFail: (error: Error) => void,
+      onSuccess: (callback?: () => void) => void,
+      onFail: (error: Error, message?: string, callback?: () => void) => void,
       resetForm: () => void,
       fields: FormFields,
     ) => void,
@@ -383,7 +383,8 @@ class Form<FormFields> extends React.Component<
           <l.FlexCentered
             mb={spacing.xxxl}
             width={['100%', '80%', '100%']}
-            mx="auto">
+            mx="auto"
+          >
             {steps.map((s, index: number) => (
               <React.Fragment key={s.label}>
                 <NavItem
@@ -394,7 +395,8 @@ class Form<FormFields> extends React.Component<
                   onClick={() => enableDirectStepNav && this.setStep(s.label)}
                   width={
                     isMobile() ? `${Math.floor(100 / steps.length)}%` : 'auto'
-                  }>
+                  }
+                >
                   {s.label}
                 </NavItem>
                 {index + 1 < steps.length && !isMobileOnly() && (
@@ -409,7 +411,8 @@ class Form<FormFields> extends React.Component<
             center
             color={colors.green}
             large
-            mb={[spacing.ml, spacing.xl]}>
+            mb={[spacing.ml, spacing.xl]}
+          >
             {successMessage}
           </t.Text>
         )}
@@ -420,7 +423,8 @@ class Form<FormFields> extends React.Component<
             large
             mb={[spacing.ml, spacing.xl]}
             mx="auto"
-            width="75%">
+            width="75%"
+          >
             {errorMessage || onFailMessage}
           </t.Text>
         )}
