@@ -176,7 +176,6 @@ class PersonalInfoStep extends React.Component<
 > {
   render() {
     const { errors, fields, onChange, onForward } = this.props;
-    console.log(fields);
     return (
       <div>
         {personalInfoStepData.map(

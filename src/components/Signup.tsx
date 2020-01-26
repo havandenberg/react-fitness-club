@@ -54,9 +54,8 @@ const Signup = () => (
         <l.FlexCentered>
           <t.Link
             border={borders.red}
-            center
+            center="true"
             color={colors.red}
-            hoverStyle="underline"
             mb={spacing.xxl}
             to="/signup/new"
           >
@@ -176,7 +175,13 @@ const Signup = () => (
           </t.Link>
           .
         </t.Text>
-        <t.Text>See below for specific program pricing.</t.Text>
+        <t.Text mb={spacing.xxxl}>
+          See below for specific program pricing.
+        </t.Text>
+        <t.Text bold mb={spacing.ml}>
+          Student Discount:
+        </t.Text>
+        <t.Text>Discount available for college students.</t.Text>
         <l.Line my={spacing.xxxxxl} />
         <l.Flex mb={spacing.xl}>
           <Badge
@@ -197,7 +202,7 @@ const Signup = () => (
         <l.Flex mb={spacing.ml}>
           <Bullet secondary src={BulletImg} />
           <t.Text>
-            <l.Blue>Unlimited access to all RFC programs and events!</l.Blue>
+            <l.Blue>Unlimited access to all RFC programs!</l.Blue>
           </t.Text>
         </l.Flex>
         <l.Flex mb={spacing.ml}>
@@ -206,16 +211,20 @@ const Signup = () => (
         </l.Flex>
         <l.Flex mb={spacing.xxxl}>
           <Bullet secondary src={BulletImg} />
-          <t.Text />
+          <t.Text>Discounts for special events & workshops.</t.Text>
         </l.Flex>
-        <t.Text bold mb={spacing.ml} width="50%">
+        <t.Text bold mb={spacing.ml}>
           Family Multipass:
         </t.Text>
-        <t.Text>
+        <t.Text mb={spacing.xxxl}>
           We want to encourage families to come get healthy together! Families
           up to 4 receive full Multipass access to all programs for the Family
           Multipass price.
         </t.Text>
+        <t.Text bold mb={spacing.ml}>
+          Student Discount:
+        </t.Text>
+        <t.Text>There is also a student discount for the multipass!</t.Text>
         <l.Line my={spacing.xxxxxl} />
         <t.Text bold large mb={spacing.ml} width="50%">
           Program Pricing:
@@ -230,9 +239,8 @@ const Signup = () => (
         <l.FlexCentered>
           <t.Link
             border={borders.red}
-            center
+            center="true"
             color={colors.red}
-            hoverStyle="underline"
             large
             mb={spacing.xxl}
             to="/signup/new"

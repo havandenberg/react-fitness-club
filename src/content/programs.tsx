@@ -3,8 +3,8 @@ import l from '../styles/layout';
 import { borders, colors, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { ProgramContent } from '../types/program';
-import { ASSETS_PATH } from '../utils/constants';
-import { scrollToId } from '../utils/scroll';
+// import { ASSETS_PATH } from '../utils/constants';
+// import { scrollToId } from '../utils/scroll';
 import * as instructors from './instructors';
 
 export const aikido = {
@@ -48,6 +48,28 @@ export const capoeira = {
   name: 'Capoeira Luanda',
 };
 
+export const dungeons = {
+  description: (
+    <t.Text mb={spacing.ml}>
+      D&D is an excellent way to make friends, be social, and explore the new
+      and exciting world of table top gaming! We at RFC started our new "Social
+      Saturdays" program recently and D&D became a quick favorite of the gym so
+      a completely original campaign was made to support it! The current
+      campaign is set in a distant fantasy world named Evanon where Heroes &
+      villains fight for dominance and Monsters roam the land. Do you and your
+      friends have what it takes to save the land from the evil threatening it? 
+      Or will you join the forces of darkness and bring about destruction and
+      chaos? If you have a desire to act as a tough barbarian, a sneaky rogue, a
+      wise wizard, or even a fun loving bard, now is the time to try it out and
+      join us! The choices are yours to make, just remember, every choice has a
+      consequence!
+    </t.Text>
+  ),
+  id: 'dungeons',
+  instructors: [instructors.hack],
+  name: 'Dungeons & Dragons',
+};
+
 export const qigongMeditation = {
   description: (
     <t.Text mb={spacing.ml}>
@@ -66,7 +88,7 @@ export const qigongMeditation = {
 export const yoga = {
   description: (
     <>
-      <t.Text mb={spacing.ml}>
+      {/* <t.Text mb={spacing.ml}>
         RFC offers 3 different types of yoga as part of our yoga package:
       </t.Text>
       <l.Flex mb={spacing.ml}>
@@ -83,7 +105,7 @@ export const yoga = {
           </l.Span>
           )
         </t.Text>
-      </l.Flex>
+      </l.Flex> */}
       <t.Text mb={spacing.ml}>
         DDPYoga combines traditional yoga positions with calisthenics like
         squats and push ups, sports rehab therapy principles, and dynamic
@@ -99,12 +121,12 @@ export const yoga = {
           href="https://namaslayfitnessma.wixsite.com/namaslay"
           target="_blank"
         >
-          <t.Text color={colors.red}>
+          <t.Text color={colors.red} large>
             Learn more about Heather & Namaslay Fitness
           </t.Text>
         </t.Anchor>
       </l.FlexCentered>
-      <l.Flex mb={spacing.ml} mt={spacing.xl}>
+      {/* <l.Flex mb={spacing.ml} mt={spacing.xl}>
         <l.Img
           height={spacing.xxl}
           src={`${ASSETS_PATH}/programs/Yoga/climbers.png`}
@@ -151,12 +173,12 @@ export const yoga = {
         flexibility, core strength, and steadiness. By increasing awareness and
         flexibility in the body, we can enhance mental agility as well,
         ultimately fostering a steadier experience on the rock.
-      </t.Text>
+      </t.Text> */}
     </>
   ),
   id: 'yoga',
-  instructors: [instructors.heather, instructors.brett],
-  name: 'Yoga',
+  instructors: [instructors.heather],
+  name: 'DDPYoga',
 };
 
 export const reactMma = {
@@ -232,10 +254,11 @@ export const reactSkillz = {
 };
 
 export const programContent: ProgramContent[] = [
-  aikido,
-  capoeira,
-  ocrTeam,
-  qigongMeditation,
   reactMma,
+  capoeira,
+  aikido,
   yoga,
+  ocrTeam,
+  dungeons,
+  qigongMeditation,
 ];

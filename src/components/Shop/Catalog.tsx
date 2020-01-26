@@ -128,7 +128,8 @@ class ShopCatalog extends React.Component<
                   color={colors.red}
                   mr={spacing.m}
                   mt={[spacing.sm, 0, 0]}
-                  textAlign="right">
+                  textAlign="right"
+                >
                   {fields.items.length} item{fields.items.length > 1 ? 's' : ''}{' '}
                   for ${calculateOrderTotal(fields.items)}
                 </t.Text>
@@ -137,16 +138,17 @@ class ShopCatalog extends React.Component<
                 mt={[spacing.sm, 0, 0]}
                 size="small"
                 type="button"
-                onClick={toggleShowOrderReview}>
+                onClick={toggleShowOrderReview}
+              >
                 <l.Img height={spacing.xl} mr={spacing.sm} src={ShopImg} />
                 Cart
               </ButtonPrimary>
             </l.Flex>
           }
-          legendOnBottom
           subCategoryLabel="Subcategory:"
           searchLabel="Search Pro Shop:"
-          scrollEndId="#shop-end">
+          scrollEndId="#shop-end"
+        >
           {({ searchValue, categoryId, subCategoryId }) => {
             const filteredInventory = this.filterInventory(
               searchValue,
@@ -167,7 +169,8 @@ class ShopCatalog extends React.Component<
                   id="shop-grid"
                   itemWidth={isMobileOnly() ? '45%' : '30%'}
                   maxColumns={isMobileOnly() ? 2 : 3}
-                  customStyles={{ mt: spacing.xl }}>
+                  customStyles={{ mt: spacing.xl }}
+                >
                   {filteredInventory.map((item: ShopItemType) => {
                     const itemInCart = fields.items.find((it: ShopItemType) =>
                       R.equals(it.id, item.id),

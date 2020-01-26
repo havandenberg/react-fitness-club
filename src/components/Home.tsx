@@ -58,7 +58,7 @@ const Home = () => (
       <l.FlexCentered mb={spacing.xxxl}>
         <t.Link
           border={borders.red}
-          center
+          center="true"
           color={colors.red}
           large
           to={'/programs'}
@@ -165,7 +165,7 @@ const Home = () => (
       <l.FlexCentered mb={100}>
         <t.Link
           border={borders.red}
-          center
+          center="true"
           color={colors.red}
           fontSize={[fontSizes.largeText, fontSizes.h2]}
           to={'/signup'}

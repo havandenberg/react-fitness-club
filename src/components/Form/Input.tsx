@@ -57,7 +57,6 @@ export const SelectInput = styled('select')(
   {
     ...inputStyles,
     ...scrollStyles,
-    overflowX: 'visible',
   },
   flex,
   space,

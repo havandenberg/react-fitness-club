@@ -45,9 +45,8 @@ const NewSignup = () => (
         <l.FlexCentered>
           <t.Link
             border={borders.red}
-            center
+            center="true"
             color={colors.red}
-            hoverStyle="underline"
             mb={spacing.xxl}
             to="/signup"
           >

@@ -80,29 +80,34 @@ class Events extends React.Component<Props, State> {
             </l.FlexCentered>
           ) : (
             <>
-              <l.Flex mb={spacing.xl} spaceBetween>
-                <l.Flex alignTop={isMobileOnly()} columnOnMobile>
-                  <t.H3 mr={[spacing.m, spacing.xl]} nowrap>
-                    {showPastEvents ? 'Past' : 'Upcoming'} Events
-                    {!showPastEvents && (
-                      <EventsCount fontSize={fontSizes.text}>
-                        {' '}
-                        ({upcomingEvents.length})
-                      </EventsCount>
-                    )}
-                  </t.H3>
-                  <t.TextButton
-                    border={borders.red}
-                    color={colors.red}
-                    hoverStyle="underline"
-                    mt={spacing.s}
-                    nowrap
-                    onClick={() => this.setShowPastEvents(!showPastEvents)}
-                  >
-                    {showPastEvents ? 'Upcoming' : 'Past'} Events
-                    {showPastEvents && <span> ({upcomingEvents.length})</span>}
-                  </t.TextButton>
-                </l.Flex>
+              <l.Flex
+                alignTop={isMobileOnly()}
+                boxShadow="0 5px 5px -5px"
+                columnOnMobile
+                mb={spacing.xl}
+                pb={spacing.m}
+                width="100%"
+              >
+                <t.H3 mr={[spacing.m, spacing.xl]} nowrap>
+                  {showPastEvents ? 'Past' : 'Upcoming'} Events
+                  {!showPastEvents && (
+                    <EventsCount fontSize={fontSizes.text}>
+                      {' '}
+                      ({upcomingEvents.length})
+                    </EventsCount>
+                  )}
+                </t.H3>
+                <t.TextButton
+                  border={borders.red}
+                  color={colors.red}
+                  hoverStyle="underline"
+                  mt={spacing.s}
+                  nowrap
+                  onClick={() => this.setShowPastEvents(!showPastEvents)}
+                >
+                  {showPastEvents ? 'Upcoming' : 'Past'} Events
+                  {showPastEvents && <span> ({upcomingEvents.length})</span>}
+                </t.TextButton>
               </l.Flex>
               {R.isEmpty(sortedEvents) ? (
                 <t.Text center large my={spacing.xxxxxl}>

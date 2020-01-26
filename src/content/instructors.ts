@@ -43,3 +43,10 @@ export const heather = {
 export const henry = {
   name: 'Henry Whitwell Wales IV',
 };
+
+export const hack = {
+  bio:
+    'Hi!  My name is Alex and I have been DMing for the past five (5) years mostly in the 5e system for Dungeons & Dragons but do have experience with Pathfinder and the Fate system.  I am a big fan of sandbox style campaigns as I want my players to feel like the world is truly theirs to explore, instead of feeling forced to only follow one plot line.  My philosophy is "No enemy is more dangerous to the party than the party themselves" and boy could I tell you stories about some of the hijinks I\'ve seen.  I\'m a pretty flexible DM and love trying new things with my players, hope to see you on the campaign!',
+  logoSrc: `${ASSETS_PATH}/programs/D&D/d&d-logo.png`,
+  name: 'Alex Hackathorn',
+};

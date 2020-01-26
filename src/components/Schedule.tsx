@@ -25,7 +25,7 @@ import { Division, Program, ProgramContent } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
 import { formatDescriptiveDate } from '../utils/calendar-event';
 import { getProgramById } from '../utils/program';
-import { isMobile, isMobileOnly, isTabletOnly } from '../utils/screensize';
+import { isMobile, isMobileOnly } from '../utils/screensize';
 import Divider from './Divider';
 import FilterBar, { FilterProps } from './FilterBar';
 import { LinkPrimary } from './Form/Button';
@@ -132,6 +132,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
   getEventProps = (event: CalendarEvent) => {
     const program = getProgramById(event.programId, this.props.programs);
     const isOpenMat = R.equals(event.programId, 'openmat');
+    const isSpecialEvent = R.equals(event.programId, 'special-events');
     const isProgramEvent = R.equals(event.divisionId, 'events');
 
     const commonStyles = {
@@ -154,7 +155,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
         },
       };
     }
-    if (isProgramEvent) {
+    if (isProgramEvent || isSpecialEvent) {
       return {
         style: {
           ...commonStyles,
@@ -274,43 +275,43 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                       </t.HelpText>
                     </l.Flex>
                     <l.Flex mb={spacing.sm}>
-                      <LegendIcon
-                        background={isTabletOnly() ? colors.purple : '#0274BF'}
-                      />
+                      <LegendIcon background={colors.purple} />
                       <t.HelpText color={colors.black}>
-                        {isTabletOnly() ? 'Special Events' : 'Aikido'}
+                        Special Events
                       </t.HelpText>
-                    </l.Flex>
-                    <l.Flex mb={spacing.sm}>
-                      <LegendIcon
-                        background={isTabletOnly() ? '#0274BF' : colors.purple}
-                      />
-                      <t.HelpText color={colors.black}>
-                        {isTabletOnly() ? 'Aikido' : 'Special Events'}
-                      </t.HelpText>
-                    </l.Flex>
-                    <l.Flex mb={spacing.sm}>
-                      <LegendIcon background="#0A7861" />
-                      <t.HelpText color={colors.black}>Capoeira</t.HelpText>
-                    </l.Flex>
-                    <l.Flex mb={spacing.sm}>
-                      <LegendIcon background="#DAE22A" />
-                      <t.HelpText color={colors.black}>Yoga</t.HelpText>
                     </l.Flex>
                     <l.Flex mb={spacing.sm}>
                       <LegendIcon background="#F14042" />
                       <t.HelpText color={colors.black}>REaCT MMA</t.HelpText>
                     </l.Flex>
                     <l.Flex mb={spacing.sm}>
-                      <LegendIcon background="#46B388" />
-                      <t.HelpText color={colors.black}>
-                        Qigong Meditation
-                      </t.HelpText>
+                      <LegendIcon background="#0A7861" />
+                      <t.HelpText color={colors.black}>Capoeira</t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#0274BF" />
+                      <t.HelpText color={colors.black}>Aikido</t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#DAE22A" />
+                      <t.HelpText color={colors.black}>Yoga</t.HelpText>
                     </l.Flex>
                     <l.Flex mb={spacing.sm}>
                       <LegendIcon background="#FF8700" />
                       <t.HelpText color={colors.black}>
                         Obstacle Course Racing
+                      </t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#D9003D" />
+                      <t.HelpText color={colors.black}>
+                        Dungeons & Dragons
+                      </t.HelpText>
+                    </l.Flex>
+                    <l.Flex mb={spacing.sm}>
+                      <LegendIcon background="#46B388" />
+                      <t.HelpText color={colors.black}>
+                        Qigong Meditation
                       </t.HelpText>
                     </l.Flex>
                   </l.Flex>
@@ -319,7 +320,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                 {({ searchValue, categoryId, subCategoryId }: FilterProps) => {
                   return (
                     <div>
-                      <l.Space height={calendarHeight} pt={spacing.m}>
+                      <l.Space height={calendarHeight} pt={spacing.xxxl}>
                         <BigCalendar
                           eventPropGetter={this.getEventProps}
                           localizer={localizer}

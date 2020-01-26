@@ -21,7 +21,7 @@ import {
   z,
 } from '../styles/theme';
 import t from '../styles/typography';
-import { isDesktop } from '../utils/screensize';
+import { isDesktop, isMobileOnly } from '../utils/screensize';
 import Divider from './Divider';
 
 interface Item {
@@ -97,22 +97,28 @@ const NavItemWrapper = styled(l.Flex)({
   },
 });
 
-const NavTextWrapper = styled(l.FlexCentered)({
-  height: `calc(${navHeight} + 18px)`,
-  marginTop: `-${spacing.s}`,
-  width: 150,
-  [breakpoints.tablet]: {
-    width: 100,
+const NavTextWrapper = styled(l.FlexCentered)(
+  {
+    height: `calc(${navHeight} + 18px)`,
+    marginTop: `-${spacing.s}`,
+    [breakpoints.mobile]: {
+      height: spacing.xxl,
+      paddingTop: 0,
+    },
   },
-  [breakpoints.mobile]: {
-    height: spacing.xxl,
-    paddingTop: 0,
-    width: 90,
-  },
-  [breakpoints.small]: {
-    width: 75,
-  },
-});
+  ({ isLast }: { isLast: boolean }) => ({
+    width: 150,
+    [breakpoints.tablet]: {
+      width: 100,
+    },
+    [breakpoints.mobile]: {
+      width: isLast ? 'auto' : 90,
+    },
+    [breakpoints.small]: {
+      width: isLast ? 'auto' : 75,
+    },
+  }),
+);
 
 const NavTextBase = styled(t.Text)({
   transition: transitions.default,
@@ -131,27 +137,44 @@ const NavText = styled(NavTextBase)({
 
 const NavItem = ({
   active,
+  isLast,
   item,
   onMouseEnter,
   onMouseLeave,
 }: {
   active: boolean;
+  isLast: boolean;
   item: Item;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) => {
+  const absoluteStyles =
+    isMobileOnly() && isLast
+      ? {
+          position: 'absolute',
+          right: spacing.s,
+          top: spacing.s,
+        }
+      : {};
+
   const linkInner = (
-    <NavTextWrapper className={active ? 'active-nav' : ''} position="relative">
+    <NavTextWrapper
+      className={active ? 'active-nav' : ''}
+      isLast={isLast}
+      position={isMobileOnly() && isLast ? 'static' : 'relative'}
+    >
       {!equals('Members', item.name) && <ActiveIndicator active={active} />}
-      {isDesktop() && item.Icon && (
-        <l.Space mr={[0, spacing.sm, spacing.sm]}>
+      {(isDesktop() || isLast) && item.Icon && (
+        <l.Space mr={[0, spacing.sm, spacing.sm]} {...absoluteStyles}>
           <item.Icon
             color={active ? colors.red : colors.white}
             side={spacing.ml}
           />
         </l.Space>
       )}
-      <NavText mb={spacing.s}>{item.name}</NavText>
+      {(isDesktop() || !isLast) && (
+        <NavText mb={spacing.s}>{item.name}</NavText>
+      )}
     </NavTextWrapper>
   );
   return (
@@ -220,6 +243,7 @@ class Nav extends React.Component<RouteComponentProps, State> {
                   <NavItem
                     active={active}
                     key={item.name}
+                    isLast={i === navItems.length - 1}
                     item={item}
                     onMouseEnter={() => this.onMouseEnter(i)}
                     onMouseLeave={this.onMouseLeave}

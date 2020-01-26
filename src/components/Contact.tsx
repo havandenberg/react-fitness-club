@@ -64,7 +64,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
             </t.Text>
           </t.Anchor>
         </ContactText>
-        <ContactText width={['100%', 'auto']}>
+        <ContactText mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
           Visit our studio:
           <l.Break />
           <l.Space height={spacing.sm} />
@@ -110,7 +110,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
         <l.Break />
         Worcester, MA 10605
       </t.H2>
-      <l.Flex columnOnMobile mb={[0, spacing.xxxl]}>
+      <l.Flex columnOnMobile mb={[spacing.xxl, spacing.xxxl]}>
         <GalleryImage
           image={{
             caption: '',

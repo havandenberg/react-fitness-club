@@ -117,24 +117,33 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
           enabled={isTabletUp()}
           innerZ={z.high}
           top="#nav-end"
-          bottomBoundary={scrollEndId}>
+          bottomBoundary={scrollEndId}
+        >
           <div id="filter-bar-end">
-            <FilterBarWrapper alignTop pt={spacing.s} width="100%">
+            <FilterBarWrapper
+              alignTop
+              boxShadow={legendOnBottom ? undefined : '0 5px 5px -5px'}
+              pt={spacing.s}
+              width="100%"
+            >
               <l.Flex
                 columnOnMobile={legendOnBottom}
                 columnRevOnMobile={!legendOnBottom}
                 pb={spacing.m}
                 spaceBetween
-                width="100%">
+                width="100%"
+              >
                 <l.Flex
                   columnOnMobile
                   mb={[0, spacing.ml, 0]}
                   position="relative"
-                  width={['100%', 'auto']}>
+                  width={['100%', 'auto']}
+                >
                   <l.Space
                     mb={[spacing.sm, 0]}
                     mr={[0, spacing.sm]}
-                    width={['100%', 'auto']}>
+                    width={['100%', 'auto']}
+                  >
                     <t.HelpText mb={spacing.t}>{searchLabel}</t.HelpText>
                     <TextInput
                       onChange={this.handleSearchChange}
@@ -145,13 +154,15 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
                   <l.Space
                     mb={[spacing.sm, 0]}
                     mr={[0, spacing.sm]}
-                    width={['100%', 'auto']}>
+                    width={['100%', 'auto']}
+                  >
                     <t.HelpText mb={spacing.t}>{categoryLabel}</t.HelpText>
                     <SelectInput
                       mr={R.equals(categoryId, 'all') ? spacing.m : spacing.sm}
                       onChange={this.handleFilterChange('categoryId')}
                       value={categoryId}
-                      width="100%">
+                      width="100%"
+                    >
                       <option value="all">All</option>
                       {categories.map((cat: FilterPrimaryCategory) => (
                         <option key={cat.id} value={cat.id}>
@@ -166,7 +177,8 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
                       <SelectInput
                         onChange={this.handleFilterChange('subCategoryId')}
                         value={subCategoryId}
-                        width="100%">
+                        width="100%"
+                      >
                         <option value="all">All</option>
                         {category.subCategories.map(
                           (subCat: FilterCategory) => {
@@ -183,7 +195,7 @@ class FilterBar extends React.Component<Props & RouteComponentProps, State> {
                   {!R.equals(this.state, initialFiltersState) && (
                     <ClearButton
                       height={spacing.ml}
-                      mt={[`-${spacing.s}`, spacing.m, spacing.m]}
+                      mt={[`-${spacing.s}`, spacing.ml, spacing.ml]}
                       onClick={this.clearFilters}
                       src={CloseImg}
                     />
