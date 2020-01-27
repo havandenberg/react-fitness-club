@@ -391,7 +391,6 @@ class Form<FormFields> extends React.Component<
                   active={s.label === currentStep}
                   center={isMobile()}
                   enableDirectStepNav={enableDirectStepNav}
-                  large
                   onClick={() => enableDirectStepNav && this.setStep(s.label)}
                   width={
                     isMobile() ? `${Math.floor(100 / steps.length)}%` : 'auto'

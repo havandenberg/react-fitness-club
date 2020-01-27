@@ -24,6 +24,10 @@ import PersonalInfoStep, {
   PERSONAL_INFO,
   personalInfoStepData,
 } from './PersonalInfoStep';
+import ProgramInterestStep, {
+  PROGRAM_INTERST_STEP,
+  programInterestStep,
+} from './ProgramInterestStep';
 
 export interface SetupFields {
   allergies: string;
@@ -50,6 +54,7 @@ export interface SetupFields {
   memberSignature: string;
   nickname: string;
   phone: string;
+  programInterests: string[];
   sendLiabilityCopy: boolean;
   state: string;
   streetAddress1: string;
@@ -89,6 +94,7 @@ export const setupFieldValidations: FormFieldValidations<SetupFields> = {
       : true,
   memberSignature: (value: string) => !R.isEmpty(value),
   phone: (value: string) => isValidPhone(value),
+  programInterests: (value: string[]) => !R.isEmpty(value),
   state: (value: string) => !R.isEmpty(value) && value !== '-',
   streetAddress1: (value: string) => !R.isEmpty(value),
   zip: (value: string) => isValidZipCode(value),
@@ -120,6 +126,12 @@ const formData: Array<FormStep<SetupFields>> = [
     rowItems: emergencyInfoStep,
   },
   {
+    FormComponent: ProgramInterestStep,
+    customStyles: { labelWidth: '225px' },
+    label: PROGRAM_INTERST_STEP,
+    rowItems: programInterestStep,
+  },
+  {
     FormComponent: LiabilityWaiverStep,
     label: LIABILITY_WAIVER,
     rowItems: [
@@ -142,6 +154,7 @@ const formData: Array<FormStep<SetupFields>> = [
 class SetupForm extends Form<SetupFields> {}
 
 interface Props {
+  handleSuccess: () => void;
   member: Member;
 }
 
@@ -170,11 +183,13 @@ class SetupFormComponent extends React.Component<Props> {
       eLastName: emergencyContact.lastName,
       ePhone: emergencyContact.phone,
       eRelationship: emergencyContact.relationship,
+      programInterests: ['General interest'],
       state: R.isEmpty(member.state) ? '-' : member.state,
     };
   };
 
   render() {
+    const { handleSuccess } = this.props;
     return (
       <div>
         <l.FlexCentered mb={[spacing.ml, spacing.xl]}>
@@ -200,6 +215,7 @@ class SetupFormComponent extends React.Component<Props> {
           fieldChangeValidations={setupFieldChangeValidations}
           fieldValidations={setupFieldValidations}
           steps={formData}
+          stepProps={{ handleSuccess }}
           successMessage="Success!"
         />
       </div>

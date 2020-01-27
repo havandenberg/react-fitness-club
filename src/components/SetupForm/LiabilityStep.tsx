@@ -98,8 +98,12 @@ const liabilityStyles = StyleSheet.create({
   },
 });
 
+interface Props {
+  handleSuccess: () => void;
+}
+
 class LiabilityWaiverStep extends React.Component<
-  FormComponentProps<SetupFields>
+  Props & FormComponentProps<SetupFields>
 > {
   generatePDF = () => {
     const { fields } = this.props;
@@ -213,10 +217,10 @@ class LiabilityWaiverStep extends React.Component<
 
   handleSubmit = (blob: Blob) => (e: React.FormEvent) => {
     e.preventDefault();
-    const { fields, onSubmit } = this.props;
+    const { fields, handleSuccess, onSubmit } = this.props;
     onSubmit(
       (
-        onSuccess: () => void,
+        onSuccess: (callback?: () => void) => void,
         onFail: (error: Error) => void,
         resetForm: () => void,
         data: any,
@@ -246,7 +250,7 @@ class LiabilityWaiverStep extends React.Component<
               process.env.REACT_APP_EMAILJS_KEY,
             )
             .then(() => {
-              onSuccess();
+              onSuccess(handleSuccess);
               scrollToId('signup', { offset: -100 });
             })
             .catch((error: Error) => {
