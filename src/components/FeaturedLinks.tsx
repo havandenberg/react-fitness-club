@@ -258,12 +258,12 @@ const FeaturedLinks = () => (
           videoSource: `${ASSETS_PATH}/featured/videos/featured-vid-1.mp4`,
         },
         {
-          imageSource: `${ASSETS_PATH}/featured/photos/capoeira-featured.png`,
+          imageSource: `${ASSETS_PATH}/programs/Capoeira/capoeira-featured.jpg`,
           key: 'capoeira',
           label: 'Capoeira Luanda',
           logoSrc: `${ASSETS_PATH}/programs/Capoeira/capoeira-logo.png`,
           to: CAPOEIRA_PATH,
-          videoSource: `${ASSETS_PATH}/featured/videos/featured-vid-2.mp4`,
+          videoSource: `${ASSETS_PATH}/programs/Capoeira/capoeira-featured.mp4`,
         },
         {
           imageSource: `${ASSETS_PATH}/featured/photos/aikido-featured.jpg`,
