@@ -277,7 +277,7 @@ const FeaturedLinks = () => (
           imageSource: `${ASSETS_PATH}/featured/photos/ocr-featured.png`,
           key: 'ocr-team',
           label: 'Obstacle Course Racing',
-          logoSrc: `${ASSETS_PATH}/programs/OCR/ocr.svg`,
+          logoSrc: `${ASSETS_PATH}/programs/OCR/ocr.png`,
           to: OCR_PATH,
           videoSource: `${ASSETS_PATH}/featured/videos/featured-vid-4.mp4`,
         },
