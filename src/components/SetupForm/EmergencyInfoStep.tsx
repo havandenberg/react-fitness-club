@@ -14,7 +14,7 @@ export const emergencyInfoStep: Array<FormRowData<SetupFields>> = [
     items: [
       {
         flex: '100%',
-        helpText: '\'none\' if no allergies',
+        helpText: '"none" if no allergies',
         inputStyles: { height: 100 },
         inputType: 'textarea',
         valueName: 'allergies',
@@ -28,7 +28,7 @@ export const emergencyInfoStep: Array<FormRowData<SetupFields>> = [
     items: [
       {
         flex: '100%',
-        helpText: '\'none\' if no medical conditions',
+        helpText: '"none" if no medical conditions',
         inputStyles: { height: 100 },
         inputType: 'textarea',
         valueName: 'medicalConditions',
@@ -62,37 +62,12 @@ export const emergencyInfoStep: Array<FormRowData<SetupFields>> = [
     items: [
       {
         flex: '100%',
-        helpText: 'username@example.com',
-        inputType: 'text',
-        valueName: 'eEmail',
-      },
-    ],
-    label: 'Email',
-    rowWidth: ['100%', '65%'],
-  },
-  {
-    isRequired: true,
-    items: [
-      {
-        flex: '100%',
         helpText: 'valid phone number',
         inputType: 'text',
         valueName: 'ePhone',
       },
     ],
     label: 'Mobile Phone',
-    rowWidth: ['100%', '35%'],
-  },
-  {
-    isRequired: true,
-    items: [
-      {
-        flex: '100%',
-        inputType: 'text',
-        valueName: 'eRelationship',
-      },
-    ],
-    label: 'Relationship',
     rowWidth: ['100%', '35%'],
   },
 ];

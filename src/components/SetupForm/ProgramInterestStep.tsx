@@ -23,7 +23,17 @@ const programs = [
   'Qigong Meditation',
 ];
 
-export const programInterestStep: Array<FormRowData<SetupFields>> = [];
+export const programInterestStep: Array<FormRowData<SetupFields>> = [
+  {
+    items: [
+      {
+        flex: '100%',
+        inputType: 'text',
+        valueName: 'programInterests',
+      },
+    ],
+  },
+];
 
 class ProgramInterestStep extends React.Component<
   FormComponentProps<SetupFields>
@@ -37,7 +47,7 @@ class ProgramInterestStep extends React.Component<
   };
 
   render() {
-    const { fields, onBack, onChange, onForward } = this.props;
+    const { errors, fields, onBack, onChange, onForward } = this.props;
     return (
       <div>
         <t.Text mb={spacing.xl}>
@@ -48,6 +58,7 @@ class ProgramInterestStep extends React.Component<
           <l.FlexColumn alignTop key={programOption} mx="auto" width={300}>
             <CheckboxRadioInputWithLabel
               checked={R.contains(programOption, fields.programInterests)}
+              error={R.contains('programInterests', errors)}
               onChange={() => {
                 onChange('programInterests', this.toggleChecked(programOption));
               }}

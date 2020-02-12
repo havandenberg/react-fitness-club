@@ -33,11 +33,9 @@ export interface SetupFields {
   allergies: string;
   city: string;
   email: string;
-  eEmail: string;
   eFirstName: string;
   eLastName: string;
   ePhone: string;
-  eRelationship: string;
   dobMonth: string;
   dobDay: string;
   dobYear: string;
@@ -73,11 +71,9 @@ export const setupFieldValidations: FormFieldValidations<SetupFields> = {
   dobYear: (value: string) =>
     parseInt(value, 10) > 1900 &&
     parseInt(value, 10) <= new Date().getFullYear() - 8,
-  eEmail: (value: string) => isValidEmail(value),
   eFirstName: (value: string) => !R.isEmpty(value),
   eLastName: (value: string) => !R.isEmpty(value),
   ePhone: (value: string) => isValidPhone(value),
-  eRelationship: (value: string) => !R.isEmpty(value),
   email: (value: string) => isValidEmail(value),
   firstName: (value: string) => !R.isEmpty(value),
   initialFive: (value: string) => value.length > 1,
@@ -178,12 +174,10 @@ class SetupFormComponent extends React.Component<Props> {
       dobDay: dateOfBirth.day,
       dobMonth: dateOfBirth.month,
       dobYear: dateOfBirth.year,
-      eEmail: emergencyContact.email,
       eFirstName: emergencyContact.firstName,
       eLastName: emergencyContact.lastName,
       ePhone: emergencyContact.phone,
-      eRelationship: emergencyContact.relationship,
-      programInterests: ['General interest'],
+      programInterests: [],
       state: R.isEmpty(member.state) ? '-' : member.state,
     };
   };
