@@ -24,15 +24,15 @@ const programs = [
 ];
 
 export const programInterestStep: Array<FormRowData<SetupFields>> = [
-  {
-    items: [
-      {
-        flex: '100%',
-        inputType: 'text',
-        valueName: 'programInterests',
-      },
-    ],
-  },
+  // {
+  //   items: [
+  //     {
+  //       flex: '100%',
+  //       inputType: 'text',
+  //       valueName: 'programInterests',
+  //     },
+  //   ],
+  // },
 ];
 
 class ProgramInterestStep extends React.Component<
