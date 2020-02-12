@@ -30,25 +30,27 @@ const Mission = () => (
     <Divider white />
     <l.Page
       px={[spacing.sm, 0]}
-      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+    >
       <l.Flex alignTop>
         <l.Space
           ml="auto"
-          mr={[0, spacing.xxxl]}
-          width={['100%', '90%', '70%']}>
+          mr={[0, spacing.xxxxxl]}
+          width={['100%', '90%', '70%']}
+        >
           <t.H1 mb={[spacing.ml, spacing.ml]}>RFC Mission</t.H1>
-          <t.Text large mb={[spacing.xl]}>
+          <t.JustifiedText large mb={[spacing.xl]}>
             Our mission at React Fitness Club is to guide our members to a
             healthy lifestyle by cultivating{' '}
             <l.Blue>positive mental & physical habits</l.Blue>.
-          </t.Text>
-          <t.Text large mb={[spacing.xl]}>
+          </t.JustifiedText>
+          <t.JustifiedText large mb={[spacing.xl]}>
             Each of our martial arts and fitness programs serves as a tool to
             help along that journey - possible paths to a common goal. By
             providing a <l.Blue>diverse set of programs</l.Blue>, we offer
             something for everyone - for all ages, experience levels, and
             personal backgrounds.
-          </t.Text>
+          </t.JustifiedText>
           {isMobile() && (
             <l.FlexCentered mb={spacing.xxxl} mx="auto" width="85%">
               <GalleryImage
@@ -62,21 +64,21 @@ const Mission = () => (
               />
             </l.FlexCentered>
           )}
-          <t.Text large mb={[spacing.xl]}>
+          <t.JustifiedText large mb={[spacing.xl]}>
             At RFC we embrace the fact that{' '}
             <l.Blue>living a healthy lifestyle</l.Blue> is a continuous process
             at any age - there is no "one & done" mentality. You can’t just go
             to the gym for a few months and expect to stay fit after you stop
             going.
-          </t.Text>
-          <t.Text large mb={[spacing.xxxl]}>
+          </t.JustifiedText>
+          <t.JustifiedText large mb={[spacing.xxxl]}>
             Living a healthy lifestyle is an <l.Blue>ongoing practice</l.Blue>,
             so it’s important to feel <l.Blue>welcome and included</l.Blue> at
             your training center of choice. Having a{' '}
             <l.Blue>robust support network</l.Blue> is essential for feeling
             connected to your community, as well as the confidence to act
             independently.
-          </t.Text>
+          </t.JustifiedText>
           {isMobile() && (
             <l.FlexCentered mb={spacing.xxxl} mx="auto" width="85%">
               <GalleryImage
@@ -91,12 +93,12 @@ const Mission = () => (
             </l.FlexCentered>
           )}
           <t.H1 mb={[spacing.ml, spacing.ml]}>Team-Based Fitness</t.H1>
-          <t.Text large mb={[spacing.xl]}>
+          <t.JustifiedText large mb={[spacing.xl]}>
             At RFC there is always "someone in your corner", supporting your{' '}
             <l.Blue>personal, professional, and physical fitness goals</l.Blue>{' '}
             and providing guidance to achieve your mission to live a healthy
             life.
-          </t.Text>
+          </t.JustifiedText>
           <t.Text large mb={[spacing.xl]}>
             Remember, <l.Blue>no one gets there alone!</l.Blue>
           </t.Text>
@@ -113,32 +115,33 @@ const Mission = () => (
               />
             </l.FlexCentered>
           )}
-          <t.Text large mb={[spacing.xxxl]}>
+          <t.JustifiedText large mb={[spacing.xxxl]}>
             RFC is a community of like-minded, fitness oriented humans who are
             there to support you throughout your training. We encourage friendly
             competition!
-          </t.Text>
+          </t.JustifiedText>
           <t.H1 mb={[spacing.ml, spacing.ml]}>Peace & Love</t.H1>
-          <t.Text large mb={[spacing.xl]}>
+          <t.JustifiedText large mb={[spacing.xl]}>
             RFC has a <l.Blue>zero tolerance policy</l.Blue> for prejudice and
             intolerance of all forms.
-          </t.Text>
-          <t.Text large mb={[spacing.xl]}>
+          </t.JustifiedText>
+          <t.JustifiedText large mb={[spacing.xl]}>
             <l.Blue>
               ALL humans will find a safe space at React Fitness Club, no matter
               what.
             </l.Blue>
-          </t.Text>
-          <t.Text large mb={[spacing.xl]}>
+          </t.JustifiedText>
+          <t.JustifiedText large mb={[spacing.xl]}>
             We take this policy very seriously, and will not hesitate to take
             action when necessary regarding instances of bullying or
             intolerance.
-          </t.Text>
+          </t.JustifiedText>
           {isMobile() && (
             <l.FlexCentered
               mb={[spacing.xxxl, spacing.xxxxxl]}
               mx="auto"
-              width={['85%', '65%']}>
+              width={['85%', '65%']}
+            >
               <GalleryImage
                 image={{
                   caption:
@@ -214,7 +217,8 @@ const Mission = () => (
         mt={[0, spacing.xxl]}
         mx="auto"
         spaceBetween
-        width="100%">
+        width="100%"
+      >
         <LinkPrimary to="/programs" width={['100%', 'auto']}>
           <ProgramsImg color={colors.white} side={spacing.xl} />
           &nbsp;&nbsp;&nbsp; Browse our programs

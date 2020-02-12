@@ -156,7 +156,9 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
                       )}
                     </l.Flex>
                     {instructor.bio && (
-                      <t.Text fontSize="12px">{instructor.bio}</t.Text>
+                      <t.JustifiedText fontSize="12px">
+                        {instructor.bio}
+                      </t.JustifiedText>
                     )}
                   </l.Space>
                 </l.Flex>

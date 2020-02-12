@@ -191,6 +191,10 @@ export const LargeText = styled(Text)({
   },
 });
 
+export const JustifiedText = styled(Text)({
+  textAlign: 'justify',
+});
+
 const Anchor = styled('a')(
   {
     alignItems: 'center',
@@ -318,6 +322,7 @@ export default {
   H3,
   HelpSpan,
   HelpText,
+  JustifiedText,
   LargeText,
   Link,
   Subtitle,

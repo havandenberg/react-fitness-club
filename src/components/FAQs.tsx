@@ -26,7 +26,7 @@ const ListItem = ({ text }: { text: string }) => (
   </l.Flex>
 );
 
-const Answer = styled(t.Text)({
+const Answer = styled(t.JustifiedText)({
   marginBottom: spacing.xxxl,
   marginLeft: spacing.xl,
   maxWidth: 750,
@@ -37,6 +37,7 @@ const Question = styled(t.H1)({
   fontSize: fontSizes.h3,
   marginBottom: spacing.sm,
   maxWidth: 750,
+  textAlign: 'justify',
   textShadow: 'none',
   [breakpoints.tablet]: {
     fontSize: tabletSizes.h3,
@@ -63,7 +64,8 @@ const FAQs = () => (
     <Divider white />
     <l.Page
       px={[spacing.sm, 0]}
-      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}>
+      py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
+    >
       <Question>What should I bring to class?</Question>
       <Answer>
         <ListItem text="Shorts" />

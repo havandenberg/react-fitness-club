@@ -9,7 +9,7 @@ import * as instructors from './instructors';
 
 export const aikido = {
   description: (
-    <t.Text mb={spacing.ml}>
+    <t.JustifiedText mb={spacing.ml}>
       At the heart of aikido is the concept of ‘ki’ or one’s ‘life-force’.
       Aikido training seeks to fuse universal ki which flows within each
       individual. Aikido translates as “the Way of harmonious spirit”, and like
@@ -21,7 +21,7 @@ export const aikido = {
       warriors in Japan’s feudal age. However, Morihei’s philosophy was to
       combine the techniques with the spirit of heaven and earth, thus creating
       a ‘Way’ for training body and mind with unreserved love for all things.
-    </t.Text>
+    </t.JustifiedText>
   ),
   id: 'aikido',
   instructors: [instructors.koksal],
@@ -30,7 +30,7 @@ export const aikido = {
 
 export const capoeira = {
   description: (
-    <t.Text mb={spacing.ml}>
+    <t.JustifiedText mb={spacing.ml}>
       Capoeira is an African-Brazilian martial art that incorporates acrobatics,
       dance, music, and songs in a rhythmic dialogue of body, mind, and spirit.
       It is a communal game in which two opponents play each other inside the
@@ -41,7 +41,7 @@ export const capoeira = {
       movements, camouflaging the self defense kicks and moves with playful
       acrobatics and dance-like moves spontaneously creating strategy to fool
       their partner and catch them off guard.
-    </t.Text>
+    </t.JustifiedText>
   ),
   id: 'capoeira',
   instructors: [instructors.morcego],
@@ -50,7 +50,7 @@ export const capoeira = {
 
 export const dungeons = {
   description: (
-    <t.Text mb={spacing.ml}>
+    <t.JustifiedText mb={spacing.ml}>
       D&D is an excellent way to make friends, be social, and explore the new
       and exciting world of table top gaming! We at RFC started our new "Social
       Saturdays" program recently and D&D became a quick favorite of the gym so
@@ -63,7 +63,7 @@ export const dungeons = {
       wise wizard, or even a fun loving bard, now is the time to try it out and
       join us! The choices are yours to make, just remember, every choice has a
       consequence!
-    </t.Text>
+    </t.JustifiedText>
   ),
   id: 'dungeons',
   instructors: [instructors.hack],
@@ -72,13 +72,13 @@ export const dungeons = {
 
 export const qigongMeditation = {
   description: (
-    <t.Text mb={spacing.ml}>
+    <t.JustifiedText mb={spacing.ml}>
       A holistic system of coordinated body-posture and movement, breathing, and
       meditation used for the purposes of health, spirituality, and martial-arts
       training. With roots in Chinese medicine, philosophy, and martial arts,
       qigong is traditionally viewed as a practice to cultivate and balance qi,
       translated as "life energy".
-    </t.Text>
+    </t.JustifiedText>
   ),
   id: 'qigong-meditation',
   instructors: [instructors.henry],
@@ -88,15 +88,15 @@ export const qigongMeditation = {
 export const yoga = {
   description: (
     <>
-      {/* <t.Text mb={spacing.ml}>
+      {/* <t.JustifiedText mb={spacing.ml}>
         RFC offers 3 different types of yoga as part of our yoga package:
-      </t.Text>
+      </t.JustifiedText>
       <l.Flex mb={spacing.ml}>
         <l.Img
           height={spacing.xxl}
           src={`${ASSETS_PATH}/programs/Yoga/namaslay.png`}
         />
-        <t.Text bold id="ddpy" ml={spacing.m}>
+        <t.JustifiedText bold id="ddpy" ml={spacing.m}>
           DDPYoga (
           <l.Span
             onClick={() => scrollToId('Heather Berkowitz', { offset: -210 })}
@@ -104,9 +104,9 @@ export const yoga = {
             with Heather
           </l.Span>
           )
-        </t.Text>
+        </t.JustifiedText>
       </l.Flex> */}
-      <t.Text mb={spacing.ml}>
+      <t.JustifiedText mb={spacing.ml}>
         DDPYoga combines traditional yoga positions with calisthenics like
         squats and push ups, sports rehab therapy principles, and dynamic
         resistance. The result is a low impact, high cardio, total body workout
@@ -114,16 +114,16 @@ export const yoga = {
         interactive, and high energy - this definitely "ain't your mama's yoga!"
         No previous yoga experience is required, beginners welcomed and
         encouraged.
-      </t.Text>
+      </t.JustifiedText>
       <l.FlexCentered width="100%">
         <t.Anchor
           border={borders.red}
           href="https://namaslayfitnessma.wixsite.com/namaslay"
           target="_blank"
         >
-          <t.Text color={colors.red} large>
+          <t.JustifiedText color={colors.red} large>
             Learn more about Heather & Namaslay Fitness
-          </t.Text>
+          </t.JustifiedText>
         </t.Anchor>
       </l.FlexCentered>
       {/* <l.Flex mb={spacing.ml} mt={spacing.xl}>
@@ -131,15 +131,15 @@ export const yoga = {
           height={spacing.xxl}
           src={`${ASSETS_PATH}/programs/Yoga/climbers.png`}
         />
-        <t.Text bold id="climbers" ml={spacing.m}>
+        <t.JustifiedText bold id="climbers" ml={spacing.m}>
           Yoga for Climbers & Martial Artists (
           <l.Span onClick={() => scrollToId('Brett Maguire', { offset: -210 })}>
             with Brett
           </l.Span>
           )
-        </t.Text>
+        </t.JustifiedText>
       </l.Flex>
-      <t.Text mb={spacing.xl}>
+      <t.JustifiedText mb={spacing.xl}>
         Sometimes the best way to grow in one activity is through training a
         different discipline. Yoga, climbing, and martial arts are three
         practices that enhance the others, intersecting in the development of
@@ -149,21 +149,21 @@ export const yoga = {
         modifications for practitioners of all levels. Climbers and martial
         artists can expect to improve balance, gain core strength, and increase
         flexibility and range of motion through regular practice.
-      </t.Text>
+      </t.JustifiedText>
       <l.Flex mb={spacing.ml}>
         <l.Img
           height={spacing.xxl}
           src={`${ASSETS_PATH}/programs/Yoga/climbers.png`}
         />
-        <t.Text bold id="ashtanga" ml={spacing.m}>
+        <t.JustifiedText bold id="ashtanga" ml={spacing.m}>
           Ashtanga Power Yoga (
           <l.Span onClick={() => scrollToId('Brett Maguire', { offset: -210 })}>
             with Brett
           </l.Span>
           )
-        </t.Text>
+        </t.JustifiedText>
       </l.Flex>
-      <t.Text mb={spacing.xl}>
+      <t.JustifiedText mb={spacing.xl}>
         Ashtanga is the bouldering of yoga: it is challenging, rigorous, and
         offers a lifetime of practice and growth. The emphasis is on linking
         movement with breath, following a regular sequence of poses so that
@@ -173,7 +173,7 @@ export const yoga = {
         flexibility, core strength, and steadiness. By increasing awareness and
         flexibility in the body, we can enhance mental agility as well,
         ultimately fostering a steadier experience on the rock.
-      </t.Text> */}
+      </t.JustifiedText> */}
     </>
   ),
   id: 'yoga',
@@ -183,10 +183,10 @@ export const yoga = {
 
 export const reactMma = {
   description: (
-    <t.Text mb={spacing.ml}>
+    <t.JustifiedText mb={spacing.ml}>
       A mixed martial arts system with 3 phases of training: stand up, take
       downs, and grappling. Taught by Coach Ryan.
-    </t.Text>
+    </t.JustifiedText>
   ),
   id: 'react-mma',
   instructors: [instructors.john],
@@ -196,14 +196,14 @@ export const reactMma = {
 export const ocrTeam = {
   description: (
     <>
-      <t.Text mb={spacing.ml}>
+      <t.JustifiedText mb={spacing.ml}>
         Looking for an extra challenge? Join our OCR Team! Tough Mudders,
         Spartan Races - you name it, we run it! This program is dedicated to
         training and upkeep for obstacle course races, consisting of one
         scheduled short (~1-2 miles) training run and one longer run (2+ miles)
         per week.
-      </t.Text>
-      <t.Text mb={spacing.ml}>
+      </t.JustifiedText>
+      <t.JustifiedText mb={spacing.ml}>
         If you are just getting started running and obstacle courses seem cool
         (they are 😉) but way outside your ability/fitness level, don't worry!
         Come to one of our short runs to get started and we will start building
@@ -211,23 +211,23 @@ export const ocrTeam = {
         one crosses the finish line alone! Check out our events page for the
         next upcoming obstacle course race we are attending! If you are within 2
         months of an event, we recommend coming to both trainings each week.
-      </t.Text>
-      <t.Text mb={spacing.ml}>
+      </t.JustifiedText>
+      <t.JustifiedText mb={spacing.ml}>
         Want to run another course that we haven't picked up yet? Let us know!
         Chances are one of the team will be interesting in joining you. No
         matter which events our team members are training for, our coaches will
         help you get as ready as possible and provide support through the finish
         line.
-      </t.Text>
-      <t.Text mb={spacing.ml}>
+      </t.JustifiedText>
+      <t.JustifiedText mb={spacing.ml}>
         All training courses start at RFC unless otherwise stated in the
         calendar event in the{' '}
         <t.Link border={borders.red} color={colors.red} to="/schedule">
           schedule
         </t.Link>
         .
-      </t.Text>
-      <t.Text mb={spacing.ml}>
+      </t.JustifiedText>
+      <t.JustifiedText mb={spacing.ml}>
         <t.Anchor
           border={borders.red}
           color={colors.red}
@@ -238,7 +238,7 @@ export const ocrTeam = {
         </t.Anchor>{' '}
         to some info about OCR Training where we find most of our events if you
         want to learn more about the sport!
-      </t.Text>
+      </t.JustifiedText>
     </>
   ),
   id: 'ocr-team',

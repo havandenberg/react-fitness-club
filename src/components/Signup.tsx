@@ -36,9 +36,9 @@ const Signup = () => (
     >
       <l.Space mb={spacing.xxl} mx="auto" width={['100%', '100%', '80%']}>
         <l.FlexCentered>
-          <t.Text center large mb={spacing.ml}>
+          <t.JustifiedText center large mb={spacing.ml}>
             Already an RFC member?
-          </t.Text>
+          </t.JustifiedText>
         </l.FlexCentered>
         <l.FlexCentered mb={spacing.xl}>
           <t.Anchor href="https://rfc.kicksite.net/" target="_blank">
@@ -59,7 +59,7 @@ const Signup = () => (
             mb={spacing.xxl}
             to="/signup/new"
           >
-            New Member?
+            Click here for new member signup
           </t.Link>
         </l.FlexCentered>
         <l.Flex mb={spacing.ml} spaceBetween>
@@ -70,14 +70,14 @@ const Signup = () => (
             <l.Flex
               justifyContent={isMobileOnly() ? 'space-between' : undefined}
             >
-              <t.Text
+              <t.JustifiedText
                 color={colors.red}
                 fontSize={[fontSizes.text, fontSizes.helpText, fontSizes.text]}
                 mr={spacing.sm}
                 textAlign="right"
               >
                 Unlimited access with
-              </t.Text>
+              </t.JustifiedText>
               <Badge
                 background={gradients.multipass}
                 p={[spacing.s, spacing.s]}
@@ -100,31 +100,31 @@ const Signup = () => (
         </l.Flex>
         <l.Line width="100%" />
         <l.Flex mb={spacing.ml} mt={spacing.xxxl}>
-          <t.Text bold large width={200}>
+          <t.JustifiedText bold large width={200}>
             2 Intro Classes:
-          </t.Text>
-          <t.Text
+          </t.JustifiedText>
+          <t.JustifiedText
             bold
             color={colors.green}
             large
             textAlign={isMobileOnly() ? 'right' : 'left'}
           >
             FREE!
-          </t.Text>
+          </t.JustifiedText>
         </l.Flex>
-        <t.Text mb={spacing.ml}>
+        <t.JustifiedText mb={spacing.ml}>
           Come in to <l.Blue>any program</l.Blue> for a free intro class! We
           want you to know what value you will be getting out of each of our
           programs before you decide to pay for them 😉.
-        </t.Text>
-        <t.Text mb={spacing.ml}>
+        </t.JustifiedText>
+        <t.JustifiedText mb={spacing.ml}>
           Check out our full program schedule{' '}
           <t.Link border={borders.red} color={colors.red} to="/schedule">
             here
           </t.Link>
           .
-        </t.Text>
-        <t.Text>
+        </t.JustifiedText>
+        <t.JustifiedText>
           You can also schedule a free private intro class outside normal class
           times for yourself or a small group with one of our coaches by
           contacting us{' '}
@@ -132,56 +132,58 @@ const Signup = () => (
             here
           </t.Link>
           .
-        </t.Text>
+        </t.JustifiedText>
         <l.Line my={spacing.xxxxxl} />
         <l.Flex mb={spacing.ml}>
-          <t.Text bold large width={200}>
+          <t.JustifiedText bold large width={200}>
             Day Pass:
-          </t.Text>
-          <t.Text
+          </t.JustifiedText>
+          <t.JustifiedText
             bold
             color={colors.darkBlue}
             large
             textAlign={isMobileOnly() ? 'right' : 'left'}
           >
             $15/day
-          </t.Text>
+          </t.JustifiedText>
         </l.Flex>
         <l.Flex>
           <Bullet secondary src={BulletImg} />
-          <t.Text>
+          <t.JustifiedText>
             Access to all RFC classes for one day, not including special events.
-          </t.Text>
+          </t.JustifiedText>
         </l.Flex>
         <l.Line my={spacing.xxxxxl} />
-        <t.Text bold large mb={spacing.ml}>
+        <t.JustifiedText bold large mb={spacing.ml}>
           Single Program Membership:
-        </t.Text>
+        </t.JustifiedText>
         <l.Flex mb={spacing.ml}>
           <Bullet secondary src={BulletImg} />
-          <t.Text>
+          <t.JustifiedText>
             Full access to classes of one program. Each program has different
             monthly pricing options.
-          </t.Text>
+          </t.JustifiedText>
         </l.Flex>
         <l.Flex mb={spacing.xxxl}>
           <Bullet secondary src={BulletImg} />
-          <t.Text>2 free day passes per month.</t.Text>
+          <t.JustifiedText>2 free day passes per month.</t.JustifiedText>
         </l.Flex>
-        <t.Text mb={spacing.ml}>
+        <t.JustifiedText mb={spacing.ml}>
           Browse our current programs{' '}
           <t.Link border={borders.red} color={colors.red} to="/programs">
             here
           </t.Link>
           .
-        </t.Text>
-        <t.Text mb={spacing.xxxl}>
+        </t.JustifiedText>
+        <t.JustifiedText mb={spacing.xxxl}>
           See below for specific program pricing.
-        </t.Text>
-        <t.Text bold mb={spacing.ml}>
+        </t.JustifiedText>
+        <t.JustifiedText bold mb={spacing.ml}>
           Student Discount:
-        </t.Text>
-        <t.Text>Discount available for college students.</t.Text>
+        </t.JustifiedText>
+        <t.JustifiedText>
+          Discount available for college students.
+        </t.JustifiedText>
         <l.Line my={spacing.xxxxxl} />
         <l.Flex mb={spacing.xl}>
           <Badge
@@ -201,51 +203,48 @@ const Signup = () => (
         </l.Flex>
         <l.Flex mb={spacing.ml}>
           <Bullet secondary src={BulletImg} />
-          <t.Text>
+          <t.JustifiedText>
             <l.Blue>Unlimited access to all RFC programs!</l.Blue>
-          </t.Text>
+          </t.JustifiedText>
         </l.Flex>
         <l.Flex mb={spacing.ml}>
           <Bullet secondary src={BulletImg} />
-          <t.Text>5 free day passes per month.</t.Text>
+          <t.JustifiedText>5 free day passes per month.</t.JustifiedText>
         </l.Flex>
         <l.Flex mb={spacing.xxxl}>
           <Bullet secondary src={BulletImg} />
-          <t.Text>Discounts for special events & workshops.</t.Text>
+          <t.JustifiedText>
+            Discounts for special events & workshops.
+          </t.JustifiedText>
         </l.Flex>
-        <t.Text bold mb={spacing.ml}>
+        <t.JustifiedText bold mb={spacing.ml}>
           Family Multipass:
-        </t.Text>
-        <t.Text mb={spacing.xxxl}>
+        </t.JustifiedText>
+        <t.JustifiedText mb={spacing.xxxl}>
           We want to encourage families to come get healthy together! Families
           up to 4 receive full Multipass access to all programs for the Family
           Multipass price.
-        </t.Text>
-        <t.Text bold mb={spacing.ml}>
+        </t.JustifiedText>
+        <t.JustifiedText bold mb={spacing.ml}>
           Student Discount:
-        </t.Text>
-        <t.Text>There is also a student discount for the multipass!</t.Text>
+        </t.JustifiedText>
+        <t.JustifiedText>
+          There is also a college student discount available for our Multipass!
+        </t.JustifiedText>
         <l.Line my={spacing.xxxxxl} />
-        <t.Text bold large mb={spacing.ml} width="50%">
+        <t.JustifiedText bold large mb={spacing.ml} width="50%">
           Program Pricing:
-        </t.Text>
-        <t.Text mb={spacing.xxxl}>
+        </t.JustifiedText>
+        <t.JustifiedText mb={spacing.xxxl}>
           To receive an email with all of our program pricing options, please
           enter your name and email below:
-        </t.Text>
+        </t.JustifiedText>
         <l.Space height={250} mb={spacing.xxxxxl} mx="auto" width={400}>
           <l.Frame src="https://rfc.kicksite.net/bizbuilders/lead_capture_forms/eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoibGNmXzEyNyJ9.zvVqiPPdSM5WHrmeH9QYX-rvsmM3-XYFEBWKrdYPHEQ" />
         </l.Space>
         <l.FlexCentered>
-          <t.Link
-            border={borders.red}
-            center="true"
-            color={colors.red}
-            large
-            mb={spacing.xxl}
-            to="/signup/new"
-          >
-            Sign up here.
+          <t.Link to="/signup/new">
+            <ButtonPrimary mb={spacing.xxl}>Sign up here</ButtonPrimary>
           </t.Link>
         </l.FlexCentered>
         <l.Space height={100} />

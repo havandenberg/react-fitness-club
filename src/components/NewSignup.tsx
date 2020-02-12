@@ -71,7 +71,7 @@ class NewSignup extends React.Component<{}, State> {
                 mb={spacing.xxl}
                 to="/signup"
               >
-                Click here for membership options.
+                Click here for membership options
               </t.Link>
             </l.FlexCentered>
             {success ? (
@@ -97,7 +97,7 @@ class NewSignup extends React.Component<{}, State> {
               </>
             ) : (
               <>
-                <t.H1 alignSelf="flex-start">New Members</t.H1>
+                <t.H1 alignSelf="flex-start">New Member Signup</t.H1>
                 <l.Line width="100%" />
                 <t.Text mt={spacing.xxxl}>
                   To sign up for any RFC programs, please fill out our
