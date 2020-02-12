@@ -29,12 +29,12 @@ export const getSpecialEventSessions = (
 
 export const getUpcomingSpecialEvents = (specialEvents: SpecialEvent[]) =>
   specialEvents.filter(
-    (event: SpecialEvent) => moment().diff(event.startDate) < 0,
+    (event: SpecialEvent) => moment().diff(event.endDate) < 0,
   );
 
 export const getPastSpecialEvents = (specialEvents: SpecialEvent[]) =>
   specialEvents.filter(
-    (event: SpecialEvent) => moment().diff(event.startDate) >= 0,
+    (event: SpecialEvent) => moment().diff(event.endDate) >= 0,
   );
 
 export const sortSpecialEventsByDate = (specialEvents: SpecialEvent[]) =>
