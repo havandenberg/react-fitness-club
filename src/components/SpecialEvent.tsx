@@ -37,10 +37,24 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps> {
 
     return (
       <SpecialEventWrapper>
-        <t.Text bold large mb={spacing.ml}>
-          {specialEvent.name}
-        </t.Text>
-        <l.Flex alignTop columnOnMobile spaceBetween>
+        <l.Flex columnOnMobile spaceBetween>
+          <t.Text bold large mb={spacing.ml}>
+            {specialEvent.name}
+          </t.Text>
+          {isDesktop() && !R.isEmpty(specialEvent.aboutUrl) && (
+            <t.Anchor
+              border={borders.red}
+              color={colors.red}
+              href={specialEvent.aboutUrl}
+              target="_blank"
+            >
+              <t.TextButton bold center large nowrap>
+                Event Details
+              </t.TextButton>
+            </t.Anchor>
+          )}
+        </l.Flex>
+        <l.Flex alignTop columnOnMobile>
           <l.FlexColumn width={['100%', '35%']}>
             <GalleryImage
               image={{
@@ -52,8 +66,8 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps> {
               }}
             />
           </l.FlexColumn>
-          <l.Space height={spacing.ml} width={spacing.ml} />
-          <l.Space mb={spacing.ml} width={['100%', '45%']}>
+          <l.Space height={spacing.xxxl} width={spacing.xxxl} />
+          <l.Space flex={1} mb={spacing.ml}>
             {!R.isEmpty(sessions) && (
               <t.Text bold mb={spacing.ml}>
                 Sessions:
@@ -82,24 +96,23 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps> {
               </>
             )}
           </l.Space>
-          <l.Space width={spacing.ml} />
-          <l.FlexColumn width={['100%', 0, 0]}>
-            {!R.isEmpty(specialEvent.aboutUrl) && (
-              <t.Anchor
-                border={borders.red}
-                color={colors.red}
-                href={specialEvent.aboutUrl}
-                target="_blank"
-              >
-                <t.TextButton bold center large nowrap>
-                  Event Details
-                </t.TextButton>
-              </t.Anchor>
-            )}
-          </l.FlexColumn>
         </l.Flex>
         {!isDesktop() && (
           <>
+            {!R.isEmpty(specialEvent.aboutUrl) && (
+              <l.FlexCentered>
+                <t.Anchor
+                  border={borders.red}
+                  color={colors.red}
+                  href={specialEvent.aboutUrl}
+                  target="_blank"
+                >
+                  <t.TextButton bold center large nowrap>
+                    Event Details
+                  </t.TextButton>
+                </t.Anchor>
+              </l.FlexCentered>
+            )}
             <t.Text bold my={spacing.ml}>
               Description:
             </t.Text>

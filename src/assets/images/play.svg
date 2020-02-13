@@ -1,2 +1,15 @@
-<?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512px" height="512px"><path d="m211 164.023438v183.953124l137.960938-91.976562zm0 0" fill="#F14042"/><path d="m256 0c-140.609375 0-256 115.390625-256 256s115.390625 256 256 256 256-115.390625 256-256-115.390625-256-256-256zm-75 404.023438v-296.046876l222.039062 148.023438zm0 0" fill="#F14042"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>play</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(-129.000000, -851.000000)">
+            <g id="play" transform="translate(129.000000, 851.000000)">
+                <circle id="Oval" fill="#F2F3F4" cx="256" cy="256" r="209"></circle>
+                <polygon id="Path" fill="#F14042" fill-rule="nonzero" points="211 164.023438 211 347.976562 348.960938 256"></polygon>
+                <path d="M256,0 C115.390625,0 0,115.390625 0,256 C0,396.609375 115.390625,512 256,512 C396.609375,512 512,396.609375 512,256 C512,115.390625 396.609375,0 256,0 Z M181,404.023438 L181,107.976562 L403.039062,256 L181,404.023438 Z" id="Shape" fill="#F14042" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
