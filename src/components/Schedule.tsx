@@ -25,7 +25,7 @@ import { Division, Program, ProgramContent } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
 import { formatDescriptiveDate } from '../utils/calendar-event';
 import { getProgramById } from '../utils/program';
-import { isMobile, isMobileOnly } from '../utils/screensize';
+import { isMobile, isMobileOnly, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 import FilterBar, { FilterProps } from './FilterBar';
 import { LinkPrimary } from './Form/Button';
@@ -250,15 +250,19 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                 searchLabel="Search Events:"
                 scrollEndId="#calendar-end"
                 legend={
-                  <t.TextButton
-                    mt={spacing.m}
-                    onClick={this.toggleExpandCalendar}
-                  >
-                    <l.Img
-                      height={spacing.xxl}
-                      src={expandCalendar ? ShrinkImg : ExpandImg}
-                    />
-                  </t.TextButton>
+                  isTabletUp() ? (
+                    <t.TextButton
+                      mt={spacing.m}
+                      onClick={this.toggleExpandCalendar}
+                    >
+                      <l.Img
+                        height={spacing.xxl}
+                        src={expandCalendar ? ShrinkImg : ExpandImg}
+                      />
+                    </t.TextButton>
+                  ) : (
+                    undefined
+                  )
                 }
                 legendOnBottom
                 lowerLegend={

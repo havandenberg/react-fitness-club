@@ -86,7 +86,7 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
     return (
       <ProgramWrapper id={program.id}>
         <l.Flex alignTop columnOnMobile mb={[spacing.xl, 0, 0]} spaceBetween>
-          <l.Flex alignTop mr={spacing.xxxxxl}>
+          <l.Flex alignTop mr={[0, spacing.xxxxxl]}>
             <l.Img
               src={program.logoSrc}
               height={[spacing.xxxxxl, spacing.huge, spacing.huge]}
@@ -136,13 +136,13 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
                   mb={spacing.xxxl}
                 >
                   <l.Flex spaceBetween>
-                    {isMobileOnly() && instructor.logoSrc && (
-                      <l.Img height={spacing.xxxxxl} src={instructor.logoSrc} />
-                    )}
                     {instructor.photoSrc && (
                       <l.Space mr={spacing.xl}>
                         <l.Img width={spacing.huge} src={instructor.photoSrc} />
                       </l.Space>
+                    )}
+                    {isMobileOnly() && instructor.logoSrc && (
+                      <l.Img height={spacing.huge} src={instructor.logoSrc} />
                     )}
                   </l.Flex>
                   <l.Space>

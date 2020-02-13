@@ -70,14 +70,14 @@ const Signup = () => (
             <l.Flex
               justifyContent={isMobileOnly() ? 'space-between' : undefined}
             >
-              <t.JustifiedText
+              <t.Text
                 color={colors.red}
                 fontSize={[fontSizes.text, fontSizes.helpText, fontSizes.text]}
                 mr={spacing.sm}
                 textAlign="right"
               >
                 Unlimited access with
-              </t.JustifiedText>
+              </t.Text>
               <Badge
                 background={gradients.multipass}
                 p={[spacing.s, spacing.s]}

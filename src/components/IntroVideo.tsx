@@ -57,7 +57,9 @@ class IntroVideo extends React.Component<{}, State> {
           background={colors.darkBlue}
           gradient={gradients.darkBlue}
           onClick={this.openModal}
-          width={INTRO_BUTTON_WIDTH}>
+          size="small"
+          width={INTRO_BUTTON_WIDTH}
+        >
           <l.Flex>
             <l.Img height={spacing.ml} src={VideoImg} />
             <l.Space width={spacing.ml} />
@@ -101,11 +103,13 @@ class IntroVideo extends React.Component<{}, State> {
               enableBodyScroll(this.targetElement);
             }
           }}
-          onRequestClose={this.closeModal}>
+          onRequestClose={this.closeModal}
+        >
           <l.Space
             height={['auto', 500, 500]}
             position="relative"
-            width={['100%', 'auto', 'auto']}>
+            width={['100%', 'auto', 'auto']}
+          >
             <video autoPlay controls preload="true" height="100%" width="100%">
               <source
                 src={`${ASSETS_PATH}/react-fitness-club-intro-small.mp4`}

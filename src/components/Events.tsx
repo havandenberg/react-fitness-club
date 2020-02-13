@@ -81,11 +81,10 @@ class Events extends React.Component<Props, State> {
           ) : (
             <>
               <l.Flex
-                alignTop={isMobileOnly()}
                 boxShadow="0 5px 5px -5px"
-                columnOnMobile
                 mb={spacing.xl}
                 pb={spacing.m}
+                spaceBetween={isMobileOnly()}
                 width="100%"
               >
                 <t.H3 mr={[spacing.m, spacing.xl]} nowrap>

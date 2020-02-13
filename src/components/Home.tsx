@@ -22,12 +22,13 @@ import withScroll from './hoc/withScroll';
 import IntroVideo from './IntroVideo';
 import Newsletter from './Newsletter';
 
-export const INTRO_BUTTON_WIDTH = 230;
+export const INTRO_BUTTON_WIDTH = 200;
 
 export const Bullet = styled('img')(
   ({ secondary }: { secondary?: boolean }) => ({
     height: secondary ? spacing.xl : spacing.xxl,
     marginRight: secondary ? spacing.ml : spacing.xl,
+    minWidth: secondary ? spacing.xl : spacing.xxl,
     width: secondary ? spacing.xl : spacing.xxl,
   }),
 );
@@ -36,11 +37,11 @@ const Home = () => (
   <div>
     <Divider white />
     <l.Space height={spacing.xl} />
-    <l.FlexCentered>
+    <l.FlexCentered columnOnMobile>
       <IntroVideo />
       <l.Space height={spacing.xl} width={spacing.xxxl} />
       <t.Link to="/signup">
-        <ButtonPrimary width={INTRO_BUTTON_WIDTH}>
+        <ButtonPrimary size="small" width={INTRO_BUTTON_WIDTH}>
           <l.Flex>
             <SignupImg side={spacing.l} color={colors.white} />
             <l.Space width={spacing.m} />
@@ -89,7 +90,7 @@ const Home = () => (
         <StarImg />
       </l.Flex>
       <l.FlexCentered
-        mb={[spacing.ml, spacing.xxxl]}
+        mb={spacing.xxxl}
         mt={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
         mx="auto"
         width={['100%', '100%', '70%']}
@@ -100,7 +101,7 @@ const Home = () => (
         </t.Text>
       </l.FlexCentered>
       <l.FlexCentered
-        mb={[spacing.ml, spacing.xxxl]}
+        mb={spacing.xxxl}
         mx="auto"
         width={['100%', '100%', '70%']}
       >
@@ -121,7 +122,7 @@ const Home = () => (
       </l.FlexCentered>
       <l.FlexCentered
         columnOnMobile
-        my={[spacing.xxxl, spacing.huge]}
+        my={[spacing.xxxxxl, spacing.huge]}
         mx="auto"
         spaceBetween
         width="100%"

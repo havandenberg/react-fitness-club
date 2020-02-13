@@ -122,7 +122,10 @@ class ShopCatalog extends React.Component<
           categories={sortedCategories}
           categoryLabel="Category:"
           legend={
-            <l.Flex mt={[spacing.sm, 0, 0]}>
+            <l.Flex
+              justifyContent={isMobileOnly() ? 'flex-end' : undefined}
+              width={['100%', 'auto']}
+            >
               {!R.isEmpty(fields.items) && (
                 <t.Text
                   color={colors.red}
@@ -135,7 +138,7 @@ class ShopCatalog extends React.Component<
                 </t.Text>
               )}
               <ButtonPrimary
-                mt={[spacing.sm, 0, 0]}
+                mb={[spacing.sm, 0, 0]}
                 size="small"
                 type="button"
                 onClick={toggleShowOrderReview}

@@ -14,6 +14,7 @@ import {
   tabletSizes,
 } from '../styles/theme';
 import t from '../styles/typography';
+import { isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
@@ -28,7 +29,7 @@ const ListItem = ({ text }: { text: string }) => (
 
 const Answer = styled(t.JustifiedText)({
   marginBottom: spacing.xxxl,
-  marginLeft: spacing.xl,
+  marginLeft: isTabletUp() ? spacing.xl : undefined,
   maxWidth: 750,
 });
 

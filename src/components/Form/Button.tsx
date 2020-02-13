@@ -53,7 +53,7 @@ export const getButtonProps: (
   fontSize: size === 'big' ? fontSizes.largeText : fontSizes.text,
   fontWeight: 500,
   justifyContent: 'center',
-  padding: size === 'big' ? spacing.m : spacing.s,
+  padding: size === 'big' ? spacing.m : spacing.sm,
   position: 'relative',
   textAlign: 'center',
   verticalAlign: 'middle',

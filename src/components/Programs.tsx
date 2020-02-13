@@ -151,30 +151,25 @@ const Programs = ({ events, loadingPrograms, programs }: Props) => (
                 const program = getProgramById(prog.id, programs);
                 return (
                   program && (
-                    <React.Fragment key={`menu-${program.id}`}>
-                      <SmallProgramCard
-                        customStyles={{
-                          nameFontSize: [
-                            fontSizes.helpText,
-                            fontSizes.text,
-                            fontSizes.text,
-                          ],
-                          photoSideLength: spacing.xl,
-                          wrapper: {
-                            mb: [0, 0, 0],
-                            p: spacing.t,
-                            width: 'auto',
-                          },
-                        }}
-                        onClick={() => scrollToId(program.id, scrollOptions)}
-                        program={program}
-                      />
-                      {index < programs.length - 1 && (
-                        <l.Space
-                          width={[spacing.xl, spacing.xxxl, spacing.xxxl]}
-                        />
-                      )}
-                    </React.Fragment>
+                    <SmallProgramCard
+                      customStyles={{
+                        nameFontSize: [
+                          fontSizes.helpText,
+                          fontSizes.text,
+                          fontSizes.text,
+                        ],
+                        photoSideLength: spacing.xl,
+                        wrapper: {
+                          mb: [0, 0, 0],
+                          mr: [spacing.m, spacing.xxxl, spacing.xxxl],
+                          p: spacing.t,
+                          width: 'auto',
+                        },
+                      }}
+                      key={`menu-${program.id}`}
+                      onClick={() => scrollToId(program.id, scrollOptions)}
+                      program={program}
+                    />
                   )
                 );
               })}

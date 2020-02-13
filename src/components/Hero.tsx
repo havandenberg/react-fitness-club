@@ -57,6 +57,8 @@ const LogoWrapper = styled(l.Flex)(
 );
 
 const PosterLink = styled(l.Flex)({
+  maxWidth: 250,
+  overflow: 'hidden',
   position: 'absolute',
   right: 150,
   top: spacing.xl,
@@ -129,7 +131,8 @@ const Hero = ({
       <LogoWrapper
         pb={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}
         pt={[spacing.s, spacing.m]}
-        secondary={secondary}>
+        secondary={secondary}
+      >
         <Link to="/">
           <Logo secondary={secondary} src={LogoImg} />
         </Link>
@@ -140,10 +143,9 @@ const Hero = ({
           pb={
             secondary ? [spacing.ml, spacing.xl] : [0, spacing.xl, spacing.xl]
           }
-          pt={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}>
-          <t.Subtitle center>
-            Worcester Martial Arts & Fitness Club
-          </t.Subtitle>
+          pt={secondary ? [spacing.s, 0, 0] : [spacing.s, spacing.m]}
+        >
+          <t.Subtitle center>Worcester Martial Arts & Fitness Club</t.Subtitle>
         </l.FlexCentered>
       )}
       <QuickLinks alignBottom>
@@ -161,7 +163,8 @@ const Hero = ({
           bold={!!nextUpcomingEvent ? 'true' : undefined}
           border={borders.red}
           color={colors.red}
-          to="/events">
+          to="/events"
+        >
           <l.Flex columnRevOnMobile>
             <span>
               Events
@@ -198,7 +201,8 @@ const Hero = ({
           <QuickLink
             border={borders.red}
             color={colors.red}
-            to="/?id=newsletter">
+            to="/?id=newsletter"
+          >
             <div onClick={() => scrollToId('newsletter')}>
               <l.Flex columnRevOnMobile>
                 Newsletter
@@ -222,7 +226,7 @@ const Hero = ({
           <SocialIcons small />
         </SocialIconsWrapper>
       </QuickLinks>
-      {!R.isEmpty(upcomingEvents) && (
+      {isTabletUp() && !R.isEmpty(upcomingEvents) && (
         <PosterLink mb={[spacing.ml, 0]}>
           <t.Link to="/events">
             <l.Img

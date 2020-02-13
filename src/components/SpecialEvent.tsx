@@ -8,7 +8,7 @@ import t from '../styles/typography';
 import { CalendarEvent } from '../types/calendar-event';
 import { SpecialEvent as SpecialEventType } from '../types/special-event';
 import { formatDescriptiveDate } from '../utils/calendar-event';
-import { isTabletOnly } from '../utils/screensize';
+import { isDesktop } from '../utils/screensize';
 import { getSpecialEventSessions } from '../utils/special-event';
 import GalleryImage from './GalleryImage';
 
@@ -54,12 +54,11 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps> {
           </l.FlexColumn>
           <l.Space height={spacing.ml} width={spacing.ml} />
           <l.Space mb={spacing.ml} width={['100%', '45%']}>
-            {!isTabletOnly() && (
-              <t.Text mb={spacing.ml}>{specialEvent.description}</t.Text>
+            {!R.isEmpty(sessions) && (
+              <t.Text bold mb={spacing.ml}>
+                Sessions:
+              </t.Text>
             )}
-            <t.Text bold mb={spacing.ml}>
-              Sessions:
-            </t.Text>
             <div>
               {sessions.map((session: CalendarEvent, index: number) => {
                 return (
@@ -74,9 +73,17 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps> {
                 );
               })}
             </div>
+            {isDesktop() && (
+              <>
+                <t.Text bold mt={spacing.ml}>
+                  Description:
+                </t.Text>
+                <t.Text mb={spacing.ml}>{specialEvent.description}</t.Text>
+              </>
+            )}
           </l.Space>
-          <l.Space height={spacing.ml} width={spacing.ml} />
-          <l.FlexColumn mb={[spacing.sm, 0]}>
+          <l.Space width={spacing.ml} />
+          <l.FlexColumn width={['100%', 0, 0]}>
             {!R.isEmpty(specialEvent.aboutUrl) && (
               <t.Anchor
                 border={borders.red}
@@ -91,8 +98,13 @@ class SpecialEvent extends React.Component<Props & RouteComponentProps> {
             )}
           </l.FlexColumn>
         </l.Flex>
-        {isTabletOnly() && (
-          <t.Text mt={spacing.ml}>{specialEvent.description}</t.Text>
+        {!isDesktop() && (
+          <>
+            <t.Text bold my={spacing.ml}>
+              Description:
+            </t.Text>
+            <t.Text mt={spacing.ml}>{specialEvent.description}</t.Text>
+          </>
         )}
       </SpecialEventWrapper>
     );
