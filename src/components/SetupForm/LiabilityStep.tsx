@@ -449,7 +449,7 @@ class LiabilityWaiverStep extends React.Component<
             <l.Space height={spacing.xl} />
           </l.FlexColumn>
           <BlobProvider document={this.generatePDF()}>
-            {({ blob }: { blob: Blob }) => {
+            {({ blob }: { blob: any }) => {
               return (
                 <FormActions
                   forwardText="Complete Profile Setup"

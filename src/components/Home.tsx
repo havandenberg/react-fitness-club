@@ -137,7 +137,7 @@ const Home = () => (
           More about our mission
         </LinkPrimary>
         <l.Space
-          height={[spacing.xl, 0]}
+          height={[spacing.xxl, 0]}
           width={[0, spacing.xxl, spacing.xxxxxl]}
         />
         <LinkPrimary to="/faqs" width={['100%', 'auto']}>
@@ -150,7 +150,7 @@ const Home = () => (
           FAQs
         </LinkPrimary>
         <l.Space
-          height={[spacing.xl, 0]}
+          height={[spacing.xxl, 0]}
           width={[0, spacing.xxl, spacing.xxxxxl]}
         />
         <LinkPrimary to="/programs" width={['100%', 'auto']}>

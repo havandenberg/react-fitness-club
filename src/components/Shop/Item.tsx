@@ -118,7 +118,6 @@ class ShopItem extends React.Component<Props, State> {
             : orderOption,
         )
       : [...selectedOptions, { id, selectedOption: newValue }];
-    console.log(newOptions);
     this.setState({
       lastSelectedOptionSrc: newValue.imageSrc
         ? newValue.imageSrc
@@ -178,7 +177,8 @@ class ShopItem extends React.Component<Props, State> {
         height="100%"
         mb={showDetail ? 0 : spacing.xxxl}
         position="relative"
-        width="100%">
+        width="100%"
+      >
         <ImageWrapper height={isSmall() ? 125 : [150, 300, 300]}>
           <l.CursorPointerWrapper showPointer={showDetail}>
             <l.Img
@@ -203,7 +203,8 @@ class ShopItem extends React.Component<Props, State> {
                 : isSmall()
                 ? 125
                 : [150, 200, 280]
-            }>
+            }
+          >
             {imageSrcList.map((imageSrc: string, index: number) => (
               <React.Fragment key={index}>
                 {getOptionComponent(
@@ -221,7 +222,8 @@ class ShopItem extends React.Component<Props, State> {
           <t.Text
             center
             large
-            onClick={showDetail ? undefined : () => showDetails(item)}>
+            onClick={showDetail ? undefined : () => showDetails(item)}
+          >
             {item.title}
           </t.Text>
         </l.CursorPointerWrapper>
@@ -301,7 +303,8 @@ class ShopItem extends React.Component<Props, State> {
                   }}
                   type="button"
                   size="small"
-                  width={105}>
+                  width={105}
+                >
                   {quantityInCart
                     ? isDirty
                       ? 'Update'

@@ -261,7 +261,9 @@ class Form<FormFields> extends React.Component<
 
     if (!validateChange || validateChange(cleansedValue, fields)) {
       this.setState(
-        { fields: R.merge(fields, { [field]: cleansedValue }) },
+        {
+          fields: { ...fields, [field]: cleansedValue },
+        },
         callback,
       );
     }
@@ -286,11 +288,11 @@ class Form<FormFields> extends React.Component<
     const errors: string[] = [];
 
     const items: any = R.flatten(
-      R.pluck('items', this.getStepData(currentStep).rowItems),
+      R.pluck('items' as any, this.getStepData(currentStep).rowItems),
     );
     const fieldsToValidate: string[] = R.isEmpty(currentStep)
       ? Object.keys(fields)
-      : R.pluck('valueName', items);
+      : R.pluck('valueName' as any, items);
 
     fieldsToValidate.map(fieldKey => {
       const validateField = this.props.fieldValidations[fieldKey];

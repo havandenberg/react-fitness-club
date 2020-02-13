@@ -6,8 +6,9 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import { TinyButton as ScrollUpButton } from 'react-scroll-up-button';
 import '../firebase';
-import { colors, maxWidth } from '../styles/theme';
+import { borders, colors, maxWidth, spacing } from '../styles/theme';
 import { Alert } from '../types/alert';
 import { CalendarEvent } from '../types/calendar-event';
 import { Program } from '../types/program';
@@ -156,6 +157,17 @@ class App extends React.Component<{}, State> {
             alerts={alerts}
             loadingAlerts={loadingAlerts}
             specialEvents={specialEvents}
+          />
+          <ScrollUpButton
+            AnimationDuration={300}
+            style={{
+              background: `${colors.background}B3`,
+              border: borders.black,
+              borderRadius: borders.radius,
+              height: spacing.xxxl,
+              padding: spacing.s,
+              width: spacing.xxxl,
+            }}
           />
           <Switch>
             <Route exact path="/" component={Home} />
