@@ -110,7 +110,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
         <l.Break />
         Worcester, MA 10605
       </t.H2>
-      <l.Flex columnOnMobile mb={[spacing.xxl, spacing.xxxl]}>
+      <l.Flex columnOnMobile mb={[spacing.xxxl, spacing.xxxl]}>
         <GalleryImage
           image={{
             caption: '',
@@ -141,6 +141,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
           }}
         />
       </l.Flex>
+      <ContactText mb={spacing.ml}>Map:</ContactText>
       <t.Anchor
         href="https://www.google.com/maps/place/React+Fitness+Club/@42.2793643,-71.8049137,15z/data=!4m2!3m1!1s0x0:0x9046b19a3d697bcc?ved=2ahUKEwjSvtKd5PfeAhXEx4MKHc9mAekQ_BIwEHoECAYQCA"
         target="_blank"
