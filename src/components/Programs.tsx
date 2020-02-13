@@ -161,7 +161,7 @@ const Programs = ({ events, loadingPrograms, programs }: Props) => (
                         photoSideLength: spacing.xl,
                         wrapper: {
                           mb: [0, 0, 0],
-                          mr: [spacing.m, spacing.xxxl, spacing.xxxl],
+                          mr: [spacing.m, spacing.xl, spacing.xl],
                           p: spacing.t,
                           width: 'auto',
                         },
