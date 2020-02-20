@@ -120,7 +120,7 @@ const Mission = () => (
             there to support you throughout your training. We encourage friendly
             competition!
           </t.JustifiedText>
-          <t.H1 mb={[spacing.ml, spacing.ml]}>Peace & Love</t.H1>
+          <t.H1 mb={[spacing.ml, spacing.ml]}>Safety & Acceptance</t.H1>
           <t.JustifiedText large mb={[spacing.xl]}>
             RFC has a <l.Blue>zero tolerance policy</l.Blue> for prejudice and
             intolerance of all forms.

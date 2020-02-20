@@ -243,8 +243,14 @@ const Signup = () => (
           <l.Frame src="https://rfc.kicksite.net/bizbuilders/lead_capture_forms/eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoibGNmXzEyNyJ9.zvVqiPPdSM5WHrmeH9QYX-rvsmM3-XYFEBWKrdYPHEQ" />
         </l.Space>
         <l.FlexCentered>
-          <t.Link to="/signup/new">
-            <ButtonPrimary mb={spacing.xxl}>Sign up here</ButtonPrimary>
+          <t.Link
+            border={borders.red}
+            center="true"
+            color={colors.red}
+            mb={spacing.xxl}
+            to="/signup/new"
+          >
+            Click here for new member signup
           </t.Link>
         </l.FlexCentered>
         <l.Space height={100} />

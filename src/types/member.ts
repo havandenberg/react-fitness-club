@@ -12,11 +12,9 @@ export interface Member {
   dateOfBirth: DateOfBirth;
   email: string;
   emergencyContact: {
-    email: string;
     firstName: string;
     lastName: string;
     phone: string;
-    relationship: string;
   };
   firstName: string;
   lastName: string;
@@ -35,11 +33,9 @@ export const newMemberDefaults: Member = {
   dateOfBirth: { month: '', day: '', year: '' },
   email: '',
   emergencyContact: {
-    email: '',
     firstName: '',
     lastName: '',
     phone: '',
-    relationship: '',
   },
   firstName: '',
   lastName: '',
