@@ -20,7 +20,7 @@ const ProgramWrapper = styled(l.Space)({
   border: borders.black,
   borderRadius: borders.radius,
   margin: '0 2px',
-  padding: spacing.xl,
+  padding: ` ${spacing.xl} 0`,
   [breakpoints.mobile]: {
     padding: spacing.ml,
   },
@@ -54,7 +54,7 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
     );
 
     const schedule = (
-      <l.FlexColumn alignTop>
+      <l.FlexColumn alignTop mr={spacing.xl}>
         <t.Text bold={isMobileOnly()} large mb={spacing.ml}>
           Schedule:
         </t.Text>
@@ -85,8 +85,15 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
 
     return (
       <ProgramWrapper id={program.id}>
-        <l.Flex alignTop columnOnMobile mb={[spacing.xl, 0, 0]} spaceBetween>
-          <l.Flex alignTop mr={[0, spacing.xxxxxl]}>
+        <l.Flex
+          alignTop
+          boxShadow="0 1px 0px 0px"
+          columnOnMobile
+          mb={[spacing.xl, 0, 0]}
+          pb={spacing.xl}
+          spaceBetween
+        >
+          <l.Flex alignTop ml={spacing.xl} mr={[0, spacing.xxxxxl]}>
             <l.Img
               src={program.logoSrc}
               height={[spacing.xxxxxl, spacing.huge, spacing.huge]}
@@ -100,7 +107,7 @@ class Program extends React.Component<Props & RouteComponentProps, State> {
           </l.Flex>
           {isTabletUp() && schedule}
         </l.Flex>
-        <l.Section maxWidth={600} width="100%">
+        <l.Section maxWidth={600} px={spacing.xl} width="100%">
           {isMobileOnly() && schedule}
           <l.FlexColumn alignTop my={spacing.xl}>
             <t.Text bold={isMobileOnly()} large mb={spacing.m}>
