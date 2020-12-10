@@ -15,13 +15,13 @@ import {
 import t from '../styles/typography';
 import {
   isDesktop,
-  isMobile,
+  // isMobile,
   isSmall,
   isTabletUp,
   SMALL,
   TABLET,
 } from '../utils/screensize';
-import { scrollToId } from '../utils/scroll';
+// import { scrollToId } from '../utils/scroll';
 import Divider from './Divider';
 import SocialIcons from './SocialIcons';
 
@@ -73,12 +73,12 @@ const FooterTop = styled(l.Flex)({
   },
 });
 
-const PhoneAnchor = styled(t.Text)({
-  ':hover': {
-    color: colors.red,
-  },
-  transition: transitions.default,
-});
+// const PhoneAnchor = styled(t.Text)({
+//   ':hover': {
+//     color: colors.red,
+//   },
+//   transition: transitions.default,
+// });
 
 const Footer = () => (
   <div>
@@ -122,7 +122,7 @@ const Footer = () => (
         mb={[spacing.xxl, 0]}
         width={['100%', 'auto']}
       >
-        <t.Link
+        {/* <t.Link
           to="/contact?id=studio-location"
           mb={spacing.l}
           onClick={() => scrollToId('studio-location')}
@@ -141,7 +141,7 @@ const Footer = () => (
           <PhoneAnchor color={colors.white} large textAlign="right">
             774-317-1267
           </PhoneAnchor>
-        </t.Anchor>
+        </t.Anchor> */}
         <SocialIcons />
       </l.FlexColumn>
     </FooterTop>

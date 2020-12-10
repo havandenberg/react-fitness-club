@@ -3,15 +3,15 @@ import styled from 'react-emotion';
 import ContactImg from '../assets/images/contact';
 import StarImg from '../assets/images/star';
 import l from '../styles/layout';
-import { borders, colors, fontSizes, spacing } from '../styles/theme';
+import { fontSizes, spacing } from '../styles/theme';
 import t from '../styles/typography';
 import { Program } from '../types/program';
-import { ASSETS_PATH } from '../utils/constants';
-import { DESKTOP, isMobile } from '../utils/screensize';
-import { scrollToId } from '../utils/scroll';
+// import { ASSETS_PATH } from '../utils/constants';
+import { DESKTOP } from '../utils/screensize';
+// import { scrollToId } from '../utils/scroll';
 import ContactForm from './ContactForm';
 import Divider from './Divider';
-import GalleryImage from './GalleryImage';
+// import GalleryImage from './GalleryImage';
 import withScroll from './hoc/withScroll';
 import SocialIcons from './SocialIcons';
 
@@ -19,9 +19,9 @@ const ContactText = styled(t.Text)({
   fontSize: fontSizes.h3,
 });
 
-const MapImage = styled('img')({
-  width: '100%',
-});
+// const MapImage = styled('img')({
+//   width: '100%',
+// });
 
 const Contact = ({ programs }: { programs: Program[] }) => (
   <div>
@@ -38,14 +38,8 @@ const Contact = ({ programs }: { programs: Program[] }) => (
       px={[spacing.sm, 0]}
       py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
     >
-      <l.Flex
-        alignTop
-        columnOnMobile
-        mb={[0, spacing.xxxl]}
-        mx="auto"
-        spaceBetween
-      >
-        <ContactText mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
+      <l.FlexCentered columnOnMobile mb={[0, spacing.xxxl]} mx="auto">
+        {/* <ContactText mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
           Call us:
           <l.Break />
           <l.Space height={spacing.sm} />
@@ -84,14 +78,14 @@ const Contact = ({ programs }: { programs: Program[] }) => (
               Worcester, MA 01605
             </t.Text>
           </t.Anchor>
-        </ContactText>
-        <l.Space mb={[spacing.xxl, 0]} width={['100%', 'auto']}>
-          <ContactText mb={spacing.ml}>
+        </ContactText> */}
+        <l.Space mb={[spacing.xxl, 0]}>
+          <ContactText center mb={spacing.ml}>
             Follow us on social media:&nbsp;
           </ContactText>
           <SocialIcons showLabels />
         </l.Space>
-      </l.Flex>
+      </l.FlexCentered>
       <l.FlexCentered my={spacing.xxxl}>
         <StarImg />
       </l.FlexCentered>
@@ -101,7 +95,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
         &nbsp;please use the form below.
       </t.Text>
       <ContactForm programs={programs} />
-      <l.Space id="studio-location" height={[spacing.xxxl, spacing.xxxxxl]} />
+      {/* <l.Space id="studio-location" height={[spacing.xxxl, spacing.xxxxxl]} />
       <t.Subtitle center mb={[spacing.l, spacing.l]}>
         The React Fitness Club Studio is located at:
       </t.Subtitle>
@@ -147,7 +141,7 @@ const Contact = ({ programs }: { programs: Program[] }) => (
         target="_blank"
       >
         <MapImage src={`${ASSETS_PATH}/studio/map.png`} />
-      </t.Anchor>
+      </t.Anchor> */}
     </l.Page>
     <l.Space height={100} />
   </div>

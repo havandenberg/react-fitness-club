@@ -1,18 +1,18 @@
 import {
   clearAllBodyScrollLocks,
-  disableBodyScroll,
-  enableBodyScroll,
+  // disableBodyScroll,
+  // enableBodyScroll,
 } from 'body-scroll-lock';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import * as R from 'ramda';
 import * as React from 'react';
 import BigCalendar, { View } from 'react-big-calendar';
 import styled from 'react-emotion';
-import * as ReactModal from 'react-modal';
+// import * as ReactModal from 'react-modal';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
 import ExpandImg from '../assets/images/expand.svg';
-import ModalCloseImg from '../assets/images/modal-close-dark.svg';
+// import ModalCloseImg from '../assets/images/modal-close-dark.svg';
 import ScheduleImg from '../assets/images/schedule.svg';
 import ShrinkImg from '../assets/images/shrink.svg';
 import { programContent } from '../content/programs';
@@ -23,17 +23,21 @@ import { CalendarEvent } from '../types/calendar-event';
 import { FilterPrimaryCategory } from '../types/filter';
 import { Division, Program, ProgramContent } from '../types/program';
 import { SpecialEvent } from '../types/special-event';
-import { formatDescriptiveDate } from '../utils/calendar-event';
+// import { formatDescriptiveDate } from '../utils/calendar-event';
 import { getProgramById } from '../utils/program';
 import { isMobile, isMobileOnly, isTabletUp } from '../utils/screensize';
 import Divider from './Divider';
 import FilterBar, { FilterProps } from './FilterBar';
-import { LinkPrimary } from './Form/Button';
+// import { LinkPrimary } from './Form/Button';
 import withScroll from './hoc/withScroll';
 import Newsletter from './Newsletter';
-import { CloseButton } from './Shop/Item';
+// import { CloseButton } from './Shop/Item';
 
-const localizer = BigCalendar.momentLocalizer(moment);
+// const localizer = BigCalendar.momentLocalizer(moment);
+
+const CancelText = styled(t.Text)({
+  fontSize: fontSizes.h3,
+});
 
 const LegendIcon = styled(l.Space)({
   borderRadius: 2,
@@ -180,15 +184,15 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
   };
 
   render() {
-    const { events, loading, programs } = this.props;
+    const { loading, programs } = this.props;
     const {
-      calendarView,
+      // calendarView,
       expandCalendar,
-      selectedEvent,
-      showEventDetails,
+      // selectedEvent,
+      // showEventDetails,
     } = this.state;
 
-    const calendarHeight = expandCalendar ? 1800 : 900;
+    // const calendarHeight = expandCalendar ? 1800 : 900;
 
     const categories: FilterPrimaryCategory[] = R.map(
       (program: Program) => ({
@@ -211,11 +215,11 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
       name: 'Special Events',
     });
 
-    const selectedProgram =
-      selectedEvent && getProgramById(selectedEvent.programId, programs);
+    // const selectedProgram =
+    //   selectedEvent && getProgramById(selectedEvent.programId, programs);
 
-    const desc = selectedEvent && selectedEvent.description.split('::');
-    const eventDescription = desc && (desc.length > 1 ? desc[1] : desc[0]);
+    // const desc = selectedEvent && selectedEvent.description.split('::');
+    // const eventDescription = desc && (desc.length > 1 ? desc[1] : desc[0]);
 
     return (
       <div>
@@ -234,6 +238,11 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
           px={[spacing.sm, 0]}
           py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
         >
+          <l.Space mb={[spacing.xxl, 0]}>
+            <CancelText center mb={spacing.ml}>
+              NOTE: All RFC classes have been temporarily suspended.
+            </CancelText>
+          </l.Space>
           {loading ? (
             <l.FlexCentered>
               <l.FlexColumn>
@@ -260,9 +269,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                         src={expandCalendar ? ShrinkImg : ExpandImg}
                       />
                     </t.TextButton>
-                  ) : (
-                    undefined
-                  )
+                  ) : undefined
                 }
                 legendOnBottom
                 lowerLegend={
@@ -324,7 +331,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                 {({ searchValue, categoryId, subCategoryId }: FilterProps) => {
                   return (
                     <div>
-                      <l.Space height={calendarHeight} pt={spacing.xxxl}>
+                      {/* <l.Space height={calendarHeight} pt={spacing.xxxl}>
                         <BigCalendar
                           eventPropGetter={this.getEventProps}
                           localizer={localizer}
@@ -418,7 +425,7 @@ class Schedule extends React.Component<Props & RouteComponentProps, State> {
                             />
                           </l.Space>
                         )}
-                      </ReactModal>
+                      </ReactModal> */}
                     </div>
                   );
                 }}

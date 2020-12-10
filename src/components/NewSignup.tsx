@@ -46,7 +46,7 @@ class NewSignup extends React.Component<{}, State> {
           px={[spacing.sm, 0]}
           py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
         >
-          <l.Space mb={spacing.xxl} mx="auto" width={['100%', '100%', '80%']}>
+          <l.Space mb={spacing.xxxl} mx="auto" width={['100%', '100%', '80%']}>
             <l.FlexCentered>
               <t.Text center large mb={spacing.ml}>
                 Already an RFC member?
@@ -68,7 +68,7 @@ class NewSignup extends React.Component<{}, State> {
                 border={borders.red}
                 center="true"
                 color={colors.red}
-                mb={spacing.xxl}
+                mb={spacing.xxxxxl}
                 to="/signup"
               >
                 Click here for membership options

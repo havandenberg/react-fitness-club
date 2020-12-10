@@ -34,7 +34,7 @@ const Signup = () => (
       px={[spacing.sm, 0]}
       py={[spacing.xxxl, spacing.xxxl, spacing.xxxxxl]}
     >
-      <l.Space mb={spacing.xxl} mx="auto" width={['100%', '100%', '80%']}>
+      <l.Space mb={spacing.xxxl} mx="auto" width={['100%', '100%', '80%']}>
         <l.FlexCentered>
           <t.JustifiedText center large mb={spacing.ml}>
             Already an RFC member?
@@ -56,7 +56,7 @@ const Signup = () => (
             border={borders.red}
             center="true"
             color={colors.red}
-            mb={spacing.xxl}
+            mb={spacing.xxxxxl}
             to="/signup/new"
           >
             Click here for new member signup
