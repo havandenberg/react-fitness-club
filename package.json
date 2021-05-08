@@ -33,7 +33,7 @@
     "emoji-strip": "^1.0.1",
     "emotion": "^9.2.12",
     "firebase": "^5.6.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "moment": "^2.22.2",
     "node-instagram": "^4.2.0",
     "query-string": "^6.2.0",
